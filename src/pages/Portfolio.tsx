@@ -7,7 +7,7 @@ import { fetchCardById, getBestPrice } from "@/lib/pokemonTcgApi";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
-import { ArrowLeft, Trash2, Loader2, TrendingUp, TrendingDown, Minus, Plus } from "lucide-react";
+import { ArrowLeft, Trash2, Loader2, TrendingUp, TrendingDown, Minus, Plus, Activity } from "lucide-react";
 
 const Portfolio = () => {
   const navigate = useNavigate();
