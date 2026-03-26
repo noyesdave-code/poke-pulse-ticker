@@ -3,12 +3,14 @@ import { useMemo } from "react";
 import { rawCards, gradedCards, type CardData } from "@/data/marketData";
 import { useCardDetail, type PokemonTCGCard } from "@/hooks/usePokemonTcg";
 import { getBestPrice } from "@/lib/pokemonTcgApi";
+import { useAuth } from "@/contexts/AuthContext";
+import { useAddToPortfolio } from "@/hooks/usePortfolio";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import CardPriceHistory from "@/components/CardPriceHistory";
 import SellerComparison from "@/components/SellerComparison";
 import MarketCapSummary from "@/components/MarketCapSummary";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2, Briefcase } from "lucide-react";
 
 const allCards = [...rawCards, ...gradedCards];
 

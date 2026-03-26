@@ -47,6 +47,12 @@ const TerminalHeader = () => {
               >
                 Sets
               </button>
+              <button
+                onClick={() => navigate("/portfolio")}
+                className={`font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded transition-colors ${location.pathname === "/portfolio" ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                Portfolio
+              </button>
             </nav>
 
           <div className="flex items-center gap-3">
