@@ -14,7 +14,7 @@ import MarketCapSummary from "@/components/MarketCapSummary";
 import InstallPrompt from "@/components/InstallPrompt";
 
 const Index = () => {
-  const { data: liveCards, isLoading } = useLiveCards();
+  const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
 
   const displayCards = liveCards && liveCards.length > 0 ? liveCards : rawCards;
   const liveGradedCards = useGradedCards(liveCards);
@@ -32,7 +32,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <TerminalHeader />
-      <TickerBar cards={displayCards} isLive={!!liveCards && liveCards.length > 0} />
+      <TickerBar cards={displayCards} isLive={!!liveCards && liveCards.length > 0} lastUpdated={liveCards && liveCards.length > 0 ? (dataUpdatedAt || Date.now()) : undefined} />
 
       <main className="max-w-7xl mx-auto px-4 lg:px-6 py-6 space-y-6">
         {/* Live indicator */}
