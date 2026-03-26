@@ -12,6 +12,7 @@ interface CardBoardTableProps {
 }
 
 const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps) => {
+  const navigate = useNavigate();
   const [sortBy, setSortBy] = useState<"market" | "change">("market");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
 
