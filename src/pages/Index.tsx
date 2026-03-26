@@ -19,13 +19,15 @@ const Index = () => {
   const displayCards = liveCards && liveCards.length > 0 ? liveCards : rawCards;
   const liveGradedCards = useGradedCards(liveCards);
   const displayGraded = liveGradedCards.length > 0 ? liveGradedCards : gradedCards;
+  const liveSealedProducts = useSealedProducts(liveCards);
+  const displaySealed = liveSealedProducts.length > 0 ? liveSealedProducts : sealedProducts;
 
   const rawIndex = getIndexValue(displayCards);
   const rawChange = getIndexChange(displayCards);
   const gradedIndex = getIndexValue(displayGraded);
   const gradedChange = getIndexChange(displayGraded);
-  const sealedIndex = getIndexValue(sealedProducts);
-  const sealedChange = getIndexChange(sealedProducts);
+  const sealedIndex = getIndexValue(displaySealed);
+  const sealedChange = getIndexChange(displaySealed);
 
   return (
     <div className="min-h-screen bg-background">
