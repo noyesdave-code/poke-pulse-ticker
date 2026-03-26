@@ -39,7 +39,7 @@ const TickerBar = ({ cards = [], isLive = false, lastUpdated }: TickerBarProps) 
             </span>
           </div>
         )}
-        <div className="ticker-scroll flex whitespace-nowrap py-1.5 overflow-hidden">
+        <div className="ticker-scroll flex whitespace-nowrap py-1.5">
           {tickerItems.map((card, i) => (
             <span key={i} className="inline-flex items-center gap-2 px-4 font-mono text-xs">
               <span className="text-secondary font-semibold">{card.name}</span>
