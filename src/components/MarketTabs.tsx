@@ -41,7 +41,7 @@ const MarketTabs = ({ liveCards, liveGradedCards }: MarketTabsProps) => {
       </div>
       <div className="mt-4">
         {active === "raw" && <CardBoardTable cards={displayRaw} title="Live Card Board — Raw Market Feed" />}
-        {active === "graded" && <CardBoardTable cards={gradedCards} title="Live Card Board — Graded Market Feed" showGrade />}
+        {active === "graded" && <CardBoardTable cards={displayGraded} title="Live Card Board — Graded Market Feed (PSA/CGC/BGS/TAG)" showGrade />}
         {active === "sealed" && <SealedTable products={sealedProducts} />}
       </div>
     </div>
