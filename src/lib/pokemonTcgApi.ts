@@ -1,6 +1,8 @@
-import type { CardData, SealedProduct } from "@/data/marketData";
+import { supabase } from "@/integrations/supabase/client";
+import type { CardData } from "@/data/marketData";
 
-const BASE_URL = "https://api.pokemontcg.io/v2";
+const PROJECT_ID = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+const PROXY_URL = `https://${PROJECT_ID}.supabase.co/functions/v1/pokemon-proxy`;
 
 export interface PokemonTCGSet {
   id: string;
@@ -53,15 +55,39 @@ interface APIResponse {
   totalCount: number;
 }
 
-const headers: Record<string, string> = {};
+async function proxyFetch(path: string, params?: Record<string, string>): Promise<any> {
+  const { data: sessionData } = await supabase.auth.getSession();
+  const token = sessionData?.session?.access_token;
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+  };
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  const res = await fetch(PROXY_URL, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ path, params }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+    throw new Error(err.error || `Proxy error: ${res.status}`);
+  }
+  return res.json();
+}
 
 /**
  * Fetch all sets
  */
 export async function fetchSets(): Promise<PokemonTCGSet[]> {
-  const res = await fetch(`${BASE_URL}/sets?orderBy=-releaseDate&pageSize=250`, { headers });
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-  const data = await res.json();
+  const data = await proxyFetch("/sets", {
+    orderBy: "-releaseDate",
+    pageSize: "250",
+  });
   return data.data;
 }
 
@@ -69,15 +95,12 @@ export async function fetchSets(): Promise<PokemonTCGSet[]> {
  * Fetch cards for a specific set
  */
 export async function fetchSetCards(setId: string, page = 1, pageSize = 50): Promise<{ cards: PokemonTCGCard[]; totalCount: number }> {
-  const params = new URLSearchParams({
+  const data: APIResponse = await proxyFetch("/cards", {
     q: `set.id:${setId}`,
     pageSize: String(pageSize),
     page: String(page),
     orderBy: "number",
   });
-  const res = await fetch(`${BASE_URL}/cards?${params}`, { headers });
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-  const data: APIResponse = await res.json();
   return { cards: data.data, totalCount: data.totalCount };
 }
 
@@ -85,31 +108,23 @@ export async function fetchSetCards(setId: string, page = 1, pageSize = 50): Pro
  * Fetch cards from the Pokémon TCG API
  */
 export async function fetchCards(query: string, pageSize = 50, page = 1): Promise<APIResponse> {
-  const params = new URLSearchParams({
+  return proxyFetch("/cards", {
     q: query,
     pageSize: String(pageSize),
     page: String(page),
     orderBy: "-tcgplayer.prices.holofoil.market",
   });
-
-  const res = await fetch(`${BASE_URL}/cards?${params}`, { headers });
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-  return res.json();
 }
 
 /**
  * Search cards by name
  */
 export async function searchCards(name: string, pageSize = 20): Promise<PokemonTCGCard[]> {
-  const params = new URLSearchParams({
+  const data: APIResponse = await proxyFetch("/cards", {
     q: `name:"${name}"`,
     pageSize: String(pageSize),
     orderBy: "-tcgplayer.prices.holofoil.market",
   });
-
-  const res = await fetch(`${BASE_URL}/cards?${params}`, { headers });
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-  const data: APIResponse = await res.json();
   return data.data;
 }
 
@@ -117,9 +132,7 @@ export async function searchCards(name: string, pageSize = 20): Promise<PokemonT
  * Get a single card by ID
  */
 export async function fetchCardById(id: string): Promise<PokemonTCGCard> {
-  const res = await fetch(`${BASE_URL}/cards/${id}`, { headers });
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-  const data = await res.json();
+  const data = await proxyFetch(`/cards/${id}`);
   return data.data;
 }
 
@@ -127,7 +140,6 @@ export async function fetchCardById(id: string): Promise<PokemonTCGCard> {
  * Fetch high-value vintage cards with pricing data
  */
 export async function fetchHighValueCards(pageSize = 30): Promise<PokemonTCGCard[]> {
-  // Fetch vintage holo rares that tend to have prices
   const sets = [
     "base1", "base2", "base3", "base4", "base5", "base6",
     "neo1", "neo2", "neo3", "neo4",
@@ -136,15 +148,11 @@ export async function fetchHighValueCards(pageSize = 30): Promise<PokemonTCGCard
   ];
   const setFilter = sets.map((s) => `set.id:${s}`).join(" OR ");
 
-  const params = new URLSearchParams({
+  const data: APIResponse = await proxyFetch("/cards", {
     q: `(${setFilter}) rarity:"Rare Holo"`,
     pageSize: String(pageSize),
     page: "1",
   });
-
-  const res = await fetch(`${BASE_URL}/cards?${params}`, { headers });
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-  const data: APIResponse = await res.json();
   return data.data;
 }
 
@@ -190,9 +198,8 @@ export function toCardData(card: PokemonTCGCard): CardData | null {
   const price = getBestPrice(card);
   if (!price) return null;
 
-  // Generate a pseudo-random change percentage based on card id hash
   const hash = card.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  const change = ((hash % 1000) / 100 - 5); // -5% to +5%
+  const change = ((hash % 1000) / 100 - 5);
 
   return {
     name: card.name,
