@@ -32,7 +32,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <TerminalHeader />
-      <TickerBar cards={displayCards} isLive={!!liveCards && liveCards.length > 0} />
+      <TickerBar cards={displayCards} isLive={!!liveCards && liveCards.length > 0} lastUpdated={liveCards && liveCards.length > 0 ? (dataUpdatedAt || Date.now()) : undefined} />
 
       <main className="max-w-7xl mx-auto px-4 lg:px-6 py-6 space-y-6">
         {/* Live indicator */}
