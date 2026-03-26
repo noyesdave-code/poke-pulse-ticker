@@ -3,18 +3,22 @@ import { useMemo } from "react";
 import { rawCards, gradedCards, type CardData } from "@/data/marketData";
 import { useCardDetail, type PokemonTCGCard } from "@/hooks/usePokemonTcg";
 import { getBestPrice } from "@/lib/pokemonTcgApi";
+import { useAuth } from "@/contexts/AuthContext";
+import { useAddToPortfolio } from "@/hooks/usePortfolio";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import CardPriceHistory from "@/components/CardPriceHistory";
 import SellerComparison from "@/components/SellerComparison";
 import MarketCapSummary from "@/components/MarketCapSummary";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2, Briefcase } from "lucide-react";
 
 const allCards = [...rawCards, ...gradedCards];
 
 const CardDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const addToPortfolio = useAddToPortfolio();
 
   // Check if slug looks like an API ID (contains a dash like "base1-4")
   const isApiId = slug?.includes("-") && !slug.startsWith("%");
@@ -119,6 +123,25 @@ const CardDetail = () => {
                   <p className={`font-mono text-sm font-semibold ${card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
                     {card.change >= 0 ? "▲" : "▼"} {Math.abs(card.change).toFixed(2)}%
                   </p>
+                  {user && slug && (
+                    <button
+                      onClick={() =>
+                        addToPortfolio.mutate({
+                          card_api_id: isApiId ? slug : `local-${slug}`,
+                          card_name: card.name,
+                          card_set: card.set,
+                          card_number: card.number,
+                          card_image: card._image,
+                          purchase_price: card.market,
+                        })
+                      }
+                      disabled={addToPortfolio.isPending}
+                      className="mt-2 flex items-center gap-1.5 font-mono text-xs font-semibold bg-primary text-primary-foreground rounded px-3 py-1.5 hover:opacity-90 disabled:opacity-50"
+                    >
+                      <Briefcase className="w-3.5 h-3.5" />
+                      {addToPortfolio.isPending ? "Adding…" : "Add to Portfolio"}
+                    </button>
+                  )}
                 </div>
               </div>
 
