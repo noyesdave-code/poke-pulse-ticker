@@ -10,15 +10,15 @@ export function useLiveCards() {
   return useQuery({
     queryKey: ["live-cards"],
     queryFn: async () => {
-      const apiCards = await fetchHighValueCards(50);
+      const apiCards = await fetchHighValueCards(500);
       const mapped = apiCards
         .map(toCardData)
         .filter((c): c is CardData & { _apiId: string; _image: string } => c !== null && c.market > 0)
         .sort((a, b) => b.market - a.market);
       return mapped;
     },
-    staleTime: 5 * 60 * 1000, // 5 min
-    refetchInterval: 5 * 60 * 1000,
+    staleTime: 10 * 60 * 1000, // 10 min (larger dataset)
+    refetchInterval: 10 * 60 * 1000,
   });
 }
 
