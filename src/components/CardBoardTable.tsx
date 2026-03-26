@@ -25,9 +25,13 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
     else { setSortBy(col); setSortDir("desc"); }
   };
 
+  const searchFiltered = searchQuery.trim()
+    ? cards.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()) || c.set.toLowerCase().includes(searchQuery.toLowerCase()))
+    : cards;
+
   const filtered = gradeFilter === "ALL" || !showGrade
-    ? cards
-    : cards.filter(c => c.grade?.startsWith(gradeFilter));
+    ? searchFiltered
+    : searchFiltered.filter(c => c.grade?.startsWith(gradeFilter));
 
   const sorted = [...filtered].sort((a, b) => {
     const mul = sortDir === "desc" ? -1 : 1;
