@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index.tsx";
 import CardDetail from "./pages/CardDetail.tsx";
+import SetBrowser from "./pages/SetBrowser.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/card/:slug" element={<CardDetail />} />
+            <Route path="/sets" element={<SetBrowser />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

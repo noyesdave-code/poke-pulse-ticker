@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/AuthModal";
 
@@ -6,6 +7,8 @@ const TerminalHeader = () => {
   const [time, setTime] = useState(new Date());
   const [showAuth, setShowAuth] = useState(false);
   const { user, signOut, tier } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 1000);
@@ -30,7 +33,21 @@ const TerminalHeader = () => {
                 </p>
               </div>
             </div>
-          </div>
+            </div>
+            <nav className="hidden sm:flex items-center gap-1 ml-4">
+              <button
+                onClick={() => navigate("/")}
+                className={`font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded transition-colors ${location.pathname === "/" ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                Terminal
+              </button>
+              <button
+                onClick={() => navigate("/sets")}
+                className={`font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded transition-colors ${location.pathname === "/sets" ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                Sets
+              </button>
+            </nav>
 
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-2 rounded border border-border px-2 py-1">
