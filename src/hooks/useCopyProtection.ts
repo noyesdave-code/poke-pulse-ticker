@@ -29,7 +29,7 @@ export function useCopyProtection() {
         // Allow Lovable preview iframes
         const parentOrigin = document.referrer;
         if (!parentOrigin.includes("lovable.app") && !parentOrigin.includes("lovable.dev")) {
-          window.top!.location = window.self.location;
+          window.top!.location.href = window.self.location.href;
         }
       }
     } catch {
