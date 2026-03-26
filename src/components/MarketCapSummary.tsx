@@ -1,4 +1,5 @@
 import { rawCards, gradedCards, sealedProducts } from "@/data/marketData";
+import type { CardData } from "@/data/marketData";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
 const calcMarketCap = (items: Array<{ market: number }>) =>
@@ -7,13 +8,19 @@ const calcMarketCap = (items: Array<{ market: number }>) =>
 const calcAvgChange = (items: Array<{ change: number }>) =>
   items.reduce((sum, i) => sum + i.change, 0) / items.length;
 
-const segments = [
-  { label: "Raw Cards", items: rawCards, color: "bg-terminal-green" },
-  { label: "Graded Cards", items: gradedCards, color: "bg-terminal-amber" },
-  { label: "Sealed Products", items: sealedProducts, color: "bg-terminal-blue" },
-];
+interface MarketCapSummaryProps {
+  liveRawCards?: CardData[];
+}
 
-const MarketCapSummary = () => {
+const MarketCapSummary = ({ liveRawCards }: MarketCapSummaryProps) => {
+  const rawData = liveRawCards && liveRawCards.length > 0 ? liveRawCards : rawCards;
+
+  const segments = [
+    { label: "Raw Cards", items: rawData, color: "bg-terminal-green" },
+    { label: "Graded Cards", items: gradedCards, color: "bg-terminal-amber" },
+    { label: "Sealed Products", items: sealedProducts, color: "bg-terminal-blue" },
+  ];
+
   const totalCap = segments.reduce((s, seg) => s + calcMarketCap(seg.items), 0);
 
   return (
@@ -28,7 +35,6 @@ const MarketCapSummary = () => {
         <p className="font-mono text-[10px] text-muted-foreground">Total tracked market value</p>
       </div>
 
-      {/* Stacked bar */}
       <div className="px-4 py-3 border-b border-border">
         <div className="flex h-3 rounded-full overflow-hidden gap-0.5">
           {segments.map((seg) => {

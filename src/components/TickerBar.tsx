@@ -1,7 +1,12 @@
-import { rawCards } from "@/data/marketData";
+import type { CardData } from "@/data/marketData";
 
-const TickerBar = () => {
-  const tickerItems = [...rawCards, ...rawCards]; // duplicate for seamless loop
+interface TickerBarProps {
+  cards?: CardData[];
+  isLive?: boolean;
+}
+
+const TickerBar = ({ cards = [], isLive = false }: TickerBarProps) => {
+  const tickerItems = [...cards, ...cards]; // duplicate for seamless loop
 
   return (
     <div className="border-b border-border bg-terminal-header overflow-hidden">

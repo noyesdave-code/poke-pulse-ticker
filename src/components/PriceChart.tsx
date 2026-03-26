@@ -1,7 +1,6 @@
 import { useState, useMemo } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import type { CardData } from "@/data/marketData";
-import { rawCards } from "@/data/marketData";
 
 // Generate mock historical data for a card
 const generateHistory = (card: CardData) => {
@@ -18,23 +17,35 @@ const generateHistory = (card: CardData) => {
       price: Math.round(price * 100) / 100,
     });
   }
-  // Ensure last point matches current market
   data[data.length - 1].price = card.market;
   return data;
 };
 
 const timeRanges = ["7D", "30D", "90D"] as const;
 
-const PriceChart = () => {
-  const [selectedCard, setSelectedCard] = useState(rawCards[0]);
+interface PriceChartProps {
+  cards?: CardData[];
+}
+
+const PriceChart = ({ cards }: PriceChartProps) => {
+  const displayCards = cards && cards.length > 0 ? cards : [];
+  const [selectedCard, setSelectedCard] = useState<CardData | null>(displayCards[0] || null);
   const [range, setRange] = useState<typeof timeRanges[number]>("90D");
 
-  const history = useMemo(() => generateHistory(selectedCard), [selectedCard]);
+  // Update selected card if cards change and current isn't in list
+  useMemo(() => {
+    if (displayCards.length > 0 && (!selectedCard || !displayCards.find(c => c.name === selectedCard.name && c.set === selectedCard.set))) {
+      setSelectedCard(displayCards[0]);
+    }
+  }, [displayCards]);
 
-  const filteredHistory = useMemo(() => {
+  if (!selectedCard) return null;
+
+  const history = generateHistory(selectedCard);
+  const filteredHistory = (() => {
     const days = range === "7D" ? 7 : range === "30D" ? 30 : 90;
     return history.slice(-days - 1);
-  }, [history, range]);
+  })();
 
   const minPrice = Math.min(...filteredHistory.map(d => d.price));
   const maxPrice = Math.max(...filteredHistory.map(d => d.price));
@@ -66,12 +77,12 @@ const PriceChart = () => {
         <select
           value={selectedCard.name + selectedCard.set}
           onChange={(e) => {
-            const card = rawCards.find(c => c.name + c.set === e.target.value);
+            const card = displayCards.find(c => c.name + c.set === e.target.value);
             if (card) setSelectedCard(card);
           }}
           className="rounded border border-border bg-muted px-2 py-1.5 font-mono text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
         >
-          {rawCards.map((c, i) => (
+          {displayCards.map((c, i) => (
             <option key={i} value={c.name + c.set}>
               {c.name} — {c.set}
             </option>
