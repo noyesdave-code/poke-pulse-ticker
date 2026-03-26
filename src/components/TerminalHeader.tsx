@@ -7,6 +7,8 @@ const TerminalHeader = () => {
   const [time, setTime] = useState(new Date());
   const [showAuth, setShowAuth] = useState(false);
   const { user, signOut, tier } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 1000);
