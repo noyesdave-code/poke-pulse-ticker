@@ -17,6 +17,8 @@ const allCards = [...rawCards, ...gradedCards];
 const CardDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const addToPortfolio = useAddToPortfolio();
 
   // Check if slug looks like an API ID (contains a dash like "base1-4")
   const isApiId = slug?.includes("-") && !slug.startsWith("%");
