@@ -89,7 +89,7 @@ const Index = () => {
         {/* Top Movers */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" />
-          <TopMoversTable cards={gradedCards} title="Top Movers — Graded Cards" />
+          <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" />
         </div>
 
         {/* Tabbed Full Board */}
