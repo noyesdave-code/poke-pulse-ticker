@@ -46,6 +46,19 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
     <div className="terminal-card overflow-hidden">
       <div className="border-b border-border px-4 py-3 flex items-center justify-between flex-wrap gap-2">
         <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold">{title}</h2>
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="relative">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Filter by name or set…"
+              className="w-36 md:w-48 rounded border border-border bg-muted px-2 py-1 pl-7 font-mono text-[11px] text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+            <svg className="absolute left-2 top-1.5 h-3.5 w-3.5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
         <div className="flex items-center gap-2">
           {showGrade && (
             <div className="flex gap-1">
