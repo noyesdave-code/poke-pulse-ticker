@@ -17,8 +17,8 @@ export function useLiveCards() {
         .sort((a, b) => b.market - a.market);
       return mapped;
     },
-    staleTime: 15 * 60 * 1000, // 15 min
-    refetchInterval: 15 * 60 * 1000,
+    staleTime: 30 * 60 * 1000, // 30 min
+    refetchInterval: 30 * 60 * 1000,
   });
 }
 
