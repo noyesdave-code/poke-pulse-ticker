@@ -16,11 +16,13 @@ const Index = () => {
   const { data: liveCards, isLoading } = useLiveCards();
 
   const displayCards = liveCards && liveCards.length > 0 ? liveCards : rawCards;
+  const liveGradedCards = useGradedCards(liveCards);
+  const displayGraded = liveGradedCards.length > 0 ? liveGradedCards : gradedCards;
 
   const rawIndex = getIndexValue(displayCards);
   const rawChange = getIndexChange(displayCards);
-  const gradedIndex = getIndexValue(gradedCards);
-  const gradedChange = getIndexChange(gradedCards);
+  const gradedIndex = getIndexValue(displayGraded);
+  const gradedChange = getIndexChange(displayGraded);
   const sealedIndex = getIndexValue(sealedProducts);
   const sealedChange = getIndexChange(sealedProducts);
 
