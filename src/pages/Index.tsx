@@ -5,6 +5,8 @@ import MarketIndexCard from "@/components/MarketIndexCard";
 import TopMoversTable from "@/components/TopMoversTable";
 import MarketTabs from "@/components/MarketTabs";
 import SubscriptionTiers from "@/components/SubscriptionTiers";
+import CardSearch from "@/components/CardSearch";
+import PriceChart from "@/components/PriceChart";
 
 const Index = () => {
   const rawIndex = getIndexValue(rawCards);
@@ -47,6 +49,12 @@ const Index = () => {
             variant="blue"
           />
         </div>
+
+        {/* Search */}
+        <CardSearch />
+
+        {/* Price Chart */}
+        <PriceChart />
 
         {/* Top Movers */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
