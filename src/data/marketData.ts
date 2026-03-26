@@ -8,6 +8,9 @@ export interface CardData {
   change: number;
   volume?: number;
   grade?: string;
+  _apiId?: string;
+  _image?: string;
+  _variant?: string;
 }
 
 export interface SealedProduct {

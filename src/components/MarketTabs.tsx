@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { rawCards, gradedCards, sealedProducts } from "@/data/marketData";
+import type { CardData } from "@/data/marketData";
 import CardBoardTable from "./CardBoardTable";
 import SealedTable from "./SealedTable";
 
@@ -11,8 +12,13 @@ const tabs = [
 
 type TabId = typeof tabs[number]["id"];
 
-const MarketTabs = () => {
+interface MarketTabsProps {
+  liveCards?: CardData[];
+}
+
+const MarketTabs = ({ liveCards }: MarketTabsProps) => {
   const [active, setActive] = useState<TabId>("raw");
+  const displayRaw = liveCards && liveCards.length > 0 ? liveCards : rawCards;
 
   return (
     <div>
@@ -32,7 +38,7 @@ const MarketTabs = () => {
         ))}
       </div>
       <div className="mt-4">
-        {active === "raw" && <CardBoardTable cards={rawCards} title="Live Card Board — Raw Market Feed" />}
+        {active === "raw" && <CardBoardTable cards={displayRaw} title="Live Card Board — Raw Market Feed" />}
         {active === "graded" && <CardBoardTable cards={gradedCards} title="Live Card Board — Graded Market Feed" showGrade />}
         {active === "sealed" && <SealedTable products={sealedProducts} />}
       </div>
