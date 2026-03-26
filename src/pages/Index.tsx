@@ -14,7 +14,7 @@ import MarketCapSummary from "@/components/MarketCapSummary";
 import InstallPrompt from "@/components/InstallPrompt";
 
 const Index = () => {
-  const { data: liveCards, isLoading } = useLiveCards();
+  const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
 
   const displayCards = liveCards && liveCards.length > 0 ? liveCards : rawCards;
   const liveGradedCards = useGradedCards(liveCards);
