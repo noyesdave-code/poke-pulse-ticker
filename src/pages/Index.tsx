@@ -1,5 +1,6 @@
 import { rawCards, gradedCards, sealedProducts, getIndexValue, getIndexChange } from "@/data/marketData";
 import { useLiveCards } from "@/hooks/usePokemonTcg";
+import { useGradedCards } from "@/hooks/useGradedCards";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import MarketIndexCard from "@/components/MarketIndexCard";
@@ -15,11 +16,13 @@ const Index = () => {
   const { data: liveCards, isLoading } = useLiveCards();
 
   const displayCards = liveCards && liveCards.length > 0 ? liveCards : rawCards;
+  const liveGradedCards = useGradedCards(liveCards);
+  const displayGraded = liveGradedCards.length > 0 ? liveGradedCards : gradedCards;
 
   const rawIndex = getIndexValue(displayCards);
   const rawChange = getIndexChange(displayCards);
-  const gradedIndex = getIndexValue(gradedCards);
-  const gradedChange = getIndexChange(gradedCards);
+  const gradedIndex = getIndexValue(displayGraded);
+  const gradedChange = getIndexChange(displayGraded);
   const sealedIndex = getIndexValue(sealedProducts);
   const sealedChange = getIndexChange(sealedProducts);
 
@@ -63,8 +66,8 @@ const Index = () => {
             title="GRADED 1000 INDEX"
             value={gradedIndex}
             change={gradedChange}
-            count={gradedCards.length}
-            description="Average tracked graded card market value"
+            count={displayGraded.length}
+            description="Average tracked graded card market value (PSA/CGC/BGS/TAG)"
             variant="amber"
           />
           <MarketIndexCard
@@ -86,11 +89,11 @@ const Index = () => {
         {/* Top Movers */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" />
-          <TopMoversTable cards={gradedCards} title="Top Movers — Graded Cards" />
+          <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" />
         </div>
 
         {/* Tabbed Full Board */}
-        <MarketTabs liveCards={displayCards} />
+        <MarketTabs liveCards={displayCards} liveGradedCards={displayGraded} />
 
         {/* Market Cap */}
         <MarketCapSummary liveRawCards={displayCards} />
