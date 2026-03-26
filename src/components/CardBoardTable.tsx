@@ -1,5 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { CardData } from "@/data/marketData";
+
+const cardSlug = (card: CardData) =>
+  encodeURIComponent(`${card.name}-${card.set}-${card.number}`.replace(/\s+/g, "-").toLowerCase());
 
 interface CardBoardTableProps {
   cards: CardData[];
