@@ -1,5 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { CardData } from "@/data/marketData";
+
+const cardSlug = (card: CardData) =>
+  encodeURIComponent(`${card.name}-${card.set}-${card.number}`.replace(/\s+/g, "-").toLowerCase());
 
 interface CardBoardTableProps {
   cards: CardData[];
@@ -8,6 +12,7 @@ interface CardBoardTableProps {
 }
 
 const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps) => {
+  const navigate = useNavigate();
   const [sortBy, setSortBy] = useState<"market" | "change">("market");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
 
@@ -59,7 +64,7 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
           </thead>
           <tbody>
             {sorted.map((card, i) => (
-              <tr key={i} className="data-row">
+              <tr key={i} className="data-row cursor-pointer" onClick={() => navigate(`/card/${cardSlug(card)}`)}>
                 <td className="px-4 py-2 font-mono text-sm text-foreground font-medium">{card.name}</td>
                 <td className="px-4 py-2 font-mono text-xs text-muted-foreground">{card.set}</td>
                 {showGrade && (
