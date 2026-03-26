@@ -66,8 +66,8 @@ const Index = () => {
             title="GRADED 1000 INDEX"
             value={gradedIndex}
             change={gradedChange}
-            count={gradedCards.length}
-            description="Average tracked graded card market value"
+            count={displayGraded.length}
+            description="Average tracked graded card market value (PSA/CGC/BGS/TAG)"
             variant="amber"
           />
           <MarketIndexCard
