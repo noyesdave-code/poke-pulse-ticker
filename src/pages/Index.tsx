@@ -1,6 +1,7 @@
 import { rawCards, gradedCards, sealedProducts, getIndexValue, getIndexChange } from "@/data/marketData";
 import { useLiveCards } from "@/hooks/usePokemonTcg";
 import { useGradedCards } from "@/hooks/useGradedCards";
+import { useSealedProducts } from "@/hooks/useSealedProducts";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import MarketIndexCard from "@/components/MarketIndexCard";
@@ -18,13 +19,15 @@ const Index = () => {
   const displayCards = liveCards && liveCards.length > 0 ? liveCards : rawCards;
   const liveGradedCards = useGradedCards(liveCards);
   const displayGraded = liveGradedCards.length > 0 ? liveGradedCards : gradedCards;
+  const liveSealedProducts = useSealedProducts(liveCards);
+  const displaySealed = liveSealedProducts.length > 0 ? liveSealedProducts : sealedProducts;
 
   const rawIndex = getIndexValue(displayCards);
   const rawChange = getIndexChange(displayCards);
   const gradedIndex = getIndexValue(displayGraded);
   const gradedChange = getIndexChange(displayGraded);
-  const sealedIndex = getIndexValue(sealedProducts);
-  const sealedChange = getIndexChange(sealedProducts);
+  const sealedIndex = getIndexValue(displaySealed);
+  const sealedChange = getIndexChange(displaySealed);
 
   return (
     <div className="min-h-screen bg-background">
@@ -74,8 +77,8 @@ const Index = () => {
             title="SEALED 1000 INDEX"
             value={sealedIndex}
             change={sealedChange}
-            count={sealedProducts.length}
-            description="Average tracked sealed product value"
+            count={displaySealed.length}
+            description="Average tracked sealed product value (Boxes/Packs/ETBs)"
             variant="blue"
           />
         </div>
@@ -93,7 +96,7 @@ const Index = () => {
         </div>
 
         {/* Tabbed Full Board */}
-        <MarketTabs liveCards={displayCards} liveGradedCards={displayGraded} />
+        <MarketTabs liveCards={displayCards} liveGradedCards={displayGraded} liveSealedProducts={displaySealed} />
 
         {/* Market Cap */}
         <MarketCapSummary liveRawCards={displayCards} />
