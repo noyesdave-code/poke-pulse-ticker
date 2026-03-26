@@ -105,13 +105,32 @@ const Index = () => {
         <SubscriptionTiers />
 
         {/* Footer */}
-        <footer className="border-t border-border py-6 text-center">
-          <p className="font-mono text-xs text-muted-foreground">
-            POKÉGARAGEVA MARKET TERMINAL • Data from pokemontcg.io • Not financial advice
-          </p>
-          <p className="font-mono text-[10px] text-muted-foreground mt-1">
-            © 2026 PokéGarageVA. All rights reserved.
-          </p>
+        <footer className="border-t border-border pt-8 pb-6">
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="h-7 w-7 rounded bg-primary flex items-center justify-center">
+                <span className="font-mono text-xs font-bold text-primary-foreground">PG</span>
+              </div>
+              <span className="font-mono text-sm font-bold tracking-wider text-foreground">
+                POKE-PULSE-TICKER
+              </span>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+              <a href="https://poke-pulse-ticker.com" className="font-mono text-xs text-primary hover:underline">
+                poke-pulse-ticker.com
+              </a>
+              <span className="text-border hidden sm:inline">|</span>
+              <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+                Live Pokémon TCG Market Data
+              </span>
+            </div>
+            <p className="font-mono text-[10px] text-muted-foreground">
+              Data powered by pokemontcg.io • Not financial advice
+            </p>
+            <p className="font-mono text-[10px] text-muted-foreground">
+              © {new Date().getFullYear()} Poke-Pulse-Ticker. All rights reserved.
+            </p>
+          </div>
         </footer>
       </main>
       <InstallPrompt />
