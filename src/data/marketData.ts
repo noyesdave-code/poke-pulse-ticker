@@ -65,12 +65,12 @@ export const sealedProducts: SealedProduct[] = [
   { name: "Legendary Collection Booster Box", type: "Booster Box", market: 15000.00, change: 0.88, low: 13000.00 },
 ];
 
-export const getIndexValue = (cards: CardData[]) => {
-  const total = cards.reduce((sum, c) => sum + c.market, 0);
-  return total / cards.length;
+export const getIndexValue = (items: Array<{ market: number }>) => {
+  const total = items.reduce((sum, c) => sum + c.market, 0);
+  return total / items.length;
 };
 
-export const getIndexChange = (cards: CardData[]) => {
-  const total = cards.reduce((sum, c) => sum + c.change, 0);
-  return total / cards.length;
+export const getIndexChange = (items: Array<{ change: number }>) => {
+  const total = items.reduce((sum, c) => sum + c.change, 0);
+  return total / items.length;
 };
