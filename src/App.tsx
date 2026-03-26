@@ -10,6 +10,8 @@ import CardDetail from "./pages/CardDetail.tsx";
 import SetBrowser from "./pages/SetBrowser.tsx";
 import Portfolio from "./pages/Portfolio.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
+import Terms from "./pages/Terms.tsx";
+import Privacy from "./pages/Privacy.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
