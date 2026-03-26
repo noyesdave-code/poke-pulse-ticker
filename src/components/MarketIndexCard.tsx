@@ -1,0 +1,32 @@
+interface MarketIndexCardProps {
+  title: string;
+  value: number;
+  change: number;
+  count: number;
+  description: string;
+  variant?: "green" | "amber" | "blue";
+}
+
+const MarketIndexCard = ({ title, value, change, count, description, variant = "green" }: MarketIndexCardProps) => {
+  const glowClass = variant === "green" ? "glow-green" : variant === "amber" ? "glow-amber" : "";
+  const accentColor = variant === "green" ? "text-terminal-green" : variant === "amber" ? "text-terminal-amber" : "text-terminal-blue";
+  const borderAccent = variant === "green" ? "border-t-terminal-green" : variant === "amber" ? "border-t-terminal-amber" : "border-t-terminal-blue";
+
+  return (
+    <div className={`terminal-card p-4 ${glowClass} border-t-2 ${borderAccent}`}>
+      <div className="flex items-center justify-between mb-1">
+        <span className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">{title}</span>
+        <span className="font-mono text-[10px] text-muted-foreground">{count} tracked</span>
+      </div>
+      <div className="font-mono text-2xl lg:text-3xl font-bold text-foreground mb-1">
+        ${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+      </div>
+      <p className="text-xs text-muted-foreground mb-2">{description}</p>
+      <div className={`font-mono text-sm font-semibold ${change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
+        {change >= 0 ? "▲" : "▼"} {Math.abs(change).toFixed(2)}%
+      </div>
+    </div>
+  );
+};
+
+export default MarketIndexCard;
