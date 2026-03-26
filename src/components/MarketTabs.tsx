@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { rawCards, gradedCards, sealedProducts } from "@/data/marketData";
-import type { CardData } from "@/data/marketData";
+import type { CardData, SealedProduct } from "@/data/marketData";
 import CardBoardTable from "./CardBoardTable";
 import SealedTable from "./SealedTable";
 
