@@ -166,6 +166,8 @@ export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]
     "sm1", "sm2", "sm3", "sm35", "sm4", "sm5", "sm6", "sm7", "sm75", "sm8", "sm9", "sm10", "sm11", "sm115", "sm12",
     // Sword & Shield era
     "swsh1", "swsh2", "swsh3", "swsh35", "swsh4", "swsh5", "swsh6", "swsh7", "swsh8", "swsh9", "swsh10", "swsh11", "swsh12", "swsh12pt5",
+    // Scarlet & Violet era
+    "sv1", "sv2", "sv3", "sv3pt5", "sv4", "sv4pt5", "sv5", "sv6", "sv6pt5", "sv7", "sv8",
   ];
   const setFilter = sets.map((s) => `set.id:${s}`).join(" OR ");
   const query = `(${setFilter})`;
