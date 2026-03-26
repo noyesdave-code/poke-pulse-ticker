@@ -19,6 +19,7 @@ const App = () => (
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/card/:slug" element={<CardDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
