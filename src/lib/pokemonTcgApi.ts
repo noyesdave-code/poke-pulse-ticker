@@ -2,6 +2,21 @@ import type { CardData, SealedProduct } from "@/data/marketData";
 
 const BASE_URL = "https://api.pokemontcg.io/v2";
 
+export interface PokemonTCGSet {
+  id: string;
+  name: string;
+  series: string;
+  printedTotal: number;
+  total: number;
+  releaseDate: string;
+  updatedAt: string;
+  images: {
+    symbol: string;
+    logo: string;
+  };
+  legalities?: Record<string, string>;
+}
+
 export interface PokemonTCGCard {
   id: string;
   name: string;
