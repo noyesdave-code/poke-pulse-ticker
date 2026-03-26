@@ -137,23 +137,41 @@ export async function fetchCardById(id: string): Promise<PokemonTCGCard> {
 }
 
 /**
- * Fetch high-value vintage cards with pricing data
+ * Fetch high-value cards with pricing data.
+ * Supports fetching large sets by paginating automatically (API max 250/page).
  */
-export async function fetchHighValueCards(pageSize = 30): Promise<PokemonTCGCard[]> {
+export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]> {
   const sets = [
     "base1", "base2", "base3", "base4", "base5", "base6",
     "neo1", "neo2", "neo3", "neo4",
     "ecard1", "ecard2", "ecard3",
     "gym1", "gym2",
+    "dp1", "dp2", "dp3", "dp4", "dp5", "dp6", "dp7",
+    "pl1", "pl2", "pl3", "pl4",
+    "hgss1", "hgss2", "hgss3", "hgss4",
+    "bw1", "bw2", "bw3", "bw4", "bw5", "bw6", "bw7", "bw8", "bw9", "bw10", "bw11",
+    "xy0", "xy1", "xy2", "xy3", "xy4", "xy5", "xy6", "xy7", "xy8", "xy9", "xy10", "xy11", "xy12",
+    "sm1", "sm2", "sm3", "sm35", "sm4", "sm5", "sm6", "sm7", "sm75", "sm8", "sm9", "sm10", "sm11", "sm115", "sm12",
+    "swsh1", "swsh2", "swsh3", "swsh35", "swsh4", "swsh5", "swsh6", "swsh7", "swsh8", "swsh9", "swsh10", "swsh11", "swsh12", "swsh12pt5",
   ];
   const setFilter = sets.map((s) => `set.id:${s}`).join(" OR ");
+  const query = `(${setFilter})`;
 
-  const data: APIResponse = await proxyFetch("/cards", {
-    q: `(${setFilter}) rarity:"Rare Holo"`,
-    pageSize: String(pageSize),
-    page: "1",
-  });
-  return data.data;
+  const PAGE_SIZE = 250;
+  const pages = Math.ceil(total / PAGE_SIZE);
+  const allCards: PokemonTCGCard[] = [];
+
+  for (let page = 1; page <= pages; page++) {
+    const data: APIResponse = await proxyFetch("/cards", {
+      q: query,
+      pageSize: String(Math.min(PAGE_SIZE, total - allCards.length)),
+      page: String(page),
+    });
+    allCards.push(...data.data);
+    if (allCards.length >= data.totalCount) break;
+  }
+
+  return allCards.slice(0, total);
 }
 
 /**
