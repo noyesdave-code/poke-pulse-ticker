@@ -1,5 +1,6 @@
 import { rawCards, gradedCards, sealedProducts, getIndexValue, getIndexChange } from "@/data/marketData";
 import { useLiveCards } from "@/hooks/usePokemonTcg";
+import { useGradedCards } from "@/hooks/useGradedCards";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import MarketIndexCard from "@/components/MarketIndexCard";
