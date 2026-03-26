@@ -142,17 +142,26 @@ export async function fetchCardById(id: string): Promise<PokemonTCGCard> {
  */
 export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]> {
   const sets = [
+    // Base era
     "base1", "base2", "base3", "base4", "base5", "base6",
-    "neo1", "neo2", "neo3", "neo4",
-    "ecard1", "ecard2", "ecard3",
+    // Gym era
     "gym1", "gym2",
+    // Neo era
+    "neo1", "neo2", "neo3", "neo4",
+    // e-Card era
+    "ecard1", "ecard2", "ecard3",
+    // EX era (Ruby & Sapphire through Power Keepers)
+    "ex1", "ex2", "ex3", "ex4", "ex5", "ex6", "ex7", "ex8", "ex9", "ex10", "ex11", "ex12", "ex13", "ex14", "ex15", "ex16",
+    // Diamond & Pearl era
     "dp1", "dp2", "dp3", "dp4", "dp5", "dp6", "dp7",
+    // Platinum era
     "pl1", "pl2", "pl3", "pl4",
+    // HeartGold SoulSilver era
     "hgss1", "hgss2", "hgss3", "hgss4",
+    // Black & White era
     "bw1", "bw2", "bw3", "bw4", "bw5", "bw6", "bw7", "bw8", "bw9", "bw10", "bw11",
+    // XY era (includes Mega Evolutions)
     "xy0", "xy1", "xy2", "xy3", "xy4", "xy5", "xy6", "xy7", "xy8", "xy9", "xy10", "xy11", "xy12",
-    "sm1", "sm2", "sm3", "sm35", "sm4", "sm5", "sm6", "sm7", "sm75", "sm8", "sm9", "sm10", "sm11", "sm115", "sm12",
-    "swsh1", "swsh2", "swsh3", "swsh35", "swsh4", "swsh5", "swsh6", "swsh7", "swsh8", "swsh9", "swsh10", "swsh11", "swsh12", "swsh12pt5",
   ];
   const setFilter = sets.map((s) => `set.id:${s}`).join(" OR ");
   const query = `(${setFilter})`;
