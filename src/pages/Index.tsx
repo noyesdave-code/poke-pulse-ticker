@@ -77,8 +77,8 @@ const Index = () => {
             title="SEALED 1000 INDEX"
             value={sealedIndex}
             change={sealedChange}
-            count={sealedProducts.length}
-            description="Average tracked sealed product value"
+            count={displaySealed.length}
+            description="Average tracked sealed product value (Boxes/Packs/ETBs)"
             variant="blue"
           />
         </div>
