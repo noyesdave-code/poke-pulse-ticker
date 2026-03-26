@@ -25,6 +25,7 @@ const App = () => (
             <Route path="/card/:slug" element={<CardDetail />} />
             <Route path="/sets" element={<SetBrowser />} />
             <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
