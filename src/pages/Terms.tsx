@@ -66,7 +66,7 @@ const Terms = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">9. Contact</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          For questions about these terms, visit <a href="https://poke-pulse-ticker.com" className="text-primary hover:underline">poke-pulse-ticker.com</a>.
+          For questions about these terms, contact us at <a href="mailto:contact@poke-pulse-ticker.com" className="text-primary hover:underline">contact@poke-pulse-ticker.com</a>.
         </p>
       </section>
     </main>
