@@ -11,17 +11,24 @@ interface CardBoardTableProps {
   showGrade?: boolean;
 }
 
+const GRADING_COMPANIES = ["ALL", "PSA", "CGC", "BGS", "TAG"] as const;
+
 const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps) => {
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState<"market" | "change">("market");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+  const [gradeFilter, setGradeFilter] = useState<string>("ALL");
 
   const toggleSort = (col: "market" | "change") => {
     if (sortBy === col) setSortDir(d => d === "asc" ? "desc" : "asc");
     else { setSortBy(col); setSortDir("desc"); }
   };
 
-  const sorted = [...cards].sort((a, b) => {
+  const filtered = gradeFilter === "ALL" || !showGrade
+    ? cards
+    : cards.filter(c => c.grade?.startsWith(gradeFilter));
+
+  const sorted = [...filtered].sort((a, b) => {
     const mul = sortDir === "desc" ? -1 : 1;
     return (a[sortBy] - b[sortBy]) * mul;
   });
