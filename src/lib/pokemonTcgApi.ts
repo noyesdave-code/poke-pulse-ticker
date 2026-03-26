@@ -56,6 +56,32 @@ interface APIResponse {
 const headers: Record<string, string> = {};
 
 /**
+ * Fetch all sets
+ */
+export async function fetchSets(): Promise<PokemonTCGSet[]> {
+  const res = await fetch(`${BASE_URL}/sets?orderBy=-releaseDate&pageSize=250`, { headers });
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  const data = await res.json();
+  return data.data;
+}
+
+/**
+ * Fetch cards for a specific set
+ */
+export async function fetchSetCards(setId: string, page = 1, pageSize = 50): Promise<{ cards: PokemonTCGCard[]; totalCount: number }> {
+  const params = new URLSearchParams({
+    q: `set.id:${setId}`,
+    pageSize: String(pageSize),
+    page: String(page),
+    orderBy: "number",
+  });
+  const res = await fetch(`${BASE_URL}/cards?${params}`, { headers });
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  const data: APIResponse = await res.json();
+  return { cards: data.data, totalCount: data.totalCount };
+}
+
+/**
  * Fetch cards from the Pokémon TCG API
  */
 export async function fetchCards(query: string, pageSize = 50, page = 1): Promise<APIResponse> {
