@@ -78,6 +78,7 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
             </div>
           )}
           <span className="font-mono text-[10px] text-muted-foreground">{filtered.length} items</span>
+          </div>
         </div>
       </div>
       <div className="overflow-x-auto">
