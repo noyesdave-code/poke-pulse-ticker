@@ -141,52 +141,55 @@ export async function fetchCardById(id: string): Promise<PokemonTCGCard> {
  * Supports fetching large sets by paginating automatically (API max 250/page).
  */
 export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]> {
-  const sets = [
-    // Base era
-    "base1", "base2", "base3", "base4", "base5", "base6",
-    // Gym era
-    "gym1", "gym2",
-    // Neo era
-    "neo1", "neo2", "neo3", "neo4",
-    // e-Card era
-    "ecard1", "ecard2", "ecard3",
-    // EX era
-    "ex1", "ex2", "ex3", "ex4", "ex5", "ex6", "ex7", "ex8", "ex9", "ex10", "ex11", "ex12", "ex13", "ex14", "ex15", "ex16",
-    // Diamond & Pearl era
-    "dp1", "dp2", "dp3", "dp4", "dp5", "dp6", "dp7",
-    // Platinum era
-    "pl1", "pl2", "pl3", "pl4",
-    // HeartGold SoulSilver era
-    "hgss1", "hgss2", "hgss3", "hgss4",
-    // Black & White era
-    "bw1", "bw2", "bw3", "bw4", "bw5", "bw6", "bw7", "bw8", "bw9", "bw10", "bw11",
-    // XY era (Mega Evolutions)
-    "xy0", "xy1", "xy2", "xy3", "xy4", "xy5", "xy6", "xy7", "xy8", "xy9", "xy10", "xy11", "xy12",
-    // Sun & Moon era
-    "sm1", "sm2", "sm3", "sm35", "sm4", "sm5", "sm6", "sm7", "sm75", "sm8", "sm9", "sm10", "sm11", "sm115", "sm12",
-    // Sword & Shield era
-    "swsh1", "swsh2", "swsh3", "swsh35", "swsh4", "swsh5", "swsh6", "swsh7", "swsh8", "swsh9", "swsh10", "swsh11", "swsh12", "swsh12pt5",
-    // Scarlet & Violet era
-    "sv1", "sv2", "sv3", "sv3pt5", "sv4", "sv4pt5", "sv5", "sv6", "sv6pt5", "sv7", "sv8",
-  ];
-  const setFilter = sets.map((s) => `set.id:${s}`).join(" OR ");
-  const query = `(${setFilter})`;
-
+  // Fetch cards ordered by holofoil market price descending.
+  // We fetch extra to compensate for cards that only have non-holofoil pricing,
+  // then re-sort client-side using getBestPrice across all variants.
   const PAGE_SIZE = 250;
-  const pages = Math.ceil(total / PAGE_SIZE);
+  const fetchTotal = Math.min(total * 2, 1000); // fetch extra to ensure we capture top cards
+  const pages = Math.ceil(fetchTotal / PAGE_SIZE);
   const allCards: PokemonTCGCard[] = [];
 
   for (let page = 1; page <= pages; page++) {
+    const size = Math.min(PAGE_SIZE, fetchTotal - allCards.length);
     const data: APIResponse = await proxyFetch("/cards", {
-      q: query,
-      pageSize: String(Math.min(PAGE_SIZE, total - allCards.length)),
+      q: "tcgplayer.prices.holofoil.market:[1 TO *]",
+      pageSize: String(size),
       page: String(page),
+      orderBy: "-tcgplayer.prices.holofoil.market",
     });
     allCards.push(...data.data);
-    if (allCards.length >= data.totalCount) break;
+    if (allCards.length >= data.totalCount || data.data.length < size) break;
   }
 
-  return allCards.slice(0, total);
+  // Also fetch top normal-priced cards to capture non-holofoil expensive cards
+  try {
+    const normalData: APIResponse = await proxyFetch("/cards", {
+      q: "tcgplayer.prices.normal.market:[5 TO *]",
+      pageSize: "250",
+      page: "1",
+      orderBy: "-tcgplayer.prices.normal.market",
+    });
+    allCards.push(...normalData.data);
+  } catch {
+    // ignore – best-effort
+  }
+
+  // Deduplicate by card id
+  const seen = new Set<string>();
+  const unique = allCards.filter((c) => {
+    if (seen.has(c.id)) return false;
+    seen.add(c.id);
+    return true;
+  });
+
+  // Sort by best available price descending
+  unique.sort((a, b) => {
+    const pa = getBestPrice(a)?.market ?? 0;
+    const pb = getBestPrice(b)?.market ?? 0;
+    return pb - pa;
+  });
+
+  return unique.slice(0, total);
 }
 
 /**
