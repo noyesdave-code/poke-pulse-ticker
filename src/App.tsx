@@ -8,6 +8,7 @@ import Index from "./pages/Index.tsx";
 import CardDetail from "./pages/CardDetail.tsx";
 import SetBrowser from "./pages/SetBrowser.tsx";
 import Portfolio from "./pages/Portfolio.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
