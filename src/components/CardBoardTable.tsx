@@ -39,9 +39,28 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
 
   return (
     <div className="terminal-card overflow-hidden">
-      <div className="border-b border-border px-4 py-3 flex items-center justify-between">
+      <div className="border-b border-border px-4 py-3 flex items-center justify-between flex-wrap gap-2">
         <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold">{title}</h2>
-        <span className="font-mono text-[10px] text-muted-foreground">{cards.length} items</span>
+        <div className="flex items-center gap-2">
+          {showGrade && (
+            <div className="flex gap-1">
+              {GRADING_COMPANIES.map(company => (
+                <button
+                  key={company}
+                  onClick={() => setGradeFilter(company)}
+                  className={`px-2 py-0.5 font-mono text-[10px] tracking-wider rounded transition-colors ${
+                    gradeFilter === company
+                      ? "bg-secondary text-secondary-foreground"
+                      : "text-muted-foreground hover:text-foreground border border-border"
+                  }`}
+                >
+                  {company}
+                </button>
+              ))}
+            </div>
+          )}
+          <span className="font-mono text-[10px] text-muted-foreground">{filtered.length} items</span>
+        </div>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full">
