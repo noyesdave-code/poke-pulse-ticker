@@ -66,6 +66,9 @@ const Index = () => {
         {/* Tabbed Full Board */}
         <MarketTabs />
 
+        {/* Market Cap */}
+        <MarketCapSummary />
+
         {/* Subscription Tiers */}
         <SubscriptionTiers />
 
