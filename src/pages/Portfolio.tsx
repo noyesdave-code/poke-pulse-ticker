@@ -7,7 +7,7 @@ import { fetchCardById, getBestPrice } from "@/lib/pokemonTcgApi";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
-import { ArrowLeft, Trash2, Loader2, TrendingUp, TrendingDown, Minus, Plus } from "lucide-react";
+import { ArrowLeft, Trash2, Loader2, TrendingUp, TrendingDown, Minus, Plus, Activity } from "lucide-react";
 
 const Portfolio = () => {
   const navigate = useNavigate();
@@ -53,11 +53,20 @@ const Portfolio = () => {
           Back to Terminal
         </button>
 
-        <div className="terminal-card p-4">
-          <h1 className="font-mono text-lg font-bold text-foreground">My Portfolio</h1>
-          <p className="font-mono text-[10px] text-muted-foreground mt-0.5">
-            Track your collection's value with live market prices
-          </p>
+        <div className="terminal-card p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h1 className="font-mono text-lg font-bold text-foreground">My Portfolio</h1>
+            <p className="font-mono text-[10px] text-muted-foreground mt-0.5">
+              Track your collection's value with live market prices
+            </p>
+          </div>
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="flex items-center gap-1.5 font-mono text-xs font-semibold bg-primary/10 text-primary border border-primary/30 rounded px-3 py-1.5 hover:bg-primary/20 transition-colors"
+          >
+            <Activity className="w-3.5 h-3.5" />
+            View Dashboard
+          </button>
         </div>
 
         {isLoading ? (
