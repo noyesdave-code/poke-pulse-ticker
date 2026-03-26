@@ -9,6 +9,7 @@ import SubscriptionTiers from "@/components/SubscriptionTiers";
 import CardSearch from "@/components/CardSearch";
 import PriceChart from "@/components/PriceChart";
 import MarketCapSummary from "@/components/MarketCapSummary";
+import InstallPrompt from "@/components/InstallPrompt";
 
 const Index = () => {
   const { data: liveCards, isLoading } = useLiveCards();
@@ -107,6 +108,7 @@ const Index = () => {
           </p>
         </footer>
       </main>
+      <InstallPrompt />
     </div>
   );
 };
