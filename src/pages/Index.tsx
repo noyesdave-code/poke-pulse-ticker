@@ -7,6 +7,7 @@ import MarketTabs from "@/components/MarketTabs";
 import SubscriptionTiers from "@/components/SubscriptionTiers";
 import CardSearch from "@/components/CardSearch";
 import PriceChart from "@/components/PriceChart";
+import MarketCapSummary from "@/components/MarketCapSummary";
 
 const Index = () => {
   const rawIndex = getIndexValue(rawCards);
