@@ -58,7 +58,7 @@ const TerminalHeader = () => {
               </div>
               <div className="hidden min-[400px]:block">
                 <h1 className="font-mono text-sm font-bold tracking-wider text-foreground">
-                  POKÉGARAGEVA
+                  POKE-PULSE-TICKER
                 </h1>
                 <p className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
                   Market Terminal
