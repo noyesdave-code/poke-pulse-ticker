@@ -124,6 +124,15 @@ const Index = () => {
                 Live Pokémon TCG Market Data
               </span>
             </div>
+            <div className="flex items-center gap-3">
+              <a href="/terms" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors">
+                Terms of Service
+              </a>
+              <span className="text-border">•</span>
+              <a href="/privacy" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors">
+                Privacy Policy
+              </a>
+            </div>
             <p className="font-mono text-[10px] text-muted-foreground">
               Data powered by pokemontcg.io • Not financial advice
             </p>
