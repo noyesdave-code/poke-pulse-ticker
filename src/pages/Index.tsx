@@ -108,6 +108,7 @@ const Index = () => {
           </p>
         </footer>
       </main>
+      <InstallPrompt />
     </div>
   );
 };
