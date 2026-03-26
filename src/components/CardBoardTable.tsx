@@ -59,7 +59,7 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
-        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
           {showGrade && (
             <div className="flex gap-1">
               {GRADING_COMPANIES.map(company => (
