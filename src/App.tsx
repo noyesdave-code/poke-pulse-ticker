@@ -31,6 +31,8 @@ const App = () => {
             <Route path="/sets" element={<SetBrowser />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
