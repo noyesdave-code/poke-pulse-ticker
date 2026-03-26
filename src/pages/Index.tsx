@@ -132,6 +132,10 @@ const Index = () => {
               <a href="/privacy" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors">
                 Privacy Policy
               </a>
+              <span className="text-border">•</span>
+              <a href="mailto:contact@poke-pulse-ticker.com" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors">
+                Contact
+              </a>
             </div>
             <p className="font-mono text-[10px] text-muted-foreground">
               Data powered by pokemontcg.io • Not financial advice
