@@ -96,7 +96,7 @@ const Index = () => {
         </div>
 
         {/* Tabbed Full Board */}
-        <MarketTabs liveCards={displayCards} liveGradedCards={displayGraded} />
+        <MarketTabs liveCards={displayCards} liveGradedCards={displayGraded} liveSealedProducts={displaySealed} />
 
         {/* Market Cap */}
         <MarketCapSummary liveRawCards={displayCards} />

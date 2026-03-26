@@ -15,12 +15,14 @@ type TabId = typeof tabs[number]["id"];
 interface MarketTabsProps {
   liveCards?: CardData[];
   liveGradedCards?: CardData[];
+  liveSealedProducts?: SealedProduct[];
 }
 
-const MarketTabs = ({ liveCards, liveGradedCards }: MarketTabsProps) => {
+const MarketTabs = ({ liveCards, liveGradedCards, liveSealedProducts }: MarketTabsProps) => {
   const [active, setActive] = useState<TabId>("raw");
   const displayRaw = liveCards && liveCards.length > 0 ? liveCards : rawCards;
   const displayGraded = liveGradedCards && liveGradedCards.length > 0 ? liveGradedCards : gradedCards;
+  const displaySealed = liveSealedProducts && liveSealedProducts.length > 0 ? liveSealedProducts : sealedProducts;
 
   return (
     <div>
