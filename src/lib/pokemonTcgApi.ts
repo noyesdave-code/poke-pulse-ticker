@@ -240,6 +240,7 @@ export function toCardData(card: PokemonTCGCard): CardData | null {
   return {
     name: card.name,
     set: card.set.name,
+    setCode: getSetInitials(card.set.name),
     number: card.number,
     market: price.market,
     low: price.low,
