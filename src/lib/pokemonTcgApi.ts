@@ -4,6 +4,15 @@ import type { CardData } from "@/data/marketData";
 const PROJECT_ID = import.meta.env.VITE_SUPABASE_PROJECT_ID;
 const PROXY_URL = `https://${PROJECT_ID}.supabase.co/functions/v1/pokemon-proxy`;
 
+/**
+ * Generate set initials from set name, e.g. "Prismatic Evolutions" → "PE"
+ */
+function getSetInitials(name: string): string {
+  const words = name.replace(/[^a-zA-Z0-9\s]/g, '').split(/\s+/).filter(Boolean);
+  if (words.length === 1) return words[0].substring(0, 3).toUpperCase();
+  return words.map(w => w[0]).join('').toUpperCase();
+}
+
 export interface PokemonTCGSet {
   id: string;
   name: string;
