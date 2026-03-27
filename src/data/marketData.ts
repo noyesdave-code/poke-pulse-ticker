@@ -1,6 +1,7 @@
 export interface CardData {
   name: string;
   set: string;
+  setCode?: string;
   number: string;
   market: number;
   low: number;
