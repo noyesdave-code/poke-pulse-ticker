@@ -16,6 +16,8 @@ import Privacy from "./pages/Privacy.tsx";
 import Guides from "./pages/Guides.tsx";
 import CommandCenter from "./pages/CommandCenter.tsx";
 import ReleaseCalendar from "./pages/ReleaseCalendar.tsx";
+import Watchlist from "./pages/Watchlist.tsx";
+import Contact from "./pages/Contact.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();

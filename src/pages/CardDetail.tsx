@@ -5,12 +5,16 @@ import { useCardDetail, type PokemonTCGCard } from "@/hooks/usePokemonTcg";
 import { getBestPrice } from "@/lib/pokemonTcgApi";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAddToPortfolio } from "@/hooks/usePortfolio";
+import { useAddToWatchlist, useIsOnWatchlist } from "@/hooks/useWatchlist";
+import { getCardToken } from "@/lib/tokenSymbols";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import CardPriceHistory from "@/components/CardPriceHistory";
+import VolumeChart from "@/components/VolumeChart";
+import CardSignalBreakdown from "@/components/CardSignalBreakdown";
 import SellerComparison from "@/components/SellerComparison";
-import MarketCapSummary from "@/components/MarketCapSummary";
-import { ArrowLeft, Loader2, Briefcase } from "lucide-react";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
+import { ArrowLeft, Loader2, Briefcase, Eye, EyeOff } from "lucide-react";
 
 const allCards = [...rawCards, ...gradedCards];
 
@@ -19,12 +23,11 @@ const CardDetail = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const addToPortfolio = useAddToPortfolio();
+  const addToWatchlist = useAddToWatchlist();
 
-  // Check if slug looks like an API ID (contains a dash like "base1-4")
   const isApiId = slug?.includes("-") && !slug.startsWith("%");
   const { data: apiCard, isLoading } = useCardDetail(isApiId ? slug : undefined);
 
-  // Try local fallback
   const localCard = useMemo(() => {
     if (isApiId) return null;
     return allCards.find(
@@ -32,7 +35,6 @@ const CardDetail = () => {
     );
   }, [slug, isApiId]);
 
-  // Build display card from API or local
   const card: (CardData & { _image?: string }) | null = useMemo(() => {
     if (apiCard) {
       const price = getBestPrice(apiCard);
@@ -51,6 +53,10 @@ const CardDetail = () => {
     }
     return localCard || null;
   }, [apiCard, localCard]);
+
+  const cardApiId = isApiId ? slug : slug ? `local-${slug}` : undefined;
+  const isWatched = useIsOnWatchlist(cardApiId);
+  const token = card ? getCardToken(card) : null;
 
   if (isLoading) {
     return (
@@ -105,7 +111,14 @@ const CardDetail = () => {
             <div className="flex-1">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h1 className="font-mono text-xl font-bold text-foreground">{card.name}</h1>
+                  <div className="flex items-center gap-2">
+                    <h1 className="font-mono text-xl font-bold text-foreground">{card.name}</h1>
+                    {token && (
+                      <span className="font-mono text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
+                        {token}
+                      </span>
+                    )}
+                  </div>
                   <p className="font-mono text-sm text-muted-foreground mt-1">
                     {card.set} • #{card.number}
                     {card.grade && <span className="ml-2 text-terminal-amber font-semibold">{card.grade}</span>}
@@ -124,23 +137,45 @@ const CardDetail = () => {
                     {card.change >= 0 ? "▲" : "▼"} {Math.abs(card.change).toFixed(2)}%
                   </p>
                   {user && slug && (
-                    <button
-                      onClick={() =>
-                        addToPortfolio.mutate({
-                          card_api_id: isApiId ? slug : `local-${slug}`,
-                          card_name: card.name,
-                          card_set: card.set,
-                          card_number: card.number,
-                          card_image: card._image,
-                          purchase_price: card.market,
-                        })
-                      }
-                      disabled={addToPortfolio.isPending}
-                      className="mt-2 flex items-center gap-1.5 font-mono text-xs font-semibold bg-primary text-primary-foreground rounded px-3 py-1.5 hover:opacity-90 disabled:opacity-50"
-                    >
-                      <Briefcase className="w-3.5 h-3.5" />
-                      {addToPortfolio.isPending ? "Adding…" : "Add to Portfolio"}
-                    </button>
+                    <div className="flex items-center gap-2 mt-2 justify-end">
+                      <button
+                        onClick={() =>
+                          addToWatchlist.mutate({
+                            card_api_id: cardApiId!,
+                            card_name: card.name,
+                            card_set: card.set,
+                            card_number: card.number,
+                            card_image: card._image,
+                          })
+                        }
+                        disabled={addToWatchlist.isPending || isWatched}
+                        className={`flex items-center gap-1.5 font-mono text-xs font-semibold rounded px-3 py-1.5 transition-opacity ${
+                          isWatched
+                            ? "bg-terminal-amber/20 text-terminal-amber border border-terminal-amber/30"
+                            : "bg-muted text-foreground hover:bg-muted/80"
+                        } disabled:opacity-50`}
+                      >
+                        {isWatched ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                        {isWatched ? "Watching" : "Watch"}
+                      </button>
+                      <button
+                        onClick={() =>
+                          addToPortfolio.mutate({
+                            card_api_id: isApiId ? slug : `local-${slug}`,
+                            card_name: card.name,
+                            card_set: card.set,
+                            card_number: card.number,
+                            card_image: card._image,
+                            purchase_price: card.market,
+                          })
+                        }
+                        disabled={addToPortfolio.isPending}
+                        className="flex items-center gap-1.5 font-mono text-xs font-semibold bg-primary text-primary-foreground rounded px-3 py-1.5 hover:opacity-90 disabled:opacity-50"
+                      >
+                        <Briefcase className="w-3.5 h-3.5" />
+                        {addToPortfolio.isPending ? "Adding…" : "Add to Portfolio"}
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
@@ -190,9 +225,20 @@ const CardDetail = () => {
           </div>
         </div>
 
+        {/* Price History Chart */}
         <CardPriceHistory card={card} />
+
+        {/* Volume Chart */}
+        <VolumeChart card={card} />
+
+        {/* AI Signal Breakdown */}
+        <CardSignalBreakdown card={card} />
+
+        {/* Seller Comparison */}
         <SellerComparison card={card} />
-        <MarketCapSummary />
+
+        {/* Disclaimer */}
+        <FinancialDisclaimer />
       </main>
     </div>
   );
