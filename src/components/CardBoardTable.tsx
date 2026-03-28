@@ -86,6 +86,7 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
         <table className="w-full">
           <thead>
             <tr className="border-b border-border">
+              <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Ticker</th>
               <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Card</th>
               <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Set</th>
               {showGrade && (
