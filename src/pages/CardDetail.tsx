@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { rawCards, gradedCards, type CardData } from "@/data/marketData";
 import { useCardDetail, type PokemonTCGCard } from "@/hooks/usePokemonTcg";
 import { getBestPrice } from "@/lib/pokemonTcgApi";
