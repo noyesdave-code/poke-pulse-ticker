@@ -1,20 +1,25 @@
+import { useRef } from "react";
 import { rawCards, gradedCards, sealedProducts, getIndexValue, getIndexChange } from "@/data/marketData";
 import { useLiveCards } from "@/hooks/usePokemonTcg";
 import { useGradedCards } from "@/hooks/useGradedCards";
 import { useSealedProducts } from "@/hooks/useSealedProducts";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
+import HeroSection from "@/components/HeroSection";
+import MarketUpdateBanner from "@/components/MarketUpdateBanner";
 import MarketIndexCard from "@/components/MarketIndexCard";
+import TrendingCards from "@/components/TrendingCards";
 import TopMoversTable from "@/components/TopMoversTable";
-import MarketTabs from "@/components/MarketTabs";
-import SubscriptionTiers from "@/components/SubscriptionTiers";
 import CardSearch from "@/components/CardSearch";
 import PriceChart from "@/components/PriceChart";
+import MarketTabs from "@/components/MarketTabs";
 import MarketCapSummary from "@/components/MarketCapSummary";
+import SubscriptionTiers from "@/components/SubscriptionTiers";
 import InstallPrompt from "@/components/InstallPrompt";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
+  const searchRef = useRef<HTMLDivElement>(null);
 
   const displayCards = liveCards && liveCards.length > 0 ? liveCards : rawCards;
   const liveGradedCards = useGradedCards(liveCards);
@@ -28,6 +33,14 @@ const Index = () => {
   const gradedChange = getIndexChange(displayGraded);
   const sealedIndex = getIndexValue(displaySealed);
   const sealedChange = getIndexChange(displaySealed);
+
+  const handleSearchFocus = () => {
+    searchRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(() => {
+      const input = searchRef.current?.querySelector("input");
+      input?.focus();
+    }, 400);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -54,6 +67,12 @@ const Index = () => {
             </span>
           </div>
         )}
+
+        {/* Hero with CTAs */}
+        <HeroSection onSearchFocus={handleSearchFocus} />
+
+        {/* Market Update Banner */}
+        <MarketUpdateBanner cards={displayCards} />
 
         {/* Market Index Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -83,8 +102,13 @@ const Index = () => {
           />
         </div>
 
+        {/* Trending Cards with Images */}
+        <TrendingCards cards={displayCards} />
+
         {/* Search */}
-        <CardSearch />
+        <div ref={searchRef}>
+          <CardSearch />
+        </div>
 
         {/* Price Chart */}
         <PriceChart cards={displayCards} />
