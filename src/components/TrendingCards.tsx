@@ -32,7 +32,7 @@ const TrendingCards = ({ cards }: TrendingCardsProps) => {
               className="flex flex-col p-3 border-b border-r border-border hover:bg-muted/50 transition-colors text-left group last:border-r-0"
             >
               {/* Card image */}
-              {card.image ? (
+              {card._image ? (
                 <div className="w-full aspect-[2.5/3.5] rounded overflow-hidden mb-2 bg-muted">
                   <img
                     src={card.image}
