@@ -1,4 +1,5 @@
 import type { SealedProduct } from "@/data/marketData";
+import { getSealedToken } from "@/lib/tokenSymbols";
 
 interface SealedTableProps {
   products: SealedProduct[];
