@@ -53,7 +53,13 @@ const TrendingCards = ({ cards }: TrendingCardsProps) => {
               <span className="font-mono text-[10px] text-muted-foreground truncate w-full">
                 {card.setCode && `(${card.setCode}) `}{card.set}
               </span>
-              <span className="font-mono text-xs font-semibold text-foreground truncate w-full mt-0.5">
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="font-mono text-xs font-semibold text-foreground truncate">
+                  {card.name}
+                </span>
+                <SignalBadge result={getCardSignal(card)} />
+              </div>
+              <span className="hidden">
                 {card.name}
               </span>
 
