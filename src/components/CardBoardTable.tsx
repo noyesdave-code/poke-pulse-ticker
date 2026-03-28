@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { CardData } from "@/data/marketData";
+import { getCardToken } from "@/lib/tokenSymbols";
 
 const cardRoute = (card: CardData) =>
   card._apiId ? `/card/${card._apiId}` : `/card/${encodeURIComponent(`${card.name}-${card.set}-${card.number}`.replace(/\s+/g, "-").toLowerCase())}`;
