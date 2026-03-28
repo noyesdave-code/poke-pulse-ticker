@@ -1,4 +1,6 @@
 import type { CardData } from "@/data/marketData";
+import { getCardSignal } from "@/hooks/useSignalIndicator";
+import SignalBadge from "@/components/SignalBadge";
 
 interface TopMoversTableProps {
   cards: CardData[];
