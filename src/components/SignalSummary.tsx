@@ -1,4 +1,5 @@
 import { Activity, TrendingUp, TrendingDown, Minus } from "lucide-react";
+import { motion } from "framer-motion";
 import type { CardData } from "@/data/marketData";
 import { getCardSignal, type Signal } from "@/hooks/useSignalIndicator";
 import SignalBadge from "@/components/SignalBadge";
@@ -14,7 +15,6 @@ const SignalSummary = ({ cards }: SignalSummaryProps) => {
   const sells = signals.filter((s) => s.result.signal === "SELL");
   const holds = signals.filter((s) => s.result.signal === "HOLD");
 
-  // Top signals by strength
   const topBuys = [...buys].sort((a, b) => b.result.strength - a.result.strength).slice(0, 3);
   const topSells = [...sells].sort((a, b) => b.result.strength - a.result.strength).slice(0, 3);
 
@@ -23,7 +23,12 @@ const SignalSummary = ({ cards }: SignalSummaryProps) => {
   );
 
   return (
-    <div className="terminal-card overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="terminal-card overflow-hidden"
+    >
       <div className="border-b border-border px-4 py-3 flex items-center justify-between">
         <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold flex items-center gap-2">
           <Activity className="w-3.5 h-3.5" /> AI Signal Indicator
@@ -35,18 +40,24 @@ const SignalSummary = ({ cards }: SignalSummaryProps) => {
 
       {/* Signal distribution bar */}
       <div className="px-4 pt-4 pb-2">
-        <div className="flex h-3 rounded-full overflow-hidden border border-border">
-          <div
-            className="bg-terminal-green transition-all"
-            style={{ width: `${(buys.length / cards.length) * 100}%` }}
+        <div className="flex h-3.5 rounded-full overflow-hidden border border-border">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${(buys.length / cards.length) * 100}%` }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="bg-terminal-green"
           />
-          <div
-            className="bg-terminal-amber transition-all"
-            style={{ width: `${(holds.length / cards.length) * 100}%` }}
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${(holds.length / cards.length) * 100}%` }}
+            transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+            className="bg-terminal-amber"
           />
-          <div
-            className="bg-terminal-red transition-all"
-            style={{ width: `${(sells.length / cards.length) * 100}%` }}
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${(sells.length / cards.length) * 100}%` }}
+            transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
+            className="bg-terminal-red"
           />
         </div>
         <div className="flex justify-between mt-2">
@@ -75,13 +86,15 @@ const SignalSummary = ({ cards }: SignalSummaryProps) => {
             {sentimentScore > 60 ? "BULLISH" : sentimentScore > 40 ? "NEUTRAL" : "BEARISH"}
           </span>
         </div>
-        <div className="h-2 rounded-full bg-muted overflow-hidden">
-          <div
-            className={`h-full rounded-full transition-all ${
-              sentimentScore > 60 ? "bg-terminal-green" :
-              sentimentScore > 40 ? "bg-terminal-amber" : "bg-terminal-red"
+        <div className="h-2.5 rounded-full bg-muted overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${sentimentScore}%` }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className={`h-full rounded-full ${
+              sentimentScore > 60 ? "bg-terminal-green shadow-[0_0_10px_hsl(145_100%_45%/0.3)]" :
+              sentimentScore > 40 ? "bg-terminal-amber shadow-[0_0_10px_hsl(40_100%_55%/0.3)]" : "bg-terminal-red shadow-[0_0_10px_hsl(0_90%_58%/0.3)]"
             }`}
-            style={{ width: `${sentimentScore}%` }}
           />
         </div>
       </div>
@@ -94,7 +107,13 @@ const SignalSummary = ({ cards }: SignalSummaryProps) => {
           </h3>
           <div className="space-y-2">
             {topBuys.map(({ card, result }, i) => (
-              <div key={i} className="flex items-center justify-between">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.3 }}
+                className="flex items-center justify-between"
+              >
                 <div className="min-w-0 flex-1 mr-2">
                   <p className="font-mono text-xs text-foreground font-medium truncate">{card.name}</p>
                   <p className="font-mono text-[9px] text-muted-foreground truncate">{card.set}</p>
@@ -105,7 +124,7 @@ const SignalSummary = ({ cards }: SignalSummaryProps) => {
                   </span>
                   <SignalBadge result={result} />
                 </div>
-              </div>
+              </motion.div>
             ))}
             {topBuys.length === 0 && (
               <p className="font-mono text-[10px] text-muted-foreground">No buy signals</p>
@@ -118,7 +137,13 @@ const SignalSummary = ({ cards }: SignalSummaryProps) => {
           </h3>
           <div className="space-y-2">
             {topSells.map(({ card, result }, i) => (
-              <div key={i} className="flex items-center justify-between">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.3 }}
+                className="flex items-center justify-between"
+              >
                 <div className="min-w-0 flex-1 mr-2">
                   <p className="font-mono text-xs text-foreground font-medium truncate">{card.name}</p>
                   <p className="font-mono text-[9px] text-muted-foreground truncate">{card.set}</p>
@@ -129,7 +154,7 @@ const SignalSummary = ({ cards }: SignalSummaryProps) => {
                   </span>
                   <SignalBadge result={result} />
                 </div>
-              </div>
+              </motion.div>
             ))}
             {topSells.length === 0 && (
               <p className="font-mono text-[10px] text-muted-foreground">No sell signals</p>
@@ -142,7 +167,7 @@ const SignalSummary = ({ cards }: SignalSummaryProps) => {
       <div className="border-t border-border p-3">
         <FinancialDisclaimer compact />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
