@@ -64,33 +64,31 @@ const TradeSide = ({
               {isLoading && <Loader2 className="w-4 h-4 animate-spin text-primary mx-auto" />}
               {results && results.length > 0 && (
                 <div className="max-h-48 overflow-y-auto space-y-1">
-                  {results.slice(0, 8).map((card: PokemonTCGCard) => {
-                    const priceData = getBestPrice(card);
-                    if (!priceData) return null;
-                    return (
+                  {results.slice(0, 8).map((card) => (
                       <button
-                        key={card.id}
+                        key={card._apiId}
                         onClick={() => {
                           onAdd({
-                            id: card.id + "-" + Date.now(),
+                            id: card._apiId + "-" + Date.now(),
                             name: card.name,
-                            set: card.set?.name || "",
-                            number: card.number || "",
-                            image: card.images?.small || "",
-                            price: priceData.market,
+                            set: card.set,
+                            number: card.number,
+                            image: card._image || "",
+                            price: card.market,
                           });
                           setQuery("");
                           setSearching(false);
                         }}
                         className="w-full flex items-center gap-2 p-2 rounded hover:bg-muted/80 text-left transition-colors"
                       >
-                        <img src={card.images?.small} alt="" className="w-8 h-11 rounded object-cover" />
+                        {card._image && <img src={card._image} alt="" className="w-8 h-11 rounded object-cover" />}
                         <div className="flex-1 min-w-0">
                           <p className="font-mono text-[10px] text-foreground truncate">{card.name}</p>
-                          <p className="font-mono text-[9px] text-muted-foreground">{card.set?.name}</p>
+                          <p className="font-mono text-[9px] text-muted-foreground">{card.set}</p>
                         </div>
-                        <span className="font-mono text-xs text-terminal-green font-semibold">${priceData.market.toFixed(2)}</span>
+                        <span className="font-mono text-xs text-terminal-green font-semibold">${card.market.toFixed(2)}</span>
                       </button>
+                    ))}
                     );
                   })}
                 </div>
