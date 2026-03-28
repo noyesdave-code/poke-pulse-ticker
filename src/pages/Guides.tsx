@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import TerminalHeader from "@/components/TerminalHeader";
 import GradingGuide from "@/components/GradingGuide";
 import InvestmentTips from "@/components/InvestmentTips";
+import TcgGlossary from "@/components/TcgGlossary";
 import { ArrowLeft } from "lucide-react";
 
 const tabs = [
