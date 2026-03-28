@@ -83,6 +83,51 @@ export type Database = {
         }
         Relationships: []
       }
+      site_audits: {
+        Row: {
+          categories: Json
+          competitive_intel: Json | null
+          completed_at: string | null
+          created_at: string
+          id: string
+          legal_compliance: Json | null
+          overall_score: number | null
+          recommendations: Json | null
+          status: string
+          summary: string | null
+          trigger_type: string
+          user_id: string
+        }
+        Insert: {
+          categories?: Json
+          competitive_intel?: Json | null
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          legal_compliance?: Json | null
+          overall_score?: number | null
+          recommendations?: Json | null
+          status?: string
+          summary?: string | null
+          trigger_type?: string
+          user_id: string
+        }
+        Update: {
+          categories?: Json
+          competitive_intel?: Json | null
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          legal_compliance?: Json | null
+          overall_score?: number | null
+          recommendations?: Json | null
+          status?: string
+          summary?: string | null
+          trigger_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

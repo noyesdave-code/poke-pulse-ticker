@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/AuthModal";
-import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen } from "lucide-react";
+import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain } from "lucide-react";
 
 const navItems = [
   { path: "/", label: "Terminal", icon: LayoutDashboard },
@@ -10,6 +10,7 @@ const navItems = [
   { path: "/portfolio", label: "Portfolio", icon: Briefcase },
   { path: "/dashboard", label: "Dashboard", icon: Activity },
   { path: "/guides", label: "Guides", icon: BookOpen },
+  { path: "/command-center", label: "AI Center", icon: Brain },
 ];
 
 const TerminalHeader = () => {
