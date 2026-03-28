@@ -5,6 +5,7 @@ import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
 import { usePortfolio } from "@/hooks/usePortfolio";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
+import PushNotificationToggle from "@/components/PushNotificationToggle";
 import AuthModal from "@/components/AuthModal";
 import { ArrowLeft, User, Globe, Lock, Loader2, Save } from "lucide-react";
 
