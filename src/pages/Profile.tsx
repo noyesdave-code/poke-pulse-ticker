@@ -157,6 +157,9 @@ const ProfilePage = () => {
                 </p>
               </div>
             )}
+
+            {/* Push notifications */}
+            <PushNotificationToggle />
           </div>
         )}
       </main>
