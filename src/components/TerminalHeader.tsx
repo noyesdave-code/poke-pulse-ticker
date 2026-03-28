@@ -2,16 +2,18 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/AuthModal";
-import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain, CalendarDays } from "lucide-react";
+import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain, CalendarDays, Eye, Mail } from "lucide-react";
 
 const navItems = [
   { path: "/", label: "Terminal", icon: LayoutDashboard },
   { path: "/sets", label: "Sets", icon: Layers },
   { path: "/releases", label: "Releases", icon: CalendarDays },
+  { path: "/watchlist", label: "Watchlist", icon: Eye },
   { path: "/portfolio", label: "Portfolio", icon: Briefcase },
   { path: "/dashboard", label: "Dashboard", icon: Activity },
   { path: "/guides", label: "Guides", icon: BookOpen },
   { path: "/command-center", label: "AI Center", icon: Brain },
+  { path: "/contact", label: "Contact", icon: Mail },
 ];
 
 const TerminalHeader = () => {
