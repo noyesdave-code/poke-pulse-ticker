@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import type { CardData } from "@/data/marketData";
+import { getCardSignal } from "@/hooks/useSignalIndicator";
+import SignalBadge from "@/components/SignalBadge";
 
 interface TrendingCardsProps {
   cards: CardData[];
