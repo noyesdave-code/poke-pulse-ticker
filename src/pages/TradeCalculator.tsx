@@ -32,7 +32,7 @@ const TradeSide = ({
 }) => {
   const [query, setQuery] = useState("");
   const [searching, setSearching] = useState(false);
-  const { data: results, isLoading } = useSearchCards(query.length >= 3 ? query : "");
+  const { data: results, isLoading } = useCardSearch(query.length >= 3 ? query : "");
 
   return (
     <div className="terminal-card flex-1 min-w-0 overflow-hidden">
