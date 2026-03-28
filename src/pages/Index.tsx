@@ -133,6 +133,9 @@ const Index = () => {
         {/* Subscription Tiers */}
         <SubscriptionTiers />
 
+        {/* Financial Disclaimer */}
+        <FinancialDisclaimer />
+
         {/* Footer */}
         <footer className="border-t border-border pt-8 pb-6">
           <div className="flex flex-col items-center gap-4">
