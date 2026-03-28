@@ -9,6 +9,7 @@ import { ArrowLeft } from "lucide-react";
 const tabs = [
   { id: "grading", label: "Grading Guide" },
   { id: "investing", label: "Investment Tips" },
+  { id: "glossary", label: "Glossary" },
 ] as const;
 
 type TabId = typeof tabs[number]["id"];
