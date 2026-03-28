@@ -180,7 +180,54 @@ const CardDetail = () => {
                         <Briefcase className="w-3.5 h-3.5" />
                         {addToPortfolio.isPending ? "Adding…" : "Add to Portfolio"}
                       </button>
+                      <button
+                        onClick={() => setShowAlertInput(!showAlertInput)}
+                        className="flex items-center gap-1.5 font-mono text-xs font-semibold bg-muted text-foreground rounded px-3 py-1.5 hover:bg-muted/80"
+                      >
+                        <Bell className="w-3.5 h-3.5" />
+                        Alert
+                      </button>
                     </div>
+                    {showAlertInput && (
+                      <div className="flex items-center gap-2 mt-2 justify-end">
+                        <select
+                          value={alertDirection}
+                          onChange={(e) => setAlertDirection(e.target.value as "below" | "above")}
+                          className="font-mono text-[10px] bg-muted border border-border rounded px-2 py-1 text-foreground"
+                        >
+                          <option value="below">Below</option>
+                          <option value="above">Above</option>
+                        </select>
+                        <input
+                          type="number"
+                          step="0.01"
+                          value={alertPrice}
+                          onChange={(e) => setAlertPrice(e.target.value)}
+                          placeholder="Target $"
+                          className="w-24 font-mono text-xs bg-muted border border-border rounded px-2 py-1 text-foreground placeholder:text-muted-foreground"
+                        />
+                        <button
+                          onClick={() => {
+                            if (!alertPrice) return;
+                            addPriceAlert.mutate({
+                              card_api_id: cardApiId!,
+                              card_name: card.name,
+                              card_set: card.set,
+                              card_number: card.number,
+                              card_image: card._image,
+                              target_price: parseFloat(alertPrice),
+                              direction: alertDirection,
+                            });
+                            setShowAlertInput(false);
+                            setAlertPrice("");
+                          }}
+                          disabled={addPriceAlert.isPending || !alertPrice}
+                          className="font-mono text-xs font-semibold bg-terminal-green text-background rounded px-3 py-1 hover:opacity-90 disabled:opacity-50"
+                        >
+                          Set
+                        </button>
+                      </div>
+                    )}
                   )}
                 </div>
               </div>
