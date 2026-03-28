@@ -49,6 +49,8 @@ const AnimatedRoutes = () => {
           <Route path="/watchlist" element={<Watchlist />} />
           <Route path="/alerts" element={<PriceAlerts />} />
           <Route path="/set-completion" element={<SetCompletion />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/:userId" element={<PublicProfile />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />

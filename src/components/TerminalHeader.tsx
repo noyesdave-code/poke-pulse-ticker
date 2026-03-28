@@ -15,6 +15,7 @@ const navItems = [
   { path: "/set-completion", label: "Collection", icon: CheckCircle },
   { path: "/guides", label: "Guides", icon: BookOpen },
   { path: "/command-center", label: "AI Center", icon: Brain },
+  { path: "/profile", label: "Profile", icon: User },
   { path: "/contact", label: "Contact", icon: Mail },
 ];
 

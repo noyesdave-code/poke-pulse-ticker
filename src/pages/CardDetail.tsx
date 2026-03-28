@@ -289,6 +289,9 @@ const CardDetail = () => {
         {/* AI Signal Breakdown */}
         <CardSignalBreakdown card={card} />
 
+        {/* Community Sentiment */}
+        {cardApiId && <CardSentimentPoll cardApiId={cardApiId} />}
+
         {/* Seller Comparison */}
         <SellerComparison card={card} />
 
