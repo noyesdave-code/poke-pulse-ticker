@@ -268,6 +268,63 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          is_public: boolean
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id: string
+          is_public?: boolean
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          is_public?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      sentiment_votes: {
+        Row: {
+          card_api_id: string
+          created_at: string
+          direction: string
+          id: string
+          rating: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          card_api_id: string
+          created_at?: string
+          direction?: string
+          id?: string
+          rating?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          card_api_id?: string
+          created_at?: string
+          direction?: string
+          id?: string
+          rating?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       site_audits: {
         Row: {
           categories: Json

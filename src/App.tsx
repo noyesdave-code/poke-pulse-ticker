@@ -20,6 +20,8 @@ import Watchlist from "./pages/Watchlist.tsx";
 import Contact from "./pages/Contact.tsx";
 import PriceAlerts from "./pages/PriceAlerts.tsx";
 import SetCompletion from "./pages/SetCompletion.tsx";
+import ProfilePage from "./pages/Profile.tsx";
+import PublicProfile from "./pages/PublicProfile.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -47,6 +49,8 @@ const AnimatedRoutes = () => {
           <Route path="/watchlist" element={<Watchlist />} />
           <Route path="/alerts" element={<PriceAlerts />} />
           <Route path="/set-completion" element={<SetCompletion />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/:userId" element={<PublicProfile />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
