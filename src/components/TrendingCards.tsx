@@ -59,7 +59,10 @@ const TrendingCards = ({ cards }: TrendingCardsProps) => {
                 </div>
               )}
 
-              {/* Card info */}
+              {/* Token + Card info */}
+              <span className="font-mono text-[9px] text-primary/70 font-bold tracking-wider">
+                {getCardToken(card)}
+              </span>
               <span className="font-mono text-[10px] text-muted-foreground truncate w-full">
                 {card.setCode && `(${card.setCode}) `}{card.set}
               </span>
