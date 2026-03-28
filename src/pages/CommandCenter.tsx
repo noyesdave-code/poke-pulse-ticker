@@ -12,7 +12,8 @@ import { toast } from "@/hooks/use-toast";
 import {
   Shield, TrendingUp, Eye, Zap, Scale, Target, Brain,
   AlertTriangle, CheckCircle, Clock, Play, Loader2,
-  Swords, Lock, DollarSign, BarChart3
+  Swords, Lock, DollarSign, BarChart3, Plus, X,
+  Circle, CheckCircle2, ListTodo, Trash2
 } from "lucide-react";
 import AuthModal from "@/components/AuthModal";
 
@@ -38,6 +39,20 @@ interface AuditResult {
   completed_at: string | null;
 }
 
+interface AuditAction {
+  id: string;
+  audit_id: string;
+  title: string;
+  description: string | null;
+  category: string | null;
+  impact: string;
+  effort: string;
+  status: string;
+  notes: string | null;
+  created_at: string;
+  completed_at: string | null;
+}
+
 const categoryIcons: Record<string, any> = {
   aesthetics: Eye,
   efficiency: Zap,
@@ -59,6 +74,14 @@ const statusColors: Record<string, string> = {
   critical: "bg-red-500/20 text-red-400 border-red-500/30",
 };
 
+const actionStatusConfig: Record<string, { label: string; icon: any; className: string }> = {
+  pending: { label: "Pending", icon: Circle, className: "text-muted-foreground" },
+  accepted: { label: "Accepted", icon: ListTodo, className: "text-primary" },
+  in_progress: { label: "In Progress", icon: Loader2, className: "text-amber-400" },
+  completed: { label: "Done", icon: CheckCircle2, className: "text-terminal-green" },
+  dismissed: { label: "Dismissed", icon: X, className: "text-muted-foreground/50" },
+};
+
 const CommandCenter = () => {
   const { user } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
@@ -74,6 +97,19 @@ const CommandCenter = () => {
         .limit(10);
       if (error) throw error;
       return data as unknown as AuditResult[];
+    },
+    enabled: !!user,
+  });
+
+  const { data: actions } = useQuery({
+    queryKey: ["audit-actions", user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("audit_actions")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data as unknown as AuditAction[];
     },
     enabled: !!user,
   });
@@ -96,8 +132,58 @@ const CommandCenter = () => {
     },
   });
 
+  const acceptAction = useMutation({
+    mutationFn: async (params: { auditId: string; title: string; description?: string; category?: string; impact?: string; effort?: string }) => {
+      if (!user) throw new Error("Not authenticated");
+      const { error } = await supabase.from("audit_actions").insert({
+        user_id: user.id,
+        audit_id: params.auditId,
+        title: params.title,
+        description: params.description || null,
+        category: params.category || null,
+        impact: params.impact || "medium",
+        effort: params.effort || "medium",
+        status: "accepted",
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["audit-actions"] });
+      toast({ title: "Action Accepted", description: "Added to your action tracker." });
+    },
+  });
+
+  const updateActionStatus = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      const updates: Record<string, unknown> = { status };
+      if (status === "completed") updates.completed_at = new Date().toISOString();
+      const { error } = await supabase.from("audit_actions").update(updates).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["audit-actions"] });
+    },
+  });
+
+  const deleteAction = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("audit_actions").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["audit-actions"] });
+      toast({ title: "Action Removed" });
+    },
+  });
+
   const latestAudit = audits?.[0];
   const isRunning = runAudit.isPending || latestAudit?.status === "running";
+
+  // Check if a recommendation is already tracked
+  const isTracked = (title: string) => actions?.some((a) => a.title === title && a.status !== "dismissed");
+
+  const activeActions = actions?.filter((a) => a.status !== "dismissed") || [];
+  const completedCount = activeActions.filter((a) => a.status === "completed").length;
 
   if (!user) {
     return (
@@ -149,6 +235,79 @@ const CommandCenter = () => {
             )}
           </Button>
         </div>
+
+        {/* Action Tracker Summary */}
+        {activeActions.length > 0 && (
+          <Card className="border-primary/20">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="font-mono text-xs uppercase tracking-wider flex items-center gap-2">
+                  <ListTodo className="h-4 w-4 text-primary" />
+                  Action Tracker — {completedCount}/{activeActions.length} Complete
+                </CardTitle>
+                <Progress value={(completedCount / activeActions.length) * 100} className="h-2 w-32" />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {activeActions.map((action) => {
+                  const cfg = actionStatusConfig[action.status] || actionStatusConfig.pending;
+                  const StatusIcon = cfg.icon;
+                  return (
+                    <div key={action.id} className="flex items-center justify-between gap-3 p-2.5 rounded-lg bg-muted/30 border border-border/50">
+                      <div className="flex items-center gap-2.5 flex-1 min-w-0">
+                        <StatusIcon className={`h-4 w-4 shrink-0 ${cfg.className} ${action.status === "in_progress" ? "animate-spin" : ""}`} />
+                        <div className="min-w-0 flex-1">
+                          <p className={`font-mono text-xs font-semibold truncate ${action.status === "completed" ? "line-through text-muted-foreground" : ""}`}>
+                            {action.title}
+                          </p>
+                          {action.category && (
+                            <span className="font-mono text-[9px] text-muted-foreground uppercase">
+                              {action.category.replace(/_/g, " ")}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1 shrink-0">
+                        {action.status === "accepted" && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-7 px-2 font-mono text-[10px]"
+                            onClick={() => updateActionStatus.mutate({ id: action.id, status: "in_progress" })}
+                          >
+                            Start
+                          </Button>
+                        )}
+                        {action.status === "in_progress" && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-7 px-2 font-mono text-[10px] text-terminal-green"
+                            onClick={() => updateActionStatus.mutate({ id: action.id, status: "completed" })}
+                          >
+                            Complete
+                          </Button>
+                        )}
+                        {action.status === "completed" && (
+                          <Badge className="bg-terminal-green/20 text-terminal-green font-mono text-[9px]">Done</Badge>
+                        )}
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
+                          onClick={() => deleteAction.mutate(action.id)}
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Overall Score */}
         {latestAudit?.status === "completed" && latestAudit.overall_score != null && (
@@ -250,9 +409,27 @@ const CommandCenter = () => {
                             <p className="font-mono text-[10px] text-terminal-green uppercase mb-1">Recommendations</p>
                             <ul className="space-y-1">
                               {cat.recommendations.slice(0, 2).map((r, i) => (
-                                <li key={i} className="font-mono text-[11px] text-foreground/80 flex gap-1.5">
-                                  <span className="text-terminal-green mt-0.5">→</span>
-                                  <span>{r}</span>
+                                <li key={i} className="font-mono text-[11px] text-foreground/80 flex items-start gap-1.5">
+                                  <span className="text-terminal-green mt-0.5 shrink-0">→</span>
+                                  <span className="flex-1">{r}</span>
+                                  {!isTracked(r) && (
+                                    <Button
+                                      size="sm"
+                                      variant="ghost"
+                                      className="h-5 w-5 p-0 shrink-0 text-primary hover:text-terminal-green"
+                                      onClick={() => acceptAction.mutate({
+                                        auditId: latestAudit.id,
+                                        title: r,
+                                        category: cat.name,
+                                      })}
+                                      title="Track this recommendation"
+                                    >
+                                      <Plus className="h-3 w-3" />
+                                    </Button>
+                                  )}
+                                  {isTracked(r) && (
+                                    <CheckCircle2 className="h-3.5 w-3.5 text-terminal-green shrink-0 mt-0.5" />
+                                  )}
                                 </li>
                               ))}
                             </ul>
@@ -278,9 +455,28 @@ const CommandCenter = () => {
                   <CardContent>
                     <ul className="space-y-2">
                       {(latestAudit.competitive_intel as any)?.tcgplayer_advantages?.map((item: string, i: number) => (
-                        <li key={i} className="font-mono text-[11px] text-muted-foreground flex gap-1.5">
+                        <li key={i} className="font-mono text-[11px] text-muted-foreground flex items-start gap-1.5">
                           <AlertTriangle className="h-3 w-3 text-red-400 mt-0.5 shrink-0" />
-                          <span>{item}</span>
+                          <span className="flex-1">{item}</span>
+                          {!isTracked(`Counter TCGPlayer: ${item}`) && (
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-5 w-5 p-0 shrink-0 text-primary hover:text-terminal-green"
+                              onClick={() => acceptAction.mutate({
+                                auditId: latestAudit.id,
+                                title: `Counter TCGPlayer: ${item}`,
+                                category: "competitive_edge",
+                                impact: "high",
+                              })}
+                              title="Track as action item"
+                            >
+                              <Plus className="h-3 w-3" />
+                            </Button>
+                          )}
+                          {isTracked(`Counter TCGPlayer: ${item}`) && (
+                            <CheckCircle2 className="h-3.5 w-3.5 text-terminal-green shrink-0 mt-0.5" />
+                          )}
                         </li>
                       ))}
                     </ul>
@@ -297,9 +493,28 @@ const CommandCenter = () => {
                   <CardContent>
                     <ul className="space-y-2">
                       {(latestAudit.competitive_intel as any)?.rarecandy_advantages?.map((item: string, i: number) => (
-                        <li key={i} className="font-mono text-[11px] text-muted-foreground flex gap-1.5">
+                        <li key={i} className="font-mono text-[11px] text-muted-foreground flex items-start gap-1.5">
                           <AlertTriangle className="h-3 w-3 text-amber-400 mt-0.5 shrink-0" />
-                          <span>{item}</span>
+                          <span className="flex-1">{item}</span>
+                          {!isTracked(`Counter RareCandy: ${item}`) && (
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-5 w-5 p-0 shrink-0 text-primary hover:text-terminal-green"
+                              onClick={() => acceptAction.mutate({
+                                auditId: latestAudit.id,
+                                title: `Counter RareCandy: ${item}`,
+                                category: "competitive_edge",
+                                impact: "high",
+                              })}
+                              title="Track as action item"
+                            >
+                              <Plus className="h-3 w-3" />
+                            </Button>
+                          )}
+                          {isTracked(`Counter RareCandy: ${item}`) && (
+                            <CheckCircle2 className="h-3.5 w-3.5 text-terminal-green shrink-0 mt-0.5" />
+                          )}
                         </li>
                       ))}
                     </ul>
@@ -335,9 +550,28 @@ const CommandCenter = () => {
                   <CardContent>
                     <ul className="space-y-2">
                       {(latestAudit.competitive_intel as any)?.opportunities?.map((item: string, i: number) => (
-                        <li key={i} className="font-mono text-[11px] text-foreground/80 flex gap-1.5">
+                        <li key={i} className="font-mono text-[11px] text-foreground/80 flex items-start gap-1.5">
                           <Target className="h-3 w-3 text-primary mt-0.5 shrink-0" />
-                          <span>{item}</span>
+                          <span className="flex-1">{item}</span>
+                          {!isTracked(item) && (
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-5 w-5 p-0 shrink-0 text-primary hover:text-terminal-green"
+                              onClick={() => acceptAction.mutate({
+                                auditId: latestAudit.id,
+                                title: item,
+                                category: "market_adaptability",
+                                impact: "medium",
+                              })}
+                              title="Track as action item"
+                            >
+                              <Plus className="h-3 w-3" />
+                            </Button>
+                          )}
+                          {isTracked(item) && (
+                            <CheckCircle2 className="h-3.5 w-3.5 text-terminal-green shrink-0 mt-0.5" />
+                          )}
                         </li>
                       ))}
                     </ul>
@@ -368,17 +602,40 @@ const CommandCenter = () => {
                   <div className="space-y-3">
                     {(latestAudit.legal_compliance as any)?.items?.map((item: any, i: number) => (
                       <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-muted/30 border border-border/50">
-                        {item.status === "ok" ? (
-                          <CheckCircle className="h-4 w-4 text-terminal-green mt-0.5 shrink-0" />
-                        ) : item.status === "warning" ? (
-                          <AlertTriangle className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" />
-                        ) : (
-                          <AlertTriangle className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
-                        )}
-                        <div>
-                          <p className="font-mono text-xs font-semibold">{item.area}</p>
-                          <p className="font-mono text-[11px] text-muted-foreground mt-0.5">{item.detail}</p>
+                        <div className="flex items-start gap-3 flex-1">
+                          {item.status === "ok" ? (
+                            <CheckCircle className="h-4 w-4 text-terminal-green mt-0.5 shrink-0" />
+                          ) : item.status === "warning" ? (
+                            <AlertTriangle className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" />
+                          ) : (
+                            <AlertTriangle className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+                          )}
+                          <div className="flex-1">
+                            <p className="font-mono text-xs font-semibold">{item.area}</p>
+                            <p className="font-mono text-[11px] text-muted-foreground mt-0.5">{item.detail}</p>
+                          </div>
                         </div>
+                        {item.status !== "ok" && !isTracked(`Legal: ${item.area}`) && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-6 px-2 shrink-0 font-mono text-[10px] text-primary hover:text-terminal-green"
+                            onClick={() => acceptAction.mutate({
+                              auditId: latestAudit.id,
+                              title: `Legal: ${item.area}`,
+                              description: item.detail,
+                              category: "legal_compliance",
+                              impact: item.status === "action_required" ? "high" : "medium",
+                            })}
+                          >
+                            <Plus className="h-3 w-3 mr-1" /> Track
+                          </Button>
+                        )}
+                        {item.status !== "ok" && isTracked(`Legal: ${item.area}`) && (
+                          <Badge className="bg-terminal-green/20 text-terminal-green font-mono text-[9px] shrink-0">
+                            Tracked
+                          </Badge>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -388,43 +645,73 @@ const CommandCenter = () => {
 
             {/* Priorities Tab */}
             <TabsContent value="priorities" className="space-y-4">
+              <div className="flex items-center justify-between mb-2">
+                <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+                  Click + to track any recommendation as an action item
+                </p>
+              </div>
               <div className="space-y-3">
-                {(latestAudit.recommendations as any[])?.map((p: any, i: number) => (
-                  <Card key={i} className="border-border/50">
-                    <CardContent className="pt-4">
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="font-mono text-xs font-bold text-primary">#{i + 1}</span>
-                            <h3 className="font-mono text-sm font-semibold">{p.title}</h3>
+                {(latestAudit.recommendations as any[])?.map((p: any, i: number) => {
+                  const tracked = isTracked(p.title);
+                  return (
+                    <Card key={i} className="border-border/50">
+                      <CardContent className="pt-4">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="font-mono text-xs font-bold text-primary">#{i + 1}</span>
+                              <h3 className="font-mono text-sm font-semibold">{p.title}</h3>
+                              {tracked && (
+                                <CheckCircle2 className="h-3.5 w-3.5 text-terminal-green shrink-0" />
+                              )}
+                            </div>
+                            <p className="font-mono text-[11px] text-muted-foreground">{p.description}</p>
                           </div>
-                          <p className="font-mono text-[11px] text-muted-foreground">{p.description}</p>
-                        </div>
-                        <div className="flex flex-col gap-1 shrink-0">
-                          <Badge variant="outline" className="font-mono text-[10px]">
-                            {p.category?.replace(/_/g, " ")}
-                          </Badge>
-                          <div className="flex gap-1">
-                            <Badge className={`font-mono text-[9px] ${
-                              p.impact === "high" ? "bg-red-500/20 text-red-400" :
-                              p.impact === "medium" ? "bg-amber-500/20 text-amber-400" :
-                              "bg-blue-500/20 text-blue-400"
-                            }`}>
-                              Impact: {p.impact}
-                            </Badge>
-                            <Badge className={`font-mono text-[9px] ${
-                              p.effort === "low" ? "bg-terminal-green/20 text-terminal-green" :
-                              p.effort === "medium" ? "bg-amber-500/20 text-amber-400" :
-                              "bg-red-500/20 text-red-400"
-                            }`}>
-                              Effort: {p.effort}
-                            </Badge>
+                          <div className="flex flex-col gap-1 shrink-0 items-end">
+                            <div className="flex gap-1">
+                              <Badge variant="outline" className="font-mono text-[10px]">
+                                {p.category?.replace(/_/g, " ")}
+                              </Badge>
+                              {!tracked && (
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="h-6 px-2 font-mono text-[10px] text-primary border-primary/30 hover:bg-primary/10"
+                                  onClick={() => acceptAction.mutate({
+                                    auditId: latestAudit.id,
+                                    title: p.title,
+                                    description: p.description,
+                                    category: p.category,
+                                    impact: p.impact,
+                                    effort: p.effort,
+                                  })}
+                                >
+                                  <Plus className="h-3 w-3 mr-1" /> Track
+                                </Button>
+                              )}
+                            </div>
+                            <div className="flex gap-1">
+                              <Badge className={`font-mono text-[9px] ${
+                                p.impact === "high" ? "bg-red-500/20 text-red-400" :
+                                p.impact === "medium" ? "bg-amber-500/20 text-amber-400" :
+                                "bg-blue-500/20 text-blue-400"
+                              }`}>
+                                Impact: {p.impact}
+                              </Badge>
+                              <Badge className={`font-mono text-[9px] ${
+                                p.effort === "low" ? "bg-terminal-green/20 text-terminal-green" :
+                                p.effort === "medium" ? "bg-amber-500/20 text-amber-400" :
+                                "bg-red-500/20 text-red-400"
+                              }`}>
+                                Effort: {p.effort}
+                              </Badge>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             </TabsContent>
           </Tabs>

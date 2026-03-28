@@ -14,6 +14,59 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_actions: {
+        Row: {
+          audit_id: string
+          category: string | null
+          completed_at: string | null
+          created_at: string
+          description: string | null
+          effort: string | null
+          id: string
+          impact: string | null
+          notes: string | null
+          status: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          audit_id: string
+          category?: string | null
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          effort?: string | null
+          id?: string
+          impact?: string | null
+          notes?: string | null
+          status?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          audit_id?: string
+          category?: string | null
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          effort?: string | null
+          id?: string
+          impact?: string | null
+          notes?: string | null
+          status?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_actions_audit_id_fkey"
+            columns: ["audit_id"]
+            isOneToOne: false
+            referencedRelation: "site_audits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       portfolio_cards: {
         Row: {
           added_at: string
