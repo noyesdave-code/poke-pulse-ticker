@@ -367,6 +367,8 @@ const Dashboard = () => {
                 )}
               </div>
             </div>
+
+            <FinancialDisclaimer compact />
           </>
         )}
       </main>
