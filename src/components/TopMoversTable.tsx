@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import type { CardData } from "@/data/marketData";
 import { getCardSignal } from "@/hooks/useSignalIndicator";
+import { getCardToken } from "@/lib/tokenSymbols";
 import SignalBadge from "@/components/SignalBadge";
 
 interface TopMoversTableProps {
@@ -51,6 +52,7 @@ const TopMoversTable = ({ cards, title }: TopMoversTableProps) => {
         <table className="w-full">
           <thead>
             <tr className="border-b border-border">
+              <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Ticker</th>
               <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Card</th>
               <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Set</th>
               <th className="px-4 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Market</th>
@@ -67,6 +69,11 @@ const TopMoversTable = ({ cards, title }: TopMoversTableProps) => {
                 transition={{ delay: i * 0.05, duration: 0.3 }}
                 className="data-row"
               >
+                <td className="px-4 py-2.5">
+                  <span className="font-mono text-[10px] text-primary/70 font-bold tracking-wider">
+                    {getCardToken(card)}
+                  </span>
+                </td>
                 <td className="px-4 py-2.5 font-mono text-sm text-foreground font-medium">{card.name}</td>
                 <td className="px-4 py-2.5 font-mono text-xs text-muted-foreground">{card.set}</td>
                 <td className="px-4 py-2.5 font-mono text-sm text-foreground text-right">
