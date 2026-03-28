@@ -1,11 +1,12 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { rawCards, gradedCards, type CardData } from "@/data/marketData";
 import { useCardDetail, type PokemonTCGCard } from "@/hooks/usePokemonTcg";
 import { getBestPrice } from "@/lib/pokemonTcgApi";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAddToPortfolio } from "@/hooks/usePortfolio";
 import { useAddToWatchlist, useIsOnWatchlist } from "@/hooks/useWatchlist";
+import { useAddPriceAlert } from "@/hooks/usePriceAlerts";
 import { getCardToken } from "@/lib/tokenSymbols";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
@@ -14,7 +15,7 @@ import VolumeChart from "@/components/VolumeChart";
 import CardSignalBreakdown from "@/components/CardSignalBreakdown";
 import SellerComparison from "@/components/SellerComparison";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
-import { ArrowLeft, Loader2, Briefcase, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Loader2, Briefcase, Eye, EyeOff, Bell } from "lucide-react";
 
 const allCards = [...rawCards, ...gradedCards];
 
@@ -24,6 +25,10 @@ const CardDetail = () => {
   const { user } = useAuth();
   const addToPortfolio = useAddToPortfolio();
   const addToWatchlist = useAddToWatchlist();
+  const addPriceAlert = useAddPriceAlert();
+  const [showAlertInput, setShowAlertInput] = useState(false);
+  const [alertPrice, setAlertPrice] = useState("");
+  const [alertDirection, setAlertDirection] = useState<"below" | "above">("below");
 
   const isApiId = slug?.includes("-") && !slug.startsWith("%");
   const { data: apiCard, isLoading } = useCardDetail(isApiId ? slug : undefined);
@@ -137,45 +142,94 @@ const CardDetail = () => {
                     {card.change >= 0 ? "▲" : "▼"} {Math.abs(card.change).toFixed(2)}%
                   </p>
                   {user && slug && (
-                    <div className="flex items-center gap-2 mt-2 justify-end">
-                      <button
-                        onClick={() =>
-                          addToWatchlist.mutate({
-                            card_api_id: cardApiId!,
-                            card_name: card.name,
-                            card_set: card.set,
-                            card_number: card.number,
-                            card_image: card._image,
-                          })
-                        }
-                        disabled={addToWatchlist.isPending || isWatched}
-                        className={`flex items-center gap-1.5 font-mono text-xs font-semibold rounded px-3 py-1.5 transition-opacity ${
-                          isWatched
-                            ? "bg-terminal-amber/20 text-terminal-amber border border-terminal-amber/30"
-                            : "bg-muted text-foreground hover:bg-muted/80"
-                        } disabled:opacity-50`}
-                      >
-                        {isWatched ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                        {isWatched ? "Watching" : "Watch"}
-                      </button>
-                      <button
-                        onClick={() =>
-                          addToPortfolio.mutate({
-                            card_api_id: isApiId ? slug : `local-${slug}`,
-                            card_name: card.name,
-                            card_set: card.set,
-                            card_number: card.number,
-                            card_image: card._image,
-                            purchase_price: card.market,
-                          })
-                        }
-                        disabled={addToPortfolio.isPending}
-                        className="flex items-center gap-1.5 font-mono text-xs font-semibold bg-primary text-primary-foreground rounded px-3 py-1.5 hover:opacity-90 disabled:opacity-50"
-                      >
-                        <Briefcase className="w-3.5 h-3.5" />
-                        {addToPortfolio.isPending ? "Adding…" : "Add to Portfolio"}
-                      </button>
-                    </div>
+                    <>
+                      <div className="flex items-center gap-2 mt-2 justify-end">
+                        <button
+                          onClick={() =>
+                            addToWatchlist.mutate({
+                              card_api_id: cardApiId!,
+                              card_name: card.name,
+                              card_set: card.set,
+                              card_number: card.number,
+                              card_image: card._image,
+                            })
+                          }
+                          disabled={addToWatchlist.isPending || isWatched}
+                          className={`flex items-center gap-1.5 font-mono text-xs font-semibold rounded px-3 py-1.5 transition-opacity ${
+                            isWatched
+                              ? "bg-terminal-amber/20 text-terminal-amber border border-terminal-amber/30"
+                              : "bg-muted text-foreground hover:bg-muted/80"
+                          } disabled:opacity-50`}
+                        >
+                          {isWatched ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                          {isWatched ? "Watching" : "Watch"}
+                        </button>
+                        <button
+                          onClick={() =>
+                            addToPortfolio.mutate({
+                              card_api_id: isApiId ? slug : `local-${slug}`,
+                              card_name: card.name,
+                              card_set: card.set,
+                              card_number: card.number,
+                              card_image: card._image,
+                              purchase_price: card.market,
+                            })
+                          }
+                          disabled={addToPortfolio.isPending}
+                          className="flex items-center gap-1.5 font-mono text-xs font-semibold bg-primary text-primary-foreground rounded px-3 py-1.5 hover:opacity-90 disabled:opacity-50"
+                        >
+                          <Briefcase className="w-3.5 h-3.5" />
+                          {addToPortfolio.isPending ? "Adding…" : "Add to Portfolio"}
+                        </button>
+                        <button
+                          onClick={() => setShowAlertInput(!showAlertInput)}
+                          className="flex items-center gap-1.5 font-mono text-xs font-semibold bg-muted text-foreground rounded px-3 py-1.5 hover:bg-muted/80"
+                        >
+                          <Bell className="w-3.5 h-3.5" />
+                          Alert
+                        </button>
+                      </div>
+                      {showAlertInput && (
+                        <div className="flex items-center gap-2 mt-2 justify-end">
+                          <select
+                            value={alertDirection}
+                            onChange={(e) => setAlertDirection(e.target.value as "below" | "above")}
+                            className="font-mono text-[10px] bg-muted border border-border rounded px-2 py-1 text-foreground"
+                          >
+                            <option value="below">Below</option>
+                            <option value="above">Above</option>
+                          </select>
+                          <input
+                            type="number"
+                            step="0.01"
+                            value={alertPrice}
+                            onChange={(e) => setAlertPrice(e.target.value)}
+                            placeholder="Target $"
+                            className="w-24 font-mono text-xs bg-muted border border-border rounded px-2 py-1 text-foreground placeholder:text-muted-foreground"
+                          />
+                          <button
+                            onClick={() => {
+                              if (!alertPrice) return;
+                              addPriceAlert.mutate({
+                                card_api_id: cardApiId!,
+                                card_name: card.name,
+                                card_set: card.set,
+                                card_number: card.number,
+                                card_image: card._image,
+                                target_price: parseFloat(alertPrice),
+                                direction: alertDirection,
+                              });
+                              setShowAlertInput(false);
+                              setAlertPrice("");
+                            }}
+                            disabled={addPriceAlert.isPending || !alertPrice}
+                            className="font-mono text-xs font-semibold bg-terminal-green text-background rounded px-3 py-1 hover:opacity-90 disabled:opacity-50"
+                          >
+                            Set
+                          </button>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
