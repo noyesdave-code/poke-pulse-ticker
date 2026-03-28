@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import type { CardData } from "@/data/marketData";
 import { getCardSignal } from "@/hooks/useSignalIndicator";
+import { getCardToken } from "@/lib/tokenSymbols";
 import SignalBadge from "@/components/SignalBadge";
 
 interface TopMoversTableProps {
