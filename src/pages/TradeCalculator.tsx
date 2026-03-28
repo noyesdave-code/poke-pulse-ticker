@@ -1,6 +1,5 @@
 import { useState, useMemo } from "react";
 import { useCardSearch } from "@/hooks/usePokemonTcg";
-import { getBestPrice, type PokemonTCGCard } from "@/lib/pokemonTcgApi";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
