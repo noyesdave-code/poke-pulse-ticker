@@ -29,6 +29,11 @@ const SealedTable = ({ products }: SealedTableProps) => {
           <tbody>
             {products.map((p, i) => (
               <tr key={i} className="data-row">
+                <td className="px-4 py-2">
+                  <span className="font-mono text-[10px] text-terminal-blue font-bold tracking-wider bg-terminal-blue/10 px-1.5 py-0.5 rounded">
+                    {getSealedToken(p)}
+                  </span>
+                </td>
                 <td className="px-4 py-2 font-mono text-sm text-foreground font-medium">{p.name}</td>
                 <td className="px-4 py-2 font-mono text-xs text-muted-foreground">{p.type}</td>
                 <td className="px-4 py-2 font-mono text-sm text-foreground text-right">

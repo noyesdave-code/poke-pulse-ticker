@@ -112,6 +112,11 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
           <tbody>
             {sorted.map((card, i) => (
               <tr key={i} className="data-row cursor-pointer" onClick={() => navigate(cardRoute(card))}>
+                <td className="px-4 py-2">
+                  <span className="font-mono text-[10px] text-primary font-bold tracking-wider bg-primary/10 px-1.5 py-0.5 rounded">
+                    {getCardToken(card)}
+                  </span>
+                </td>
                 <td className="px-4 py-2 font-mono text-sm text-foreground font-medium flex items-center gap-2">
                   {card._image && <img src={card._image} alt="" className="w-6 h-8 rounded object-cover" />}
                   {card.name}
