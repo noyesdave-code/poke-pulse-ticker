@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { TrendingUp, TrendingDown } from "lucide-react";
+import { motion } from "framer-motion";
 import type { CardData } from "@/data/marketData";
 import { getCardSignal } from "@/hooks/useSignalIndicator";
 import SignalBadge from "@/components/SignalBadge";
@@ -28,23 +29,31 @@ const TrendingCards = ({ cards }: TrendingCardsProps) => {
           const isUp = card.change >= 0;
           const slug = `${card.name}-${card.set}`.toLowerCase().replace(/[^a-z0-9]+/g, "-");
           return (
-            <button
+            <motion.button
               key={i}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08, duration: 0.4 }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => navigate(`/card/${slug}`)}
-              className="flex flex-col p-3 border-b border-r border-border hover:bg-muted/50 transition-colors text-left group last:border-r-0"
+              className="flex flex-col p-3 border-b border-r border-border hover:bg-muted/50 transition-colors text-left group last:border-r-0 relative overflow-hidden"
             >
+              {/* Shimmer overlay on hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+
               {/* Card image */}
               {card._image ? (
-                <div className="w-full aspect-[2.5/3.5] rounded overflow-hidden mb-2 bg-muted">
+                <div className="w-full aspect-[2.5/3.5] rounded-md overflow-hidden mb-2 bg-muted ring-1 ring-border group-hover:ring-primary/30 transition-all duration-300">
                   <img
                     src={card._image}
                     alt={card.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     loading="lazy"
                   />
                 </div>
               ) : (
-                <div className="w-full aspect-[2.5/3.5] rounded bg-muted flex items-center justify-center mb-2">
+                <div className="w-full aspect-[2.5/3.5] rounded-md bg-muted flex items-center justify-center mb-2 ring-1 ring-border">
                   <span className="font-mono text-[9px] text-muted-foreground">No Image</span>
                 </div>
               )}
@@ -90,7 +99,7 @@ const TrendingCards = ({ cards }: TrendingCardsProps) => {
                   </span>
                 </div>
               </div>
-            </button>
+            </motion.button>
           );
         })}
       </div>

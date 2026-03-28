@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 interface MarketIndexCardProps {
   title: string;
   value: number;
@@ -11,9 +13,19 @@ const MarketIndexCard = ({ title, value, change, count, description, variant = "
   const glowClass = variant === "green" ? "glow-green" : variant === "amber" ? "glow-amber" : "";
   const accentColor = variant === "green" ? "text-terminal-green" : variant === "amber" ? "text-terminal-amber" : "text-terminal-blue";
   const borderAccent = variant === "green" ? "border-t-terminal-green" : variant === "amber" ? "border-t-terminal-amber" : "border-t-terminal-blue";
+  const glowColor = variant === "green" ? "hsl(145 100% 45% / 0.08)" : variant === "amber" ? "hsl(40 100% 55% / 0.08)" : "hsl(210 100% 60% / 0.08)";
 
   return (
-    <div className={`terminal-card p-4 ${glowClass} border-t-2 ${borderAccent}`}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      whileHover={{
+        scale: 1.02,
+        boxShadow: `0 8px 30px ${glowColor}`,
+      }}
+      className={`terminal-card p-4 ${glowClass} border-t-2 ${borderAccent} transition-shadow duration-300`}
+    >
       <div className="flex items-center justify-between mb-1">
         <span className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">{title}</span>
         <span className="font-mono text-[10px] text-muted-foreground">{count} tracked</span>
@@ -25,7 +37,7 @@ const MarketIndexCard = ({ title, value, change, count, description, variant = "
       <div className={`font-mono text-sm font-semibold ${change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
         {change >= 0 ? "▲" : "▼"} {Math.abs(change).toFixed(2)}%
       </div>
-    </div>
+    </motion.div>
   );
 };
 
