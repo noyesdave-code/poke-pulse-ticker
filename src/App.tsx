@@ -20,6 +20,8 @@ import Watchlist from "./pages/Watchlist.tsx";
 import Contact from "./pages/Contact.tsx";
 import PriceAlerts from "./pages/PriceAlerts.tsx";
 import SetCompletion from "./pages/SetCompletion.tsx";
+import ProfilePage from "./pages/Profile.tsx";
+import PublicProfile from "./pages/PublicProfile.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
