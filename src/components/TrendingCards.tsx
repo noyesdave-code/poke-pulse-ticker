@@ -35,7 +35,7 @@ const TrendingCards = ({ cards }: TrendingCardsProps) => {
               {card._image ? (
                 <div className="w-full aspect-[2.5/3.5] rounded overflow-hidden mb-2 bg-muted">
                   <img
-                    src={card.image}
+                    src={card._image}
                     alt={card.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"
