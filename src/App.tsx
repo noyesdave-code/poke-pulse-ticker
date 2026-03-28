@@ -16,6 +16,8 @@ import Privacy from "./pages/Privacy.tsx";
 import Guides from "./pages/Guides.tsx";
 import CommandCenter from "./pages/CommandCenter.tsx";
 import ReleaseCalendar from "./pages/ReleaseCalendar.tsx";
+import Watchlist from "./pages/Watchlist.tsx";
+import Contact from "./pages/Contact.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -40,6 +42,8 @@ const AnimatedRoutes = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/command-center" element={<CommandCenter />} />
           <Route path="/releases" element={<ReleaseCalendar />} />
+          <Route path="/watchlist" element={<Watchlist />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/guides" element={<Guides />} />

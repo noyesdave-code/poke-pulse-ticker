@@ -292,6 +292,42 @@ export type Database = {
         }
         Relationships: []
       }
+      watchlist: {
+        Row: {
+          added_at: string
+          card_api_id: string
+          card_image: string | null
+          card_name: string
+          card_number: string
+          card_set: string
+          id: string
+          target_price: number | null
+          user_id: string
+        }
+        Insert: {
+          added_at?: string
+          card_api_id: string
+          card_image?: string | null
+          card_name: string
+          card_number: string
+          card_set: string
+          id?: string
+          target_price?: number | null
+          user_id: string
+        }
+        Update: {
+          added_at?: string
+          card_api_id?: string
+          card_image?: string | null
+          card_name?: string
+          card_number?: string
+          card_set?: string
+          id?: string
+          target_price?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
