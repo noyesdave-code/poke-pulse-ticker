@@ -114,7 +114,7 @@ const CommandCenter = () => {
               Sign In to Access
             </Button>
           </div>
-          {showAuth && <AuthModal open={showAuth} onOpenChange={setShowAuth} />}
+          {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
         </main>
       </>
     );
