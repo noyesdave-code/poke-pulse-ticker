@@ -16,6 +16,8 @@ import MarketTabs from "@/components/MarketTabs";
 import MarketCapSummary from "@/components/MarketCapSummary";
 import SubscriptionTiers from "@/components/SubscriptionTiers";
 import InstallPrompt from "@/components/InstallPrompt";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
+import TrustSignals from "@/components/TrustSignals";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
@@ -102,6 +104,9 @@ const Index = () => {
           />
         </div>
 
+        {/* Trust Signals */}
+        <TrustSignals />
+
         {/* Trending Cards with Images */}
         <TrendingCards cards={displayCards} />
 
@@ -127,6 +132,9 @@ const Index = () => {
 
         {/* Subscription Tiers */}
         <SubscriptionTiers />
+
+        {/* Financial Disclaimer */}
+        <FinancialDisclaimer />
 
         {/* Footer */}
         <footer className="border-t border-border pt-8 pb-6">

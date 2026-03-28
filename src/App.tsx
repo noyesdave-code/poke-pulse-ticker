@@ -14,6 +14,7 @@ import Terms from "./pages/Terms.tsx";
 import Privacy from "./pages/Privacy.tsx";
 import Guides from "./pages/Guides.tsx";
 import CommandCenter from "./pages/CommandCenter.tsx";
+import ReleaseCalendar from "./pages/ReleaseCalendar.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => {
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/command-center" element={<CommandCenter />} />
+            <Route path="/releases" element={<ReleaseCalendar />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/guides" element={<Guides />} />

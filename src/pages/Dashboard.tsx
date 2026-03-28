@@ -12,6 +12,7 @@ import { fetchCardById, getBestPrice } from "@/lib/pokemonTcgApi";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { ArrowLeft, Loader2, TrendingUp, TrendingDown, Activity, BarChart3, PieChart as PieIcon } from "lucide-react";
 
 const COLORS = [
@@ -366,6 +367,8 @@ const Dashboard = () => {
                 )}
               </div>
             </div>
+
+            <FinancialDisclaimer compact />
           </>
         )}
       </main>
