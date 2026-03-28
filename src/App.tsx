@@ -18,6 +18,8 @@ import CommandCenter from "./pages/CommandCenter.tsx";
 import ReleaseCalendar from "./pages/ReleaseCalendar.tsx";
 import Watchlist from "./pages/Watchlist.tsx";
 import Contact from "./pages/Contact.tsx";
+import PriceAlerts from "./pages/PriceAlerts.tsx";
+import SetCompletion from "./pages/SetCompletion.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
