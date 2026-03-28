@@ -119,6 +119,9 @@ const Index = () => {
         {/* Price Chart */}
         <PriceChart cards={displayCards} />
 
+        {/* AI Signal Indicator */}
+        <SignalSummary cards={displayCards} />
+
         {/* Top Movers */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" />
