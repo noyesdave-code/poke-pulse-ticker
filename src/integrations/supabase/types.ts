@@ -223,6 +223,51 @@ export type Database = {
         }
         Relationships: []
       }
+      price_alerts: {
+        Row: {
+          card_api_id: string
+          card_image: string | null
+          card_name: string
+          card_number: string
+          card_set: string
+          created_at: string
+          direction: string
+          id: string
+          is_triggered: boolean
+          target_price: number
+          triggered_at: string | null
+          user_id: string
+        }
+        Insert: {
+          card_api_id: string
+          card_image?: string | null
+          card_name: string
+          card_number: string
+          card_set: string
+          created_at?: string
+          direction?: string
+          id?: string
+          is_triggered?: boolean
+          target_price: number
+          triggered_at?: string | null
+          user_id: string
+        }
+        Update: {
+          card_api_id?: string
+          card_image?: string | null
+          card_name?: string
+          card_number?: string
+          card_set?: string
+          created_at?: string
+          direction?: string
+          id?: string
+          is_triggered?: boolean
+          target_price?: number
+          triggered_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       site_audits: {
         Row: {
           categories: Json
