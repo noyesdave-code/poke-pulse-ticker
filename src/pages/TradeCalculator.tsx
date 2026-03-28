@@ -89,8 +89,6 @@ const TradeSide = ({
                         <span className="font-mono text-xs text-terminal-green font-semibold">${card.market.toFixed(2)}</span>
                       </button>
                     ))}
-                    );
-                  })}
                 </div>
               )}
             </div>
