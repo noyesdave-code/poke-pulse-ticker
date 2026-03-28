@@ -18,6 +18,7 @@ const SealedTable = ({ products }: SealedTableProps) => {
         <table className="w-full">
           <thead>
             <tr className="border-b border-border">
+              <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Ticker</th>
               <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Product</th>
               <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Type</th>
               <th className="px-4 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Market</th>
