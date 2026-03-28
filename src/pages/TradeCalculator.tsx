@@ -66,8 +66,8 @@ const TradeSide = ({
               {results && results.length > 0 && (
                 <div className="max-h-48 overflow-y-auto space-y-1">
                   {results.slice(0, 8).map((card: PokemonTCGCard) => {
-                    const price = getBestPrice(card);
-                    if (!price) return null;
+                    const priceData = getBestPrice(card);
+                    if (!priceData) return null;
                     return (
                       <button
                         key={card.id}
@@ -78,7 +78,7 @@ const TradeSide = ({
                             set: card.set?.name || "",
                             number: card.number || "",
                             image: card.images?.small || "",
-                            price,
+                            price: priceData.market,
                           });
                           setQuery("");
                           setSearching(false);
@@ -90,7 +90,7 @@ const TradeSide = ({
                           <p className="font-mono text-[10px] text-foreground truncate">{card.name}</p>
                           <p className="font-mono text-[9px] text-muted-foreground">{card.set?.name}</p>
                         </div>
-                        <span className="font-mono text-xs text-terminal-green font-semibold">${price.toFixed(2)}</span>
+                        <span className="font-mono text-xs text-terminal-green font-semibold">${priceData.market.toFixed(2)}</span>
                       </button>
                     );
                   })}
