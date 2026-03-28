@@ -16,6 +16,8 @@ import MarketTabs from "@/components/MarketTabs";
 import MarketCapSummary from "@/components/MarketCapSummary";
 import SubscriptionTiers from "@/components/SubscriptionTiers";
 import InstallPrompt from "@/components/InstallPrompt";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
+import TrustSignals from "@/components/TrustSignals";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
