@@ -1,4 +1,5 @@
 import { Shield, RefreshCw, Database, Users, Star, TrendingUp } from "lucide-react";
+import { motion } from "framer-motion";
 
 const signals = [
   {
@@ -29,7 +30,12 @@ const signals = [
 
 const TrustSignals = () => {
   return (
-    <div className="terminal-card overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="terminal-card overflow-hidden"
+    >
       <div className="border-b border-border px-4 py-3 flex items-center justify-between">
         <h3 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold flex items-center gap-2">
           <Star className="w-3.5 h-3.5" /> Why Collectors Trust Us
@@ -40,21 +46,27 @@ const TrustSignals = () => {
         </div>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-border">
-        {signals.map((item) => {
+        {signals.map((item, idx) => {
           const Icon = item.icon;
           return (
-            <div key={item.label} className="px-3 py-4 text-center space-y-1.5">
-              <div className="w-8 h-8 rounded-md bg-muted mx-auto flex items-center justify-center">
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1, duration: 0.4 }}
+              className="px-3 py-4 text-center space-y-1.5 group hover:bg-muted/30 transition-colors duration-300"
+            >
+              <div className="w-8 h-8 rounded-md bg-muted mx-auto flex items-center justify-center group-hover:bg-primary/10 group-hover:shadow-[0_0_12px_hsl(145_100%_45%/0.15)] transition-all duration-300">
                 <Icon className="w-4 h-4 text-primary" />
               </div>
               <p className="font-mono text-lg font-bold text-foreground">{item.stat}</p>
               <p className="font-mono text-[10px] font-semibold text-foreground uppercase tracking-wider">{item.label}</p>
               <p className="font-mono text-[9px] text-muted-foreground leading-tight">{item.desc}</p>
-            </div>
+            </motion.div>
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

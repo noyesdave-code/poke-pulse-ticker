@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import type { CardData } from "@/data/marketData";
 import { getCardSignal } from "@/hooks/useSignalIndicator";
 import SignalBadge from "@/components/SignalBadge";
@@ -7,11 +8,42 @@ interface TopMoversTableProps {
   title: string;
 }
 
+/** Tiny inline sparkline SVG */
+const MiniSparkline = ({ change }: { change: number }) => {
+  const isUp = change >= 0;
+  const points = [];
+  // Deterministic mini-trend based on change
+  const seed = Math.abs(change * 1000) | 0;
+  for (let i = 0; i < 12; i++) {
+    const noise = Math.sin(seed + i * 2.5) * 4;
+    const trend = isUp ? (i / 11) * 10 : ((11 - i) / 11) * 10;
+    points.push(`${i * 4},${18 - trend - noise}`);
+  }
+
+  return (
+    <svg width="48" height="20" viewBox="0 0 48 20" className="inline-block ml-1.5 opacity-70">
+      <polyline
+        points={points.join(" ")}
+        fill="none"
+        stroke={isUp ? "hsl(145, 100%, 45%)" : "hsl(0, 90%, 58%)"}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
 const TopMoversTable = ({ cards, title }: TopMoversTableProps) => {
   const sorted = [...cards].sort((a, b) => Math.abs(b.change) - Math.abs(a.change)).slice(0, 8);
 
   return (
-    <div className="terminal-card overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="terminal-card overflow-hidden"
+    >
       <div className="border-b border-border px-4 py-3">
         <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold">{title}</h2>
       </div>
@@ -28,24 +60,33 @@ const TopMoversTable = ({ cards, title }: TopMoversTableProps) => {
           </thead>
           <tbody>
             {sorted.map((card, i) => (
-              <tr key={i} className="data-row">
+              <motion.tr
+                key={i}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.05, duration: 0.3 }}
+                className="data-row"
+              >
                 <td className="px-4 py-2.5 font-mono text-sm text-foreground font-medium">{card.name}</td>
                 <td className="px-4 py-2.5 font-mono text-xs text-muted-foreground">{card.set}</td>
                 <td className="px-4 py-2.5 font-mono text-sm text-foreground text-right">
                   ${card.market.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </td>
                 <td className={`px-4 py-2.5 font-mono text-sm text-right font-semibold ${card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
-                  {card.change >= 0 ? "+" : ""}{card.change.toFixed(2)}%
+                  <span className="inline-flex items-center">
+                    {card.change >= 0 ? "+" : ""}{card.change.toFixed(2)}%
+                    <MiniSparkline change={card.change} />
+                  </span>
                 </td>
                 <td className="px-4 py-2.5 text-center">
                   <SignalBadge result={getCardSignal(card)} />
                 </td>
-              </tr>
+              </motion.tr>
             ))}
           </tbody>
         </table>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
