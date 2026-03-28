@@ -23,6 +23,10 @@ import SetCompletion from "./pages/SetCompletion.tsx";
 import ProfilePage from "./pages/Profile.tsx";
 import PublicProfile from "./pages/PublicProfile.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import Blog from "./pages/Blog.tsx";
+import BlogPost from "./pages/BlogPost.tsx";
+import BlogEditor from "./pages/BlogEditor.tsx";
+import TradeCalculator from "./pages/TradeCalculator.tsx";
 
 const queryClient = new QueryClient();
 
