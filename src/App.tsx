@@ -45,6 +45,8 @@ const AnimatedRoutes = () => {
           <Route path="/command-center" element={<CommandCenter />} />
           <Route path="/releases" element={<ReleaseCalendar />} />
           <Route path="/watchlist" element={<Watchlist />} />
+          <Route path="/alerts" element={<PriceAlerts />} />
+          <Route path="/set-completion" element={<SetCompletion />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
