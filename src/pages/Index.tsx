@@ -16,6 +16,7 @@ import MarketTabs from "@/components/MarketTabs";
 import MarketCapSummary from "@/components/MarketCapSummary";
 import SubscriptionTiers from "@/components/SubscriptionTiers";
 import InstallPrompt from "@/components/InstallPrompt";
+import SignalSummary from "@/components/SignalSummary";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import TrustSignals from "@/components/TrustSignals";
 
@@ -117,6 +118,9 @@ const Index = () => {
 
         {/* Price Chart */}
         <PriceChart cards={displayCards} />
+
+        {/* AI Signal Indicator */}
+        <SignalSummary cards={displayCards} />
 
         {/* Top Movers */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

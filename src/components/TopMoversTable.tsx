@@ -1,4 +1,6 @@
 import type { CardData } from "@/data/marketData";
+import { getCardSignal } from "@/hooks/useSignalIndicator";
+import SignalBadge from "@/components/SignalBadge";
 
 interface TopMoversTableProps {
   cards: CardData[];
@@ -21,6 +23,7 @@ const TopMoversTable = ({ cards, title }: TopMoversTableProps) => {
               <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Set</th>
               <th className="px-4 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Market</th>
               <th className="px-4 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Change</th>
+              <th className="px-4 py-2 text-center font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Signal</th>
             </tr>
           </thead>
           <tbody>
@@ -33,6 +36,9 @@ const TopMoversTable = ({ cards, title }: TopMoversTableProps) => {
                 </td>
                 <td className={`px-4 py-2.5 font-mono text-sm text-right font-semibold ${card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
                   {card.change >= 0 ? "+" : ""}{card.change.toFixed(2)}%
+                </td>
+                <td className="px-4 py-2.5 text-center">
+                  <SignalBadge result={getCardSignal(card)} />
                 </td>
               </tr>
             ))}

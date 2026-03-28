@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import type { CardData } from "@/data/marketData";
+import { getCardSignal } from "@/hooks/useSignalIndicator";
+import SignalBadge from "@/components/SignalBadge";
 
 interface TrendingCardsProps {
   cards: CardData[];
@@ -51,9 +53,12 @@ const TrendingCards = ({ cards }: TrendingCardsProps) => {
               <span className="font-mono text-[10px] text-muted-foreground truncate w-full">
                 {card.setCode && `(${card.setCode}) `}{card.set}
               </span>
-              <span className="font-mono text-xs font-semibold text-foreground truncate w-full mt-0.5">
-                {card.name}
-              </span>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="font-mono text-xs font-semibold text-foreground truncate">
+                  {card.name}
+                </span>
+                <SignalBadge result={getCardSignal(card)} />
+              </div>
 
               {/* Price */}
               <div className="flex items-center justify-between w-full mt-1.5">
