@@ -43,7 +43,7 @@ const TickerBar = ({ cards = [], isLive = false, lastUpdated }: TickerBarProps) 
         <div className="ticker-scroll flex whitespace-nowrap py-1.5" style={{ animationDuration: `${Math.max(80, cards.length * 6.4)}s` }}>
           {tickerItems.map((card, i) => (
             <span key={i} className="inline-flex items-center gap-2 px-4 font-mono text-xs">
-              {card.setCode && <span className="text-muted-foreground">({card.setCode})</span>}
+              <span className="text-primary/70 font-bold text-[10px]">{getCardToken(card)}</span>
               <span className="text-secondary font-semibold">{card.name}</span>
               <span className="text-foreground">${card.market.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
               <span className={card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}>
