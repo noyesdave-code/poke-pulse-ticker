@@ -61,6 +61,7 @@ const Guides = () => {
         {/* Content */}
         {active === "grading" && <GradingGuide />}
         {active === "investing" && <InvestmentTips />}
+        {active === "glossary" && <TcgGlossary />}
 
         {/* Footer */}
         <footer className="border-t border-border pt-6 pb-4">
