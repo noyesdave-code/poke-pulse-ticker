@@ -104,6 +104,9 @@ const Index = () => {
           />
         </div>
 
+        {/* Trust Signals */}
+        <TrustSignals />
+
         {/* Trending Cards with Images */}
         <TrendingCards cards={displayCards} />
 
