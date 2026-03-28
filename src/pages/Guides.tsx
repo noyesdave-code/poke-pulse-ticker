@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import TerminalHeader from "@/components/TerminalHeader";
 import GradingGuide from "@/components/GradingGuide";
 import InvestmentTips from "@/components/InvestmentTips";
+import TcgGlossary from "@/components/TcgGlossary";
 import { ArrowLeft } from "lucide-react";
 
 const tabs = [
   { id: "grading", label: "Grading Guide" },
   { id: "investing", label: "Investment Tips" },
+  { id: "glossary", label: "Glossary" },
 ] as const;
 
 type TabId = typeof tabs[number]["id"];
@@ -59,6 +61,7 @@ const Guides = () => {
         {/* Content */}
         {active === "grading" && <GradingGuide />}
         {active === "investing" && <InvestmentTips />}
+        {active === "glossary" && <TcgGlossary />}
 
         {/* Footer */}
         <footer className="border-t border-border pt-6 pb-4">
