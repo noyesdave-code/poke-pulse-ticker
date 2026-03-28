@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import type { CardData } from "@/data/marketData";
+import { getCardToken } from "@/lib/tokenSymbols";
 
 interface TickerBarProps {
   cards?: CardData[];
