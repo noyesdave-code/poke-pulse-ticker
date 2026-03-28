@@ -23,6 +23,7 @@ const TopMoversTable = ({ cards, title }: TopMoversTableProps) => {
               <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Set</th>
               <th className="px-4 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Market</th>
               <th className="px-4 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Change</th>
+              <th className="px-4 py-2 text-center font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Signal</th>
             </tr>
           </thead>
           <tbody>
