@@ -25,6 +25,10 @@ const CardDetail = () => {
   const { user } = useAuth();
   const addToPortfolio = useAddToPortfolio();
   const addToWatchlist = useAddToWatchlist();
+  const addPriceAlert = useAddPriceAlert();
+  const [showAlertInput, setShowAlertInput] = useState(false);
+  const [alertPrice, setAlertPrice] = useState("");
+  const [alertDirection, setAlertDirection] = useState<"below" | "above">("below");
 
   const isApiId = slug?.includes("-") && !slug.startsWith("%");
   const { data: apiCard, isLoading } = useCardDetail(isApiId ? slug : undefined);
