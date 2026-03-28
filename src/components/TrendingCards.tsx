@@ -59,9 +59,6 @@ const TrendingCards = ({ cards }: TrendingCardsProps) => {
                 </span>
                 <SignalBadge result={getCardSignal(card)} />
               </div>
-              <span className="hidden">
-                {card.name}
-              </span>
 
               {/* Price */}
               <div className="flex items-center justify-between w-full mt-1.5">
