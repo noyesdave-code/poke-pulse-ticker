@@ -23,6 +23,10 @@ import SetCompletion from "./pages/SetCompletion.tsx";
 import ProfilePage from "./pages/Profile.tsx";
 import PublicProfile from "./pages/PublicProfile.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import Blog from "./pages/Blog.tsx";
+import BlogPost from "./pages/BlogPost.tsx";
+import BlogEditor from "./pages/BlogEditor.tsx";
+import TradeCalculator from "./pages/TradeCalculator.tsx";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +59,10 @@ const AnimatedRoutes = () => {
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/guides" element={<Guides />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/blog-editor" element={<BlogEditor />} />
+          <Route path="/trade" element={<TradeCalculator />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>
