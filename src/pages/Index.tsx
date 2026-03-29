@@ -155,36 +155,36 @@ const Index = () => {
         <FinancialDisclaimer />
 
         {/* Footer */}
-        <footer className="border-t border-border pt-8 pb-6">
-          <div className="flex flex-col items-center gap-4">
-            <div className="flex items-center gap-2">
-              <div className="h-7 w-7 rounded bg-primary flex items-center justify-center">
+        <footer className="border-t border-border pt-10 pb-8">
+          <div className="flex flex-col items-center gap-5">
+            <div className="flex items-center gap-2.5">
+              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center shadow-[0_0_20px_hsl(160_84%_50%/0.2)]">
                 <span className="font-mono text-xs font-bold text-primary-foreground">PG</span>
               </div>
-              <span className="font-mono text-sm font-bold tracking-wider text-foreground">
+              <span className="text-base font-bold tracking-wide text-foreground">
                 POKE-PULSE-TICKER
               </span>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-              <a href="https://poke-pulse-ticker.com" className="font-mono text-xs text-primary hover:underline">
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
+              <a href="https://poke-pulse-ticker.com" className="text-sm text-primary font-medium hover:underline">
                 poke-pulse-ticker.com
               </a>
               <span className="text-border hidden sm:inline">|</span>
-              <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+              <span className="text-xs text-muted-foreground tracking-wide">
                 Live Pokémon TCG Market Data
               </span>
             </div>
-            <div className="flex items-center gap-3">
-              <a href="/terms" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors">Terms of Service</a>
+            <div className="flex items-center gap-4">
+              <a href="/terms" className="text-xs text-muted-foreground hover:text-primary transition-colors">Terms of Service</a>
               <span className="text-border">•</span>
-              <a href="/privacy" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a>
+              <a href="/privacy" className="text-xs text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a>
               <span className="text-border">•</span>
-              <a href="mailto:contact@poke-pulse-ticker.com" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors">Contact</a>
+              <a href="mailto:contact@poke-pulse-ticker.com" className="text-xs text-muted-foreground hover:text-primary transition-colors">Contact</a>
             </div>
-            <p className="font-mono text-[9px] text-muted-foreground text-center max-w-md">
+            <p className="text-[11px] text-muted-foreground text-center max-w-md leading-relaxed">
               Pokémon is a trademark of Nintendo/Creatures Inc./GAME FREAK inc. Not affiliated with The Pokémon Company International. Data powered by pokemontcg.io. Not financial advice.
             </p>
-            <p className="font-mono text-[10px] text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.
             </p>
           </div>

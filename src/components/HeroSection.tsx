@@ -43,46 +43,42 @@ const HeroSection = ({ onSearchFocus }: HeroSectionProps) => {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="terminal-card overflow-hidden relative"
     >
-      {/* Ambient glow background */}
+      {/* Ambient glow background — warmer & brighter */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full bg-terminal-blue/5 blur-3xl" />
+        <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, hsl(160 84% 50% / 0.08), transparent)" }} />
+        <div className="absolute -bottom-16 -left-16 w-56 h-56 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, hsl(215 90% 62% / 0.06), transparent)" }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, hsl(38 92% 60% / 0.03), transparent)" }} />
       </div>
 
-      <div className="relative px-4 py-5 sm:px-6 sm:py-8 border-b border-border">
+      <div className="relative px-5 py-6 sm:px-8 sm:py-10 border-b border-border">
         <div className="flex items-start justify-between gap-4">
-          <div>
-            <motion.h2
+          <div className="space-y-3">
+            <motion.h1
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="font-mono text-lg sm:text-2xl font-bold tracking-wide"
-              style={{
-                background: "linear-gradient(135deg, hsl(0 0% 100%), hsl(145 100% 45%), hsl(0 0% 100%))",
-                backgroundSize: "200% auto",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
+              className="text-xl sm:text-3xl font-extrabold tracking-tight text-foreground"
             >
-              Pokémon TCG Market Terminal
-            </motion.h2>
+              Pokémon TCG{" "}
+              <span className="text-primary">Market Terminal</span>
+            </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
-              className="font-mono text-xs sm:text-sm text-muted-foreground mt-2 max-w-lg leading-relaxed"
+              className="text-sm sm:text-base text-muted-foreground max-w-lg leading-relaxed"
             >
-              Real-time prices for 500+ cards, graded values, sealed products — updated every hour from live market data.
+              Real-time prices for <span className="text-foreground font-medium">500+ cards</span>, graded values & sealed products — updated hourly from live market data.
             </motion.p>
           </div>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-primary/30 bg-primary/5"
+            className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-lg border border-primary/20 bg-primary/5"
           >
-            <div className="h-2 w-2 rounded-full bg-primary pulse-live" />
-            <span className="font-mono text-[10px] text-primary font-semibold uppercase tracking-wider">Live</span>
+            <div className="h-2.5 w-2.5 rounded-full bg-primary pulse-live" />
+            <span className="font-mono text-xs text-primary font-semibold uppercase tracking-wider">Live</span>
           </motion.div>
         </div>
       </div>
@@ -96,8 +92,8 @@ const HeroSection = ({ onSearchFocus }: HeroSectionProps) => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + idx * 0.1, duration: 0.4 }}
-              whileHover={{ scale: 1.02, backgroundColor: "hsl(220 15% 13% / 0.5)" }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => {
                 if (item.action === "search") {
                   onSearchFocus?.();
@@ -105,14 +101,14 @@ const HeroSection = ({ onSearchFocus }: HeroSectionProps) => {
                   navigate(item.path);
                 }
               }}
-              className="flex flex-col items-center gap-2 px-3 py-4 sm:py-5 transition-colors group"
+              className="flex flex-col items-center gap-2.5 px-3 py-5 sm:py-6 transition-colors group cursor-pointer hover:bg-muted/30"
             >
-              <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/15 group-hover:shadow-[0_0_15px_hsl(145_100%_45%/0.15)] transition-all duration-300">
-                <Icon className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
+              <div className="w-11 h-11 rounded-xl bg-muted/60 flex items-center justify-center group-hover:bg-primary/15 group-hover:shadow-[0_0_20px_hsl(160_84%_50%/0.15)] transition-all duration-300">
+                <Icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
               </div>
               <div className="text-center">
-                <span className="font-mono text-xs font-semibold text-foreground block">{item.label}</span>
-                <span className="font-mono text-[9px] text-muted-foreground leading-tight hidden sm:block mt-0.5">
+                <span className="text-sm font-semibold text-foreground block">{item.label}</span>
+                <span className="text-[11px] text-muted-foreground leading-snug hidden sm:block mt-1">
                   {item.desc}
                 </span>
               </div>
