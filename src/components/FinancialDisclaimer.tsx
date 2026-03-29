@@ -1,4 +1,4 @@
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Scale } from "lucide-react";
 
 interface FinancialDisclaimerProps {
   compact?: boolean;
@@ -10,14 +10,14 @@ const FinancialDisclaimer = ({ compact = false }: FinancialDisclaimerProps) => {
       <div className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-terminal-amber/20 bg-terminal-amber/5">
         <AlertTriangle className="w-3 h-3 text-terminal-amber flex-shrink-0" />
         <span className="font-mono text-[9px] text-terminal-amber/80">
-          Not financial advice — for informational purposes only.
+          Not financial advice — for informational purposes only. Pokémon is a trademark of Nintendo/Creatures Inc./GAME FREAK inc.
         </span>
       </div>
     );
   }
 
   return (
-    <div className="border border-terminal-amber/20 bg-terminal-amber/5 rounded-md px-4 py-3">
+    <div className="border border-terminal-amber/20 bg-terminal-amber/5 rounded-md px-4 py-4 space-y-3">
       <div className="flex items-start gap-2.5">
         <AlertTriangle className="w-4 h-4 text-terminal-amber flex-shrink-0 mt-0.5" />
         <div className="space-y-1">
@@ -28,7 +28,22 @@ const FinancialDisclaimer = ({ compact = false }: FinancialDisclaimerProps) => {
             All market data, price indexes, and analytics on Poke-Pulse-Ticker are for informational
             and educational purposes only. This platform does not provide financial, investment, or
             trading advice. Past performance does not guarantee future results. Always do your own
-            research before making any purchase decisions. © PGVA Ventures, LLC.
+            research before making any purchase decisions.
+          </p>
+        </div>
+      </div>
+      <div className="flex items-start gap-2.5 border-t border-terminal-amber/10 pt-3">
+        <Scale className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+        <div className="space-y-1">
+          <p className="font-mono text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+            Trademark Notice
+          </p>
+          <p className="font-mono text-[9px] text-muted-foreground/80 leading-relaxed">
+            Pokémon, Pokémon TCG, and all related names, images, and logos are trademarks of
+            Nintendo, Creatures Inc., and GAME FREAK inc. This site is not affiliated with, endorsed,
+            sponsored, or specifically approved by Nintendo, Creatures Inc., GAME FREAK inc., or The
+            Pokémon Company International. Card prices are sourced from public market data and may
+            not reflect actual sale prices. © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.
           </p>
         </div>
       </div>
