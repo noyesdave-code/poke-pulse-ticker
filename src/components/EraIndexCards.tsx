@@ -106,7 +106,7 @@ const EraIndexCards = ({ cards }: EraIndexCardsProps) => {
                 <span className="font-mono text-[9px] text-muted-foreground">{era.tag}</span>
               </div>
 
-              <p className="font-mono text-lg font-bold text-foreground">
+              <p className="text-xl font-extrabold text-foreground">
                 ${avgPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
               <p className="font-mono text-[9px] text-muted-foreground mb-2">Avg card value</p>
