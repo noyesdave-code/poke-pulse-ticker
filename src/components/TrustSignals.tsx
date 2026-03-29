@@ -59,9 +59,9 @@ const TrustSignals = () => {
               <div className="w-8 h-8 rounded-md bg-muted mx-auto flex items-center justify-center group-hover:bg-primary/10 group-hover:shadow-[0_0_12px_hsl(145_100%_45%/0.15)] transition-all duration-300">
                 <Icon className="w-4 h-4 text-primary" />
               </div>
-              <p className="font-mono text-lg font-bold text-foreground">{item.stat}</p>
-              <p className="font-mono text-[10px] font-semibold text-foreground uppercase tracking-wider">{item.label}</p>
-              <p className="font-mono text-[9px] text-muted-foreground leading-tight">{item.desc}</p>
+              <p className="text-xl font-extrabold text-foreground">{item.stat}</p>
+              <p className="text-[11px] font-semibold text-foreground uppercase tracking-wide">{item.label}</p>
+              <p className="text-[10px] text-muted-foreground leading-snug">{item.desc}</p>
             </motion.div>
           );
         })}

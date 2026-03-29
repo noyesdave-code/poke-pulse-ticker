@@ -17,7 +17,7 @@ const TrendingCards = ({ cards }: TrendingCardsProps) => {
   return (
     <div className="terminal-card overflow-hidden">
       <div className="border-b border-border px-4 py-3 flex items-center justify-between">
-        <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold">
+        <h2 className="text-sm font-bold tracking-wide text-secondary uppercase">
           Trending Cards
         </h2>
         <span className="font-mono text-[9px] text-muted-foreground uppercase tracking-wider">

@@ -16,7 +16,7 @@ const CardSearch = () => {
   return (
     <div className="terminal-card overflow-hidden">
       <div className="border-b border-border px-4 py-3">
-        <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold mb-3">Search Cards & Products</h2>
+        <h2 className="text-sm font-bold tracking-wide text-secondary uppercase mb-3">Search Cards & Products</h2>
         <div className="relative">
           <input
             type="text"

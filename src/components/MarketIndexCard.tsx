@@ -30,7 +30,7 @@ const MarketIndexCard = ({ title, value, change, count, description, variant = "
         <span className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">{title}</span>
         <span className="font-mono text-[10px] text-muted-foreground">{count} tracked</span>
       </div>
-      <div className="font-mono text-2xl lg:text-3xl font-bold text-foreground mb-1">
+      <div className="text-2xl lg:text-3xl font-extrabold text-foreground mb-1">
         ${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
       </div>
       <p className="text-xs text-muted-foreground mb-2">{description}</p>

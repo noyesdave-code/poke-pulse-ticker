@@ -73,7 +73,7 @@ const EraIndexCards = ({ cards }: EraIndexCardsProps) => {
       className="terminal-card overflow-hidden"
     >
       <div className="border-b border-border px-4 py-3 flex items-center justify-between">
-        <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold flex items-center gap-2">
+        <h2 className="text-sm font-bold tracking-wide text-secondary uppercase flex items-center gap-2">
           <Calendar className="w-3.5 h-3.5" /> Era-Based Market Indexes
         </h2>
         <span className="font-mono text-[9px] text-muted-foreground uppercase tracking-wider">

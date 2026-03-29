@@ -46,7 +46,7 @@ const TopMoversTable = ({ cards, title }: TopMoversTableProps) => {
       className="terminal-card overflow-hidden"
     >
       <div className="border-b border-border px-4 py-3">
-        <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold">{title}</h2>
+        <h2 className="text-sm font-bold tracking-wide text-secondary uppercase">{title}</h2>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full">
