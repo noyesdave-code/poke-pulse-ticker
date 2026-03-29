@@ -47,7 +47,8 @@ const RecentNotableSales = ({ cards }: RecentNotableSalesProps) => {
           <motion.div
             key={i}
             initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: i * 0.08, duration: 0.3 }}
             className="px-4 py-2.5 flex items-center justify-between hover:bg-muted/30 transition-colors group"
           >

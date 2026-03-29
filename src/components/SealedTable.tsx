@@ -57,7 +57,7 @@ const SealedTable = ({ products }: SealedTableProps) => {
           </tbody>
         </table>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

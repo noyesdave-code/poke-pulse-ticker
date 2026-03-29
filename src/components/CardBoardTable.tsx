@@ -150,7 +150,7 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
           </tbody>
         </table>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -89,7 +89,7 @@ const MarketCapSummary = ({ liveRawCards }: MarketCapSummaryProps) => {
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

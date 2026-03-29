@@ -66,7 +66,8 @@ const TopMoversTable = ({ cards, title }: TopMoversTableProps) => {
               <motion.tr
                 key={i}
                 initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
                 transition={{ delay: i * 0.05, duration: 0.3 }}
                 className="data-row"
               >
