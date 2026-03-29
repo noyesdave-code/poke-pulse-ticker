@@ -29,30 +29,9 @@ const features = [
 ];
 
 const tiers = [
-  {
-    key: "free" as const,
-    name: "FREE",
-    price: "$0",
-    period: "forever",
-    icon: <Minus className="h-5 w-5" />,
-    priceId: null,
-  },
-  {
-    key: "pro" as const,
-    name: "PRO",
-    price: "$19",
-    period: "/month",
-    icon: <Zap className="h-5 w-5" />,
-    priceId: STRIPE_TIERS.pro.price_id,
-  },
-  {
-    key: "institutional" as const,
-    name: "INSTITUTIONAL",
-    price: "$99",
-    period: "/month",
-    icon: <Building2 className="h-5 w-5" />,
-    priceId: STRIPE_TIERS.institutional.price_id,
-  },
+  { key: "free" as const, name: "FREE", icon: <Minus className="h-5 w-5" /> },
+  { key: "pro" as const, name: "PRO", icon: <Zap className="h-5 w-5" /> },
+  { key: "institutional" as const, name: "INSTITUTIONAL", icon: <Building2 className="h-5 w-5" /> },
 ];
 
 const Pricing = () => {
