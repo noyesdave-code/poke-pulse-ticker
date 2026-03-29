@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { rawCards, gradedCards, sealedProducts, getIndexValue, getIndexChange } from "@/data/marketData";
 import { useLiveCards } from "@/hooks/usePokemonTcg";
 import { useGradedCards } from "@/hooks/useGradedCards";
