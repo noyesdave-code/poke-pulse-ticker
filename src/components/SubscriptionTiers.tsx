@@ -67,7 +67,7 @@ const SubscriptionTiers = () => {
     setLoadingTier(tierName);
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { priceId },
+        body: { priceId, trial: tierName === "pro" ? 7 : undefined },
       });
       if (error) throw error;
       if (data?.url) {
@@ -191,7 +191,7 @@ const SubscriptionTiers = () => {
                       : "border border-border text-foreground hover:bg-muted"
                   } disabled:opacity-50`}
                 >
-                  {loadingTier === t.key ? "Loading..." : t.cta}
+                  {loadingTier === t.key ? "Loading..." : t.key === "pro" ? "Start 7-Day Free Trial" : t.cta}
                 </button>
               ) : (
                 <button
