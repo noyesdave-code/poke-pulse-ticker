@@ -61,17 +61,18 @@ const TerminalHeader = () => {
             </button>
 
             <div
-              className="flex items-center gap-2.5 cursor-pointer group"
+              className="flex items-center gap-3 cursor-pointer group"
               onClick={() => handleNav("/")}
             >
-              <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
-                <span className="font-bold text-sm text-primary-foreground">PG</span>
+              <div className="relative h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-[0_0_16px_hsl(160_84%_50%/0.2)] group-hover:shadow-[0_0_24px_hsl(160_84%_50%/0.35)] transition-all duration-300 group-hover:scale-105">
+                <span className="font-extrabold text-sm text-primary-foreground tracking-tight">PP</span>
+                <div className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-primary border-2 border-background pulse-live" />
               </div>
               <div className="hidden min-[400px]:block">
-                <h1 className="text-sm font-extrabold tracking-tight text-foreground">
-                  Poke Pulse Ticker
+                <h1 className="text-[13px] font-extrabold tracking-tight text-foreground leading-none">
+                  Poke Pulse
                 </h1>
-                <p className="text-[10px] font-medium tracking-wide text-muted-foreground uppercase">
+                <p className="text-[9px] font-semibold tracking-[0.15em] text-primary/80 uppercase mt-0.5">
                   Market Terminal
                 </p>
               </div>
