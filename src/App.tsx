@@ -66,6 +66,7 @@ const AnimatedRoutes = () => {
           <Route path="/blog-editor" element={<BlogEditor />} />
           <Route path="/trade" element={<TradeCalculator />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/unsubscribe" element={<Unsubscribe />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>
