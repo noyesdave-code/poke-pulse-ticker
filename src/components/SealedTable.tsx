@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import type { SealedProduct } from "@/data/marketData";
 import { getSealedToken } from "@/lib/tokenSymbols";
 
@@ -7,7 +8,13 @@ interface SealedTableProps {
 
 const SealedTable = ({ products }: SealedTableProps) => {
   return (
-    <div className="terminal-card overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="terminal-card overflow-hidden"
+    >
       <div className="border-b border-border px-4 py-3 flex items-center justify-between">
         <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold">
           Live Sealed Product Feed
@@ -50,7 +57,7 @@ const SealedTable = ({ products }: SealedTableProps) => {
           </tbody>
         </table>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

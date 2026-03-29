@@ -33,9 +33,10 @@ const MarketTrendSummary = ({ cards }: MarketTrendSummaryProps) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className="terminal-card overflow-hidden"
     >
       <div className="border-b border-border px-4 py-3 flex items-center justify-between">
@@ -54,7 +55,8 @@ const MarketTrendSummary = ({ cards }: MarketTrendSummaryProps) => {
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.4 }}
               className="px-3 py-4 text-center space-y-1.5 hover:bg-muted/20 transition-colors"
             >
@@ -78,21 +80,24 @@ const MarketTrendSummary = ({ cards }: MarketTrendSummaryProps) => {
         <div className="flex h-3 rounded-full overflow-hidden gap-0.5">
           <motion.div
             initial={{ width: 0 }}
-            animate={{ width: `${(buys / cards.length) * 100}%` }}
+            whileInView={{ width: `${(buys / cards.length) * 100}%` }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="bg-terminal-green rounded-l-full"
             title={`${buys} BUY signals`}
           />
           <motion.div
             initial={{ width: 0 }}
-            animate={{ width: `${(holds / cards.length) * 100}%` }}
+            whileInView={{ width: `${(holds / cards.length) * 100}%` }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1 }}
             className="bg-terminal-amber"
             title={`${holds} HOLD signals`}
           />
           <motion.div
             initial={{ width: 0 }}
-            animate={{ width: `${(sells / cards.length) * 100}%` }}
+            whileInView={{ width: `${(sells / cards.length) * 100}%` }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="bg-terminal-red rounded-r-full"
             title={`${sells} SELL signals`}

@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { rawCards, gradedCards, sealedProducts } from "@/data/marketData";
 import type { CardData } from "@/data/marketData";
 import { TrendingUp, TrendingDown } from "lucide-react";
@@ -24,7 +25,13 @@ const MarketCapSummary = ({ liveRawCards }: MarketCapSummaryProps) => {
   const totalCap = segments.reduce((s, seg) => s + calcMarketCap(seg.items), 0);
 
   return (
-    <div className="terminal-card overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="terminal-card overflow-hidden"
+    >
       <div className="border-b border-border px-4 py-3">
         <h2 className="text-sm font-bold tracking-wide text-secondary uppercase">
           Market Capitalization
@@ -82,7 +89,7 @@ const MarketCapSummary = ({ liveRawCards }: MarketCapSummaryProps) => {
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

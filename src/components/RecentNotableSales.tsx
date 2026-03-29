@@ -24,9 +24,10 @@ const RecentNotableSales = ({ cards }: RecentNotableSalesProps) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className="terminal-card overflow-hidden"
     >
       <div className="border-b border-border px-4 py-3 flex items-center justify-between">
@@ -46,7 +47,8 @@ const RecentNotableSales = ({ cards }: RecentNotableSalesProps) => {
           <motion.div
             key={i}
             initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: i * 0.08, duration: 0.3 }}
             className="px-4 py-2.5 flex items-center justify-between hover:bg-muted/30 transition-colors group"
           >

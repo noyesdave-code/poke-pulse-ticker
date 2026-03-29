@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import type { CardData } from "@/data/marketData";
 import { getCardToken } from "@/lib/tokenSymbols";
 
@@ -44,7 +45,13 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
   );
 
   return (
-    <div className="terminal-card overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="terminal-card overflow-hidden"
+    >
       <div className="border-b border-border px-4 py-3 flex items-center justify-between flex-wrap gap-2">
         <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold">{title}</h2>
         <div className="flex items-center gap-2 flex-wrap">
@@ -143,7 +150,7 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
           </tbody>
         </table>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
