@@ -67,7 +67,7 @@ const SubscriptionTiers = () => {
     setLoadingTier(tierName);
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { priceId },
+        body: { priceId, trial: tierName === "pro" ? 7 : undefined },
       });
       if (error) throw error;
       if (data?.url) {
