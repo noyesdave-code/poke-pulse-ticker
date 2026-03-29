@@ -20,6 +20,7 @@ import SignalSummary from "@/components/SignalSummary";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import TrustSignals from "@/components/TrustSignals";
 import ProGate from "@/components/ProGate";
+import Testimonials from "@/components/Testimonials";
 import RecentNotableSales from "@/components/RecentNotableSales";
 import EraIndexCards from "@/components/EraIndexCards";
 import MarketTrendSummary from "@/components/MarketTrendSummary";
