@@ -161,11 +161,29 @@
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
   }
+
+  .shimmer-sweep {
+    background: linear-gradient(
+      105deg,
+      transparent 20%,
+      hsl(var(--primary) / 0.06) 35%,
+      hsl(var(--primary) / 0.12) 50%,
+      hsl(var(--terminal-blue) / 0.06) 65%,
+      transparent 80%
+    );
+    background-size: 200% 100%;
+    animation: shimmer-sweep 2s ease-in-out infinite;
+  }
 }
 
 @keyframes ticker-scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+
+@keyframes shimmer-sweep {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 @keyframes pulse-live {
