@@ -56,6 +56,38 @@ const HeroSection = ({ onSearchFocus }: HeroSectionProps) => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, hsl(38 92% 60% / 0.03), transparent)" }} />
       </motion.div>
 
+      {/* Floating particles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {Array.from({ length: 12 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              width: `${2 + (i % 3) * 1.5}px`,
+              height: `${2 + (i % 3) * 1.5}px`,
+              left: `${8 + (i * 7.5) % 85}%`,
+              top: `${10 + (i * 13) % 80}%`,
+              background: i % 3 === 0
+                ? "hsl(var(--primary) / 0.4)"
+                : i % 3 === 1
+                  ? "hsl(var(--terminal-blue) / 0.3)"
+                  : "hsl(var(--terminal-amber) / 0.25)",
+            }}
+            animate={{
+              y: [0, -15 - (i % 4) * 5, 0],
+              x: [0, (i % 2 === 0 ? 8 : -8), 0],
+              opacity: [0.2, 0.6, 0.2],
+            }}
+            transition={{
+              duration: 4 + (i % 3) * 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.4,
+            }}
+          />
+        ))}
+      </div>
+
       <div className="relative px-5 py-6 sm:px-8 sm:py-10 border-b border-border">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-3">
