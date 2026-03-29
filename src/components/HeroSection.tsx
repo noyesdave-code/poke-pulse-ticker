@@ -36,20 +36,25 @@ interface HeroSectionProps {
 
 const HeroSection = ({ onSearchFocus }: HeroSectionProps) => {
   const navigate = useNavigate();
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const glowY = useTransform(scrollYProgress, [0, 1], ["-30%", "30%"]);
+  const glowScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1.1, 0.95]);
 
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="terminal-card overflow-hidden relative"
     >
-      {/* Ambient glow background — warmer & brighter */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Ambient glow background — parallax */}
+      <motion.div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ y: glowY, scale: glowScale }}>
         <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, hsl(160 84% 50% / 0.08), transparent)" }} />
         <div className="absolute -bottom-16 -left-16 w-56 h-56 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, hsl(215 90% 62% / 0.06), transparent)" }} />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, hsl(38 92% 60% / 0.03), transparent)" }} />
-      </div>
+      </motion.div>
 
       <div className="relative px-5 py-6 sm:px-8 sm:py-10 border-b border-border">
         <div className="flex items-start justify-between gap-4">
