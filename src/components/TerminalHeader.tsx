@@ -47,46 +47,46 @@ const TerminalHeader = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-border bg-terminal-header/95 backdrop-blur-sm">
-        <div className="flex items-center justify-between px-4 py-3 lg:px-6">
+      <header className="sticky top-0 z-50 border-b border-border bg-terminal-header/95 backdrop-blur-md">
+        <div className="flex items-center justify-between px-4 py-3.5 lg:px-6">
           {/* Left: logo + hamburger */}
           <div className="flex items-center gap-3">
             {/* Hamburger — mobile only */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="sm:hidden flex items-center justify-center w-8 h-8 rounded border border-border text-muted-foreground hover:text-foreground transition-colors"
+              className="sm:hidden flex items-center justify-center w-9 h-9 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all"
               aria-label="Toggle menu"
             >
               {menuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
 
             <div
-              className="flex items-center gap-2 cursor-pointer"
+              className="flex items-center gap-2.5 cursor-pointer group"
               onClick={() => handleNav("/")}
             >
-              <div className="h-8 w-8 rounded bg-primary flex items-center justify-center">
-                <span className="font-mono text-sm font-bold text-primary-foreground">PG</span>
+              <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+                <span className="font-bold text-sm text-primary-foreground">PG</span>
               </div>
               <div className="hidden min-[400px]:block">
-                <h1 className="font-mono text-sm font-bold tracking-wider text-foreground">
-                  POKE-PULSE-TICKER
+                <h1 className="text-sm font-extrabold tracking-tight text-foreground">
+                  Poke Pulse Ticker
                 </h1>
-                <p className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
+                <p className="text-[10px] font-medium tracking-wide text-muted-foreground uppercase">
                   Market Terminal
                 </p>
               </div>
             </div>
 
             {/* Desktop nav */}
-            <nav className="hidden sm:flex items-center gap-1 ml-4">
+            <nav className="hidden sm:flex items-center gap-0.5 ml-5">
               {navItems.map((item) => (
                 <button
                   key={item.path}
                   onClick={() => handleNav(item.path)}
-                  className={`font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded transition-colors ${
+                  className={`text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1.5 rounded-md transition-all ${
                     location.pathname === item.path
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                   }`}
                 >
                   {item.label}
@@ -96,13 +96,13 @@ const TerminalHeader = () => {
           </div>
 
           {/* Right: status + auth */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="hidden sm:flex items-center gap-2 rounded border border-border px-2 py-1">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="hidden sm:flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1">
               <div className="h-2 w-2 rounded-full bg-primary pulse-live" />
-              <span className="font-mono text-xs font-semibold text-primary">LIVE</span>
+              <span className="text-[11px] font-bold text-primary tracking-wide">LIVE</span>
             </div>
             {tier && (
-              <span className="hidden sm:inline font-mono text-[10px] px-2 py-0.5 rounded bg-secondary text-secondary-foreground font-semibold uppercase">
+              <span className="hidden sm:inline text-[10px] px-2 py-0.5 rounded-md bg-secondary text-secondary-foreground font-bold uppercase tracking-wide">
                 {tier}
               </span>
             )}
@@ -111,12 +111,12 @@ const TerminalHeader = () => {
             </div>
             {user ? (
               <div className="flex items-center gap-2">
-                <span className="hidden sm:inline font-mono text-xs text-muted-foreground truncate max-w-[120px]">
+                <span className="hidden sm:inline text-xs text-muted-foreground truncate max-w-[120px]">
                   {user.email}
                 </span>
                 <button
                   onClick={signOut}
-                  className="font-mono text-xs text-muted-foreground hover:text-foreground border border-border rounded px-2 py-1"
+                  className="text-xs font-medium text-muted-foreground hover:text-foreground border border-border rounded-md px-2.5 py-1 transition-colors hover:bg-muted/40"
                 >
                   Sign Out
                 </button>
@@ -124,7 +124,7 @@ const TerminalHeader = () => {
             ) : (
               <button
                 onClick={() => setShowAuth(true)}
-                className="font-mono text-xs font-semibold bg-primary text-primary-foreground rounded px-3 py-1.5 hover:opacity-90"
+                className="text-xs font-bold bg-primary text-primary-foreground rounded-md px-3.5 py-1.5 hover:opacity-90 transition-opacity shadow-sm"
               >
                 Sign In
               </button>
@@ -135,7 +135,7 @@ const TerminalHeader = () => {
         {/* Mobile slide-down menu */}
         {menuOpen && (
           <div className="sm:hidden border-t border-border bg-terminal-header animate-in slide-in-from-top-2 duration-200">
-            <nav className="flex flex-col py-2">
+            <nav className="flex flex-col py-1.5">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const active = location.pathname === item.path;
@@ -143,14 +143,14 @@ const TerminalHeader = () => {
                   <button
                     key={item.path}
                     onClick={() => handleNav(item.path)}
-                    className={`flex items-center gap-3 px-4 py-3 font-mono text-sm transition-colors ${
+                    className={`flex items-center gap-3 px-4 py-3 transition-all ${
                       active
                         ? "text-primary bg-primary/10"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                     }`}
                   >
                     <Icon className="w-4 h-4" />
-                    <span className="tracking-wider uppercase text-xs font-semibold">{item.label}</span>
+                    <span className="uppercase text-xs font-bold tracking-wide">{item.label}</span>
                     {active && (
                       <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
                     )}
@@ -161,12 +161,12 @@ const TerminalHeader = () => {
 
             {/* Mobile-only extras */}
             <div className="border-t border-border px-4 py-3 flex items-center justify-between">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
                 <div className="h-2 w-2 rounded-full bg-primary pulse-live" />
-                <span className="font-mono text-[10px] font-semibold text-primary">LIVE</span>
+                <span className="text-[10px] font-bold text-primary tracking-wide">LIVE</span>
               </div>
               {tier && (
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-secondary text-secondary-foreground font-semibold uppercase">
+                <span className="text-[10px] px-2 py-0.5 rounded-md bg-secondary text-secondary-foreground font-bold uppercase tracking-wide">
                   {tier}
                 </span>
               )}
