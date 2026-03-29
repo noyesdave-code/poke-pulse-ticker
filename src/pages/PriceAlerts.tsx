@@ -127,6 +127,8 @@ const PriceAlerts = () => {
           </>
         )}
         </ProGate>
+
+        <FinancialDisclaimer compact />
       </main>
     </div>
   );
