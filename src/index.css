@@ -107,6 +107,7 @@
 
   .pulse-live {
     animation: pulse-live 2s ease-in-out infinite;
+    animation-delay: -10000s;
   }
 
   .glow-green {
