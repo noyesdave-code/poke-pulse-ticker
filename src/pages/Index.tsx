@@ -20,6 +20,10 @@ import SignalSummary from "@/components/SignalSummary";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import TrustSignals from "@/components/TrustSignals";
 import ProGate from "@/components/ProGate";
+import RecentNotableSales from "@/components/RecentNotableSales";
+import EraIndexCards from "@/components/EraIndexCards";
+import MarketTrendSummary from "@/components/MarketTrendSummary";
+import DataQualityBadge from "@/components/DataQualityBadge";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -31,7 +35,6 @@ const Index = () => {
   const { toast } = useToast();
   const { checkSubscription } = useAuth();
 
-  // Handle checkout success/cancel redirect
   useEffect(() => {
     const checkout = searchParams.get("checkout");
     if (checkout === "success") {
@@ -49,6 +52,7 @@ const Index = () => {
   const displayGraded = liveGradedCards.length > 0 ? liveGradedCards : gradedCards;
   const liveSealedProducts = useSealedProducts(liveCards);
   const displaySealed = liveSealedProducts.length > 0 ? liveSealedProducts : sealedProducts;
+  const isLive = !!liveCards && liveCards.length > 0;
 
   const rawIndex = getIndexValue(displayCards);
   const rawChange = getIndexChange(displayCards);
@@ -68,11 +72,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <TerminalHeader />
-      <TickerBar cards={displayCards} isLive={!!liveCards && liveCards.length > 0} lastUpdated={liveCards && liveCards.length > 0 ? (dataUpdatedAt || Date.now()) : undefined} />
+      <TickerBar cards={displayCards} isLive={isLive} lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined} />
 
       <main className="max-w-7xl mx-auto px-4 lg:px-6 py-6 space-y-6">
         {/* Live indicator */}
-        {liveCards && liveCards.length > 0 && (
+        {isLive && (
           <div className="flex items-center gap-2">
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-terminal-green opacity-75"></span>
@@ -91,45 +95,32 @@ const Index = () => {
           </div>
         )}
 
-        {/* Hero with CTAs */}
         <HeroSection onSearchFocus={handleSearchFocus} />
 
-        {/* Market Update Banner */}
+        {/* Data Quality & Freshness */}
+        <DataQualityBadge isLive={isLive} lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined} cardCount={displayCards.length} />
+
         <MarketUpdateBanner cards={displayCards} />
 
         {/* Market Index Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <MarketIndexCard
-            title="RAW 500 INDEX"
-            value={rawIndex}
-            change={rawChange}
-            count={displayCards.length}
-            description="Average tracked raw card market value"
-            variant="green"
-          />
-          <MarketIndexCard
-            title="GRADED 1000 INDEX"
-            value={gradedIndex}
-            change={gradedChange}
-            count={displayGraded.length}
-            description="Average tracked graded card market value (PSA/CGC/BGS/TAG)"
-            variant="amber"
-          />
-          <MarketIndexCard
-            title="SEALED 1000 INDEX"
-            value={sealedIndex}
-            change={sealedChange}
-            count={displaySealed.length}
-            description="Average tracked sealed product value (Boxes/Packs/ETBs)"
-            variant="blue"
-          />
+          <MarketIndexCard title="RAW 500 INDEX" value={rawIndex} change={rawChange} count={displayCards.length} description="Average tracked raw card market value" variant="green" />
+          <MarketIndexCard title="GRADED 1000 INDEX" value={gradedIndex} change={gradedChange} count={displayGraded.length} description="Average tracked graded card market value (PSA/CGC/BGS/TAG)" variant="amber" />
+          <MarketIndexCard title="SEALED 1000 INDEX" value={sealedIndex} change={sealedChange} count={displaySealed.length} description="Average tracked sealed product value (Boxes/Packs/ETBs)" variant="blue" />
         </div>
 
-        {/* Trust Signals */}
+        {/* Era-Based Indexes — Market Adaptability */}
+        <EraIndexCards cards={displayCards} />
+
+        {/* Market Trend Summary — Predictability */}
+        <MarketTrendSummary cards={displayCards} />
+
         <TrustSignals />
 
-        {/* Trending Cards with Images */}
         <TrendingCards cards={displayCards} />
+
+        {/* Recent Notable Sales — Consumer Confidence */}
+        <RecentNotableSales cards={displayCards} />
 
         {/* Search */}
         <div ref={searchRef}>
@@ -157,13 +148,10 @@ const Index = () => {
           <MarketTabs liveCards={displayCards} liveGradedCards={displayGraded} liveSealedProducts={displaySealed} />
         </ProGate>
 
-        {/* Market Cap */}
         <MarketCapSummary liveRawCards={displayCards} />
 
-        {/* Subscription Tiers */}
         <SubscriptionTiers />
 
-        {/* Financial Disclaimer */}
         <FinancialDisclaimer />
 
         {/* Footer */}
@@ -187,23 +175,17 @@ const Index = () => {
               </span>
             </div>
             <div className="flex items-center gap-3">
-              <a href="/terms" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors">
-                Terms of Service
-              </a>
+              <a href="/terms" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors">Terms of Service</a>
               <span className="text-border">•</span>
-              <a href="/privacy" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors">
-                Privacy Policy
-              </a>
+              <a href="/privacy" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a>
               <span className="text-border">•</span>
-              <a href="mailto:contact@poke-pulse-ticker.com" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors">
-                Contact
-              </a>
+              <a href="mailto:contact@poke-pulse-ticker.com" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors">Contact</a>
             </div>
-            <p className="font-mono text-[10px] text-muted-foreground">
-              Data powered by pokemontcg.io • Not financial advice
+            <p className="font-mono text-[9px] text-muted-foreground text-center max-w-md">
+              Pokémon is a trademark of Nintendo/Creatures Inc./GAME FREAK inc. Not affiliated with The Pokémon Company International. Data powered by pokemontcg.io. Not financial advice.
             </p>
             <p className="font-mono text-[10px] text-muted-foreground">
-              © {new Date().getFullYear()} Poke-Pulse-Ticker. All rights reserved.
+              © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.
             </p>
           </div>
         </footer>
