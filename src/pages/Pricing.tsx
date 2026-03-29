@@ -270,6 +270,7 @@ const Pricing = () => {
             ))}
           </div>
         </div>
+        <FinancialDisclaimer compact />
       </main>
 
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
