@@ -88,7 +88,8 @@ const MarketTrendSummary = ({ cards }: MarketTrendSummaryProps) => {
           />
           <motion.div
             initial={{ width: 0 }}
-            animate={{ width: `${(holds / cards.length) * 100}%` }}
+            whileInView={{ width: `${(holds / cards.length) * 100}%` }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1 }}
             className="bg-terminal-amber"
             title={`${holds} HOLD signals`}
