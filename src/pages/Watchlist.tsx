@@ -8,6 +8,7 @@ import { useWatchlist, useRemoveFromWatchlist } from "@/hooks/useWatchlist";
 import SignalBadge from "@/components/SignalBadge";
 import { getCardSignal } from "@/hooks/useSignalIndicator";
 import AuthModal from "@/components/AuthModal";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { useState } from "react";
 
 const Watchlist = () => {
