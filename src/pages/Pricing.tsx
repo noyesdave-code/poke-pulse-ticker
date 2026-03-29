@@ -193,7 +193,7 @@ const Pricing = () => {
                           : "border border-border text-foreground hover:bg-muted"
                       }`}
                     >
-                      {loadingTier === t.key ? "Loading..." : `Get ${t.name}`}
+                      {loadingTier === t.key ? "Loading..." : t.key === "pro" ? "Start 7-Day Free Trial" : `Get ${t.name}`}
                     </button>
                   ) : (
                     <button
