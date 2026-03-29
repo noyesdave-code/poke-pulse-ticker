@@ -7,6 +7,7 @@ import { useState } from "react";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { ArrowLeft, Check, Minus, Zap, Crown, Building2 } from "lucide-react";
 
 const features = [
@@ -270,6 +271,7 @@ const Pricing = () => {
             ))}
           </div>
         </div>
+        <FinancialDisclaimer compact />
       </main>
 
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}

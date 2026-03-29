@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchSets, fetchSetCards, getBestPrice, type PokemonTCGSet, type PokemonTCGCard } from "@/lib/pokemonTcgApi";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { ArrowLeft, Search, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 
 const SetBrowser = () => {
@@ -183,6 +184,8 @@ const SetBrowser = () => {
             )}
           </>
         )}
+
+        <FinancialDisclaimer compact />
       </main>
     </div>
   );

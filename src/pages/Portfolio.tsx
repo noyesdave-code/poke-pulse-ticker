@@ -8,6 +8,7 @@ import TerminalHeader from "@/components/TerminalHeader";
 import NotificationSettings from "@/components/NotificationSettings";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { ArrowLeft, Trash2, Loader2, TrendingUp, TrendingDown, Minus, Plus, Activity } from "lucide-react";
 
 const Portfolio = () => {
@@ -88,6 +89,8 @@ const Portfolio = () => {
         ) : (
           <PortfolioContent portfolio={portfolio} removeCard={removeCard} updateCard={updateCard} navigate={navigate} />
         )}
+
+        <FinancialDisclaimer compact />
       </main>
     </div>
   );
