@@ -27,6 +27,7 @@ import Blog from "./pages/Blog.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
 import BlogEditor from "./pages/BlogEditor.tsx";
 import TradeCalculator from "./pages/TradeCalculator.tsx";
+import Pricing from "./pages/Pricing.tsx";
 
 const queryClient = new QueryClient();
 
