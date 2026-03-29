@@ -151,6 +151,8 @@ const Index = () => {
 
         <MarketCapSummary liveRawCards={displayCards} />
 
+        <Testimonials />
+
         <SubscriptionTiers />
 
         <FinancialDisclaimer />
