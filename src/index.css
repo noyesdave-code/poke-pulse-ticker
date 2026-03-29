@@ -150,10 +150,10 @@
     padding: 1px;
     background: linear-gradient(
       var(--glow-angle, 135deg),
-      hsl(var(--primary) / 0.15),
-      hsl(var(--terminal-blue) / 0.15),
-      hsl(var(--terminal-amber) / 0.1),
-      hsl(var(--primary) / 0.15)
+      hsl(var(--primary) / 0.3),
+      hsl(var(--terminal-blue) / 0.3),
+      hsl(var(--terminal-amber) / 0.2),
+      hsl(var(--primary) / 0.3)
     );
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
