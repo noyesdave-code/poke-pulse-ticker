@@ -193,6 +193,33 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_preferences: {
+        Row: {
+          alert_threshold: number
+          created_at: string
+          email_portfolio_alerts: boolean
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          alert_threshold?: number
+          created_at?: string
+          email_portfolio_alerts?: boolean
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          alert_threshold?: number
+          created_at?: string
+          email_portfolio_alerts?: boolean
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       portfolio_cards: {
         Row: {
           added_at: string
