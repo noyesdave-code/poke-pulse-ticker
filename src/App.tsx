@@ -27,6 +27,7 @@ import Blog from "./pages/Blog.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
 import BlogEditor from "./pages/BlogEditor.tsx";
 import TradeCalculator from "./pages/TradeCalculator.tsx";
+import Pricing from "./pages/Pricing.tsx";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +64,7 @@ const AnimatedRoutes = () => {
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/blog-editor" element={<BlogEditor />} />
           <Route path="/trade" element={<TradeCalculator />} />
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>
