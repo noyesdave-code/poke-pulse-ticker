@@ -47,7 +47,7 @@ const HeroSection = ({ onSearchFocus }: HeroSectionProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="terminal-card overflow-hidden relative"
+      className="terminal-card hero-glow-border overflow-hidden relative"
     >
       {/* Ambient glow background — parallax */}
       <motion.div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ y: glowY, scale: glowScale }}>
