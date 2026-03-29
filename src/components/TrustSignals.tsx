@@ -37,7 +37,7 @@ const TrustSignals = () => {
       className="terminal-card overflow-hidden"
     >
       <div className="border-b border-border px-4 py-3 flex items-center justify-between">
-        <h3 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold flex items-center gap-2">
+        <h3 className="text-sm font-bold tracking-wide text-secondary uppercase flex items-center gap-2">
           <Star className="w-3.5 h-3.5" /> Why Collectors Trust Us
         </h3>
         <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
