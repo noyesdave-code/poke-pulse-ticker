@@ -29,30 +29,9 @@ const features = [
 ];
 
 const tiers = [
-  {
-    key: "free" as const,
-    name: "FREE",
-    price: "$0",
-    period: "forever",
-    icon: <Minus className="h-5 w-5" />,
-    priceId: null,
-  },
-  {
-    key: "pro" as const,
-    name: "PRO",
-    price: "$19",
-    period: "/month",
-    icon: <Zap className="h-5 w-5" />,
-    priceId: STRIPE_TIERS.pro.price_id,
-  },
-  {
-    key: "institutional" as const,
-    name: "INSTITUTIONAL",
-    price: "$99",
-    period: "/month",
-    icon: <Building2 className="h-5 w-5" />,
-    priceId: STRIPE_TIERS.institutional.price_id,
-  },
+  { key: "free" as const, name: "FREE", icon: <Minus className="h-5 w-5" /> },
+  { key: "pro" as const, name: "PRO", icon: <Zap className="h-5 w-5" /> },
+  { key: "institutional" as const, name: "INSTITUTIONAL", icon: <Building2 className="h-5 w-5" /> },
 ];
 
 const Pricing = () => {
@@ -61,6 +40,7 @@ const Pricing = () => {
   const { toast } = useToast();
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const [showAuth, setShowAuth] = useState(false);
+  const [annual, setAnnual] = useState(false);
 
   const isCurrent = (key: string) => {
     if (key === "free" && !subscribed) return true;
@@ -129,11 +109,38 @@ const Pricing = () => {
           </p>
         </div>
 
+        {/* Billing Toggle */}
+        <div className="flex items-center justify-center gap-3">
+          <span className={`font-mono text-xs font-semibold ${!annual ? "text-foreground" : "text-muted-foreground"}`}>
+            Monthly
+          </span>
+          <button
+            onClick={() => setAnnual(!annual)}
+            className={`relative w-12 h-6 rounded-full transition-colors ${annual ? "bg-primary" : "bg-muted"}`}
+          >
+            <div className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-foreground transition-transform ${annual ? "translate-x-6" : ""}`} />
+          </button>
+          <span className={`font-mono text-xs font-semibold ${annual ? "text-foreground" : "text-muted-foreground"}`}>
+            Annual
+          </span>
+          {annual && (
+            <span className="font-mono text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded font-semibold">
+              2 MONTHS FREE
+            </span>
+          )}
+        </div>
+
         {/* Tier Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {tiers.map((t) => {
             const current = isCurrent(t.key);
             const highlight = t.key === "pro";
+            const stripeTier = t.key !== "free" ? STRIPE_TIERS[t.key] : null;
+            const price = !stripeTier ? "$0" : annual ? stripeTier.annual.price : stripeTier.price;
+            const period = !stripeTier ? "forever" : annual ? stripeTier.annual.period : stripeTier.period;
+            const priceId = !stripeTier ? null : annual ? stripeTier.annual.price_id : stripeTier.price_id;
+            const savings = annual && stripeTier ? stripeTier.annual.savings : null;
+
             return (
               <div
                 key={t.key}
@@ -159,10 +166,14 @@ const Pricing = () => {
                     {t.name}
                   </span>
                 </div>
-                <div className="mb-4 flex items-baseline gap-1">
-                  <span className="font-mono text-3xl font-bold text-foreground">{t.price}</span>
-                  <span className="font-mono text-sm text-muted-foreground">{t.period}</span>
+                <div className="mb-1 flex items-baseline gap-1">
+                  <span className="font-mono text-3xl font-bold text-foreground">{price}</span>
+                  <span className="font-mono text-sm text-muted-foreground">{period}</span>
                 </div>
+                {savings && (
+                  <span className="font-mono text-[10px] text-primary font-semibold mb-3">{savings}</span>
+                )}
+                {!savings && <div className="mb-3" />}
 
                 <div className="mt-auto">
                   {current && subscribed ? (
@@ -172,9 +183,9 @@ const Pricing = () => {
                     >
                       Manage Subscription
                     </button>
-                  ) : t.priceId ? (
+                  ) : priceId ? (
                     <button
-                      onClick={() => handleSubscribe(t.priceId!, t.key)}
+                      onClick={() => handleSubscribe(priceId, t.key)}
                       disabled={loadingTier === t.key}
                       className={`w-full py-2.5 rounded font-mono text-sm font-semibold transition-all disabled:opacity-50 ${
                         highlight

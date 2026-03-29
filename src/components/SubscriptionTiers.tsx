@@ -1,15 +1,13 @@
+import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { STRIPE_TIERS } from "@/lib/stripe";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
 
-const tiers = [
+const tierDefs = [
   {
     key: "free" as const,
     name: "FREE",
-    price: "$0",
-    period: "forever",
     description: "Basic market access for casual collectors",
     features: [
       "Raw card market ticker (delayed 15 min)",
@@ -19,13 +17,10 @@ const tiers = [
     ],
     cta: "Current Plan",
     highlight: false,
-    priceId: null,
   },
   {
     key: "pro" as const,
     name: "PRO",
-    price: "$19",
-    period: "/month",
     description: "Real-time data for serious traders",
     features: [
       "Everything in Free",
@@ -38,13 +33,10 @@ const tiers = [
     ],
     cta: "Subscribe to Pro",
     highlight: true,
-    priceId: STRIPE_TIERS.pro.price_id,
   },
   {
     key: "institutional" as const,
     name: "INSTITUTIONAL",
-    price: "$99",
-    period: "/month",
     description: "Enterprise-grade analytics for dealers & shops",
     features: [
       "Everything in Pro",
@@ -57,7 +49,6 @@ const tiers = [
     ],
     cta: "Subscribe to Institutional",
     highlight: false,
-    priceId: STRIPE_TIERS.institutional.price_id,
   },
 ];
 
@@ -65,6 +56,7 @@ const SubscriptionTiers = () => {
   const { user, tier: currentTier, subscribed } = useAuth();
   const { toast } = useToast();
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
+  const [annual, setAnnual] = useState(false);
 
   const handleSubscribe = async (priceId: string, tierName: string) => {
     if (!user) {
@@ -107,7 +99,7 @@ const SubscriptionTiers = () => {
 
   return (
     <section className="py-16 px-4" id="pricing">
-      <div className="text-center mb-12">
+      <div className="text-center mb-8">
         <h2 className="font-mono text-xs tracking-[0.3em] text-secondary uppercase font-semibold mb-3">
           Subscription Plans
         </h2>
@@ -119,9 +111,36 @@ const SubscriptionTiers = () => {
         </p>
       </div>
 
+      {/* Billing Toggle */}
+      <div className="flex items-center justify-center gap-3 mb-8">
+        <span className={`font-mono text-xs font-semibold ${!annual ? "text-foreground" : "text-muted-foreground"}`}>
+          Monthly
+        </span>
+        <button
+          onClick={() => setAnnual(!annual)}
+          className={`relative w-12 h-6 rounded-full transition-colors ${annual ? "bg-primary" : "bg-muted"}`}
+        >
+          <div className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-foreground transition-transform ${annual ? "translate-x-6" : ""}`} />
+        </button>
+        <span className={`font-mono text-xs font-semibold ${annual ? "text-foreground" : "text-muted-foreground"}`}>
+          Annual
+        </span>
+        {annual && (
+          <span className="font-mono text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded font-semibold">
+            2 MONTHS FREE
+          </span>
+        )}
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        {tiers.map((t) => {
+        {tierDefs.map((t) => {
           const isCurrent = isCurrentTier(t.key);
+          const stripeTier = t.key !== "free" ? STRIPE_TIERS[t.key] : null;
+          const price = !stripeTier ? "$0" : annual ? stripeTier.annual.price : stripeTier.price;
+          const period = !stripeTier ? "forever" : annual ? stripeTier.annual.period : stripeTier.period;
+          const priceId = !stripeTier ? null : annual ? stripeTier.annual.price_id : stripeTier.price_id;
+          const savings = annual && stripeTier ? stripeTier.annual.savings : null;
+
           return (
             <div
               key={t.name}
@@ -140,9 +159,12 @@ const SubscriptionTiers = () => {
                 </span>
               </div>
               <div className="mb-1 flex items-baseline gap-1">
-                <span className="font-mono text-3xl font-bold text-foreground">{t.price}</span>
-                <span className="font-mono text-sm text-muted-foreground">{t.period}</span>
+                <span className="font-mono text-3xl font-bold text-foreground">{price}</span>
+                <span className="font-mono text-sm text-muted-foreground">{period}</span>
               </div>
+              {savings && (
+                <span className="font-mono text-[10px] text-primary font-semibold mb-2">{savings}</span>
+              )}
               <p className="text-xs text-muted-foreground mb-6">{t.description}</p>
               <ul className="space-y-2.5 mb-8 flex-1">
                 {t.features.map((f, i) => (
@@ -159,9 +181,9 @@ const SubscriptionTiers = () => {
                 >
                   Manage Subscription
                 </button>
-              ) : t.priceId ? (
+              ) : priceId ? (
                 <button
-                  onClick={() => handleSubscribe(t.priceId!, t.key)}
+                  onClick={() => handleSubscribe(priceId, t.key)}
                   disabled={loadingTier === t.key}
                   className={`w-full py-2.5 rounded font-mono text-sm font-semibold transition-all ${
                     t.highlight
