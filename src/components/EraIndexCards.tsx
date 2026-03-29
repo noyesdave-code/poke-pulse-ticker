@@ -67,9 +67,10 @@ const EraIndexCards = ({ cards }: EraIndexCardsProps) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className="terminal-card overflow-hidden"
     >
       <div className="border-b border-border px-4 py-3 flex items-center justify-between">
@@ -92,7 +93,8 @@ const EraIndexCards = ({ cards }: EraIndexCardsProps) => {
             <motion.div
               key={era.label}
               initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: idx * 0.12, duration: 0.4 }}
               className="px-4 py-4 hover:bg-muted/20 transition-colors"
             >
