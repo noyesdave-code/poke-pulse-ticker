@@ -136,11 +136,15 @@ const Index = () => {
           <CardSearch />
         </div>
 
-        {/* Price Chart */}
-        <PriceChart cards={displayCards} />
+        {/* Price Chart — Pro */}
+        <ProGate feature="Historical price charts" blur>
+          <PriceChart cards={displayCards} />
+        </ProGate>
 
-        {/* AI Signal Indicator */}
-        <SignalSummary cards={displayCards} />
+        {/* AI Signal Indicator — Pro */}
+        <ProGate feature="AI signal analysis" blur>
+          <SignalSummary cards={displayCards} />
+        </ProGate>
 
         {/* Top Movers */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
