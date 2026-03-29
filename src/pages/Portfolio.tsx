@@ -88,6 +88,8 @@ const Portfolio = () => {
         ) : (
           <PortfolioContent portfolio={portfolio} removeCard={removeCard} updateCard={updateCard} navigate={navigate} />
         )}
+
+        <FinancialDisclaimer compact />
       </main>
     </div>
   );
