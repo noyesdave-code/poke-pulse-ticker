@@ -65,7 +65,7 @@ const TerminalHeader = () => {
               onClick={() => handleNav("/")}
             >
               <div className="relative h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-[0_0_16px_hsl(160_84%_50%/0.2)] group-hover:shadow-[0_0_24px_hsl(160_84%_50%/0.35)] transition-all duration-300 group-hover:scale-105">
-                <span className="font-extrabold text-sm text-primary-foreground tracking-tight">PP</span>
+                <span className="font-extrabold text-[10px] text-primary-foreground tracking-tight">PPMT</span>
                 <div className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-primary border-2 border-background pulse-live" />
               </div>
               <div className="hidden min-[400px]:block">
