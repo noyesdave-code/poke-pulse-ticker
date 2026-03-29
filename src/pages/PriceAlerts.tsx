@@ -74,7 +74,7 @@ const PriceAlerts = () => {
             Set target prices and track when cards hit your buy/sell thresholds
           </p>
         </div>
-
+        <ProGate feature="Price alerts & notifications">
         {isLoading ? (
           <div className="flex items-center justify-center py-12 gap-2">
             <Loader2 className="w-5 h-5 text-primary animate-spin" />
