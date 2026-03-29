@@ -73,7 +73,7 @@ const Portfolio = () => {
         {/* Email Notification Settings */}
         <NotificationSettings />
 
-
+        {isLoading ? (
           <div className="flex items-center justify-center py-12 gap-2">
             <Loader2 className="w-5 h-5 text-primary animate-spin" />
             <span className="font-mono text-xs text-muted-foreground">Loading portfolio…</span>
