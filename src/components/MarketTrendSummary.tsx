@@ -80,7 +80,8 @@ const MarketTrendSummary = ({ cards }: MarketTrendSummaryProps) => {
         <div className="flex h-3 rounded-full overflow-hidden gap-0.5">
           <motion.div
             initial={{ width: 0 }}
-            animate={{ width: `${(buys / cards.length) * 100}%` }}
+            whileInView={{ width: `${(buys / cards.length) * 100}%` }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="bg-terminal-green rounded-l-full"
             title={`${buys} BUY signals`}
