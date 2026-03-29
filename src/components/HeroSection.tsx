@@ -1,6 +1,7 @@
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Briefcase, Layers, TrendingUp } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const actions = [
   {
