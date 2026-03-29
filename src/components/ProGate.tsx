@@ -73,7 +73,7 @@ const ProGate = ({ children, feature = "This feature", blur = false }: ProGatePr
           )}
         </div>
       </div>
-      <AuthModal open={showAuth} onOpenChange={setShowAuth} />
+      {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </div>
   );
 };
