@@ -28,6 +28,7 @@ import BlogPost from "./pages/BlogPost.tsx";
 import BlogEditor from "./pages/BlogEditor.tsx";
 import TradeCalculator from "./pages/TradeCalculator.tsx";
 import Pricing from "./pages/Pricing.tsx";
+import Unsubscribe from "./pages/Unsubscribe.tsx";
 
 const queryClient = new QueryClient();
 
