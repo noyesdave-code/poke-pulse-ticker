@@ -16,6 +16,7 @@ const navItems = [
   { path: "/guides", label: "Guides", icon: BookOpen },
   { path: "/blog", label: "Blog", icon: Newspaper },
   { path: "/trade", label: "Trade", icon: ArrowLeftRight },
+  { path: "/pricing", label: "Pricing", icon: DollarSign },
   { path: "/command-center", label: "AI Center", icon: Brain },
   { path: "/profile", label: "Profile", icon: User },
   { path: "/contact", label: "Contact", icon: Mail },
