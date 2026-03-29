@@ -191,7 +191,7 @@ const SubscriptionTiers = () => {
                       : "border border-border text-foreground hover:bg-muted"
                   } disabled:opacity-50`}
                 >
-                  {loadingTier === t.key ? "Loading..." : t.cta}
+                  {loadingTier === t.key ? "Loading..." : t.key === "pro" ? "Start 7-Day Free Trial" : t.cta}
                 </button>
               ) : (
                 <button
