@@ -39,7 +39,8 @@ const TrendingCards = ({ cards }: TrendingCardsProps) => {
             <motion.button
               key={i}
               initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.4 }}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}

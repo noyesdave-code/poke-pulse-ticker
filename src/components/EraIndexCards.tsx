@@ -93,7 +93,8 @@ const EraIndexCards = ({ cards }: EraIndexCardsProps) => {
             <motion.div
               key={era.label}
               initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: idx * 0.12, duration: 0.4 }}
               className="px-4 py-4 hover:bg-muted/20 transition-colors"
             >
