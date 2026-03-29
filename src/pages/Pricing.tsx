@@ -154,8 +154,8 @@ const Pricing = () => {
                   </span>
                 )}
                 {highlight && !current && (
-                  <span className="absolute -top-3 right-4 font-mono text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded">
-                    MOST POPULAR
+                  <span className="absolute -top-3 right-4 font-mono text-[10px] bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full font-bold animate-pulse shadow-[0_0_12px_hsl(var(--primary)/0.6)]">
+                    ⚡ MOST POPULAR
                   </span>
                 )}
                 <div className="flex items-center gap-2 mb-3">
