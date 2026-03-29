@@ -67,6 +67,12 @@ const ProGate = ({ children, feature = "This feature", blur = false }: ProGatePr
             <Zap className="h-4 w-4" />
             {loading ? "Loading..." : "Upgrade to Pro — $19/mo"}
           </button>
+          <a
+            href="/pricing"
+            className="block text-center font-mono text-[10px] text-primary hover:underline mt-2"
+          >
+            Compare all plans →
+          </a>
           {!user && (
             <p className="text-[10px] text-muted-foreground mt-2">
               Sign in required to subscribe
