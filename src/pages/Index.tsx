@@ -27,6 +27,22 @@ import { useToast } from "@/hooks/use-toast";
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
   const searchRef = useRef<HTMLDivElement>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { toast } = useToast();
+  const { checkSubscription } = useAuth();
+
+  // Handle checkout success/cancel redirect
+  useEffect(() => {
+    const checkout = searchParams.get("checkout");
+    if (checkout === "success") {
+      toast({ title: "Subscription activated!", description: "Welcome to Pro. Refreshing your status..." });
+      checkSubscription();
+      setSearchParams({}, { replace: true });
+    } else if (checkout === "canceled") {
+      toast({ title: "Checkout canceled", description: "No changes were made.", variant: "destructive" });
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams]);
 
   const displayCards = liveCards && liveCards.length > 0 ? liveCards : rawCards;
   const liveGradedCards = useGradedCards(liveCards);
