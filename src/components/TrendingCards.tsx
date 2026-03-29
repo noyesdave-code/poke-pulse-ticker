@@ -15,7 +15,13 @@ const TrendingCards = ({ cards }: TrendingCardsProps) => {
   const trending = [...cards].sort((a, b) => b.market - a.market).slice(0, 6);
 
   return (
-    <div className="terminal-card overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="terminal-card overflow-hidden"
+    >
       <div className="border-b border-border px-4 py-3 flex items-center justify-between">
         <h2 className="text-sm font-bold tracking-wide text-secondary uppercase">
           Trending Cards
