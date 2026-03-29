@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { rawCards, gradedCards, sealedProducts } from "@/data/marketData";
 import type { CardData } from "@/data/marketData";
 import { TrendingUp, TrendingDown } from "lucide-react";
