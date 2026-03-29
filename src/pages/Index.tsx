@@ -152,8 +152,10 @@ const Index = () => {
           <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" />
         </div>
 
-        {/* Tabbed Full Board */}
-        <MarketTabs liveCards={displayCards} liveGradedCards={displayGraded} liveSealedProducts={displaySealed} />
+        {/* Tabbed Full Board — Pro */}
+        <ProGate feature="Full card board (500+ cards)" blur>
+          <MarketTabs liveCards={displayCards} liveGradedCards={displayGraded} liveSealedProducts={displaySealed} />
+        </ProGate>
 
         {/* Market Cap */}
         <MarketCapSummary liveRawCards={displayCards} />
