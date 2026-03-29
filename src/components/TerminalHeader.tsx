@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/AuthModal";
-import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain, CalendarDays, Eye, Mail, Bell, CheckCircle, User, Newspaper, ArrowLeftRight } from "lucide-react";
+import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain, CalendarDays, Eye, Mail, Bell, CheckCircle, User, Newspaper, ArrowLeftRight, DollarSign } from "lucide-react";
 
 const navItems = [
   { path: "/", label: "Terminal", icon: LayoutDashboard },
@@ -16,6 +16,7 @@ const navItems = [
   { path: "/guides", label: "Guides", icon: BookOpen },
   { path: "/blog", label: "Blog", icon: Newspaper },
   { path: "/trade", label: "Trade", icon: ArrowLeftRight },
+  { path: "/pricing", label: "Pricing", icon: DollarSign },
   { path: "/command-center", label: "AI Center", icon: Brain },
   { path: "/profile", label: "Profile", icon: User },
   { path: "/contact", label: "Contact", icon: Mail },
