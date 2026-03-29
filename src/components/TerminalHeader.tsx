@@ -47,46 +47,46 @@ const TerminalHeader = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-border bg-terminal-header/95 backdrop-blur-sm">
-        <div className="flex items-center justify-between px-4 py-3 lg:px-6">
+      <header className="sticky top-0 z-50 border-b border-border bg-terminal-header/95 backdrop-blur-md">
+        <div className="flex items-center justify-between px-4 py-3.5 lg:px-6">
           {/* Left: logo + hamburger */}
           <div className="flex items-center gap-3">
             {/* Hamburger — mobile only */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="sm:hidden flex items-center justify-center w-8 h-8 rounded border border-border text-muted-foreground hover:text-foreground transition-colors"
+              className="sm:hidden flex items-center justify-center w-9 h-9 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all"
               aria-label="Toggle menu"
             >
               {menuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
 
             <div
-              className="flex items-center gap-2 cursor-pointer"
+              className="flex items-center gap-2.5 cursor-pointer group"
               onClick={() => handleNav("/")}
             >
-              <div className="h-8 w-8 rounded bg-primary flex items-center justify-center">
-                <span className="font-mono text-sm font-bold text-primary-foreground">PG</span>
+              <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+                <span className="font-bold text-sm text-primary-foreground">PG</span>
               </div>
               <div className="hidden min-[400px]:block">
-                <h1 className="font-mono text-sm font-bold tracking-wider text-foreground">
-                  POKE-PULSE-TICKER
+                <h1 className="text-sm font-extrabold tracking-tight text-foreground">
+                  Poke Pulse Ticker
                 </h1>
-                <p className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
+                <p className="text-[10px] font-medium tracking-wide text-muted-foreground uppercase">
                   Market Terminal
                 </p>
               </div>
             </div>
 
             {/* Desktop nav */}
-            <nav className="hidden sm:flex items-center gap-1 ml-4">
+            <nav className="hidden sm:flex items-center gap-0.5 ml-5">
               {navItems.map((item) => (
                 <button
                   key={item.path}
                   onClick={() => handleNav(item.path)}
-                  className={`font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded transition-colors ${
+                  className={`text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1.5 rounded-md transition-all ${
                     location.pathname === item.path
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                   }`}
                 >
                   {item.label}
