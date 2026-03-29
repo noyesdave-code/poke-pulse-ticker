@@ -1,4 +1,5 @@
 import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { STRIPE_TIERS } from "@/lib/stripe";
 import { Lock, Zap } from "lucide-react";
