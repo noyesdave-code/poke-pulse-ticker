@@ -55,7 +55,8 @@ const MarketTrendSummary = ({ cards }: MarketTrendSummaryProps) => {
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.4 }}
               className="px-3 py-4 text-center space-y-1.5 hover:bg-muted/20 transition-colors"
             >
