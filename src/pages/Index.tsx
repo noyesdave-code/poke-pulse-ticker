@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { rawCards, gradedCards, sealedProducts, getIndexValue, getIndexChange } from "@/data/marketData";
 import { useLiveCards } from "@/hooks/usePokemonTcg";
 import { useGradedCards } from "@/hooks/useGradedCards";
@@ -19,10 +19,30 @@ import InstallPrompt from "@/components/InstallPrompt";
 import SignalSummary from "@/components/SignalSummary";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import TrustSignals from "@/components/TrustSignals";
+import ProGate from "@/components/ProGate";
+import { useAuth } from "@/contexts/AuthContext";
+import { useSearchParams } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
   const searchRef = useRef<HTMLDivElement>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { toast } = useToast();
+  const { checkSubscription } = useAuth();
+
+  // Handle checkout success/cancel redirect
+  useEffect(() => {
+    const checkout = searchParams.get("checkout");
+    if (checkout === "success") {
+      toast({ title: "Subscription activated!", description: "Welcome to Pro. Refreshing your status..." });
+      checkSubscription();
+      setSearchParams({}, { replace: true });
+    } else if (checkout === "canceled") {
+      toast({ title: "Checkout canceled", description: "No changes were made.", variant: "destructive" });
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams]);
 
   const displayCards = liveCards && liveCards.length > 0 ? liveCards : rawCards;
   const liveGradedCards = useGradedCards(liveCards);
@@ -116,11 +136,15 @@ const Index = () => {
           <CardSearch />
         </div>
 
-        {/* Price Chart */}
-        <PriceChart cards={displayCards} />
+        {/* Price Chart — Pro */}
+        <ProGate feature="Historical price charts" blur>
+          <PriceChart cards={displayCards} />
+        </ProGate>
 
-        {/* AI Signal Indicator */}
-        <SignalSummary cards={displayCards} />
+        {/* AI Signal Indicator — Pro */}
+        <ProGate feature="AI signal analysis" blur>
+          <SignalSummary cards={displayCards} />
+        </ProGate>
 
         {/* Top Movers */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -128,8 +152,10 @@ const Index = () => {
           <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" />
         </div>
 
-        {/* Tabbed Full Board */}
-        <MarketTabs liveCards={displayCards} liveGradedCards={displayGraded} liveSealedProducts={displaySealed} />
+        {/* Tabbed Full Board — Pro */}
+        <ProGate feature="Full card board (500+ cards)" blur>
+          <MarketTabs liveCards={displayCards} liveGradedCards={displayGraded} liveSealedProducts={displaySealed} />
+        </ProGate>
 
         {/* Market Cap */}
         <MarketCapSummary liveRawCards={displayCards} />

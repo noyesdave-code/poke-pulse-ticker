@@ -5,6 +5,7 @@ import { usePriceAlerts, useDeletePriceAlert, type PriceAlert } from "@/hooks/us
 import { useQuery } from "@tanstack/react-query";
 import { fetchCardById, getBestPrice } from "@/lib/pokemonTcgApi";
 import TerminalHeader from "@/components/TerminalHeader";
+import ProGate from "@/components/ProGate";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import { ArrowLeft, Bell, BellRing, Trash2, Loader2, TrendingDown, TrendingUp, CheckCircle } from "lucide-react";
@@ -73,7 +74,7 @@ const PriceAlerts = () => {
             Set target prices and track when cards hit your buy/sell thresholds
           </p>
         </div>
-
+        <ProGate feature="Price alerts & notifications">
         {isLoading ? (
           <div className="flex items-center justify-center py-12 gap-2">
             <Loader2 className="w-5 h-5 text-primary animate-spin" />
@@ -125,6 +126,7 @@ const PriceAlerts = () => {
             )}
           </>
         )}
+        </ProGate>
       </main>
     </div>
   );

@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
 import { usePortfolio } from "@/hooks/usePortfolio";
 import TerminalHeader from "@/components/TerminalHeader";
+import SubscriptionStatus from "@/components/SubscriptionStatus";
 import TickerBar from "@/components/TickerBar";
 import PushNotificationToggle from "@/components/PushNotificationToggle";
 import AuthModal from "@/components/AuthModal";
@@ -157,6 +158,9 @@ const ProfilePage = () => {
                 </p>
               </div>
             )}
+
+            {/* Subscription Status */}
+            <SubscriptionStatus />
 
             {/* Push notifications */}
             <PushNotificationToggle />
