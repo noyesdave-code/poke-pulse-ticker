@@ -26,10 +26,10 @@ const MarketCapSummary = ({ liveRawCards }: MarketCapSummaryProps) => {
   return (
     <div className="terminal-card overflow-hidden">
       <div className="border-b border-border px-4 py-3">
-        <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold">
+        <h2 className="text-sm font-bold tracking-wide text-secondary uppercase">
           Market Capitalization
         </h2>
-        <p className="font-mono text-lg font-bold text-foreground mt-1">
+        <p className="text-xl font-extrabold text-foreground mt-1">
           ${totalCap.toLocaleString("en-US", { minimumFractionDigits: 2 })}
         </p>
         <p className="font-mono text-[10px] text-muted-foreground">Total tracked market value</p>

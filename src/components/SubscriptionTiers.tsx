@@ -100,10 +100,10 @@ const SubscriptionTiers = () => {
   return (
     <section className="py-16 px-4" id="pricing">
       <div className="text-center mb-8">
-        <h2 className="font-mono text-xs tracking-[0.3em] text-secondary uppercase font-semibold mb-3">
+        <h2 className="text-sm font-bold tracking-wide text-secondary uppercase mb-3">
           Subscription Plans
         </h2>
-        <p className="font-mono text-2xl font-bold text-foreground mb-2">
+        <p className="text-2xl font-extrabold text-foreground mb-2">
           Upgrade Your Market Intelligence
         </p>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
