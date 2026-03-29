@@ -5,6 +5,7 @@ import { usePriceAlerts, useDeletePriceAlert, type PriceAlert } from "@/hooks/us
 import { useQuery } from "@tanstack/react-query";
 import { fetchCardById, getBestPrice } from "@/lib/pokemonTcgApi";
 import TerminalHeader from "@/components/TerminalHeader";
+import ProGate from "@/components/ProGate";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import { ArrowLeft, Bell, BellRing, Trash2, Loader2, TrendingDown, TrendingUp, CheckCircle } from "lucide-react";
