@@ -96,13 +96,13 @@ const TerminalHeader = () => {
           </div>
 
           {/* Right: status + auth */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="hidden sm:flex items-center gap-2 rounded border border-border px-2 py-1">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="hidden sm:flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1">
               <div className="h-2 w-2 rounded-full bg-primary pulse-live" />
-              <span className="font-mono text-xs font-semibold text-primary">LIVE</span>
+              <span className="text-[11px] font-bold text-primary tracking-wide">LIVE</span>
             </div>
             {tier && (
-              <span className="hidden sm:inline font-mono text-[10px] px-2 py-0.5 rounded bg-secondary text-secondary-foreground font-semibold uppercase">
+              <span className="hidden sm:inline text-[10px] px-2 py-0.5 rounded-md bg-secondary text-secondary-foreground font-bold uppercase tracking-wide">
                 {tier}
               </span>
             )}
@@ -111,12 +111,12 @@ const TerminalHeader = () => {
             </div>
             {user ? (
               <div className="flex items-center gap-2">
-                <span className="hidden sm:inline font-mono text-xs text-muted-foreground truncate max-w-[120px]">
+                <span className="hidden sm:inline text-xs text-muted-foreground truncate max-w-[120px]">
                   {user.email}
                 </span>
                 <button
                   onClick={signOut}
-                  className="font-mono text-xs text-muted-foreground hover:text-foreground border border-border rounded px-2 py-1"
+                  className="text-xs font-medium text-muted-foreground hover:text-foreground border border-border rounded-md px-2.5 py-1 transition-colors hover:bg-muted/40"
                 >
                   Sign Out
                 </button>
@@ -124,7 +124,7 @@ const TerminalHeader = () => {
             ) : (
               <button
                 onClick={() => setShowAuth(true)}
-                className="font-mono text-xs font-semibold bg-primary text-primary-foreground rounded px-3 py-1.5 hover:opacity-90"
+                className="text-xs font-bold bg-primary text-primary-foreground rounded-md px-3.5 py-1.5 hover:opacity-90 transition-opacity shadow-sm"
               >
                 Sign In
               </button>
