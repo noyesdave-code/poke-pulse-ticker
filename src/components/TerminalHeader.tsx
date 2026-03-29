@@ -135,7 +135,7 @@ const TerminalHeader = () => {
         {/* Mobile slide-down menu */}
         {menuOpen && (
           <div className="sm:hidden border-t border-border bg-terminal-header animate-in slide-in-from-top-2 duration-200">
-            <nav className="flex flex-col py-2">
+            <nav className="flex flex-col py-1.5">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const active = location.pathname === item.path;
@@ -143,14 +143,14 @@ const TerminalHeader = () => {
                   <button
                     key={item.path}
                     onClick={() => handleNav(item.path)}
-                    className={`flex items-center gap-3 px-4 py-3 font-mono text-sm transition-colors ${
+                    className={`flex items-center gap-3 px-4 py-3 transition-all ${
                       active
                         ? "text-primary bg-primary/10"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                     }`}
                   >
                     <Icon className="w-4 h-4" />
-                    <span className="tracking-wider uppercase text-xs font-semibold">{item.label}</span>
+                    <span className="uppercase text-xs font-bold tracking-wide">{item.label}</span>
                     {active && (
                       <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
                     )}
@@ -161,12 +161,12 @@ const TerminalHeader = () => {
 
             {/* Mobile-only extras */}
             <div className="border-t border-border px-4 py-3 flex items-center justify-between">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
                 <div className="h-2 w-2 rounded-full bg-primary pulse-live" />
-                <span className="font-mono text-[10px] font-semibold text-primary">LIVE</span>
+                <span className="text-[10px] font-bold text-primary tracking-wide">LIVE</span>
               </div>
               {tier && (
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-secondary text-secondary-foreground font-semibold uppercase">
+                <span className="text-[10px] px-2 py-0.5 rounded-md bg-secondary text-secondary-foreground font-bold uppercase tracking-wide">
                   {tier}
                 </span>
               )}
