@@ -126,6 +126,7 @@ const PriceAlerts = () => {
             )}
           </>
         )}
+        </ProGate>
       </main>
     </div>
   );
