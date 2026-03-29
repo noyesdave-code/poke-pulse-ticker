@@ -40,6 +40,7 @@ const Pricing = () => {
   const { toast } = useToast();
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const [showAuth, setShowAuth] = useState(false);
+  const [annual, setAnnual] = useState(false);
 
   const isCurrent = (key: string) => {
     if (key === "free" && !subscribed) return true;
