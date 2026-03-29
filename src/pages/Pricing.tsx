@@ -144,8 +144,8 @@ const Pricing = () => {
             return (
               <div
                 key={t.key}
-                className={`terminal-card p-5 flex flex-col relative ${
-                  highlight ? "border-t-2 border-t-primary glow-green" : ""
+                className={`terminal-card p-5 flex flex-col relative transition-all duration-300 ${
+                  highlight ? "border-t-2 border-t-primary shadow-[0_0_24px_hsl(var(--primary)/0.15)] hover:shadow-[0_0_32px_hsl(var(--primary)/0.25)] scale-[1.02]" : ""
                 } ${current ? "ring-1 ring-primary" : ""}`}
               >
                 {current && (
@@ -154,8 +154,8 @@ const Pricing = () => {
                   </span>
                 )}
                 {highlight && !current && (
-                  <span className="absolute -top-3 right-4 font-mono text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded">
-                    MOST POPULAR
+                  <span className="absolute -top-3 right-4 font-mono text-[10px] bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full font-bold animate-pulse shadow-[0_0_12px_hsl(var(--primary)/0.6)]">
+                    ⚡ MOST POPULAR
                   </span>
                 )}
                 <div className="flex items-center gap-2 mb-3">
