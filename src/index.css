@@ -228,3 +228,14 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
 }
+
+@keyframes glow-rotate {
+  0%   { --glow-angle: 0deg; }
+  100% { --glow-angle: 360deg; }
+}
+
+@property --glow-angle {
+  syntax: '<angle>';
+  initial-value: 135deg;
+  inherits: false;
+}
