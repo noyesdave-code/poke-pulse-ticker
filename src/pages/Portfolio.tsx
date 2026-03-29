@@ -5,6 +5,7 @@ import { usePortfolio, useRemoveFromPortfolio, useUpdatePortfolioCard, type Port
 import { useQuery } from "@tanstack/react-query";
 import { fetchCardById, getBestPrice } from "@/lib/pokemonTcgApi";
 import TerminalHeader from "@/components/TerminalHeader";
+import NotificationSettings from "@/components/NotificationSettings";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import { ArrowLeft, Trash2, Loader2, TrendingUp, TrendingDown, Minus, Plus, Activity } from "lucide-react";
@@ -68,6 +69,9 @@ const Portfolio = () => {
             View Dashboard
           </button>
         </div>
+
+        {/* Email Notification Settings */}
+        <NotificationSettings />
 
         {isLoading ? (
           <div className="flex items-center justify-center py-12 gap-2">
