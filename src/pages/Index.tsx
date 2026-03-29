@@ -19,6 +19,10 @@ import InstallPrompt from "@/components/InstallPrompt";
 import SignalSummary from "@/components/SignalSummary";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import TrustSignals from "@/components/TrustSignals";
+import ProGate from "@/components/ProGate";
+import { useAuth } from "@/contexts/AuthContext";
+import { useSearchParams } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
