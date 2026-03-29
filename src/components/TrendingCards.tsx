@@ -113,7 +113,7 @@ const TrendingCards = ({ cards }: TrendingCardsProps) => {
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
