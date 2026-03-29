@@ -144,8 +144,8 @@ const Pricing = () => {
             return (
               <div
                 key={t.key}
-                className={`terminal-card p-5 flex flex-col relative ${
-                  highlight ? "border-t-2 border-t-primary glow-green" : ""
+                className={`terminal-card p-5 flex flex-col relative transition-all duration-300 ${
+                  highlight ? "border-t-2 border-t-primary shadow-[0_0_24px_hsl(var(--primary)/0.15)] hover:shadow-[0_0_32px_hsl(var(--primary)/0.25)] scale-[1.02]" : ""
                 } ${current ? "ring-1 ring-primary" : ""}`}
               >
                 {current && (
