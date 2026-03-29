@@ -183,6 +183,8 @@ const SetBrowser = () => {
             )}
           </>
         )}
+
+        <FinancialDisclaimer compact />
       </main>
     </div>
   );
