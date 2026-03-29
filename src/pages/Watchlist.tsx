@@ -143,6 +143,8 @@ const Watchlist = () => {
             </div>
           </div>
         )}
+
+        <FinancialDisclaimer compact />
       </main>
     </div>
   );
