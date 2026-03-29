@@ -38,16 +38,19 @@ export function useUpsertNotificationPreferences() {
       alert_threshold?: number;
     }) => {
       if (!user) throw new Error("Not authenticated");
-      const { error } = await supabase
+      console.log("[NotifPrefs] upserting for user:", user.id, prefs);
+      const { data, error } = await supabase
         .from("notification_preferences")
         .upsert(
           {
             user_id: user.id,
-            ...prefs,
+            email_portfolio_alerts: prefs.email_portfolio_alerts ?? true,
+            alert_threshold: prefs.alert_threshold ?? 5,
             updated_at: new Date().toISOString(),
           },
           { onConflict: "user_id" }
         );
+      console.log("[NotifPrefs] result:", { data, error });
       if (error) throw error;
     },
     onSuccess: () => {
