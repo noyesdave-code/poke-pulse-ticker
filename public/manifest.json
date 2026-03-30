@@ -1,6 +1,6 @@
 {
-  "name": "POKÉGARAGEVA Market Terminal",
-  "short_name": "POKÉGARAGEVA",
+  "name": "POKE-PULSE-TICKER Market Terminal",
+  "short_name": "PokePulseTicker",
   "description": "Live Pokémon TCG market data for collectors and traders",
   "start_url": "/",
   "display": "standalone",
