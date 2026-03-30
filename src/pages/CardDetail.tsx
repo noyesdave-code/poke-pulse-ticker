@@ -16,6 +16,8 @@ import VolumeChart from "@/components/VolumeChart";
 import CardSignalBreakdown from "@/components/CardSignalBreakdown";
 import CardSentimentPoll from "@/components/CardSentimentPoll";
 import SellerComparison from "@/components/SellerComparison";
+import ConsensusPricing from "@/components/ConsensusPricing";
+import { useConsensusPricing } from "@/hooks/useConsensusPricing";
 import AffiliateLinks from "@/components/AffiliateLinks";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { ArrowLeft, Loader2, Briefcase, Eye, EyeOff, Bell, Activity } from "lucide-react";
