@@ -122,7 +122,7 @@ const Index = () => {
         />
 
         {/* 2. Social proof — immediately after hero */}
-        <SocialProofBar />
+        <SocialProofBar totalMarketValue={totalMarketValue} />
 
         {/* 3. Market Index Cards — show the money right away */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
