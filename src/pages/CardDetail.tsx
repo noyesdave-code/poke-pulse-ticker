@@ -29,6 +29,7 @@ const CardDetail = () => {
   const addToPortfolio = useAddToPortfolio();
   const addToWatchlist = useAddToWatchlist();
   const addPriceAlert = useAddPriceAlert();
+  const createDeltaAlert = useCreateDeltaAlert();
   const [showAlertInput, setShowAlertInput] = useState(false);
   const [alertPrice, setAlertPrice] = useState("");
   const [alertDirection, setAlertDirection] = useState<"below" | "above">("below");
