@@ -155,6 +155,8 @@ function PortfolioContent({
 
   return (
     <>
+      {/* Whale-exclusive exports */}
+      <PortfolioExport portfolio={portfolio} livePrices={livePrices} />
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <SummaryCard label="Current Value" value={`$${summary.totalCurrent.toLocaleString("en-US", { minimumFractionDigits: 2 })}`} />
