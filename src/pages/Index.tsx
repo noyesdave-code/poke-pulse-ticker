@@ -175,9 +175,17 @@ const Index = () => {
 
         <TrustSignals />
 
+        {/* System Status for Consumer Confidence */}
+        <SystemStatusIndicator />
+
         {/* Alpha Signals — Predictive Divergence */}
         <ProGate feature="Predictive Alpha Signals" blur>
           <AlphaSignals signals={alphaSignals} />
+        </ProGate>
+
+        {/* Alpha Algorithm Accuracy Metrics */}
+        <ProGate feature="Alpha Signal Accuracy Metrics" blur>
+          <AlphaAccuracy />
         </ProGate>
 
         {/* Recent Notable Sales */}
