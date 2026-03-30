@@ -18,6 +18,7 @@ const primaryNav = [
 ];
 
 const moreNav = [
+  { path: "/promo", label: "Promo", icon: Video },
   { path: "/set-completion", label: "Collection", icon: CheckCircle },
   { path: "/guides", label: "Guides", icon: BookOpen },
   { path: "/trade", label: "Trade", icon: ArrowLeftRight },

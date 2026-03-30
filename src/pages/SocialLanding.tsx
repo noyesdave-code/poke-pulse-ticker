@@ -271,6 +271,13 @@ const SocialLanding = () => {
                   <span className="relative">Play SimTrader — Free</span>
                   <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
+                <button
+                  onClick={() => navigate("/promo")}
+                  className="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-mono text-sm font-bold border border-border text-foreground hover:bg-muted/50 transition-all duration-300"
+                >
+                  <Video className="w-4 h-4" />
+                  <span>Watch Promo</span>
+                </button>
                 <span className="flex items-center justify-center gap-1.5 font-mono text-[10px] text-muted-foreground">
                   <TrendingUp className="h-3.5 w-3.5" /> Powered by live market data
                 </span>
