@@ -1,4 +1,5 @@
 import { useState } from "react";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Send, CheckCircle, Mail } from "lucide-react";
