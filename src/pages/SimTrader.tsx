@@ -300,37 +300,10 @@ const TradingDashboard = () => {
 
       {/* Contests Tab */}
       {tab === "contests" && (
-        <div className="terminal-card p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <Trophy className="h-5 w-5 text-primary" />
-            <h3 className="font-mono text-sm font-bold">Daily Trading Contests</h3>
-          </div>
-          <div className="space-y-3">
-            <div className="border border-primary/30 rounded-lg p-4 bg-primary/5">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-xs font-bold text-primary">DAILY BLITZ</span>
-                <span className="font-mono text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded">ACTIVE</span>
-              </div>
-              <p className="font-mono text-[10px] text-muted-foreground mb-2">Trade with $50,000 virtual balance. Highest P&L wins!</p>
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] text-muted-foreground"><Clock className="inline h-3 w-3 mr-1" />Ends in 14h 23m</span>
-                <span className="font-mono text-[10px] text-primary font-semibold">🏆 Badge + 1 Month Extension</span>
-              </div>
-            </div>
-            <div className="border border-border rounded-lg p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-xs font-bold">WEEKEND WARRIOR</span>
-                <span className="font-mono text-[10px] bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded">UPCOMING</span>
-              </div>
-              <p className="font-mono text-[10px] text-muted-foreground mb-2">48-hour marathon. Extended trading with $100K balance.</p>
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] text-muted-foreground">Starts Sat 12:00 AM EST</span>
-                <span className="font-mono text-[10px] text-primary font-semibold">🏆 Exclusive Trader Badge</span>
-              </div>
-            </div>
-          </div>
-          <p className="font-mono text-[9px] text-muted-foreground mt-4 text-center">Contest prizes are in-app rewards only. No real monetary value.</p>
-        </div>
+        <ContestsPanel
+          userTotalValue={totalValue}
+          userPnlPct={pnlPct}
+        />
       )}
 
       {/* Disclaimer */}
