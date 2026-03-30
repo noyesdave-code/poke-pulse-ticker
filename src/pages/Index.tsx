@@ -188,6 +188,9 @@ const Index = () => {
         {/* Verified Portfolios Leaderboard */}
         <VerifiedLeaderboard />
 
+        {/* Whale-Exclusive AI Report */}
+        <WhaleReport cards={displayCards} />
+
         <Testimonials />
 
         <SubscriptionTiers />
