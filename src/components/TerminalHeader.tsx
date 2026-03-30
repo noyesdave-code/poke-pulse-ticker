@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/AuthModal";
-import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain, CalendarDays, Eye, Mail, Bell, CheckCircle, User, Newspaper, ArrowLeftRight, DollarSign } from "lucide-react";
+import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain, CalendarDays, Eye, Mail, Bell, CheckCircle, User, ArrowLeftRight, DollarSign, ChevronDown } from "lucide-react";
 import AccessibilityToggle from "@/components/AccessibilityToggle";
 
-const navItems = [
+const primaryNav = [
   { path: "/", label: "Terminal", icon: LayoutDashboard },
   { path: "/sets", label: "Sets", icon: Layers },
   { path: "/releases", label: "Releases", icon: CalendarDays },
@@ -13,20 +13,26 @@ const navItems = [
   { path: "/alerts", label: "Alerts", icon: Bell },
   { path: "/portfolio", label: "Portfolio", icon: Briefcase },
   { path: "/dashboard", label: "Dashboard", icon: Activity },
+  { path: "/pricing", label: "Pricing", icon: DollarSign },
+];
+
+const moreNav = [
   { path: "/set-completion", label: "Collection", icon: CheckCircle },
   { path: "/guides", label: "Guides", icon: BookOpen },
-  
   { path: "/trade", label: "Trade", icon: ArrowLeftRight },
-  { path: "/pricing", label: "Pricing", icon: DollarSign },
   { path: "/command-center", label: "AI Center", icon: Brain },
   { path: "/profile", label: "Profile", icon: User },
   { path: "/contact", label: "Contact", icon: Mail },
 ];
 
+const allNav = [...primaryNav, ...moreNav];
+
 const TerminalHeader = () => {
   const [time, setTime] = useState(new Date());
   const [showAuth, setShowAuth] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
   const { user, signOut, tier } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,7 +45,19 @@ const TerminalHeader = () => {
   // Close menu on route change
   useEffect(() => {
     setMenuOpen(false);
+    setMoreOpen(false);
   }, [location.pathname]);
+
+  // Close "More" dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
+        setMoreOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   const handleNav = (path: string) => {
     navigate(path);
@@ -80,7 +98,7 @@ const TerminalHeader = () => {
 
             {/* Desktop nav */}
             <nav className="hidden sm:flex items-center gap-0.5 ml-5">
-              {navItems.map((item) => (
+              {primaryNav.map((item) => (
                 <button
                   key={item.path}
                   onClick={() => handleNav(item.path)}
@@ -93,6 +111,40 @@ const TerminalHeader = () => {
                   {item.label}
                 </button>
               ))}
+              {/* More dropdown */}
+              <div ref={moreRef} className="relative">
+                <button
+                  onClick={() => setMoreOpen(!moreOpen)}
+                  className={`flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1.5 rounded-md transition-all ${
+                    moreNav.some(i => i.path === location.pathname)
+                      ? "text-primary bg-primary/10"
+                      : "text-foreground hover:text-primary hover:bg-muted/40"
+                  }`}
+                >
+                  More <ChevronDown className={`w-3 h-3 transition-transform ${moreOpen ? "rotate-180" : ""}`} />
+                </button>
+                {moreOpen && (
+                  <div className="absolute top-full right-0 mt-1.5 w-48 rounded-lg border border-border bg-card shadow-xl z-50 py-1 animate-in fade-in slide-in-from-top-2 duration-150">
+                    {moreNav.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <button
+                          key={item.path}
+                          onClick={() => { handleNav(item.path); setMoreOpen(false); }}
+                          className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold transition-all ${
+                            location.pathname === item.path
+                              ? "text-primary bg-primary/10"
+                              : "text-foreground hover:text-primary hover:bg-muted/40"
+                          }`}
+                        >
+                          <Icon className="w-3.5 h-3.5" />
+                          {item.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </nav>
           </div>
 
@@ -138,7 +190,7 @@ const TerminalHeader = () => {
         {menuOpen && (
           <div className="sm:hidden border-t border-border bg-terminal-header animate-in slide-in-from-top-2 duration-200">
             <nav className="flex flex-col py-1.5">
-              {navItems.map((item) => {
+              {allNav.map((item) => {
                 const Icon = item.icon;
                 const active = location.pathname === item.path;
                 return (
