@@ -87,13 +87,19 @@ const PriceChart = ({ cards }: PriceChartProps) => {
   const filteredHistory = history.slice(-days - 1);
 
   const sma20 = calcSMA(history, 20).slice(-days - 1);
+  const sma30 = calcSMA(history, 30).slice(-days - 1);
   const sma50 = calcSMA(history, 50).slice(-days - 1);
+  const sma90 = calcSMA(history, 90).slice(-days - 1);
+  const sma180 = calcSMA(history, 180).slice(-days - 1);
   const rsiValues = calcRSI(history).slice(-days - 1);
 
   const chartData = filteredHistory.map((d, i) => ({
     ...d,
     sma20: sma20[i],
+    sma30: sma30[i],
     sma50: sma50[i],
+    sma90: sma90[i],
+    sma180: sma180[i],
     rsi: rsiValues[i],
   }));
 
@@ -213,7 +219,10 @@ const PriceChart = ({ cards }: PriceChartProps) => {
                 if (value === null) return ["-", name];
                 if (name === "price") return [`$${value.toFixed(2)}`, "Price"];
                 if (name === "sma20") return [`$${value.toFixed(2)}`, "SMA 20"];
+                if (name === "sma30") return [`$${value.toFixed(2)}`, "SMA 30"];
                 if (name === "sma50") return [`$${value.toFixed(2)}`, "SMA 50"];
+                if (name === "sma90") return [`$${value.toFixed(2)}`, "SMA 90"];
+                if (name === "sma180") return [`$${value.toFixed(2)}`, "SMA 180"];
                 return [`$${value.toFixed(2)}`, name];
               }}
               cursor={{ stroke: "hsl(215, 15%, 30%)", strokeDasharray: "4 4" }}
@@ -222,17 +231,18 @@ const PriceChart = ({ cards }: PriceChartProps) => {
             {indicator === "sma" && (
               <>
                 <Line type="monotone" dataKey="sma20" stroke="hsl(45, 100%, 60%)" strokeWidth={1.5} dot={false} strokeDasharray="4 2" connectNulls />
+                <Line type="monotone" dataKey="sma30" stroke="hsl(200, 80%, 60%)" strokeWidth={1.2} dot={false} strokeDasharray="3 3" connectNulls />
                 <Line type="monotone" dataKey="sma50" stroke="hsl(280, 80%, 65%)" strokeWidth={1.5} dot={false} strokeDasharray="6 3" connectNulls />
+                <Line type="monotone" dataKey="sma90" stroke="hsl(30, 90%, 55%)" strokeWidth={1.2} dot={false} strokeDasharray="8 4" connectNulls />
+                <Line type="monotone" dataKey="sma180" stroke="hsl(0, 70%, 60%)" strokeWidth={1.2} dot={false} strokeDasharray="10 5" connectNulls />
               </>
             )}
             {indicator === "sma" && (
               <Legend
                 wrapperStyle={{ fontFamily: "JetBrains Mono", fontSize: 10 }}
                 formatter={(value: string) => {
-                  if (value === "price") return "Price";
-                  if (value === "sma20") return "SMA 20";
-                  if (value === "sma50") return "SMA 50";
-                  return value;
+                  const labels: Record<string, string> = { price: "Price", sma20: "SMA 20", sma30: "SMA 30", sma50: "SMA 50", sma90: "SMA 90", sma180: "SMA 180" };
+                  return labels[value] || value;
                 }}
               />
             )}
@@ -279,14 +289,17 @@ const PriceChart = ({ cards }: PriceChartProps) => {
           {indicator === "sma" && (
             <>
               <span className="font-mono text-[10px] text-muted-foreground">
-                SMA 20: <span className="text-[hsl(45,100%,60%)] font-semibold">${chartData[chartData.length - 1]?.sma20?.toFixed(2) ?? "—"}</span>
+                SMA 30: <span className="text-[hsl(200,80%,60%)] font-semibold">${chartData[chartData.length - 1]?.sma30?.toFixed(2) ?? "—"}</span>
               </span>
               <span className="font-mono text-[10px] text-muted-foreground">
-                SMA 50: <span className="text-[hsl(280,80%,65%)] font-semibold">${chartData[chartData.length - 1]?.sma50?.toFixed(2) ?? "—"}</span>
+                SMA 90: <span className="text-[hsl(30,90%,55%)] font-semibold">${chartData[chartData.length - 1]?.sma90?.toFixed(2) ?? "—"}</span>
               </span>
-              {chartData[chartData.length - 1]?.sma20 && chartData[chartData.length - 1]?.sma50 && (
-                <span className={`font-mono text-[10px] font-bold ${chartData[chartData.length - 1].sma20! > chartData[chartData.length - 1].sma50! ? "text-terminal-green" : "text-terminal-red"}`}>
-                  {chartData[chartData.length - 1].sma20! > chartData[chartData.length - 1].sma50! ? "▲ BULLISH CROSS" : "▼ BEARISH CROSS"}
+              <span className="font-mono text-[10px] text-muted-foreground">
+                SMA 180: <span className="text-[hsl(0,70%,60%)] font-semibold">${chartData[chartData.length - 1]?.sma180?.toFixed(2) ?? "—"}</span>
+              </span>
+              {chartData[chartData.length - 1]?.sma30 && chartData[chartData.length - 1]?.sma90 && (
+                <span className={`font-mono text-[10px] font-bold ${chartData[chartData.length - 1].sma30! > chartData[chartData.length - 1].sma90! ? "text-terminal-green" : "text-terminal-red"}`}>
+                  {chartData[chartData.length - 1].sma30! > chartData[chartData.length - 1].sma90! ? "▲ BULLISH CROSS" : "▼ BEARISH CROSS"}
                 </span>
               )}
             </>
