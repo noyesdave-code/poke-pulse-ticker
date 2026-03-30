@@ -190,7 +190,29 @@ const TerminalHeader = () => {
         {menuOpen && (
           <div className="sm:hidden border-t border-border bg-terminal-header animate-in slide-in-from-top-2 duration-200">
             <nav className="flex flex-col py-2">
-              {allNav.map((item) => {
+              {primaryNav.map((item) => {
+                const Icon = item.icon;
+                const active = location.pathname === item.path;
+                return (
+                  <button
+                    key={item.path}
+                    onClick={() => handleNav(item.path)}
+                    className={`flex items-center gap-3.5 px-5 py-4 min-h-[48px] transition-all ${
+                      active
+                        ? "text-primary bg-primary/10"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
+                    }`}
+                  >
+                    <Icon className="w-5 h-5" />
+                    <span className="uppercase text-sm font-bold tracking-wide">{item.label}</span>
+                    {active && (
+                      <div className="ml-auto h-2 w-2 rounded-full bg-primary" />
+                    )}
+                  </button>
+                );
+              })}
+              <div className="mx-5 my-1 border-t border-border/50" />
+              {moreNav.map((item) => {
                 const Icon = item.icon;
                 const active = location.pathname === item.path;
                 return (
