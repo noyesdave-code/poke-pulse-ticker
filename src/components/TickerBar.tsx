@@ -35,7 +35,7 @@ const TickerBar = ({ cards = [], isLive = false, lastUpdated }: TickerBarProps) 
         {/* Refresh countdown badge — sits above the scrolling text */}
         {isLive && countdown && (
           <div className="flex-shrink-0 px-2 py-1.5 border-r border-border bg-terminal-header z-10 relative shadow-[6px_0_12px_4px_hsl(var(--terminal-header))]">
-            <span className="font-mono text-[9px] text-foreground uppercase tracking-wider">
+            <span className="font-mono text-[9px] text-secondary uppercase tracking-wider font-bold">
               ↻ {countdown}
             </span>
           </div>
