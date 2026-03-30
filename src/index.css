@@ -417,3 +417,8 @@ img {
     padding: 100px;
   }
 }
+
+/* Demo mode — hide chrome for clean screen recordings */
+body.demo-mode [data-demo-hide] {
+  display: none !important;
+}
