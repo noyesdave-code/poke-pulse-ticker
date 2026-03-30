@@ -13,7 +13,6 @@ interface TopMoversTableProps {
 const MiniSparkline = ({ change }: { change: number }) => {
   const isUp = change >= 0;
   const points = [];
-  // Deterministic mini-trend based on change
   const seed = Math.abs(change * 1000) | 0;
   for (let i = 0; i < 12; i++) {
     const noise = Math.sin(seed + i * 2.5) * 4;
@@ -53,12 +52,13 @@ const TopMoversTable = ({ cards, title }: TopMoversTableProps) => {
         <table className="w-full">
           <thead>
             <tr className="border-b border-border">
-              <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Ticker</th>
-              <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Card</th>
-              <th className="px-4 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Set</th>
-              <th className="px-4 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Market</th>
-              <th className="px-4 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Change</th>
-              <th className="px-4 py-2 text-center font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Signal</th>
+              <th className="px-3 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase w-10"></th>
+              <th className="px-2 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Ticker</th>
+              <th className="px-2 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Card</th>
+              <th className="px-2 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase hidden sm:table-cell">Set</th>
+              <th className="px-2 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Market</th>
+              <th className="px-2 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Change</th>
+              <th className="px-2 py-2 text-center font-mono text-[10px] tracking-widest text-muted-foreground uppercase hidden sm:table-cell">Signal</th>
             </tr>
           </thead>
           <tbody>
@@ -71,23 +71,40 @@ const TopMoversTable = ({ cards, title }: TopMoversTableProps) => {
                 transition={{ delay: i * 0.05, duration: 0.3 }}
                 className="data-row"
               >
-                <td className="px-4 py-2.5">
+                {/* Card thumbnail */}
+                <td className="px-3 py-2">
+                  {card._image ? (
+                    <div className="w-8 h-11 rounded overflow-hidden bg-muted ring-1 ring-border flex-shrink-0">
+                      <img
+                        src={card._image}
+                        alt={card.name}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-8 h-11 rounded bg-muted ring-1 ring-border flex items-center justify-center flex-shrink-0">
+                      <span className="font-mono text-[7px] text-muted-foreground">IMG</span>
+                    </div>
+                  )}
+                </td>
+                <td className="px-2 py-2.5">
                   <span className="font-mono text-[10px] text-primary/70 font-bold tracking-wider">
                     {getCardToken(card)}
                   </span>
                 </td>
-                <td className="px-4 py-2.5 font-mono text-sm text-foreground font-medium">{card.name}</td>
-                <td className="px-4 py-2.5 font-mono text-xs text-muted-foreground">{card.set}</td>
-                <td className="px-4 py-2.5 font-mono text-sm text-foreground text-right">
+                <td className="px-2 py-2.5 font-mono text-sm text-foreground font-medium">{card.name}</td>
+                <td className="px-2 py-2.5 font-mono text-xs text-muted-foreground hidden sm:table-cell">{card.set}</td>
+                <td className="px-2 py-2.5 font-mono text-sm text-foreground text-right">
                   ${card.market.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </td>
-                <td className={`px-4 py-2.5 font-mono text-sm text-right font-semibold ${card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
+                <td className={`px-2 py-2.5 font-mono text-sm text-right font-semibold ${card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
                   <span className="inline-flex items-center">
                     {card.change >= 0 ? "+" : ""}{card.change.toFixed(2)}%
                     <MiniSparkline change={card.change} />
                   </span>
                 </td>
-                <td className="px-4 py-2.5 text-center">
+                <td className="px-2 py-2.5 text-center hidden sm:table-cell">
                   <SignalBadge result={getCardSignal(card)} />
                 </td>
               </motion.tr>

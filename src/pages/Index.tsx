@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { rawCards, gradedCards, sealedProducts, getIndexValue, getIndexChange } from "@/data/marketData";
 import { useLiveCards } from "@/hooks/usePokemonTcg";
 import { useGradedCards } from "@/hooks/useGradedCards";
@@ -6,6 +6,7 @@ import { useSealedProducts } from "@/hooks/useSealedProducts";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import HeroSection from "@/components/HeroSection";
+import SocialProofBar from "@/components/SocialProofBar";
 import MarketUpdateBanner from "@/components/MarketUpdateBanner";
 import MarketIndexCard from "@/components/MarketIndexCard";
 import TrendingCards from "@/components/TrendingCards";
@@ -62,6 +63,12 @@ const Index = () => {
   const sealedIndex = getIndexValue(displaySealed);
   const sealedChange = getIndexChange(displaySealed);
 
+  // Get top mover for hero urgency hook
+  const topMover = useMemo(() => {
+    const sorted = [...displayCards].sort((a, b) => Math.abs(b.change) - Math.abs(a.change));
+    return sorted[0] || null;
+  }, [displayCards]);
+
   const handleSearchFocus = () => {
     searchRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     setTimeout(() => {
@@ -96,31 +103,46 @@ const Index = () => {
           </div>
         )}
 
-        <HeroSection onSearchFocus={handleSearchFocus} />
+        {/* 1. Hero with urgency hook */}
+        <HeroSection
+          onSearchFocus={handleSearchFocus}
+          topMoverName={topMover?.name}
+          topMoverChange={topMover?.change}
+        />
 
-        {/* Data Quality & Freshness */}
-        <DataQualityBadge isLive={isLive} lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined} cardCount={displayCards.length} />
+        {/* 2. Social proof — immediately after hero */}
+        <SocialProofBar />
 
-        <MarketUpdateBanner cards={displayCards} />
-
-        {/* Market Index Cards */}
+        {/* 3. Market Index Cards — show the money right away */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <MarketIndexCard title="RAW 500 INDEX" value={rawIndex} change={rawChange} count={displayCards.length} description="Average tracked raw card market value" variant="green" />
           <MarketIndexCard title="GRADED 1000 INDEX" value={gradedIndex} change={gradedChange} count={displayGraded.length} description="Average tracked graded card market value (PSA/CGC/BGS/TAG)" variant="amber" />
           <MarketIndexCard title="SEALED 1000 INDEX" value={sealedIndex} change={sealedChange} count={displaySealed.length} description="Average tracked sealed product value (Boxes/Packs/ETBs)" variant="blue" />
         </div>
 
-        {/* Era-Based Indexes — Market Adaptability */}
+        {/* Data Quality & Freshness */}
+        <DataQualityBadge isLive={isLive} lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined} cardCount={displayCards.length} />
+
+        <MarketUpdateBanner cards={displayCards} />
+
+        {/* 4. Trending Cards with images — above the fold dopamine hit */}
+        <TrendingCards cards={displayCards} />
+
+        {/* Top Movers with card thumbnails */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" />
+          <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" />
+        </div>
+
+        {/* Era-Based Indexes */}
         <EraIndexCards cards={displayCards} />
 
-        {/* Market Trend Summary — Predictability */}
+        {/* Market Trend Summary */}
         <MarketTrendSummary cards={displayCards} />
 
         <TrustSignals />
 
-        <TrendingCards cards={displayCards} />
-
-        {/* Recent Notable Sales — Consumer Confidence */}
+        {/* Recent Notable Sales */}
         <RecentNotableSales cards={displayCards} />
 
         {/* Search */}
@@ -137,12 +159,6 @@ const Index = () => {
         <ProGate feature="AI signal analysis" blur>
           <SignalSummary cards={displayCards} />
         </ProGate>
-
-        {/* Top Movers */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" />
-          <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" />
-        </div>
 
         {/* Tabbed Full Board — Pro */}
         <ProGate feature="Full card board (500+ cards)" blur>
