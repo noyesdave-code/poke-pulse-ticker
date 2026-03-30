@@ -1,10 +1,10 @@
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { STRIPE_TIERS } from "@/lib/stripe";
-import { Lock, Zap } from "lucide-react";
+import { Lock, Zap, Clock, CheckCircle } from "lucide-react";
 import { useState } from "react";
 import AuthModal from "./AuthModal";
+import { motion } from "framer-motion";
 
 interface ProGateProps {
   children: React.ReactNode;
@@ -47,26 +47,57 @@ const ProGate = ({ children, feature = "This feature", blur = false }: ProGatePr
         <div className="pointer-events-none select-none blur-sm opacity-50">{children}</div>
       ) : null}
       <div className={`${blur ? "absolute inset-0 flex items-center justify-center" : ""}`}>
-        <div className="terminal-card border-primary/30 bg-background/95 backdrop-blur-sm p-6 text-center max-w-md mx-auto">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className="terminal-card border-primary/30 bg-background/95 backdrop-blur-sm p-6 text-center max-w-md mx-auto"
+        >
           <div className="flex justify-center mb-3">
-            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center ring-2 ring-primary/20">
               <Lock className="h-5 w-5 text-primary" />
             </div>
           </div>
           <h3 className="font-mono text-sm font-bold text-foreground mb-1">
-            PRO Feature
+            🔒 PRO Feature — Unlock Now
           </h3>
-          <p className="text-xs text-muted-foreground mb-4">
+          <p className="text-xs text-muted-foreground mb-3">
             {feature} requires a Pro subscription.
           </p>
+
+          {/* Value props */}
+          <div className="flex flex-col gap-1.5 mb-4 text-left max-w-xs mx-auto">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+              <span className="font-mono text-[11px] text-foreground">Full price history & charts</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+              <span className="font-mono text-[11px] text-foreground">AI signal analysis & alerts</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+              <span className="font-mono text-[11px] text-foreground">500+ card board access</span>
+            </div>
+          </div>
+
           <button
             onClick={handleUpgrade}
             disabled={loading}
-            className="w-full py-2.5 rounded font-mono text-sm font-semibold bg-primary text-primary-foreground hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            className="group relative w-full py-3 rounded-lg font-mono text-sm font-bold bg-primary text-primary-foreground hover:shadow-[0_0_30px_hsl(160_84%_50%/0.3)] transition-all disabled:opacity-50 flex items-center justify-center gap-2 overflow-hidden"
           >
-            <Zap className="h-4 w-4" />
-            {loading ? "Loading..." : "Upgrade to Pro — $19/mo"}
+            <div className="absolute inset-0 shimmer-sweep opacity-50" />
+            <Zap className="relative h-4 w-4" />
+            <span className="relative">{loading ? "Loading..." : "Start 7-Day Free Trial"}</span>
           </button>
+
+          <div className="flex items-center justify-center gap-1.5 mt-2.5">
+            <Clock className="w-3 h-3 text-primary/60" />
+            <span className="font-mono text-[10px] text-primary/70">
+              Then $19/mo · Cancel anytime
+            </span>
+          </div>
+
           <a
             href="/pricing"
             className="block text-center font-mono text-[10px] text-primary hover:underline mt-2"
@@ -78,7 +109,7 @@ const ProGate = ({ children, feature = "This feature", blur = false }: ProGatePr
               Sign in required to subscribe
             </p>
           )}
-        </div>
+        </motion.div>
       </div>
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </div>

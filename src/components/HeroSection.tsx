@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Briefcase, Layers, TrendingUp } from "lucide-react";
+import { Search, Briefcase, Layers, TrendingUp, Zap, ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -33,9 +33,11 @@ const actions = [
 
 interface HeroSectionProps {
   onSearchFocus?: () => void;
+  topMoverName?: string;
+  topMoverChange?: number;
 }
 
-const HeroSection = ({ onSearchFocus }: HeroSectionProps) => {
+const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectionProps) => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const ref = useRef<HTMLDivElement>(null);
@@ -44,6 +46,11 @@ const HeroSection = ({ onSearchFocus }: HeroSectionProps) => {
   const glowScale = useTransform(scrollYProgress, [0, 0.5, 1], isMobile ? [1, 1, 1] : [0.9, 1.1, 0.95]);
 
   const particleCount = isMobile ? 4 : 12;
+
+  // Dynamic headline based on real top mover
+  const hookLine = topMoverName && topMoverChange
+    ? `${topMoverName} just moved ${topMoverChange >= 0 ? "+" : ""}${topMoverChange.toFixed(1)}% — are you tracking it?`
+    : "Your cards are moving right now — are you tracking them?";
 
   return (
     <motion.div
@@ -104,13 +111,59 @@ const HeroSection = ({ onSearchFocus }: HeroSectionProps) => {
               <span className="glow-p">P</span>okémon TCG{" "}
               <span className="text-primary">Market Terminal</span>
             </motion.h1>
+
+            {/* Dynamic urgency hook */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.35, duration: 0.5 }}
+              className="text-sm sm:text-base text-secondary font-semibold"
+            >
+              {hookLine}
+            </motion.p>
+
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
-              className="text-sm sm:text-base text-muted-foreground max-w-lg leading-relaxed"
+              className="text-xs sm:text-sm text-muted-foreground max-w-lg leading-relaxed"
             >
               Real-time prices for <span className="text-foreground font-medium">500+ cards</span>, graded values & sealed products — updated hourly from live market data.
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="flex flex-wrap gap-3 pt-1"
+            >
+              <button
+                onClick={() => navigate("/pricing")}
+                className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-mono text-sm font-bold bg-primary text-primary-foreground hover:shadow-[0_0_30px_hsl(160_84%_50%/0.35)] transition-all duration-300 overflow-hidden"
+              >
+                <div className="absolute inset-0 shimmer-sweep opacity-60" />
+                <Zap className="relative w-4 h-4" />
+                <span className="relative">START FREE TRIAL</span>
+                <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+              <button
+                onClick={onSearchFocus}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg font-mono text-sm font-medium border border-border text-foreground hover:border-primary/40 hover:bg-muted/50 transition-all duration-300"
+              >
+                <Search className="w-4 h-4 text-muted-foreground" />
+                Price Check a Card
+              </button>
+            </motion.div>
+
+            {/* Trial guarantee */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="font-mono text-[10px] text-primary/70 tracking-wide"
+            >
+              ✓ 7-day free trial &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ No credit card to browse
             </motion.p>
           </div>
           <motion.div
@@ -145,7 +198,6 @@ const HeroSection = ({ onSearchFocus }: HeroSectionProps) => {
               }}
               className="relative flex flex-col items-center gap-2.5 px-3 py-5 sm:py-6 transition-colors group cursor-pointer hover:bg-muted/30 overflow-hidden"
             >
-              {/* Shimmer sweep on hover */}
               <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <div className="absolute inset-0 shimmer-sweep" />
               </div>
