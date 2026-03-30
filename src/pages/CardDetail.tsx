@@ -9,6 +9,8 @@ import { useAddToWatchlist, useIsOnWatchlist } from "@/hooks/useWatchlist";
 import { useAddPriceAlert } from "@/hooks/usePriceAlerts";
 import { useCreateDeltaAlert } from "@/hooks/useDeltaAlerts";
 import { getCardToken } from "@/lib/tokenSymbols";
+import { getCardSignal } from "@/hooks/useSignalIndicator";
+import SignalBadge from "@/components/SignalBadge";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import CardPriceHistory from "@/components/CardPriceHistory";
@@ -139,6 +141,9 @@ const CardDetail = () => {
                     {card.set} • #{card.number}
                     {card.grade && <span className="ml-2 text-terminal-amber font-semibold">{card.grade}</span>}
                   </p>
+                  <div className="mt-2">
+                    <SignalBadge result={getCardSignal(card)} size="md" showDetails />
+                  </div>
                   {apiCard && (
                     <p className="font-mono text-[10px] text-muted-foreground mt-1">
                       Updated: {apiCard.tcgplayer?.updatedAt || "N/A"}

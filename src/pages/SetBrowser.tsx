@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { fetchSets, fetchSetCards, getBestPrice, type PokemonTCGSet, type PokemonTCGCard } from "@/lib/pokemonTcgApi";

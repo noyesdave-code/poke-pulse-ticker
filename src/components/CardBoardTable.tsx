@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import type { CardData } from "@/data/marketData";
 import { getCardToken } from "@/lib/tokenSymbols";
+import { getCardSignal } from "@/hooks/useSignalIndicator";
+import SignalBadge from "@/components/SignalBadge";
 
 const cardRoute = (card: CardData) =>
   card._apiId ? `/card/${card._apiId}` : `/card/${encodeURIComponent(`${card.name}-${card.set}-${card.number}`.replace(/\s+/g, "-").toLowerCase())}`;
@@ -114,10 +116,11 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
               >
                 Chg%<SortIcon col="change" />
               </th>
+              <th className="px-4 py-2 text-center font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Signal</th>
             </tr>
           </thead>
           <tbody>
-            {sorted.map((card, i) => (
+            {sorted.slice(0, 100).map((card, i) => (
               <tr key={i} className="data-row cursor-pointer" onClick={() => navigate(cardRoute(card))}>
                 <td className="px-4 py-2">
                   <span className="font-mono text-[10px] text-primary font-bold tracking-wider bg-primary/10 px-1.5 py-0.5 rounded">
@@ -144,6 +147,9 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
                 </td>
                 <td className={`px-4 py-2 font-mono text-sm text-right font-semibold ${card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
                   {card.change >= 0 ? "+" : ""}{card.change.toFixed(2)}%
+                </td>
+                <td className="px-4 py-2 text-center">
+                  <SignalBadge result={getCardSignal(card)} />
                 </td>
               </tr>
             ))}

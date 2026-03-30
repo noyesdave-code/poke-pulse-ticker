@@ -3,22 +3,60 @@ import { fetchHighValueCards, searchCards, fetchCardById, toCardData, getBestPri
 import type { PokemonTCGCard } from "@/lib/pokemonTcgApi";
 import type { CardData } from "@/data/marketData";
 
+const CACHE_KEY = "ppt-live-cards-cache";
+
+function getCachedCards(): CardData[] | null {
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (!cached) return null;
+    const { data, timestamp } = JSON.parse(cached);
+    // Cache valid for 24 hours as fallback
+    if (Date.now() - timestamp > 24 * 60 * 60 * 1000) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function setCachedCards(cards: CardData[]) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ data: cards, timestamp: Date.now() }));
+  } catch {
+    // Storage full — ignore
+  }
+}
+
 /**
  * Fetch high-value cards with TCGPlayer pricing, converted to CardData[]
+ * Implements stale-while-revalidate: serves cached data on API failure
  */
 export function useLiveCards() {
   return useQuery({
     queryKey: ["live-cards"],
     queryFn: async () => {
-      const apiCards = await fetchHighValueCards(500);
-      const mapped = apiCards
-        .map(toCardData)
-        .filter((c): c is CardData & { _apiId: string; _image: string } => c !== null && c.market > 0)
-        .sort((a, b) => b.market - a.market);
-      return mapped;
+      try {
+        const apiCards = await fetchHighValueCards(500);
+        const mapped = apiCards
+          .map(toCardData)
+          .filter((c): c is CardData & { _apiId: string; _image: string } => c !== null && c.market > 0)
+          .sort((a, b) => b.market - a.market);
+        // Persist to localStorage for offline fallback
+        setCachedCards(mapped);
+        return mapped;
+      } catch (error) {
+        // Serve stale cache when API is down
+        const cached = getCachedCards();
+        if (cached && cached.length > 0) {
+          console.warn("[SWR] API failed, serving cached data:", error);
+          return cached;
+        }
+        throw error;
+      }
     },
     staleTime: 60 * 60 * 1000, // 60 min
     refetchInterval: 60 * 60 * 1000,
+    // Initialize from cache while fetching
+    placeholderData: () => getCachedCards() ?? undefined,
   });
 }
 
