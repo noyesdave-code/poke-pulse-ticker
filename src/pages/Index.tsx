@@ -27,6 +27,7 @@ import AlphaSignals from "@/components/AlphaSignals";
 import { useAlphaSignals } from "@/hooks/useAlphaSignals";
 import { useTotalMarketValue } from "@/hooks/useIndexCache";
 import VerifiedLeaderboard from "@/components/VerifiedLeaderboard";
+import WhaleReport from "@/components/WhaleReport";
 import RecentNotableSales from "@/components/RecentNotableSales";
 import EraIndexCards from "@/components/EraIndexCards";
 import MarketTrendSummary from "@/components/MarketTrendSummary";
