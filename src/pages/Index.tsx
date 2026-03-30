@@ -184,6 +184,11 @@ const Index = () => {
           <AlphaSignals signals={alphaSignals} />
         </ProGate>
 
+        {/* Grading Arbitrage Scanner */}
+        <ProGate feature="Grading Arbitrage Scanner" blur>
+          <GradingArbitrage />
+        </ProGate>
+
         {/* Alpha Algorithm Accuracy Metrics */}
         <ProGate feature="Alpha Signal Accuracy Metrics" blur>
           <AlphaAccuracy />
