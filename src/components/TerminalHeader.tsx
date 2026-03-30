@@ -66,7 +66,7 @@ const TerminalHeader = () => {
               onClick={() => handleNav("/")}
             >
               <div className="relative flex items-center justify-center" style={{ height: '40px', width: '32px' }}>
-                <span className="font-black text-[40px] leading-none text-primary select-none glow-p">P</span>
+                <span className="font-black text-[40px] leading-none text-primary select-none glow-p transition-all duration-300 group-hover:scale-110 group-hover:brightness-150 group-hover:drop-shadow-[0_0_24px_hsl(var(--primary)/0.8)]">P</span>
               </div>
               <div className="hidden min-[400px]:block">
                 <h1 className="text-[13px] font-extrabold tracking-tight text-foreground leading-none">
