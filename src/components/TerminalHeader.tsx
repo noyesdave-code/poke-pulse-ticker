@@ -100,6 +100,7 @@ const TerminalHeader = () => {
 
           {/* Right: status + auth */}
           <div className="flex items-center gap-2.5 sm:gap-3">
+            <AccessibilityToggle />
             <div className="hidden sm:flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1">
               <div className="h-2 w-2 rounded-full bg-primary pulse-live" />
               <span className="text-[11px] font-bold text-primary tracking-wide">LIVE</span>
