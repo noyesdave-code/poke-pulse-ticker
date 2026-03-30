@@ -23,6 +23,9 @@ import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import TrustSignals from "@/components/TrustSignals";
 import ProGate from "@/components/ProGate";
 import Testimonials from "@/components/Testimonials";
+import AlphaSignals from "@/components/AlphaSignals";
+import { useAlphaSignals } from "@/hooks/useAlphaSignals";
+import { useTotalMarketValue } from "@/hooks/useIndexCache";
 import RecentNotableSales from "@/components/RecentNotableSales";
 import EraIndexCards from "@/components/EraIndexCards";
 import MarketTrendSummary from "@/components/MarketTrendSummary";
@@ -63,6 +66,13 @@ const Index = () => {
   const gradedChange = getIndexChange(displayGraded);
   const sealedIndex = getIndexValue(displaySealed);
   const sealedChange = getIndexChange(displaySealed);
+
+  const totalMarketValue = useTotalMarketValue(
+    rawIndex, gradedIndex, sealedIndex,
+    displayCards.length, displayGraded.length, displaySealed.length
+  );
+
+  const alphaSignals = useAlphaSignals(displayCards);
 
   // Get top mover for hero urgency hook
   const topMover = useMemo(() => {
@@ -112,7 +122,7 @@ const Index = () => {
         />
 
         {/* 2. Social proof — immediately after hero */}
-        <SocialProofBar />
+        <SocialProofBar totalMarketValue={totalMarketValue} />
 
         {/* 3. Market Index Cards — show the money right away */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -142,6 +152,11 @@ const Index = () => {
         <MarketTrendSummary cards={displayCards} />
 
         <TrustSignals />
+
+        {/* Alpha Signals — Predictive Divergence */}
+        <ProGate feature="Predictive Alpha Signals" blur>
+          <AlphaSignals signals={alphaSignals} />
+        </ProGate>
 
         {/* Recent Notable Sales */}
         <RecentNotableSales cards={displayCards} />
