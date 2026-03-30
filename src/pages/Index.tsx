@@ -40,6 +40,7 @@ import SystemStatusIndicator from "@/components/SystemStatusIndicator";
 import AlphaAccuracy from "@/components/AlphaAccuracy";
 import ImportFromTCGPlayer from "@/components/ImportFromTCGPlayer";
 import TeamPlanCTA from "@/components/TeamPlanCTA";
+import GradingArbitrage from "@/components/GradingArbitrage";
 import { SkeletonIndexCard, SkeletonTableRow, SkeletonTrendingCard } from "@/components/SkeletonCard";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
@@ -181,6 +182,11 @@ const Index = () => {
         {/* Alpha Signals — Predictive Divergence */}
         <ProGate feature="Predictive Alpha Signals" blur>
           <AlphaSignals signals={alphaSignals} />
+        </ProGate>
+
+        {/* Grading Arbitrage Scanner */}
+        <ProGate feature="Grading Arbitrage Scanner" blur>
+          <GradingArbitrage />
         </ProGate>
 
         {/* Alpha Algorithm Accuracy Metrics */}
