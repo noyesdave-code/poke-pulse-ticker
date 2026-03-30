@@ -98,7 +98,7 @@ const TerminalHeader = () => {
 
             {/* Desktop nav */}
             <nav className="hidden sm:flex items-center gap-0.5 ml-5">
-              {navItems.map((item) => (
+              {primaryNav.map((item) => (
                 <button
                   key={item.path}
                   onClick={() => handleNav(item.path)}
@@ -111,6 +111,40 @@ const TerminalHeader = () => {
                   {item.label}
                 </button>
               ))}
+              {/* More dropdown */}
+              <div ref={moreRef} className="relative">
+                <button
+                  onClick={() => setMoreOpen(!moreOpen)}
+                  className={`flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1.5 rounded-md transition-all ${
+                    moreNav.some(i => i.path === location.pathname)
+                      ? "text-primary bg-primary/10"
+                      : "text-foreground hover:text-primary hover:bg-muted/40"
+                  }`}
+                >
+                  More <ChevronDown className={`w-3 h-3 transition-transform ${moreOpen ? "rotate-180" : ""}`} />
+                </button>
+                {moreOpen && (
+                  <div className="absolute top-full right-0 mt-1.5 w-48 rounded-lg border border-border bg-card shadow-xl z-50 py-1 animate-in fade-in slide-in-from-top-2 duration-150">
+                    {moreNav.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <button
+                          key={item.path}
+                          onClick={() => { handleNav(item.path); setMoreOpen(false); }}
+                          className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold transition-all ${
+                            location.pathname === item.path
+                              ? "text-primary bg-primary/10"
+                              : "text-foreground hover:text-primary hover:bg-muted/40"
+                          }`}
+                        >
+                          <Icon className="w-3.5 h-3.5" />
+                          {item.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </nav>
           </div>
 
