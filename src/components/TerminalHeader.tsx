@@ -69,10 +69,10 @@ const TerminalHeader = () => {
                 <span className="font-black text-[40px] leading-none text-foreground select-none transition-all duration-300 group-hover:scale-110 group-hover:brightness-150" style={{ textShadow: '0 0 8px hsl(210 20% 98% / 0.7), 0 0 20px hsl(210 20% 98% / 0.4), 0 0 40px hsl(210 20% 98% / 0.2)' }}>P</span>
               </div>
               <div className="hidden min-[400px]:block">
-                <h1 className="text-[13px] font-extrabold tracking-tight text-foreground leading-none">
+                <h1 className="text-[13px] font-extrabold tracking-tight leading-none text-primary">
                   Poke Pulse
                 </h1>
-                <p className="text-[9px] font-semibold tracking-[0.15em] text-primary/80 uppercase mt-0.5">
+                <p className="text-[9px] font-semibold tracking-[0.15em] text-secondary uppercase mt-0.5">
                   Market Terminal
                 </p>
               </div>
@@ -87,7 +87,7 @@ const TerminalHeader = () => {
                   className={`text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1.5 rounded-md transition-all ${
                     location.pathname === item.path
                       ? "text-primary bg-primary/10"
-                      : "text-foreground/80 hover:text-foreground hover:bg-muted/40"
+                      : "text-primary/70 hover:text-primary hover:bg-muted/40"
                   }`}
                 >
                   {item.label}
@@ -108,7 +108,7 @@ const TerminalHeader = () => {
                 {tier}
               </span>
             )}
-            <div className="hidden md:block font-mono text-xs text-foreground">
+            <div className="hidden md:block font-mono text-xs text-primary">
               {time.toLocaleString()}
             </div>
             {user ? (

@@ -35,7 +35,7 @@ const TickerBar = ({ cards = [], isLive = false, lastUpdated }: TickerBarProps) 
         {/* Refresh countdown badge — sits above the scrolling text */}
         {isLive && countdown && (
           <div className="flex-shrink-0 px-2 py-1.5 border-r border-border bg-terminal-header z-10 relative shadow-[6px_0_12px_4px_hsl(var(--terminal-header))]">
-            <span className="font-mono text-[9px] text-foreground uppercase tracking-wider">
+            <span className="font-mono text-[9px] text-secondary uppercase tracking-wider font-bold">
               ↻ {countdown}
             </span>
           </div>
@@ -45,7 +45,7 @@ const TickerBar = ({ cards = [], isLive = false, lastUpdated }: TickerBarProps) 
             <span key={i} className="inline-flex items-center gap-2 px-4 font-mono text-xs">
               <span className="text-primary font-bold text-[10px]">{getCardToken(card)}</span>
               <span className="text-secondary font-semibold">{card.name}</span>
-              <span className="text-foreground">${card.market.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+              <span className="text-foreground font-semibold">${card.market.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
               <span className={card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}>
                 {card.change >= 0 ? "▲" : "▼"} {Math.abs(card.change).toFixed(2)}%
               </span>
