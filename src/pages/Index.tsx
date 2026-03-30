@@ -184,6 +184,9 @@ const Index = () => {
 
         <MarketCapSummary liveRawCards={displayCards} />
 
+        {/* Verified Portfolios Leaderboard */}
+        <VerifiedLeaderboard />
+
         <Testimonials />
 
         <SubscriptionTiers />
