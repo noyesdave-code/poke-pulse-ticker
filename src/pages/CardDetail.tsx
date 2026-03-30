@@ -15,6 +15,7 @@ import VolumeChart from "@/components/VolumeChart";
 import CardSignalBreakdown from "@/components/CardSignalBreakdown";
 import CardSentimentPoll from "@/components/CardSentimentPoll";
 import SellerComparison from "@/components/SellerComparison";
+import AffiliateLinks from "@/components/AffiliateLinks";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { ArrowLeft, Loader2, Briefcase, Eye, EyeOff, Bell } from "lucide-react";
 
@@ -291,6 +292,12 @@ const CardDetail = () => {
 
         {/* Community Sentiment */}
         {cardApiId && <CardSentimentPoll cardApiId={cardApiId} />}
+
+        {/* Affiliate Buy Links */}
+        <div className="terminal-card p-4">
+          <h3 className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">Buy This Card</h3>
+          <AffiliateLinks cardName={card.name} setName={card.set} />
+        </div>
 
         {/* Seller Comparison */}
         <SellerComparison card={card} />

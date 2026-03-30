@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { rawCards, gradedCards, sealedProducts } from "@/data/marketData";
+import AffiliateLinks from "@/components/AffiliateLinks";
 
 const CardSearch = () => {
   const [query, setQuery] = useState("");
@@ -44,13 +45,16 @@ const CardSearch = () => {
                   <span className="font-mono text-xs text-muted-foreground ml-2">{item.set}</span>
                 </div>
               </div>
-              <div className="text-right">
-                <span className="font-mono text-sm text-foreground">
-                  ${item.market.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                </span>
-                <span className={`font-mono text-xs ml-2 font-semibold ${item.change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
-                  {item.change >= 0 ? "+" : ""}{item.change.toFixed(2)}%
-                </span>
+              <div className="text-right space-y-1">
+                <div>
+                  <span className="font-mono text-sm text-foreground">
+                    ${item.market.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                  </span>
+                  <span className={`font-mono text-xs ml-2 font-semibold ${item.change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
+                    {item.change >= 0 ? "+" : ""}{item.change.toFixed(2)}%
+                  </span>
+                </div>
+                <AffiliateLinks cardName={item.name} setName={item.set} compact />
               </div>
             </div>
           ))}

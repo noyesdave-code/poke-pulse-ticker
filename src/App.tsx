@@ -28,6 +28,7 @@ import BlogPost from "./pages/BlogPost.tsx";
 import BlogEditor from "./pages/BlogEditor.tsx";
 import TradeCalculator from "./pages/TradeCalculator.tsx";
 import Pricing from "./pages/Pricing.tsx";
+import Methodology from "./pages/Methodology.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
 
 const queryClient = new QueryClient();
@@ -66,6 +67,7 @@ const AnimatedRoutes = () => {
           <Route path="/blog-editor" element={<BlogEditor />} />
           <Route path="/trade" element={<TradeCalculator />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/methodology" element={<Methodology />} />
           <Route path="/unsubscribe" element={<Unsubscribe />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
