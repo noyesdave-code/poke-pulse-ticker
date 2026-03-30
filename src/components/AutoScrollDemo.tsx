@@ -60,6 +60,7 @@ const AutoScrollDemo = () => {
   const stop = () => {
     setActive(false);
     setCountdown(0);
+    document.body.classList.remove("demo-mode");
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
   };
 
