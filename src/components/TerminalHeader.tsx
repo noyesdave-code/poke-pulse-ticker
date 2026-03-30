@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/AuthModal";
-import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain, CalendarDays, Eye, Mail, Bell, CheckCircle, User, ArrowLeftRight, DollarSign, ChevronDown, Gamepad2 } from "lucide-react";
+import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain, CalendarDays, Eye, Mail, Bell, CheckCircle, User, ArrowLeftRight, DollarSign, ChevronDown, Gamepad2, Video } from "lucide-react";
 import AccessibilityToggle from "@/components/AccessibilityToggle";
 
 const primaryNav = [
@@ -18,6 +18,7 @@ const primaryNav = [
 ];
 
 const moreNav = [
+  { path: "/promo", label: "Promo", icon: Video },
   { path: "/set-completion", label: "Collection", icon: CheckCircle },
   { path: "/guides", label: "Guides", icon: BookOpen },
   { path: "/trade", label: "Trade", icon: ArrowLeftRight },
