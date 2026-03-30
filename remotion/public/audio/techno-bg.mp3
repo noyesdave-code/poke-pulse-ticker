@@ -1,1 +1,1 @@
-{"error":"ElevenLabs Music failed [401]: {\"detail\":{\"status\":\"missing_permissions\",\"message\":\"The API key you used is missing the permission music_generation to execute this operation.\"}}"}
+{"detail":{"status":"missing_permissions","message":"The API key you used is missing the permission music_generation to execute this operation."}}
