@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import type { CardData } from "@/data/marketData";
 import { getContestLeaderboard, type LeaderboardEntry, type BotDifficulty } from "@/data/tradingBots";
+import BotActivityFeed from "@/components/BotActivityFeed";
 
 const TraderGate = ({ children }: { children: React.ReactNode }) => {
   const { user, subscribed, tier } = useAuth();
