@@ -189,7 +189,7 @@ const TerminalHeader = () => {
         {/* Mobile slide-down menu */}
         {menuOpen && (
           <div className="sm:hidden border-t border-border bg-terminal-header animate-in slide-in-from-top-2 duration-200">
-            <nav className="flex flex-col py-1.5">
+            <nav className="flex flex-col py-2">
               {allNav.map((item) => {
                 const Icon = item.icon;
                 const active = location.pathname === item.path;
@@ -197,16 +197,16 @@ const TerminalHeader = () => {
                   <button
                     key={item.path}
                     onClick={() => handleNav(item.path)}
-                    className={`flex items-center gap-3 px-4 py-3 transition-all ${
+                    className={`flex items-center gap-3.5 px-5 py-4 min-h-[48px] transition-all ${
                       active
                         ? "text-primary bg-primary/10"
                         : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
-                    <span className="uppercase text-xs font-bold tracking-wide">{item.label}</span>
+                    <Icon className="w-5 h-5" />
+                    <span className="uppercase text-sm font-bold tracking-wide">{item.label}</span>
                     {active && (
-                      <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
+                      <div className="ml-auto h-2 w-2 rounded-full bg-primary" />
                     )}
                   </button>
                 );
