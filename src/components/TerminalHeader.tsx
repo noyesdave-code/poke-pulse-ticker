@@ -15,7 +15,7 @@ const navItems = [
   { path: "/dashboard", label: "Dashboard", icon: Activity },
   { path: "/set-completion", label: "Collection", icon: CheckCircle },
   { path: "/guides", label: "Guides", icon: BookOpen },
-  { path: "/blog", label: "Blog", icon: Newspaper },
+  
   { path: "/trade", label: "Trade", icon: ArrowLeftRight },
   { path: "/pricing", label: "Pricing", icon: DollarSign },
   { path: "/command-center", label: "AI Center", icon: Brain },
