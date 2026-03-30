@@ -36,8 +36,29 @@ const MiniSparkline = ({ change }: { change: number }) => {
   );
 };
 
-const TopMoversTable = ({ cards, title }: TopMoversTableProps) => {
+const TopMoversTable = ({ cards, title, isLoading }: TopMoversTableProps) => {
   const sorted = [...cards].sort((a, b) => Math.abs(b.change) - Math.abs(a.change)).slice(0, 8);
+
+  if (isLoading) {
+    return (
+      <div className="terminal-card overflow-hidden">
+        <div className="border-b border-border px-4 py-3">
+          <Skeleton className="h-4 w-40" />
+        </div>
+        <div className="p-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-3 px-3 py-2.5 border-b border-border/50">
+              <Skeleton className="w-8 h-11 rounded flex-shrink-0" />
+              <Skeleton className="h-3 w-14" />
+              <Skeleton className="h-3 w-24 flex-1" />
+              <Skeleton className="h-3 w-16 ml-auto" />
+              <Skeleton className="h-3 w-14" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <motion.div

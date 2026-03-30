@@ -12,9 +12,33 @@ interface TrendingCardsProps {
   isLoading?: boolean;
 }
 
-const TrendingCards = ({ cards }: TrendingCardsProps) => {
+const TrendingCards = ({ cards, isLoading }: TrendingCardsProps) => {
   const navigate = useNavigate();
   const trending = [...cards].sort((a, b) => b.market - a.market).slice(0, 6);
+
+  if (isLoading) {
+    return (
+      <div className="terminal-card overflow-hidden">
+        <div className="border-b border-border px-4 py-3 flex items-center justify-between">
+          <Skeleton className="h-4 w-32" />
+          <Skeleton className="h-3 w-20" />
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="flex flex-col p-3 border-b border-r border-border space-y-2">
+              <Skeleton className="w-full aspect-[2.5/3.5] rounded-md" />
+              <Skeleton className="h-2 w-16" />
+              <Skeleton className="h-3 w-24" />
+              <div className="flex justify-between">
+                <Skeleton className="h-4 w-14" />
+                <Skeleton className="h-3 w-10" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <motion.div
