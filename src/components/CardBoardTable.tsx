@@ -89,6 +89,12 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
             </div>
           )}
           <span className="font-mono text-[10px] text-muted-foreground">{filtered.length} items</span>
+          <button
+            onClick={() => setCompact(c => !c)}
+            className="px-2 py-0.5 font-mono text-[10px] tracking-wider rounded transition-colors border border-border text-muted-foreground hover:text-foreground"
+          >
+            {compact ? "EXPANDED" : "COMPACT"}
+          </button>
           </div>
         </div>
       </div>
