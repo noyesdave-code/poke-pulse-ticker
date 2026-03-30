@@ -45,6 +45,18 @@ serve(async (req) => {
       );
     }
 
+    // Request integrity: reject stale requests (>5 min old)
+    const reqTimestamp = req.headers.get("x-request-timestamp");
+    if (reqTimestamp) {
+      const age = Date.now() - Number(reqTimestamp);
+      if (age > 300_000 || age < -60_000) {
+        return new Response(
+          JSON.stringify({ error: "Request expired. Please refresh and try again." }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+    }
+
     const { path, params } = await req.json();
 
     // Validate the requested path
