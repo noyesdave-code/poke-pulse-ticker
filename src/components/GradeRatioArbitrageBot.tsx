@@ -20,7 +20,8 @@ interface SpreadAlert {
 }
 
 const GradeRatioArbitrageBot = () => {
-  const { data: gradedCards } = useGradedCards();
+  const { data: liveCards } = useLiveCards();
+  const gradedCards = useGradedCards(liveCards);
   const { tier } = useAuth();
   const { toast } = useToast();
   const [alertsEnabled, setAlertsEnabled] = useState(() => {
