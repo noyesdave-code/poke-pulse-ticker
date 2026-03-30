@@ -249,8 +249,9 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
 
           <div className="flex gap-2">
             {(["market", "limit", "stop_loss"] as const).map(t => (
-              <button key={t} onClick={() => setOrderType(t)} className={`flex-1 py-1.5 rounded font-mono text-[10px] font-semibold ${orderType === t ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground"}`}>
+              <button key={t} onClick={() => { if (!isTrader && t !== "market") { onShowLimitModal(); return; } setOrderType(t); }} className={`flex-1 py-1.5 rounded font-mono text-[10px] font-semibold relative ${orderType === t ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground"} ${!isTrader && t !== "market" ? "opacity-50" : ""}`}>
                 {t === "stop_loss" ? "STOP-LOSS" : t.toUpperCase()}
+                {!isTrader && t !== "market" && <Lock className="inline h-2.5 w-2.5 ml-1" />}
               </button>
             ))}
           </div>
