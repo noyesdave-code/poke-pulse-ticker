@@ -101,13 +101,25 @@ const Pricing = () => {
         </button>
 
         {/* Header */}
-        <div className="text-center space-y-2">
+        <div className="text-center space-y-3">
           <h1 className="font-mono text-2xl md:text-3xl font-bold text-foreground">
             Upgrade Your Market Intelligence
           </h1>
           <p className="font-mono text-sm text-muted-foreground max-w-lg mx-auto">
             From casual collectors to institutional dealers — pick the plan that matches your trading volume.
           </p>
+          {/* Social Proof */}
+          <div className="flex items-center justify-center gap-4 flex-wrap pt-1">
+            <span className="flex items-center gap-1.5 font-mono text-[10px] text-primary font-semibold">
+              <Users className="w-3.5 h-3.5" /> 2,400+ active traders
+            </span>
+            <span className="flex items-center gap-1.5 font-mono text-[10px] text-terminal-amber font-semibold">
+              <Star className="w-3.5 h-3.5" /> 4.8/5 avg rating
+            </span>
+            <span className="flex items-center gap-1.5 font-mono text-[10px] text-terminal-green font-semibold">
+              <Shield className="w-3.5 h-3.5" /> Bank-level encryption
+            </span>
+          </div>
         </div>
 
         {/* Billing Toggle */}
