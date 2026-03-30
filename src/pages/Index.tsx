@@ -67,6 +67,13 @@ const Index = () => {
   const sealedIndex = getIndexValue(displaySealed);
   const sealedChange = getIndexChange(displaySealed);
 
+  const totalMarketValue = useTotalMarketValue(
+    rawIndex, gradedIndex, sealedIndex,
+    displayCards.length, displayGraded.length, displaySealed.length
+  );
+
+  const alphaSignals = useAlphaSignals(displayCards);
+
   // Get top mover for hero urgency hook
   const topMover = useMemo(() => {
     const sorted = [...displayCards].sort((a, b) => Math.abs(b.change) - Math.abs(a.change));
