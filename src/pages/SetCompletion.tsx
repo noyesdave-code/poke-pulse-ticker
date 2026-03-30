@@ -8,6 +8,7 @@ import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import { ArrowLeft, Search, Loader2, CheckCircle, Circle, ChevronRight } from "lucide-react";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 
 const SetCompletion = () => {
   const navigate = useNavigate();
