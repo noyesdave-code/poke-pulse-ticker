@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import { useCopyProtection } from "@/hooks/useCopyProtection";
+import { useSessionTimeout } from "@/hooks/useSessionTimeout";
 import Watermark from "@/components/Watermark";
 import CopyrightBanner from "@/components/CopyrightBanner";
 import CookieConsent from "@/components/CookieConsent";
