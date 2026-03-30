@@ -69,67 +69,75 @@ const PriceAlerts = () => {
           <ArrowLeft className="w-3.5 h-3.5" /> Back to Terminal
         </button>
 
-        <div className="terminal-card p-4">
-          <h1 className="font-mono text-lg font-bold text-foreground flex items-center gap-2">
-            <Bell className="w-5 h-5 text-primary" /> Price Alerts
-          </h1>
-          <p className="font-mono text-[10px] text-muted-foreground mt-0.5">
-            Set target prices and track when cards hit your buy/sell thresholds
-          </p>
-        </div>
-        <ProGate feature="Price alerts & notifications">
-        {isLoading ? (
-          <div className="flex items-center justify-center py-12 gap-2">
-            <Loader2 className="w-5 h-5 text-primary animate-spin" />
-            <span className="font-mono text-xs text-muted-foreground">Loading alerts…</span>
-          </div>
-        ) : !alerts || alerts.length === 0 ? (
-          <div className="terminal-card p-8 text-center space-y-3">
-            <BellRing className="w-10 h-10 text-muted-foreground mx-auto" />
-            <p className="font-mono text-sm text-muted-foreground">No price alerts yet.</p>
-            <p className="font-mono text-xs text-muted-foreground">
-              Visit any card's detail page and set a target price to create an alert.
-            </p>
-            <button onClick={() => navigate("/sets")} className="font-mono text-xs font-semibold bg-primary text-primary-foreground rounded px-4 py-2 hover:opacity-90">
-              Browse Cards
-            </button>
-          </div>
-        ) : (
-          <>
-            {/* Active Alerts */}
-            {activeAlerts.length > 0 && (
-              <div className="terminal-card overflow-hidden">
-                <div className="border-b border-border px-4 py-3">
-                  <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold">
-                    Active Alerts ({activeAlerts.length})
-                  </h2>
-                </div>
-                <div className="divide-y divide-border">
-                  {activeAlerts.map((alert) => (
-                    <AlertRow key={alert.id} alert={alert} currentPrice={livePrices?.[alert.card_api_id]} onDelete={() => deleteAlert.mutate(alert.id)} onNavigate={() => navigate(`/card/${alert.card_api_id}`)} />
-                  ))}
-                </div>
-              </div>
-            )}
+        <Tabs defaultValue="price" className="space-y-4">
+          <TabsList className="bg-muted/50 border border-border">
+            <TabsTrigger value="price" className="font-mono text-xs data-[state=active]:bg-primary/20">
+              <Bell className="w-3.5 h-3.5 mr-1.5" /> Price Alerts
+            </TabsTrigger>
+            <TabsTrigger value="delta" className="font-mono text-xs data-[state=active]:bg-primary/20">
+              <Activity className="w-3.5 h-3.5 mr-1.5" /> Volatility Alerts
+            </TabsTrigger>
+          </TabsList>
 
-            {/* Triggered Alerts */}
-            {triggeredAlerts.length > 0 && (
-              <div className="terminal-card overflow-hidden opacity-75">
-                <div className="border-b border-border px-4 py-3">
-                  <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase font-semibold">
-                    Triggered ({triggeredAlerts.length})
-                  </h2>
+          <TabsContent value="price">
+            <ProGate feature="Price alerts & notifications">
+              {isLoading ? (
+                <div className="flex items-center justify-center py-12 gap-2">
+                  <Loader2 className="w-5 h-5 text-primary animate-spin" />
+                  <span className="font-mono text-xs text-muted-foreground">Loading alerts…</span>
                 </div>
-                <div className="divide-y divide-border">
-                  {triggeredAlerts.map((alert) => (
-                    <AlertRow key={alert.id} alert={alert} currentPrice={livePrices?.[alert.card_api_id]} onDelete={() => deleteAlert.mutate(alert.id)} onNavigate={() => navigate(`/card/${alert.card_api_id}`)} triggered />
-                  ))}
+              ) : !alerts || alerts.length === 0 ? (
+                <div className="terminal-card p-8 text-center space-y-3">
+                  <BellRing className="w-10 h-10 text-muted-foreground mx-auto" />
+                  <p className="font-mono text-sm text-muted-foreground">No price alerts yet.</p>
+                  <p className="font-mono text-xs text-muted-foreground">
+                    Visit any card's detail page and set a target price to create an alert.
+                  </p>
+                  <button onClick={() => navigate("/sets")} className="font-mono text-xs font-semibold bg-primary text-primary-foreground rounded px-4 py-2 hover:opacity-90">
+                    Browse Cards
+                  </button>
                 </div>
-              </div>
-            )}
-          </>
-        )}
-        </ProGate>
+              ) : (
+                <>
+                  {activeAlerts.length > 0 && (
+                    <div className="terminal-card overflow-hidden">
+                      <div className="border-b border-border px-4 py-3">
+                        <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold">
+                          Active Alerts ({activeAlerts.length})
+                        </h2>
+                      </div>
+                      <div className="divide-y divide-border">
+                        {activeAlerts.map((alert) => (
+                          <AlertRow key={alert.id} alert={alert} currentPrice={livePrices?.[alert.card_api_id]} onDelete={() => deleteAlert.mutate(alert.id)} onNavigate={() => navigate(`/card/${alert.card_api_id}`)} />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {triggeredAlerts.length > 0 && (
+                    <div className="terminal-card overflow-hidden opacity-75 mt-4">
+                      <div className="border-b border-border px-4 py-3">
+                        <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase font-semibold">
+                          Triggered ({triggeredAlerts.length})
+                        </h2>
+                      </div>
+                      <div className="divide-y divide-border">
+                        {triggeredAlerts.map((alert) => (
+                          <AlertRow key={alert.id} alert={alert} currentPrice={livePrices?.[alert.card_api_id]} onDelete={() => deleteAlert.mutate(alert.id)} onNavigate={() => navigate(`/card/${alert.card_api_id}`)} triggered />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </ProGate>
+          </TabsContent>
+
+          <TabsContent value="delta">
+            <ProGate feature="Volatility alerts (Whale tier)">
+              <DeltaAlerts />
+            </ProGate>
+          </TabsContent>
+        </Tabs>
 
         <FinancialDisclaimer compact />
       </main>
