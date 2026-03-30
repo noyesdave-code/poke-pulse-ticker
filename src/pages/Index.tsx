@@ -237,7 +237,7 @@ const Index = () => {
         </footer>
       </main>
       <InstallPrompt />
-      
+      <FomoPopup />
     </div>
   );
 };
