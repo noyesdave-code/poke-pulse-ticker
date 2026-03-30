@@ -82,6 +82,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setSubscribed(false);
       setTier(null);
       setSubscriptionEnd(null);
+      setTrial(false);
+      setTrialEndsAt(null);
     }
   }, [user, checkSubscription]);
 
