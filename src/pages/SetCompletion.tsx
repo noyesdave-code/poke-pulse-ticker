@@ -148,6 +148,7 @@ const SetCompletion = () => {
         ) : (
           <SetDetailView set={selectedSet} ownedCards={ownedBySet[selectedSet.id] ?? new Set()} navigate={navigate} />
         )}
+        <FinancialDisclaimer compact />
       </main>
     </div>
   );

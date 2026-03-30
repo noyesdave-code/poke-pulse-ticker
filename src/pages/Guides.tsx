@@ -64,6 +64,8 @@ const Guides = () => {
         {active === "investing" && <InvestmentTips />}
         {active === "glossary" && <TcgGlossary />}
 
+        <FinancialDisclaimer />
+
         {/* Footer */}
         <footer className="border-t border-border pt-6 pb-4">
           <p className="font-mono text-[10px] text-muted-foreground text-center">
