@@ -213,7 +213,7 @@ const Index = () => {
         </footer>
       </main>
       <InstallPrompt />
-      <AutoScrollDemo />
+      
     </div>
   );
 };
