@@ -189,7 +189,9 @@ const Pricing = () => {
                   </span>
                 )}
                 {savings && (
-                  <span className="font-mono text-[10px] text-primary font-semibold mb-3">{savings}</span>
+                  <span className="inline-block font-mono text-[10px] text-primary font-bold bg-primary/10 border border-primary/20 px-2 py-0.5 rounded mb-3">
+                    💰 {savings}
+                  </span>
                 )}
                 {!savings && t.key !== "pro" && <div className="mb-3" />}
                 {!savings && t.key === "pro" && !current && <div className="mb-1" />}
