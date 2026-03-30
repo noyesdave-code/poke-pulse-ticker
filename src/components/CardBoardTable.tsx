@@ -23,6 +23,7 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [gradeFilter, setGradeFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState("");
+  const [compact, setCompact] = useState(false);
 
   const toggleSort = (col: "market" | "change") => {
     if (sortBy === col) setSortDir(d => d === "asc" ? "desc" : "asc");
