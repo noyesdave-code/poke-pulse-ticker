@@ -219,7 +219,10 @@ const PriceChart = ({ cards }: PriceChartProps) => {
                 if (value === null) return ["-", name];
                 if (name === "price") return [`$${value.toFixed(2)}`, "Price"];
                 if (name === "sma20") return [`$${value.toFixed(2)}`, "SMA 20"];
+                if (name === "sma30") return [`$${value.toFixed(2)}`, "SMA 30"];
                 if (name === "sma50") return [`$${value.toFixed(2)}`, "SMA 50"];
+                if (name === "sma90") return [`$${value.toFixed(2)}`, "SMA 90"];
+                if (name === "sma180") return [`$${value.toFixed(2)}`, "SMA 180"];
                 return [`$${value.toFixed(2)}`, name];
               }}
               cursor={{ stroke: "hsl(215, 15%, 30%)", strokeDasharray: "4 4" }}
@@ -228,17 +231,18 @@ const PriceChart = ({ cards }: PriceChartProps) => {
             {indicator === "sma" && (
               <>
                 <Line type="monotone" dataKey="sma20" stroke="hsl(45, 100%, 60%)" strokeWidth={1.5} dot={false} strokeDasharray="4 2" connectNulls />
+                <Line type="monotone" dataKey="sma30" stroke="hsl(200, 80%, 60%)" strokeWidth={1.2} dot={false} strokeDasharray="3 3" connectNulls />
                 <Line type="monotone" dataKey="sma50" stroke="hsl(280, 80%, 65%)" strokeWidth={1.5} dot={false} strokeDasharray="6 3" connectNulls />
+                <Line type="monotone" dataKey="sma90" stroke="hsl(30, 90%, 55%)" strokeWidth={1.2} dot={false} strokeDasharray="8 4" connectNulls />
+                <Line type="monotone" dataKey="sma180" stroke="hsl(0, 70%, 60%)" strokeWidth={1.2} dot={false} strokeDasharray="10 5" connectNulls />
               </>
             )}
             {indicator === "sma" && (
               <Legend
                 wrapperStyle={{ fontFamily: "JetBrains Mono", fontSize: 10 }}
                 formatter={(value: string) => {
-                  if (value === "price") return "Price";
-                  if (value === "sma20") return "SMA 20";
-                  if (value === "sma50") return "SMA 50";
-                  return value;
+                  const labels: Record<string, string> = { price: "Price", sma20: "SMA 20", sma30: "SMA 30", sma50: "SMA 50", sma90: "SMA 90", sma180: "SMA 180" };
+                  return labels[value] || value;
                 }}
               />
             )}
