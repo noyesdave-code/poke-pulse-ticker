@@ -86,10 +86,10 @@ const AlphaSignals = ({ signals }: AlphaSignalsProps) => {
             );
           })}
         </div>
-        <div className="border-t border-border px-4 py-2 flex items-center gap-1.5">
-          <AlertTriangle className="w-3 h-3 text-terminal-amber flex-shrink-0" />
-          <span className="font-mono text-[8px] text-terminal-amber/70">
-            FOR INFORMATIONAL PURPOSES ONLY — NOT FINANCIAL ADVICE. Signals are algorithmic and do not constitute buy/sell recommendations. © PGVA Ventures, LLC.
+        <div className="sticky bottom-0 z-10 border-t border-terminal-amber/30 bg-card/95 backdrop-blur-sm px-4 py-2 flex items-center gap-1.5">
+          <AlertTriangle className="w-3 h-3 text-terminal-amber flex-shrink-0 animate-pulse" />
+          <span className="font-mono text-[8px] text-terminal-amber font-semibold">
+            ⚠ NOT FINANCIAL ADVICE — FOR INFORMATIONAL PURPOSES ONLY. Signals are algorithmic and do not constitute buy/sell recommendations. © PGVA Ventures, LLC.
           </span>
         </div>
       </div>
