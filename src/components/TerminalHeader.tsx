@@ -66,7 +66,7 @@ const TerminalHeader = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-border bg-terminal-header/95 backdrop-blur-md shadow-[0_4px_24px_-4px_hsl(225_40%_4%/0.7),0_0_20px_hsl(160_84%_50%/0.04)]">
+      <header data-demo-hide className="sticky top-0 z-50 border-b border-border bg-terminal-header/95 backdrop-blur-md shadow-[0_4px_24px_-4px_hsl(225_40%_4%/0.7),0_0_20px_hsl(160_84%_50%/0.04)]">
         <div className="flex items-center justify-between px-4 py-3.5 lg:px-6">
           {/* Left: logo + hamburger */}
           <div className="flex items-center gap-3">
