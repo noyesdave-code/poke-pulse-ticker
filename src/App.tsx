@@ -37,6 +37,7 @@ import Methodology from "./pages/Methodology.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
 import AccessibleLanding from "./pages/AccessibleLanding.tsx";
 import SocialLanding from "./pages/SocialLanding.tsx";
+import SimTrader from "./pages/SimTrader.tsx";
 
 const queryClient = new QueryClient();
 
