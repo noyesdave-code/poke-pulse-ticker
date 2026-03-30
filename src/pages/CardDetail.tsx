@@ -16,6 +16,8 @@ import VolumeChart from "@/components/VolumeChart";
 import CardSignalBreakdown from "@/components/CardSignalBreakdown";
 import CardSentimentPoll from "@/components/CardSentimentPoll";
 import SellerComparison from "@/components/SellerComparison";
+import ConsensusPricing from "@/components/ConsensusPricing";
+import { useConsensusPricing } from "@/hooks/useConsensusPricing";
 import AffiliateLinks from "@/components/AffiliateLinks";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { ArrowLeft, Loader2, Briefcase, Eye, EyeOff, Bell, Activity } from "lucide-react";
@@ -66,6 +68,11 @@ const CardDetail = () => {
   const cardApiId = isApiId ? slug : slug ? `local-${slug}` : undefined;
   const isWatched = useIsOnWatchlist(cardApiId);
   const token = card ? getCardToken(card) : null;
+  const { data: consensusData, isLoading: consensusLoading } = useConsensusPricing(
+    isApiId ? slug : undefined,
+    card?.name,
+    card?.set
+  );
 
   if (isLoading) {
     return (
@@ -319,8 +326,14 @@ const CardDetail = () => {
           <AffiliateLinks cardName={card.name} setName={card.set} />
         </div>
 
-        {/* Seller Comparison */}
-        <SellerComparison card={card} />
+        {/* Consensus Pricing Engine */}
+        {consensusData ? (
+          <ConsensusPricing data={consensusData} isLoading={consensusLoading} />
+        ) : consensusLoading ? (
+          <ConsensusPricing data={null as any} isLoading={true} />
+        ) : (
+          <SellerComparison card={card} />
+        )}
 
         {/* Disclaimer */}
         <FinancialDisclaimer />
