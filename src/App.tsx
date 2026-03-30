@@ -38,6 +38,7 @@ import Unsubscribe from "./pages/Unsubscribe.tsx";
 import AccessibleLanding from "./pages/AccessibleLanding.tsx";
 import SocialLanding from "./pages/SocialLanding.tsx";
 import SimTrader from "./pages/SimTrader.tsx";
+import PromoAssets from "./pages/PromoAssets.tsx";
 
 const queryClient = new QueryClient();
 
