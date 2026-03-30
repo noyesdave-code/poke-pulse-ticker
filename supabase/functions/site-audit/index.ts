@@ -40,8 +40,8 @@ serve(async (req) => {
       );
     }
 
-    // Try to verify user, allow anonymous if no auth
-    let userId = "anonymous";
+    // Try to verify user, use a fixed anonymous UUID if no auth
+    let userId = "00000000-0000-0000-0000-000000000000";
     if (authHeader) {
       const supabase = createClient(supabaseUrl, supabaseKey, {
         global: { headers: { Authorization: authHeader } },
