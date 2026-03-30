@@ -31,6 +31,8 @@ const TerminalHeader = () => {
   const [time, setTime] = useState(new Date());
   const [showAuth, setShowAuth] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
   const { user, signOut, tier } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
