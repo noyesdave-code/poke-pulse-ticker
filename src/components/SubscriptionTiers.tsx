@@ -50,6 +50,23 @@ const tierDefs = [
     cta: "Subscribe to Institutional",
     highlight: false,
   },
+  {
+    key: "trader" as const,
+    name: "TRADER",
+    description: "Simulated Pokémon stock market trading game",
+    features: [
+      "Everything in Institutional",
+      "$100K virtual trading balance",
+      "Buy/sell tokens at live prices",
+      "Limit orders & stop-losses",
+      "Daily trading contests & tournaments",
+      "Leaderboards & in-app rewards",
+      "Play vs AI & other traders",
+      "Secure sandbox environment",
+    ],
+    cta: "Subscribe to Trader",
+    highlight: false,
+  },
 ];
 
 const SubscriptionTiers = () => {
@@ -132,7 +149,7 @@ const SubscriptionTiers = () => {
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
         {tierDefs.map((t) => {
           const isCurrent = isCurrentTier(t.key);
           const stripeTier = t.key !== "free" ? STRIPE_TIERS[t.key] : null;
