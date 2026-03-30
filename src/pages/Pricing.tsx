@@ -171,10 +171,16 @@ const Pricing = () => {
                   <span className="font-mono text-3xl font-bold text-foreground">{price}</span>
                   <span className="font-mono text-sm text-muted-foreground">{period}</span>
                 </div>
+                {t.key === "pro" && !current && (
+                  <span className="inline-block font-mono text-[10px] text-terminal-green font-bold bg-terminal-green/10 border border-terminal-green/20 px-2 py-0.5 rounded mb-2">
+                    🎁 7-DAY FREE TRIAL — NO CARD CHARGED
+                  </span>
+                )}
                 {savings && (
                   <span className="font-mono text-[10px] text-primary font-semibold mb-3">{savings}</span>
                 )}
-                {!savings && <div className="mb-3" />}
+                {!savings && t.key !== "pro" && <div className="mb-3" />}
+                {!savings && t.key === "pro" && !current && <div className="mb-1" />}
 
                 <div className="mt-auto">
                   {current && subscribed ? (
