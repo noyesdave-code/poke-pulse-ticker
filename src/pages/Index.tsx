@@ -37,6 +37,7 @@ import ExitIntentPopup from "@/components/ExitIntentPopup";
 import MarketIntelWidget from "@/components/MarketIntelWidget";
 import ReferralCTA from "@/components/ReferralCTA";
 import SystemStatusIndicator from "@/components/SystemStatusIndicator";
+import SimTraderPromo from "@/components/SimTraderPromo";
 import AlphaAccuracy from "@/components/AlphaAccuracy";
 import ImportFromTCGPlayer from "@/components/ImportFromTCGPlayer";
 import TeamPlanCTA from "@/components/TeamPlanCTA";
