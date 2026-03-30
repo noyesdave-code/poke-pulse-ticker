@@ -106,6 +106,51 @@ export type Database = {
         }
         Relationships: []
       }
+      delta_alerts: {
+        Row: {
+          card_api_id: string
+          card_image: string | null
+          card_name: string
+          card_number: string
+          card_set: string
+          created_at: string
+          deviation_threshold: number
+          id: string
+          is_active: boolean
+          last_deviation: number | null
+          last_triggered_at: string | null
+          user_id: string
+        }
+        Insert: {
+          card_api_id: string
+          card_image?: string | null
+          card_name: string
+          card_number: string
+          card_set: string
+          created_at?: string
+          deviation_threshold?: number
+          id?: string
+          is_active?: boolean
+          last_deviation?: number | null
+          last_triggered_at?: string | null
+          user_id: string
+        }
+        Update: {
+          card_api_id?: string
+          card_image?: string | null
+          card_name?: string
+          card_number?: string
+          card_set?: string
+          created_at?: string
+          deviation_threshold?: number
+          id?: string
+          is_active?: boolean
+          last_deviation?: number | null
+          last_triggered_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       email_send_log: {
         Row: {
           created_at: string
