@@ -4,10 +4,10 @@ import { useTraderGame } from "@/hooks/useTraderGame";
 import TerminalHeader from "@/components/TerminalHeader";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import AuthModal from "@/components/AuthModal";
-import { TrendingUp, TrendingDown, DollarSign, Package, BarChart3, Clock, Zap, Shield, Trophy, Lock, Gamepad2, Bot, Crown, Medal } from "lucide-react";
+import { TrendingUp, TrendingDown, DollarSign, Package, BarChart3, Clock, Zap, Shield, Trophy, Lock, Gamepad2, Bot, Crown, Medal, Sparkles, ArrowRight, Star, ChevronRight } from "lucide-react";
 import { STRIPE_TIERS } from "@/lib/stripe";
 import { supabase } from "@/integrations/supabase/client";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import type { CardData } from "@/data/marketData";
 import { getContestLeaderboard, type LeaderboardEntry, type BotDifficulty } from "@/data/tradingBots";
 import BotActivityFeed from "@/components/BotActivityFeed";
@@ -25,48 +25,207 @@ const incrementTradesToday = () => {
   localStorage.setItem(key, String(current + 1));
 };
 
+/* ── Animated Background Orbs ── */
+const FloatingOrbs = () => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-[0.07]" style={{ background: "radial-gradient(circle, hsl(160 84% 50%) 0%, transparent 70%)", animation: "float-orb 8s ease-in-out infinite" }} />
+    <div className="absolute -bottom-32 -left-32 w-64 h-64 rounded-full opacity-[0.05]" style={{ background: "radial-gradient(circle, hsl(215 90% 62%) 0%, transparent 70%)", animation: "float-orb 10s ease-in-out infinite reverse" }} />
+    <div className="absolute top-1/2 right-1/4 w-48 h-48 rounded-full opacity-[0.04]" style={{ background: "radial-gradient(circle, hsl(38 92% 60%) 0%, transparent 70%)", animation: "float-orb 12s ease-in-out infinite 2s" }} />
+  </div>
+);
+
+/* ── Freemium Banner ── */
 const FreemiumBanner = ({ tradesLeft, onUpgrade, loading }: { tradesLeft: number; onUpgrade: () => void; loading: boolean }) => (
-  <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="terminal-card border-primary/30 p-3 flex items-center justify-between gap-3 flex-wrap">
-    <div className="flex items-center gap-2">
-      <Gamepad2 className="h-4 w-4 text-primary" />
-      <span className="font-mono text-xs text-foreground">
-        <span className="font-bold">{tradesLeft}</span>/{FREE_DAILY_TRADES} free trades remaining today
-      </span>
+  <motion.div
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="relative overflow-hidden rounded-xl border border-primary/20"
+    style={{ background: "linear-gradient(135deg, hsl(225 18% 10%) 0%, hsl(225 20% 12%) 50%, hsl(220 22% 11%) 100%)" }}
+  >
+    <div className="absolute inset-0 shimmer-sweep opacity-30" />
+    <div className="relative p-4 flex items-center justify-between gap-3 flex-wrap">
+      <div className="flex items-center gap-3">
+        <div className="relative">
+          <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center ring-2 ring-primary/30">
+            <Gamepad2 className="h-5 w-5 text-primary" />
+          </div>
+          <div className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary flex items-center justify-center">
+            <span className="font-mono text-[8px] font-bold text-primary-foreground">{tradesLeft}</span>
+          </div>
+        </div>
+        <div>
+          <p className="font-mono text-xs font-bold text-foreground">
+            {tradesLeft}/{FREE_DAILY_TRADES} free trades remaining
+          </p>
+          <p className="font-mono text-[10px] text-muted-foreground">Upgrade for unlimited trades + advanced orders</p>
+        </div>
+      </div>
+      <button
+        onClick={onUpgrade}
+        disabled={loading}
+        className="group relative font-mono text-xs font-bold px-5 py-2.5 rounded-lg overflow-hidden disabled:opacity-50 flex items-center gap-2"
+        style={{ background: "linear-gradient(135deg, hsl(160 84% 45%) 0%, hsl(160 90% 40%) 100%)" }}
+      >
+        <div className="absolute inset-0 shimmer-sweep opacity-40" />
+        <Zap className="relative h-3.5 w-3.5 text-primary-foreground" />
+        <span className="relative text-primary-foreground">{loading ? "Loading..." : "Go Unlimited — $99/mo"}</span>
+        <ArrowRight className="relative h-3 w-3 text-primary-foreground group-hover:translate-x-0.5 transition-transform" />
+      </button>
     </div>
-    <button onClick={onUpgrade} disabled={loading} className="font-mono text-[10px] font-bold bg-primary text-primary-foreground px-3 py-1.5 rounded hover:opacity-90 disabled:opacity-50 flex items-center gap-1.5">
-      <Zap className="h-3 w-3" />
-      {loading ? "Loading..." : "Unlimited Trades — $99/mo"}
-    </button>
   </motion.div>
 );
 
+/* ── Trade Limit Modal ── */
 const TradeLimitModal = ({ onUpgrade, onClose, loading }: { onUpgrade: () => void; onClose: () => void; loading: boolean }) => (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-    <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="terminal-card border-primary/30 bg-background p-6 text-center max-w-md w-full">
-      <div className="flex justify-center mb-3">
-        <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center ring-2 ring-primary/20">
-          <Lock className="h-5 w-5 text-primary" />
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ type: "spring", damping: 20 }}
+      className="relative overflow-hidden rounded-2xl border border-primary/30 bg-background max-w-md w-full"
+      style={{ boxShadow: "0 0 60px hsl(160 84% 50% / 0.15), 0 25px 50px -12px hsl(225 40% 4% / 0.5)" }}
+    >
+      <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(ellipse at top, hsl(160 84% 50% / 0.1) 0%, transparent 60%)" }} />
+      <div className="relative p-8 text-center">
+        <div className="flex justify-center mb-4">
+          <div className="relative">
+            <div className="h-16 w-16 rounded-2xl flex items-center justify-center ring-2 ring-primary/30" style={{ background: "linear-gradient(135deg, hsl(160 84% 50% / 0.15) 0%, hsl(160 84% 50% / 0.05) 100%)" }}>
+              <Lock className="h-7 w-7 text-primary" />
+            </div>
+            <div className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-destructive flex items-center justify-center">
+              <span className="font-mono text-[8px] font-bold text-white">!</span>
+            </div>
+          </div>
         </div>
+        <h3 className="font-mono text-base font-bold text-foreground mb-2">Daily Trade Limit Reached</h3>
+        <p className="text-xs text-muted-foreground mb-5 max-w-xs mx-auto">You've used all {FREE_DAILY_TRADES} free trades for today. Unlock the full SimTrader™ experience!</p>
+        
+        <div className="space-y-2 mb-6 text-left max-w-xs mx-auto">
+          {[
+            { icon: Zap, text: "Unlimited daily trades" },
+            { icon: Trophy, text: "Daily & weekend contests" },
+            { icon: BarChart3, text: "Limit orders & stop-losses" },
+            { icon: Bot, text: "Compete against 10 AI bots" },
+          ].map(({ icon: Icon, text }, i) => (
+            <div key={i} className="flex items-center gap-3 py-1.5">
+              <div className="h-7 w-7 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Icon className="w-3.5 h-3.5 text-primary" />
+              </div>
+              <span className="font-mono text-[11px] text-foreground">{text}</span>
+            </div>
+          ))}
+        </div>
+
+        <button
+          onClick={onUpgrade}
+          disabled={loading}
+          className="group relative w-full py-3.5 rounded-xl font-mono text-sm font-bold overflow-hidden disabled:opacity-50 flex items-center justify-center gap-2"
+          style={{ background: "linear-gradient(135deg, hsl(160 84% 45%) 0%, hsl(160 90% 38%) 100%)", boxShadow: "0 0 30px hsl(160 84% 50% / 0.25)" }}
+        >
+          <div className="absolute inset-0 shimmer-sweep opacity-50" />
+          <Gamepad2 className="relative h-4 w-4 text-primary-foreground" />
+          <span className="relative text-primary-foreground">{loading ? "Loading..." : "Upgrade to Trader — $99/mo"}</span>
+        </button>
+        <button onClick={onClose} className="w-full mt-3 py-2 font-mono text-[10px] text-muted-foreground hover:text-foreground transition-colors">
+          Come back tomorrow for more free trades
+        </button>
+        <a href="/pricing" className="block font-mono text-[10px] text-primary hover:underline mt-1">Compare all plans →</a>
       </div>
-      <h3 className="font-mono text-sm font-bold text-foreground mb-1">🔒 Daily Trade Limit Reached</h3>
-      <p className="text-xs text-muted-foreground mb-3">You've used all {FREE_DAILY_TRADES} free trades for today. Upgrade to Trader for unlimited trades!</p>
-      <ul className="text-left max-w-xs mx-auto space-y-1.5 mb-4 font-mono text-[11px]">
-        <li className="flex items-center gap-2"><Zap className="w-3.5 h-3.5 text-primary flex-shrink-0" /> Unlimited daily trades</li>
-        <li className="flex items-center gap-2"><Zap className="w-3.5 h-3.5 text-primary flex-shrink-0" /> Contest entry & leaderboards</li>
-        <li className="flex items-center gap-2"><Zap className="w-3.5 h-3.5 text-primary flex-shrink-0" /> Limit orders & stop-losses</li>
-      </ul>
-      <button onClick={onUpgrade} disabled={loading} className="w-full py-3 rounded-lg font-mono text-sm font-bold bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2">
-        <Gamepad2 className="h-4 w-4" />
-        {loading ? "Loading..." : "Upgrade to Trader — $99/mo"}
-      </button>
-      <button onClick={onClose} className="w-full mt-2 py-1.5 font-mono text-[10px] text-muted-foreground hover:text-foreground">Come back tomorrow for more free trades</button>
-      <a href="/pricing" className="block font-mono text-[10px] text-primary hover:underline mt-2">Compare all plans →</a>
     </motion.div>
   </div>
 );
 
 const formatUSD = (v: number) => `$${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
+/* ── Hero / Splash for Unauthenticated Users ── */
+const HeroSplash = ({ onSignIn }: { onSignIn: () => void }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    className="relative overflow-hidden rounded-2xl border border-primary/20 mt-2"
+    style={{ background: "linear-gradient(160deg, hsl(225 22% 10%) 0%, hsl(225 18% 8%) 40%, hsl(220 25% 10%) 100%)" }}
+  >
+    <FloatingOrbs />
+    <div className="absolute inset-0 shimmer-sweep opacity-20" />
+    <div className="relative px-6 py-12 md:py-16 text-center space-y-5">
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.1, type: "spring", damping: 15 }}
+        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30"
+        style={{ background: "hsl(160 84% 50% / 0.08)" }}
+      >
+        <Sparkles className="h-3.5 w-3.5 text-primary" />
+        <span className="font-mono text-[10px] font-semibold text-primary tracking-wider">POKÉMON STOCK MARKET SIMULATOR</span>
+      </motion.div>
+
+      <motion.h2
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="font-mono text-2xl md:text-4xl font-black text-foreground leading-tight"
+      >
+        Trade Cards.<br />
+        <span className="text-primary" style={{ textShadow: "0 0 30px hsl(160 84% 50% / 0.4)" }}>Beat the Bots.</span><br />
+        Win Contests.
+      </motion.h2>
+
+      <motion.p
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="font-mono text-xs text-muted-foreground max-w-md mx-auto leading-relaxed"
+      >
+        Start with $100,000 virtual cash. Trade based on live Pokémon card prices. 
+        Compete against 10 AI bots with unique strategies. No real money involved.
+      </motion.p>
+
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.4 }}
+        className="flex flex-col sm:flex-row items-center justify-center gap-3"
+      >
+        <button
+          onClick={onSignIn}
+          className="group relative font-mono text-sm font-bold px-8 py-3.5 rounded-xl overflow-hidden flex items-center gap-2"
+          style={{ background: "linear-gradient(135deg, hsl(160 84% 45%) 0%, hsl(160 90% 38%) 100%)", boxShadow: "0 0 40px hsl(160 84% 50% / 0.3)" }}
+        >
+          <div className="absolute inset-0 shimmer-sweep opacity-50" />
+          <Gamepad2 className="relative h-4.5 w-4.5 text-primary-foreground" />
+          <span className="relative text-primary-foreground">Play Free Now</span>
+          <ArrowRight className="relative h-4 w-4 text-primary-foreground group-hover:translate-x-1 transition-transform" />
+        </button>
+        <span className="font-mono text-[10px] text-muted-foreground">{FREE_DAILY_TRADES} free trades/day · No credit card</span>
+      </motion.div>
+
+      {/* Feature highlights */}
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 max-w-lg mx-auto"
+      >
+        {[
+          { icon: BarChart3, label: "Live Prices", desc: "Real market data" },
+          { icon: Bot, label: "10 AI Bots", desc: "Unique strategies" },
+          { icon: Trophy, label: "Contests", desc: "Daily & weekend" },
+          { icon: Shield, label: "Risk Free", desc: "Virtual currency" },
+        ].map(({ icon: Icon, label, desc }, i) => (
+          <div key={i} className="text-center space-y-1.5">
+            <div className="h-9 w-9 rounded-xl mx-auto flex items-center justify-center" style={{ background: "hsl(160 84% 50% / 0.08)", border: "1px solid hsl(160 84% 50% / 0.15)" }}>
+              <Icon className="h-4 w-4 text-primary" />
+            </div>
+            <p className="font-mono text-[10px] font-bold text-foreground">{label}</p>
+            <p className="font-mono text-[8px] text-muted-foreground">{desc}</p>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  </motion.div>
+);
+
+/* ── Main Page ── */
 const SimTraderPage = () => {
   const { user, subscribed, tier } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
@@ -90,25 +249,37 @@ const SimTraderPage = () => {
     <div className="min-h-screen bg-background text-foreground">
       <TerminalHeader />
       <main className="max-w-7xl mx-auto px-4 py-6 pb-24">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center ring-2 ring-primary/30">
-            <Zap className="h-5 w-5 text-primary" />
-          </div>
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-6">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="relative h-12 w-12 rounded-xl flex items-center justify-center"
+            style={{
+              background: "linear-gradient(135deg, hsl(160 84% 50% / 0.15) 0%, hsl(160 84% 50% / 0.05) 100%)",
+              border: "1px solid hsl(160 84% 50% / 0.3)",
+              boxShadow: "0 0 25px hsl(160 84% 50% / 0.15)"
+            }}
+          >
+            <Zap className="h-6 w-6 text-primary" />
+          </motion.div>
           <div>
-            <h1 className="font-mono text-lg font-bold text-foreground">SIMTRADER™</h1>
-            <p className="font-mono text-[10px] text-muted-foreground tracking-wider">POKÉMON STOCK MARKET SIMULATOR · LIVE DATA</p>
+            <h1 className="font-mono text-xl font-black text-foreground tracking-tight flex items-center gap-2">
+              SIMTRADER<span className="text-primary">™</span>
+            </h1>
+            <p className="font-mono text-[10px] text-muted-foreground tracking-widest">POKÉMON STOCK MARKET SIMULATOR · LIVE DATA</p>
           </div>
-          <div className="ml-auto flex items-center gap-1.5">
+          <div className="ml-auto">
             {isTrader ? (
-              <>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "hsl(160 84% 50% / 0.1)", border: "1px solid hsl(160 84% 50% / 0.2)" }}>
                 <Crown className="h-3.5 w-3.5 text-primary" />
-                <span className="font-mono text-[10px] text-primary font-semibold">UNLIMITED</span>
-              </>
+                <span className="font-mono text-[10px] text-primary font-bold tracking-wider">TRADER</span>
+              </div>
             ) : (
-              <>
-                <Shield className="h-3.5 w-3.5 text-primary" />
-                <span className="font-mono text-[10px] text-primary font-semibold">FREE MODE</span>
-              </>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted border border-border">
+                <Shield className="h-3.5 w-3.5 text-muted-foreground" />
+                <span className="font-mono text-[10px] text-muted-foreground font-semibold tracking-wider">FREE MODE</span>
+              </div>
             )}
           </div>
         </div>
@@ -121,12 +292,7 @@ const SimTraderPage = () => {
             onShowLimitModal={() => setShowLimitModal(true)}
           />
         ) : (
-          <div className="terminal-card p-8 text-center space-y-3">
-            <Gamepad2 className="h-8 w-8 text-primary mx-auto" />
-            <p className="font-mono text-sm text-foreground font-bold">Play SimTrader™ Free</p>
-            <p className="font-mono text-xs text-muted-foreground">Get {FREE_DAILY_TRADES} free trades per day. Sign in to start!</p>
-            <button onClick={() => setShowAuth(true)} className="font-mono text-sm font-semibold bg-primary text-primary-foreground rounded px-6 py-2.5 hover:opacity-90">Sign In to Play</button>
-          </div>
+          <HeroSplash onSignIn={() => setShowAuth(true)} />
         )}
 
         {showLimitModal && (
@@ -140,6 +306,36 @@ const SimTraderPage = () => {
   );
 };
 
+/* ── Stat Card ── */
+const StatCard = ({ icon, label, value, sub, positive }: { icon: React.ReactNode; label: string; value: string; sub?: string; positive?: boolean }) => (
+  <motion.div
+    whileHover={{ scale: 1.02, y: -2 }}
+    transition={{ type: "spring", stiffness: 400 }}
+    className="relative overflow-hidden rounded-xl border border-border"
+    style={{
+      background: "linear-gradient(180deg, hsl(225 18% 12%) 0%, hsl(225 20% 9%) 100%)",
+      boxShadow: positive !== undefined
+        ? positive
+          ? "0 4px 20px hsl(160 84% 50% / 0.08)"
+          : "0 4px 20px hsl(0 72% 55% / 0.08)"
+        : "var(--shadow-card)",
+    }}
+  >
+    <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500" style={{ background: "radial-gradient(ellipse at top right, hsl(160 84% 50% / 0.05) 0%, transparent 70%)" }} />
+    <div className="relative p-4">
+      <div className="flex items-center gap-2 mb-2">
+        <div className="h-7 w-7 rounded-lg bg-primary/10 flex items-center justify-center">
+          <span className="text-primary [&>svg]:h-3.5 [&>svg]:w-3.5">{icon}</span>
+        </div>
+        <span className="font-mono text-[9px] text-muted-foreground tracking-wider uppercase">{label}</span>
+      </div>
+      <p className={`font-mono text-base font-black ${positive !== undefined ? (positive ? "text-green-400" : "text-red-400") : "text-foreground"}`}>{value}</p>
+      {sub && <p className={`font-mono text-[10px] mt-0.5 ${positive ? "text-green-400/80" : "text-red-400/80"}`}>{sub}</p>}
+    </div>
+  </motion.div>
+);
+
+/* ── Trading Dashboard ── */
 const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModal }: {
   isTrader: boolean;
   onUpgrade: () => void;
@@ -159,47 +355,38 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="animate-pulse font-mono text-sm text-muted-foreground">Loading SimTrader...</div>
+      <div className="flex flex-col items-center justify-center py-24 gap-4">
+        <div className="relative h-12 w-12">
+          <div className="absolute inset-0 rounded-full border-2 border-primary/20" />
+          <div className="absolute inset-0 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+        </div>
+        <p className="font-mono text-sm text-muted-foreground">Loading SimTrader™...</p>
       </div>
     );
   }
 
   const handleTrade = () => {
     if (!selectedCard) return;
-    // Enforce free trade limit for non-traders
-    if (!isTrader && tradesLeft <= 0) {
-      onShowLimitModal();
-      return;
-    }
-    // Free users can only use market orders
-    if (!isTrader && orderType !== "market") {
-      onShowLimitModal();
-      return;
-    }
-    placeOrder(
-      selectedCard,
-      orderSide,
-      orderQty,
-      orderType,
-      orderType === "limit" ? parseFloat(limitPrice) : undefined,
-      orderType === "stop_loss" ? parseFloat(limitPrice) : undefined,
-    );
-    if (!isTrader) {
-      incrementTradesToday();
-      setTradesUsed(getTradesUsedToday());
-    }
+    if (!isTrader && tradesLeft <= 0) { onShowLimitModal(); return; }
+    if (!isTrader && orderType !== "market") { onShowLimitModal(); return; }
+    placeOrder(selectedCard, orderSide, orderQty, orderType, orderType === "limit" ? parseFloat(limitPrice) : undefined, orderType === "stop_loss" ? parseFloat(limitPrice) : undefined);
+    if (!isTrader) { incrementTradesToday(); setTradesUsed(getTradesUsedToday()); }
     setSelectedCard(null);
     setOrderQty(1);
     setLimitPrice("");
   };
 
+  const tabs = [
+    { key: "market" as const, label: "MARKET", icon: BarChart3 },
+    { key: "holdings" as const, label: "HOLDINGS", icon: Package },
+    { key: "orders" as const, label: "ORDERS", icon: Clock },
+    { key: "contests" as const, label: "CONTESTS", icon: Trophy, locked: !isTrader },
+  ];
+
   return (
-    <div className="space-y-4">
-      {/* Freemium Banner */}
-      {!isTrader && (
-        <FreemiumBanner tradesLeft={tradesLeft} onUpgrade={onUpgrade} loading={upgradeLoading} />
-      )}
+    <div className="space-y-5">
+      {!isTrader && <FreemiumBanner tradesLeft={tradesLeft} onUpgrade={onUpgrade} loading={upgradeLoading} />}
+
       {/* Portfolio Summary */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <StatCard icon={<DollarSign className="h-4 w-4" />} label="Cash Balance" value={formatUSD(portfolio?.virtual_balance ?? 0)} />
@@ -214,93 +401,158 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
         />
       </div>
 
-      {/* Bot Activity Feed */}
       <BotActivityFeed />
 
       {/* Tabs */}
-      <div className="flex gap-1 border-b border-border">
-        {(["market", "holdings", "orders", "contests"] as const).map(t => (
-          <button key={t} onClick={() => { if (!isTrader && t === "contests") { onShowLimitModal(); return; } setTab(t); }} className={`font-mono text-xs px-3 py-2 border-b-2 transition-colors ${tab === t ? "border-primary text-primary font-bold" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
-            {t.toUpperCase()} {!isTrader && t === "contests" && <Lock className="inline h-3 w-3 ml-1" />}
+      <div className="flex gap-1 overflow-x-auto border-b border-border pb-px">
+        {tabs.map(t => (
+          <button
+            key={t.key}
+            onClick={() => { if (t.locked) { onShowLimitModal(); return; } setTab(t.key); }}
+            className={`relative font-mono text-xs px-4 py-2.5 flex items-center gap-1.5 transition-all whitespace-nowrap ${
+              tab === t.key
+                ? "text-primary font-bold"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <t.icon className="h-3.5 w-3.5" />
+            {t.label}
+            {t.locked && <Lock className="h-2.5 w-2.5 ml-0.5 opacity-60" />}
+            {tab === t.key && (
+              <motion.div
+                layoutId="simtrader-tab"
+                className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full"
+                style={{ background: "linear-gradient(90deg, hsl(160 84% 50%) 0%, hsl(160 84% 50% / 0.5) 100%)" }}
+              />
+            )}
           </button>
         ))}
       </div>
 
-      {/* Trade Panel (appears when card selected) */}
-      {selectedCard && (
-        <div className="terminal-card border-primary/40 p-4 space-y-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-mono text-sm font-bold">{selectedCard.name}</p>
-              <p className="font-mono text-[10px] text-muted-foreground">{selectedCard.set} #{selectedCard.number}</p>
-            </div>
-            <div className="text-right">
-              <p className="font-mono text-lg font-bold text-foreground">{formatUSD(selectedCard.market)}</p>
-              <span className={`font-mono text-[10px] ${selectedCard.change >= 0 ? "text-green-400" : "text-red-400"}`}>
-                {selectedCard.change >= 0 ? "+" : ""}{selectedCard.change.toFixed(2)}%
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            <button onClick={() => setOrderSide("buy")} className={`py-2 rounded font-mono text-xs font-bold ${orderSide === "buy" ? "bg-green-500/20 text-green-400 ring-1 ring-green-500/40" : "bg-muted text-muted-foreground"}`}>BUY</button>
-            <button onClick={() => setOrderSide("sell")} className={`py-2 rounded font-mono text-xs font-bold ${orderSide === "sell" ? "bg-red-500/20 text-red-400 ring-1 ring-red-500/40" : "bg-muted text-muted-foreground"}`}>SELL</button>
-          </div>
-
-          <div className="flex gap-2">
-            {(["market", "limit", "stop_loss"] as const).map(t => (
-              <button key={t} onClick={() => { if (!isTrader && t !== "market") { onShowLimitModal(); return; } setOrderType(t); }} className={`flex-1 py-1.5 rounded font-mono text-[10px] font-semibold relative ${orderType === t ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground"} ${!isTrader && t !== "market" ? "opacity-50" : ""}`}>
-                {t === "stop_loss" ? "STOP-LOSS" : t.toUpperCase()}
-                {!isTrader && t !== "market" && <Lock className="inline h-2.5 w-2.5 ml-1" />}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex gap-2">
-            <div className="flex-1">
-              <label className="font-mono text-[10px] text-muted-foreground block mb-1">QTY</label>
-              <input type="number" min={1} max={9999} value={orderQty} onChange={e => setOrderQty(Math.max(1, parseInt(e.target.value) || 1))} className="w-full bg-muted border border-border rounded px-2 py-1.5 font-mono text-sm text-foreground" />
-            </div>
-            {orderType !== "market" && (
-              <div className="flex-1">
-                <label className="font-mono text-[10px] text-muted-foreground block mb-1">{orderType === "limit" ? "LIMIT $" : "STOP $"}</label>
-                <input type="number" min={0.01} step={0.01} value={limitPrice} onChange={e => setLimitPrice(e.target.value)} className="w-full bg-muted border border-border rounded px-2 py-1.5 font-mono text-sm text-foreground" />
+      {/* Trade Panel */}
+      <AnimatePresence>
+        {selectedCard && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden"
+          >
+            <div
+              className="rounded-xl border border-primary/30 p-5 space-y-4"
+              style={{
+                background: "linear-gradient(180deg, hsl(225 18% 12%) 0%, hsl(225 20% 9%) 100%)",
+                boxShadow: "0 0 30px hsl(160 84% 50% / 0.08), var(--shadow-card)"
+              }}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  {selectedCard.image && (
+                    <div className="h-12 w-10 rounded-lg overflow-hidden bg-muted flex-shrink-0 ring-1 ring-border">
+                      <img src={selectedCard.image} alt="" className="h-full w-full object-cover" />
+                    </div>
+                  )}
+                  <div>
+                    <p className="font-mono text-sm font-bold text-foreground">{selectedCard.name}</p>
+                    <p className="font-mono text-[10px] text-muted-foreground">{selectedCard.set} #{selectedCard.number}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="font-mono text-xl font-black text-foreground">{formatUSD(selectedCard.market)}</p>
+                  <span className={`font-mono text-[10px] font-semibold ${selectedCard.change >= 0 ? "text-green-400" : "text-red-400"}`}>
+                    {selectedCard.change >= 0 ? "▲" : "▼"} {Math.abs(selectedCard.change).toFixed(2)}%
+                  </span>
+                </div>
               </div>
-            )}
-          </div>
 
-          <div className="flex items-center justify-between font-mono text-[10px] text-muted-foreground">
-            <span>Est. Total:</span>
-            <span className="text-foreground font-bold">{formatUSD(selectedCard.market * orderQty)}</span>
-          </div>
+              <div className="grid grid-cols-2 gap-2">
+                <button onClick={() => setOrderSide("buy")} className={`py-2.5 rounded-lg font-mono text-xs font-bold transition-all ${orderSide === "buy" ? "ring-2 ring-green-500/50" : "bg-muted text-muted-foreground"}`} style={orderSide === "buy" ? { background: "linear-gradient(135deg, hsl(145 60% 20%) 0%, hsl(145 50% 15%) 100%)", color: "hsl(145 80% 60%)" } : undefined}>
+                  ▲ BUY
+                </button>
+                <button onClick={() => setOrderSide("sell")} className={`py-2.5 rounded-lg font-mono text-xs font-bold transition-all ${orderSide === "sell" ? "ring-2 ring-red-500/50" : "bg-muted text-muted-foreground"}`} style={orderSide === "sell" ? { background: "linear-gradient(135deg, hsl(0 50% 20%) 0%, hsl(0 40% 15%) 100%)", color: "hsl(0 80% 65%)" } : undefined}>
+                  ▼ SELL
+                </button>
+              </div>
 
-          <button onClick={handleTrade} className={`w-full py-2.5 rounded font-mono text-sm font-bold transition-all ${orderSide === "buy" ? "bg-green-500 text-black hover:bg-green-400" : "bg-red-500 text-white hover:bg-red-400"}`}>
-            {orderSide === "buy" ? "🟢" : "🔴"} {orderSide.toUpperCase()} {orderQty}x {selectedCard.name}
-          </button>
+              <div className="flex gap-2">
+                {(["market", "limit", "stop_loss"] as const).map(t => (
+                  <button key={t} onClick={() => { if (!isTrader && t !== "market") { onShowLimitModal(); return; } setOrderType(t); }} className={`flex-1 py-2 rounded-lg font-mono text-[10px] font-semibold transition-all ${orderType === t ? "bg-primary/15 text-primary ring-1 ring-primary/30" : "bg-muted text-muted-foreground"} ${!isTrader && t !== "market" ? "opacity-40" : ""}`}>
+                    {t === "stop_loss" ? "STOP-LOSS" : t.toUpperCase()}
+                    {!isTrader && t !== "market" && <Lock className="inline h-2.5 w-2.5 ml-1" />}
+                  </button>
+                ))}
+              </div>
 
-          <button onClick={() => setSelectedCard(null)} className="w-full py-1.5 font-mono text-[10px] text-muted-foreground hover:text-foreground">Cancel</button>
-        </div>
-      )}
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <label className="font-mono text-[10px] text-muted-foreground block mb-1.5">QUANTITY</label>
+                  <input type="number" min={1} max={9999} value={orderQty} onChange={e => setOrderQty(Math.max(1, parseInt(e.target.value) || 1))} className="w-full bg-muted border border-border rounded-lg px-3 py-2 font-mono text-sm text-foreground focus:ring-1 focus:ring-primary focus:border-primary transition-all" />
+                </div>
+                {orderType !== "market" && (
+                  <div className="flex-1">
+                    <label className="font-mono text-[10px] text-muted-foreground block mb-1.5">{orderType === "limit" ? "LIMIT PRICE" : "STOP PRICE"}</label>
+                    <input type="number" min={0.01} step={0.01} value={limitPrice} onChange={e => setLimitPrice(e.target.value)} className="w-full bg-muted border border-border rounded-lg px-3 py-2 font-mono text-sm text-foreground focus:ring-1 focus:ring-primary focus:border-primary transition-all" />
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between font-mono text-xs px-1">
+                <span className="text-muted-foreground">Estimated Total</span>
+                <span className="text-foreground font-bold text-base">{formatUSD(selectedCard.market * orderQty)}</span>
+              </div>
+
+              <button
+                onClick={handleTrade}
+                className="w-full py-3 rounded-xl font-mono text-sm font-bold transition-all flex items-center justify-center gap-2"
+                style={{
+                  background: orderSide === "buy"
+                    ? "linear-gradient(135deg, hsl(145 70% 38%) 0%, hsl(145 65% 30%) 100%)"
+                    : "linear-gradient(135deg, hsl(0 65% 45%) 0%, hsl(0 60% 38%) 100%)",
+                  color: orderSide === "buy" ? "hsl(145 90% 90%)" : "hsl(0 0% 100%)",
+                  boxShadow: orderSide === "buy"
+                    ? "0 0 20px hsl(145 70% 40% / 0.3)"
+                    : "0 0 20px hsl(0 65% 45% / 0.3)",
+                }}
+              >
+                {orderSide === "buy" ? "▲" : "▼"} {orderSide.toUpperCase()} {orderQty}× {selectedCard.name}
+              </button>
+
+              <button onClick={() => setSelectedCard(null)} className="w-full py-1.5 font-mono text-[10px] text-muted-foreground hover:text-foreground transition-colors">
+                Cancel
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Market Tab */}
       {tab === "market" && (
-        <div className="terminal-card overflow-hidden">
-          <div className="grid grid-cols-[1fr_80px_70px_60px] gap-2 px-3 py-2 border-b border-border font-mono text-[10px] text-muted-foreground tracking-wider">
-            <span>TOKEN</span><span className="text-right">PRICE</span><span className="text-right">CHG</span><span></span>
+        <div className="rounded-xl border border-border overflow-hidden" style={{ background: "linear-gradient(180deg, hsl(225 18% 11%) 0%, hsl(225 20% 9%) 100%)" }}>
+          <div className="grid grid-cols-[1fr_80px_70px_60px] gap-2 px-4 py-3 border-b border-border font-mono text-[9px] text-muted-foreground tracking-widest uppercase">
+            <span>Token</span><span className="text-right">Price</span><span className="text-right">Change</span><span></span>
           </div>
-          <div className="max-h-[400px] overflow-y-auto">
+          <div className="max-h-[450px] overflow-y-auto">
             {tradableCards.map((card, i) => (
-              <div key={i} onClick={() => setSelectedCard(card)} className="grid grid-cols-[1fr_80px_70px_60px] gap-2 px-3 py-2 border-b border-border/50 hover:bg-muted/50 cursor-pointer transition-colors items-center">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.02 }}
+                onClick={() => setSelectedCard(card)}
+                className="grid grid-cols-[1fr_80px_70px_60px] gap-2 px-4 py-3 border-b border-border/30 hover:bg-muted/40 cursor-pointer transition-all items-center group"
+              >
                 <div>
-                  <p className="font-mono text-xs font-semibold text-foreground truncate">{card.name}</p>
+                  <p className="font-mono text-xs font-semibold text-foreground truncate group-hover:text-primary transition-colors">{card.name}</p>
                   <p className="font-mono text-[9px] text-muted-foreground">{card.set}</p>
                 </div>
-                <span className="font-mono text-xs text-right text-foreground">{formatUSD(card.market)}</span>
-                <span className={`font-mono text-[10px] text-right font-semibold ${card.change >= 0 ? "text-green-400" : "text-red-400"}`}>
+                <span className="font-mono text-xs text-right text-foreground font-semibold">{formatUSD(card.market)}</span>
+                <span className={`font-mono text-[10px] text-right font-bold ${card.change >= 0 ? "text-green-400" : "text-red-400"}`}>
                   {card.change >= 0 ? "+" : ""}{card.change.toFixed(2)}%
                 </span>
-                <button className="font-mono text-[9px] bg-primary/10 text-primary px-2 py-1 rounded hover:bg-primary/20">TRADE</button>
-              </div>
+                <button className="font-mono text-[9px] font-bold px-2.5 py-1.5 rounded-lg transition-all text-primary" style={{ background: "hsl(160 84% 50% / 0.08)", border: "1px solid hsl(160 84% 50% / 0.15)" }}>
+                  TRADE
+                </button>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -308,32 +560,34 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
 
       {/* Holdings Tab */}
       {tab === "holdings" && (
-        <div className="terminal-card overflow-hidden">
+        <div className="rounded-xl border border-border overflow-hidden" style={{ background: "linear-gradient(180deg, hsl(225 18% 11%) 0%, hsl(225 20% 9%) 100%)" }}>
           {holdings.length === 0 ? (
-            <div className="p-8 text-center font-mono text-sm text-muted-foreground">
-              No holdings yet. Buy your first token from the Market tab!
+            <div className="p-12 text-center space-y-3">
+              <Package className="h-8 w-8 text-muted-foreground/50 mx-auto" />
+              <p className="font-mono text-sm text-muted-foreground">No holdings yet</p>
+              <p className="font-mono text-[10px] text-muted-foreground/60">Buy your first token from the Market tab!</p>
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-[1fr_60px_80px_80px] gap-2 px-3 py-2 border-b border-border font-mono text-[10px] text-muted-foreground">
-                <span>TOKEN</span><span className="text-right">QTY</span><span className="text-right">AVG COST</span><span className="text-right">VALUE</span>
+              <div className="grid grid-cols-[1fr_60px_80px_80px] gap-2 px-4 py-3 border-b border-border font-mono text-[9px] text-muted-foreground tracking-widest uppercase">
+                <span>Token</span><span className="text-right">Qty</span><span className="text-right">Avg Cost</span><span className="text-right">Value</span>
               </div>
               {holdings.map(h => {
                 const card = tradableCards.find(c => (c._apiId ?? `${c.set}-${c.number}`) === h.card_api_id);
                 const currentPrice = card?.market ?? h.avg_cost;
                 const value = currentPrice * h.quantity;
-                const pnl = (currentPrice - h.avg_cost) * h.quantity;
+                const holdingPnl = (currentPrice - h.avg_cost) * h.quantity;
                 return (
-                  <div key={h.id} onClick={() => card && setSelectedCard(card)} className="grid grid-cols-[1fr_60px_80px_80px] gap-2 px-3 py-2 border-b border-border/50 hover:bg-muted/50 cursor-pointer items-center">
+                  <div key={h.id} onClick={() => card && setSelectedCard(card)} className="grid grid-cols-[1fr_60px_80px_80px] gap-2 px-4 py-3 border-b border-border/30 hover:bg-muted/40 cursor-pointer transition-all items-center">
                     <div>
-                      <p className="font-mono text-xs font-semibold truncate">{h.card_name}</p>
-                      <p className={`font-mono text-[9px] ${pnl >= 0 ? "text-green-400" : "text-red-400"}`}>
-                        {pnl >= 0 ? "+" : ""}{formatUSD(pnl)}
+                      <p className="font-mono text-xs font-semibold truncate text-foreground">{h.card_name}</p>
+                      <p className={`font-mono text-[9px] font-semibold ${holdingPnl >= 0 ? "text-green-400" : "text-red-400"}`}>
+                        {holdingPnl >= 0 ? "+" : ""}{formatUSD(holdingPnl)}
                       </p>
                     </div>
                     <span className="font-mono text-xs text-right">{h.quantity}</span>
                     <span className="font-mono text-[10px] text-right text-muted-foreground">{formatUSD(h.avg_cost)}</span>
-                    <span className="font-mono text-xs text-right font-semibold">{formatUSD(value)}</span>
+                    <span className="font-mono text-xs text-right font-bold">{formatUSD(value)}</span>
                   </div>
                 );
               })}
@@ -344,25 +598,28 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
 
       {/* Orders Tab */}
       {tab === "orders" && (
-        <div className="terminal-card overflow-hidden">
+        <div className="rounded-xl border border-border overflow-hidden" style={{ background: "linear-gradient(180deg, hsl(225 18% 11%) 0%, hsl(225 20% 9%) 100%)" }}>
           {orders.length === 0 ? (
-            <div className="p-8 text-center font-mono text-sm text-muted-foreground">No trade history yet</div>
+            <div className="p-12 text-center space-y-3">
+              <Clock className="h-8 w-8 text-muted-foreground/50 mx-auto" />
+              <p className="font-mono text-sm text-muted-foreground">No trade history yet</p>
+            </div>
           ) : (
             <>
-              <div className="grid grid-cols-[1fr_50px_60px_60px_60px] gap-1 px-3 py-2 border-b border-border font-mono text-[9px] text-muted-foreground">
-                <span>TOKEN</span><span>SIDE</span><span className="text-right">QTY</span><span className="text-right">PRICE</span><span className="text-right">STATUS</span>
+              <div className="grid grid-cols-[1fr_50px_60px_60px_60px] gap-1 px-4 py-3 border-b border-border font-mono text-[9px] text-muted-foreground tracking-widest uppercase">
+                <span>Token</span><span>Side</span><span className="text-right">Qty</span><span className="text-right">Price</span><span className="text-right">Status</span>
               </div>
               <div className="max-h-[400px] overflow-y-auto">
                 {orders.map(o => (
-                  <div key={o.id} className="grid grid-cols-[1fr_50px_60px_60px_60px] gap-1 px-3 py-2 border-b border-border/50 items-center">
+                  <div key={o.id} className="grid grid-cols-[1fr_50px_60px_60px_60px] gap-1 px-4 py-3 border-b border-border/30 items-center">
                     <div>
-                      <p className="font-mono text-[10px] font-semibold truncate">{o.card_name}</p>
+                      <p className="font-mono text-[10px] font-semibold truncate text-foreground">{o.card_name}</p>
                       <p className="font-mono text-[8px] text-muted-foreground">{new Date(o.created_at).toLocaleTimeString()}</p>
                     </div>
                     <span className={`font-mono text-[10px] font-bold ${o.side === "buy" ? "text-green-400" : "text-red-400"}`}>{o.side.toUpperCase()}</span>
                     <span className="font-mono text-[10px] text-right">{o.quantity}</span>
                     <span className="font-mono text-[10px] text-right">{formatUSD(o.price)}</span>
-                    <span className={`font-mono text-[8px] text-right font-semibold ${o.status === "filled" ? "text-primary" : "text-yellow-400"}`}>{o.status.toUpperCase()}</span>
+                    <span className={`font-mono text-[8px] text-right font-bold px-1.5 py-0.5 rounded ${o.status === "filled" ? "bg-primary/10 text-primary" : "bg-yellow-500/10 text-yellow-400"}`}>{o.status.toUpperCase()}</span>
                   </div>
                 ))}
               </div>
@@ -372,23 +629,18 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
       )}
 
       {/* Contests Tab */}
-      {tab === "contests" && (
-        <ContestsPanel
-          userTotalValue={totalValue}
-          userPnlPct={pnlPct}
-        />
-      )}
+      {tab === "contests" && <ContestsPanel userTotalValue={totalValue} userPnlPct={pnlPct} />}
 
       {/* Disclaimer */}
-      <div className="terminal-card border-yellow-500/30 p-3">
-        <p className="font-mono text-[9px] text-yellow-500/80 text-center">
+      <div className="rounded-xl border border-yellow-500/20 p-4" style={{ background: "hsl(38 80% 50% / 0.03)" }}>
+        <p className="font-mono text-[9px] text-yellow-500/70 text-center leading-relaxed">
           ⚠️ SIMULATION ONLY — SimTrader uses virtual currency and does not involve real money trading. All trades are simulated based on live market data. No real financial transactions occur. For entertainment and educational purposes only.
         </p>
       </div>
 
       {/* Legal IP Notice */}
-      <div className="terminal-card border-border p-3 space-y-1">
-        <p className="font-mono text-[8px] text-muted-foreground/60 text-center leading-relaxed">
+      <div className="rounded-xl border border-border/50 p-3">
+        <p className="font-mono text-[8px] text-muted-foreground/50 text-center leading-relaxed">
           SimTrader™ is the exclusive proprietary intellectual property of PGVA Ventures, LLC, wholly owned by the Noyes Family Trust, managed by David Noyes. All rights reserved under U.S. and international copyright, trade secret, and intellectual property law. Unauthorized copying, reproduction, reverse-engineering, or creation of derivative works is strictly prohibited and will be prosecuted under the DMCA, CFAA, DTSA, and applicable state law. © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.
         </p>
       </div>
@@ -396,10 +648,11 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
   );
 };
 
+/* ── Contests Panel ── */
 const difficultyColor = (d: BotDifficulty) =>
   d === "easy" ? "text-green-400" : d === "medium" ? "text-yellow-400" : "text-red-400";
-const difficultyLabel = (d: BotDifficulty) =>
-  d === "easy" ? "EASY" : d === "medium" ? "MED" : "HARD";
+const difficultyBg = (d: BotDifficulty) =>
+  d === "easy" ? "bg-green-500/10" : d === "medium" ? "bg-yellow-500/10" : "bg-red-500/10";
 
 const ContestsPanel = ({ userTotalValue, userPnlPct }: { userTotalValue: number; userPnlPct: number }) => {
   const today = new Date().toISOString().slice(0, 10);
@@ -424,37 +677,40 @@ const ContestsPanel = ({ userTotalValue, userPnlPct }: { userTotalValue: number;
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2 mb-2">
-        <Trophy className="h-5 w-5 text-primary" />
-        <h3 className="font-mono text-sm font-bold">Trading Contests</h3>
-        <div className="ml-auto flex items-center gap-1">
-          <Bot className="h-3.5 w-3.5 text-muted-foreground" />
-          <span className="font-mono text-[9px] text-muted-foreground">10 AI OPPONENTS</span>
+      <div className="flex items-center gap-3">
+        <div className="h-9 w-9 rounded-xl flex items-center justify-center" style={{ background: "hsl(160 84% 50% / 0.1)", border: "1px solid hsl(160 84% 50% / 0.2)" }}>
+          <Trophy className="h-4.5 w-4.5 text-primary" />
+        </div>
+        <div>
+          <h3 className="font-mono text-sm font-bold text-foreground">Trading Contests</h3>
+          <p className="font-mono text-[9px] text-muted-foreground flex items-center gap-1"><Bot className="h-3 w-3" />10 AI opponents with unique strategies</p>
         </div>
       </div>
 
-      {/* Contest Selector */}
-      <div className="grid grid-cols-2 gap-2">
-        <button onClick={() => setActiveContest("daily")} className={`terminal-card p-3 text-left transition-all ${activeContest === "daily" ? "border-primary/50 bg-primary/5" : "hover:bg-muted/50"}`}>
-          <div className="flex items-center justify-between mb-1">
-            <span className="font-mono text-[10px] font-bold text-primary">DAILY BLITZ</span>
-            <span className="font-mono text-[8px] bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded">ACTIVE</span>
-          </div>
-          <p className="font-mono text-[8px] text-muted-foreground">$50K balance · Highest P&L wins</p>
-        </button>
-        <button onClick={() => setActiveContest("weekend")} className={`terminal-card p-3 text-left transition-all ${activeContest === "weekend" ? "border-primary/50 bg-primary/5" : "hover:bg-muted/50"}`}>
-          <div className="flex items-center justify-between mb-1">
-            <span className="font-mono text-[10px] font-bold">WEEKEND WARRIOR</span>
-            <span className="font-mono text-[8px] bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded">UPCOMING</span>
-          </div>
-          <p className="font-mono text-[8px] text-muted-foreground">$100K balance · 48hr marathon</p>
-        </button>
+      <div className="grid grid-cols-2 gap-3">
+        {[
+          { key: "daily" as const, name: "DAILY BLITZ", status: "ACTIVE", statusColor: "bg-green-500/15 text-green-400", desc: "$50K balance · Best P&L wins", active: activeContest === "daily" },
+          { key: "weekend" as const, name: "WEEKEND WARRIOR", status: "UPCOMING", statusColor: "bg-yellow-500/15 text-yellow-400", desc: "$100K balance · 48hr marathon", active: activeContest === "weekend" },
+        ].map(c => (
+          <button
+            key={c.key}
+            onClick={() => setActiveContest(c.key)}
+            className={`relative overflow-hidden rounded-xl border p-4 text-left transition-all ${c.active ? "border-primary/40" : "border-border hover:border-border/80"}`}
+            style={c.active ? { background: "linear-gradient(135deg, hsl(160 84% 50% / 0.05) 0%, hsl(225 20% 10%) 100%)", boxShadow: "0 0 20px hsl(160 84% 50% / 0.06)" } : { background: "linear-gradient(180deg, hsl(225 18% 11%) 0%, hsl(225 20% 9%) 100%)" }}
+          >
+            <div className="flex items-center justify-between mb-1.5">
+              <span className={`font-mono text-[10px] font-bold ${c.active ? "text-primary" : "text-foreground"}`}>{c.name}</span>
+              <span className={`font-mono text-[8px] font-semibold px-2 py-0.5 rounded-full ${c.statusColor}`}>{c.status}</span>
+            </div>
+            <p className="font-mono text-[8px] text-muted-foreground">{c.desc}</p>
+          </button>
+        ))}
       </div>
 
       {/* Leaderboard */}
-      <div className="terminal-card overflow-hidden">
-        <div className="grid grid-cols-[30px_1fr_60px_70px] gap-2 px-3 py-2 border-b border-border font-mono text-[9px] text-muted-foreground tracking-wider">
-          <span>#</span><span>TRADER</span><span className="text-right">P&L %</span><span className="text-right">VALUE</span>
+      <div className="rounded-xl border border-border overflow-hidden" style={{ background: "linear-gradient(180deg, hsl(225 18% 11%) 0%, hsl(225 20% 9%) 100%)" }}>
+        <div className="grid grid-cols-[30px_1fr_60px_70px] gap-2 px-4 py-3 border-b border-border font-mono text-[9px] text-muted-foreground tracking-widest uppercase">
+          <span>#</span><span>Trader</span><span className="text-right">P&L</span><span className="text-right">Value</span>
         </div>
         <div className="max-h-[400px] overflow-y-auto">
           {leaderboard.map((entry) => (
@@ -463,12 +719,15 @@ const ContestsPanel = ({ userTotalValue, userPnlPct }: { userTotalValue: number;
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: entry.rank * 0.03 }}
-              className={`grid grid-cols-[30px_1fr_60px_70px] gap-2 px-3 py-2.5 border-b border-border/50 items-center ${
-                !entry.isBot ? "bg-primary/5 ring-1 ring-primary/20" : "hover:bg-muted/30"
+              className={`grid grid-cols-[30px_1fr_60px_70px] gap-2 px-4 py-3 border-b border-border/30 items-center transition-all ${
+                !entry.isBot
+                  ? "ring-1 ring-primary/20"
+                  : "hover:bg-muted/30"
               }`}
+              style={!entry.isBot ? { background: "linear-gradient(90deg, hsl(160 84% 50% / 0.06) 0%, transparent 100%)" } : undefined}
             >
               <span className="font-mono text-xs font-bold">
-                {entry.rank === 1 ? <Crown className="h-4 w-4 text-yellow-400" /> :
+                {entry.rank === 1 ? <Crown className="h-4 w-4 text-yellow-400" style={{ filter: "drop-shadow(0 0 4px hsl(38 92% 60% / 0.5))" }} /> :
                  entry.rank === 2 ? <Medal className="h-4 w-4 text-gray-400" /> :
                  entry.rank === 3 ? <Medal className="h-4 w-4 text-amber-600" /> :
                  <span className="text-muted-foreground">{entry.rank}</span>}
@@ -481,12 +740,12 @@ const ContestsPanel = ({ userTotalValue, userPnlPct }: { userTotalValue: number;
                       {entry.name}
                     </p>
                     {entry.isBot && (
-                      <span className={`font-mono text-[7px] font-bold px-1 py-0.5 rounded ${difficultyColor(entry.difficulty!)}`}>
-                        {difficultyLabel(entry.difficulty!)}
+                      <span className={`font-mono text-[7px] font-bold px-1.5 py-0.5 rounded-full ${difficultyColor(entry.difficulty!)} ${difficultyBg(entry.difficulty!)}`}>
+                        {entry.difficulty === "easy" ? "EASY" : entry.difficulty === "medium" ? "MED" : "HARD"}
                       </span>
                     )}
                     {!entry.isBot && (
-                      <span className="font-mono text-[7px] font-bold px-1 py-0.5 rounded bg-primary/20 text-primary">YOU</span>
+                      <span className="font-mono text-[7px] font-bold px-1.5 py-0.5 rounded-full bg-primary/15 text-primary">YOU</span>
                     )}
                   </div>
                   <p className="font-mono text-[8px] text-muted-foreground truncate">
@@ -497,7 +756,7 @@ const ContestsPanel = ({ userTotalValue, userPnlPct }: { userTotalValue: number;
               <span className={`font-mono text-[10px] text-right font-bold ${entry.pnlPct >= 0 ? "text-green-400" : "text-red-400"}`}>
                 {entry.pnlPct >= 0 ? "+" : ""}{entry.pnlPct.toFixed(2)}%
               </span>
-              <span className="font-mono text-[10px] text-right text-foreground">
+              <span className="font-mono text-[10px] text-right text-foreground font-semibold">
                 {formatUSD(entry.totalValue)}
               </span>
             </motion.div>
@@ -505,24 +764,13 @@ const ContestsPanel = ({ userTotalValue, userPnlPct }: { userTotalValue: number;
         </div>
       </div>
 
-      <div className="flex items-center justify-between">
-        <span className="font-mono text-[9px] text-muted-foreground"><Clock className="inline h-3 w-3 mr-1" />Resets daily at midnight EST</span>
-        <span className="font-mono text-[9px] text-primary font-semibold">🏆 Badge + 1 Month Extension</span>
+      <div className="flex items-center justify-between px-1">
+        <span className="font-mono text-[9px] text-muted-foreground flex items-center gap-1"><Clock className="h-3 w-3" />Resets daily at midnight EST</span>
+        <span className="font-mono text-[9px] text-primary font-bold flex items-center gap-1"><Star className="h-3 w-3" />Badge + 1 Month Extension</span>
       </div>
-      <p className="font-mono text-[8px] text-muted-foreground text-center">Contest prizes are in-app rewards only. No real monetary value. AI bots simulate trading strategies for competitive gameplay.</p>
+      <p className="font-mono text-[8px] text-muted-foreground/60 text-center">Contest prizes are in-app rewards only. No real monetary value. AI bots simulate trading strategies for competitive gameplay.</p>
     </div>
   );
 };
-
-const StatCard = ({ icon, label, value, sub, positive }: { icon: React.ReactNode; label: string; value: string; sub?: string; positive?: boolean }) => (
-  <div className="terminal-card p-3">
-    <div className="flex items-center gap-1.5 mb-1">
-      <span className="text-primary">{icon}</span>
-      <span className="font-mono text-[9px] text-muted-foreground tracking-wider">{label}</span>
-    </div>
-    <p className={`font-mono text-sm font-bold ${positive !== undefined ? (positive ? "text-green-400" : "text-red-400") : "text-foreground"}`}>{value}</p>
-    {sub && <p className={`font-mono text-[10px] ${positive ? "text-green-400" : "text-red-400"}`}>{sub}</p>}
-  </div>
-);
 
 export default SimTraderPage;
