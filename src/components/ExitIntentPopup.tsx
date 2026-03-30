@@ -9,6 +9,15 @@ const ExitIntentPopup = () => {
   const { subscribed } = useAuth();
   const navigate = useNavigate();
 
+  // A/B test: 50% see 14-day trial, 50% see 7-day trial
+  const [trialDays] = useState(() => {
+    const stored = sessionStorage.getItem("ppt_exit_variant");
+    if (stored) return parseInt(stored, 10);
+    const variant = Math.random() < 0.5 ? 14 : 7;
+    sessionStorage.setItem("ppt_exit_variant", String(variant));
+    return variant;
+  });
+
   useEffect(() => {
     if (subscribed) return;
     const shown = sessionStorage.getItem("ppt_exit_shown");
