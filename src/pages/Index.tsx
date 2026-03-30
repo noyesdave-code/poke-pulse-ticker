@@ -150,12 +150,12 @@ const Index = () => {
         <MarketUpdateBanner cards={displayCards} />
 
         {/* 4. Trending Cards with images — above the fold dopamine hit */}
-        <TrendingCards cards={displayCards} />
+        <TrendingCards cards={displayCards} isLoading={isLoading} />
 
         {/* Top Movers with card thumbnails */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" />
-          <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" />
+          <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" isLoading={isLoading} />
+          <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" isLoading={isLoading} />
         </div>
 
         {/* Era-Based Indexes */}
