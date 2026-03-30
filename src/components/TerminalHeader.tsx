@@ -65,8 +65,8 @@ const TerminalHeader = () => {
               className="flex items-center gap-3 cursor-pointer group"
               onClick={() => handleNav("/")}
             >
-              <div className="relative h-13 w-13 flex items-center justify-center">
-                <span className="font-black text-[44px] leading-none text-primary pulse-live select-none drop-shadow-[0_0_16px_hsl(var(--primary)/0.6)]">P</span>
+              <div className="relative flex items-center justify-center" style={{ height: '40px', width: '32px' }}>
+                <span className="font-black text-[40px] leading-none text-primary pulse-live select-none glow-p">P</span>
               </div>
               <div className="hidden min-[400px]:block">
                 <h1 className="text-[13px] font-extrabold tracking-tight text-foreground leading-none">
