@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { rawCards, gradedCards, sealedProducts } from "@/data/marketData";
+import AffiliateLinks from "@/components/AffiliateLinks";
 
 const CardSearch = () => {
   const [query, setQuery] = useState("");
