@@ -293,6 +293,12 @@ const CardDetail = () => {
         {/* Community Sentiment */}
         {cardApiId && <CardSentimentPoll cardApiId={cardApiId} />}
 
+        {/* Affiliate Buy Links */}
+        <div className="terminal-card p-4">
+          <h3 className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">Buy This Card</h3>
+          <AffiliateLinks cardName={card.name} setName={card.set} />
+        </div>
+
         {/* Seller Comparison */}
         <SellerComparison card={card} />
 
