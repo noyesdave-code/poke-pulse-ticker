@@ -1,4 +1,5 @@
 import { useState } from "react";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { useNavigate } from "react-router-dom";
 import TerminalHeader from "@/components/TerminalHeader";
 import GradingGuide from "@/components/GradingGuide";
@@ -62,6 +63,8 @@ const Guides = () => {
         {active === "grading" && <GradingGuide />}
         {active === "investing" && <InvestmentTips />}
         {active === "glossary" && <TcgGlossary />}
+
+        <FinancialDisclaimer />
 
         {/* Footer */}
         <footer className="border-t border-border pt-6 pb-4">
