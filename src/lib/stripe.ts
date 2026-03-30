@@ -28,6 +28,20 @@ export const STRIPE_TIERS = {
       savings: "Save $198",
     },
   },
+  trader: {
+    product_id: "prod_UFEqR7iWEnj8Za",
+    price_id: "price_1TGkMfPRXT5iryzGJdB2ciVt",
+    name: "TRADER",
+    price: "$499",
+    period: "/month",
+    annual: {
+      product_id: "prod_UFEsWIyr5hyoGV",
+      price_id: "price_1TGkOVPRXT5iryzGBrRRJvkF",
+      price: "$4,990",
+      period: "/year",
+      savings: "Save $998",
+    },
+  },
 } as const;
 
 export type TierKey = keyof typeof STRIPE_TIERS;
