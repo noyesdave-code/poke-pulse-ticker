@@ -146,6 +146,9 @@ const TradingDashboard = () => {
         />
       </div>
 
+      {/* Bot Activity Feed */}
+      <BotActivityFeed />
+
       {/* Tabs */}
       <div className="flex gap-1 border-b border-border">
         {(["market", "holdings", "orders", "contests"] as const).map(t => (
