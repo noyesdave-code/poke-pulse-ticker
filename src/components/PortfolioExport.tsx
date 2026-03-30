@@ -141,9 +141,11 @@ const PortfolioExport = ({ portfolio, livePrices }: PortfolioExportProps) => {
       </p>
       <div className="mt-2 px-2 py-1.5 rounded border border-terminal-amber/20 bg-terminal-amber/5">
         <p className="font-mono text-[8px] text-terminal-amber/80 leading-relaxed">
-          ⚠️ DISCLAIMER: Tax reports are for informational purposes only. Poke-Pulse Ticker is not a tax advisor. 
-          Consult a qualified tax professional before making any tax-related decisions. PGVA Ventures, LLC assumes 
-          no liability for the accuracy of tax calculations. See <a href="/terms" className="underline">Terms of Service</a>.
+          ⚠️ DISCLAIMER: Tax reports are for informational purposes only and do not constitute tax, legal, or financial advice. 
+          PGVA Ventures, LLC is NOT a Certified Public Accountant (CPA) or licensed tax advisor. Cost basis uses FIFO methodology. 
+          Holding periods follow IRS definitions (assets held &gt;1 year = Long-term Capital Gains). Consult a qualified CPA or 
+          tax professional before making any tax-related decisions. PGVA Ventures, LLC assumes no liability for the accuracy of 
+          tax calculations or any financial decisions made based on this data. See <a href="/terms" className="underline">Terms of Service</a>.
         </p>
       </div>
     </div>
