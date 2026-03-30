@@ -110,11 +110,20 @@ Analyze the platform across these categories and provide actionable recommendati
 10. SECURITY - Data protection, auth security, API security, anti-scraping
 11. LEGAL_COMPLIANCE - PGVA Ventures LLC compliance, terms of service, privacy policy, IP protection, disclaimers
 
+SCORING CALIBRATION (critical — follow these guidelines precisely):
+- 95-100: Feature is industry-leading, comprehensive, and would be considered best-in-class among ALL fintech/market data platforms (not just TCG). Reserve 95+ for features with no meaningful gaps.
+- 90-94: Feature is strong and well-implemented with only minor polish opportunities. Most mature features should score here.
+- 85-89: Feature exists and works well but has 1-2 notable gaps that would meaningfully improve user experience.
+- 80-84: Feature is adequate but has clear room for improvement in implementation or coverage.
+- Below 80: Feature is missing, broken, or has fundamental issues.
+
+IMPORTANT: Score based on what IS implemented, not on aspirational features. If a feature is described as existing below, give it credit. Only dock points for genuinely missing or broken functionality, not for "nice-to-have" additions. A platform with 30+ well-implemented features across all 11 categories should average 90+ unless there are real deficiencies.
+
 For each category provide:
 - score (1-100)
 - status: "strong", "adequate", "needs_improvement", "critical"
 - findings: array of specific observations
-- recommendations: array of actionable improvements
+- recommendations: array of actionable improvements (limit to 1-2 genuinely impactful items, not wishlists)
 
 Also provide:
 - competitive_intel: specific features TCGPlayer and RareCandy have that we should consider
