@@ -82,6 +82,9 @@ const SignalBadge = ({ result, size = "sm", showDetails = false }: SignalBadgePr
           </div>
         </div>
       )}
+      <p className="font-mono text-[7px] text-muted-foreground/50 mt-1.5 leading-tight">
+        Not financial advice. For informational purposes only.
+      </p>
     </div>
   );
 };

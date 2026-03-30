@@ -136,6 +136,13 @@ const PortfolioExport = ({ portfolio, livePrices }: PortfolioExportProps) => {
       <p className="font-mono text-[9px] text-muted-foreground mt-2">
         Tax report includes holding period analysis, short/long-term classification, and unrealized gains.
       </p>
+      <div className="mt-2 px-2 py-1.5 rounded border border-terminal-amber/20 bg-terminal-amber/5">
+        <p className="font-mono text-[8px] text-terminal-amber/80 leading-relaxed">
+          ⚠️ DISCLAIMER: Tax reports are for informational purposes only. Poke-Pulse Ticker is not a tax advisor. 
+          Consult a qualified tax professional before making any tax-related decisions. PGVA Ventures, LLC assumes 
+          no liability for the accuracy of tax calculations. See <a href="/terms" className="underline">Terms of Service</a>.
+        </p>
+      </div>
     </div>
   );
 };

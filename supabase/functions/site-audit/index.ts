@@ -125,6 +125,9 @@ Respond with valid JSON only.`;
 - Whale-exclusive CSV portfolio export with full P&L breakdown
 - Whale-exclusive Capital Gains Tax Report with holding period analysis (short-term vs long-term), cost basis, FMV, and unrealized gains
 - Verified Data freshness badges showing source attribution, last-updated timestamps, SWR cache status, and auto-refresh indicators
+- Hardened legal disclaimers on all Alpha Signals ("Not Financial Advice"), Buy/Sell/Hold signal badges, and Capital Gains Tax Reports with liability limitation
+- IP-based rate limiting (30 req/min) on card search API proxy with path whitelisting and parameter validation
+- FOMO conversion pop-ups for free users showing real-time market activity and 7-day trial CTAs (session-based, non-intrusive)
 
 Owner: PGVA Ventures, LLC
 Domain: poke-pulse-ticker.com
