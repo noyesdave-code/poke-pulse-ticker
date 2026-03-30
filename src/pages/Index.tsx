@@ -221,7 +221,13 @@ const Index = () => {
 
         <Testimonials />
 
+        {/* Import from competitors */}
+        <ImportFromTCGPlayer />
+
         <SubscriptionTiers />
+
+        {/* Team/Shop Plan CTA */}
+        <TeamPlanCTA />
 
         {/* Referral Program */}
         <ReferralCTA />
