@@ -34,7 +34,30 @@ serve(async (req) => {
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
 
+    // Check for active free trial first
+    const { data: trialData } = await supabaseClient
+      .from("user_trials")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("is_active", true)
+      .single();
+
+    const hasActiveTrial = trialData && new Date(trialData.ends_at) > new Date();
+
     if (customers.data.length === 0) {
+      // No Stripe customer — check trial
+      if (hasActiveTrial) {
+        return new Response(JSON.stringify({
+          subscribed: true,
+          product_id: "prod_UF3Knh8WvKsjHJ", // Pro product ID
+          subscription_end: trialData.ends_at,
+          trial: true,
+          trial_ends_at: trialData.ends_at,
+        }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        });
+      }
       return new Response(JSON.stringify({ subscribed: false }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
@@ -56,12 +79,18 @@ serve(async (req) => {
       const subscription = subscriptions.data[0];
       subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
       productId = subscription.items.data[0].price.product;
+    } else if (hasActiveTrial) {
+      // No paid sub but has active trial — grant Pro access
+      productId = "prod_UF3Knh8WvKsjHJ"; // Pro product ID
+      subscriptionEnd = trialData.ends_at;
     }
 
     return new Response(JSON.stringify({
-      subscribed: hasActiveSub,
+      subscribed: hasActiveSub || !!hasActiveTrial,
       product_id: productId,
       subscription_end: subscriptionEnd,
+      trial: !hasActiveSub && !!hasActiveTrial,
+      trial_ends_at: hasActiveTrial ? trialData.ends_at : null,
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
