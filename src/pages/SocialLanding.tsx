@@ -225,6 +225,82 @@ const SocialLanding = () => {
         </div>
       </section>
 
+      {/* ════════ SIMTRADER PROMO ════════ */}
+      <section className="max-w-5xl mx-auto px-5 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="terminal-card border-primary/30 p-8 sm:p-10 relative overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 pointer-events-none" />
+          <div className="relative flex flex-col lg:flex-row items-center gap-8">
+            <div className="flex-1 space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5">
+                <Gamepad2 className="h-3.5 w-3.5 text-primary" />
+                <span className="font-mono text-[10px] text-primary font-bold uppercase tracking-wider">New — Play Free</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                SimTrader™ — Pokémon
+                <span className="text-primary"> Stock Market</span>
+              </h2>
+              <p className="text-muted-foreground max-w-md leading-relaxed">
+                Trade Pokémon cards with <span className="text-foreground font-semibold">$100K virtual cash</span> using real market data. 
+                Compete against 10 AI bots. 3 free trades daily — no subscription required.
+              </p>
+              <ul className="space-y-2 font-mono text-sm">
+                {[
+                  "Live market prices on 50+ tradable cards",
+                  "Buy & sell with simulated balance",
+                  "Compete on daily leaderboards",
+                  "Upgrade for unlimited trades & contests",
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-2 text-muted-foreground">
+                    <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <button
+                  onClick={() => navigate("/sim-trader")}
+                  className="group relative inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-mono text-sm font-bold bg-primary text-primary-foreground hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 shimmer-sweep opacity-60" />
+                  <Gamepad2 className="relative w-4 h-4" />
+                  <span className="relative">Play SimTrader — Free</span>
+                  <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <span className="flex items-center justify-center gap-1.5 font-mono text-[10px] text-muted-foreground">
+                  <TrendingUp className="h-3.5 w-3.5" /> Powered by live market data
+                </span>
+              </div>
+            </div>
+            <div className="flex-shrink-0 w-full lg:w-64 space-y-3">
+              <div className="terminal-card p-4 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[10px] text-muted-foreground">YOUR BALANCE</span>
+                  <span className="font-mono text-[8px] bg-primary/20 text-primary px-1.5 py-0.5 rounded">VIRTUAL</span>
+                </div>
+                <p className="font-mono text-2xl font-bold text-foreground">$100,000</p>
+              </div>
+              <div className="terminal-card p-4 space-y-1.5">
+                <span className="font-mono text-[10px] text-muted-foreground">SAMPLE TRADES</span>
+                {[
+                  { name: "Charizard ex", action: "BUY", color: "text-green-400" },
+                  { name: "Pikachu VMAX", action: "SELL", color: "text-red-400" },
+                  { name: "Mewtwo GX", action: "BUY", color: "text-green-400" },
+                ].map((t) => (
+                  <div key={t.name} className="flex items-center justify-between">
+                    <span className="font-mono text-[11px] text-foreground">{t.name}</span>
+                    <span className={`font-mono text-[10px] font-bold ${t.color}`}>{t.action}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </section>
       {/* ════════ TESTIMONIALS ════════ */}
       <section className="max-w-5xl mx-auto px-5 py-20">
         <motion.h2
