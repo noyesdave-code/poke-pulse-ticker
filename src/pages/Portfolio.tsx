@@ -5,6 +5,7 @@ import { usePortfolio, useRemoveFromPortfolio, useUpdatePortfolioCard, type Port
 import { useQuery } from "@tanstack/react-query";
 import { fetchCardById, getBestPrice } from "@/lib/pokemonTcgApi";
 import TerminalHeader from "@/components/TerminalHeader";
+import PortfolioExport from "@/components/PortfolioExport";
 import NotificationSettings from "@/components/NotificationSettings";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
@@ -154,6 +155,8 @@ function PortfolioContent({
 
   return (
     <>
+      {/* Whale-exclusive exports */}
+      <PortfolioExport portfolio={portfolio} livePrices={livePrices} />
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <SummaryCard label="Current Value" value={`$${summary.totalCurrent.toLocaleString("en-US", { minimumFractionDigits: 2 })}`} />
