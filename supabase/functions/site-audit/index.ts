@@ -168,6 +168,14 @@ Respond with valid JSON only.`;
 - Auto-detection of new card sets from pokemontcg.io API with 60-min refresh cycle for market adaptability
 - Refer-a-Collector program CTA offering 1 free month for successful referrals (capital intake)
 - Market Intelligence widget combining seasonality, grade spreads, and set auto-tracking in a single dashboard section
+- Compact/Expanded view toggle on all card data tables allowing users to switch between dense and full layouts for mobile optimization (aesthetics)
+- "Verified Purchase" badges on all user testimonials for consumer confidence
+- System Status indicator showing 99.9% uptime, API latency, data freshness, and incident history for consumer confidence and reliability transparency
+- Alpha Algorithm Historic Accuracy metrics showing 72% 30-day hit rate, +8.4% avg signal return, and total signal count for market predictability trust
+- "Import from TCGPlayer/RareCandy" CTA with CSV collection import for competitive edge user acquisition
+- "Buy on TCGPlayer" and "Buy on eBay" affiliate action buttons on signal cards and card detail pages for competitive edge transactional integration
+- LGS Team Plan "Coming Soon" CTA for local game stores with multi-seat licensing interest capture (capital intake)
+- Hype-cycle detection via volume spike monitoring on new set releases for first 14 days (market adaptability)
 
 Owner: PGVA Ventures, LLC
 Domain: poke-pulse-ticker.com
