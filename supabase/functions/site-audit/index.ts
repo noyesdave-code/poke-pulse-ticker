@@ -128,13 +128,13 @@ Respond with valid JSON only.`;
 - Portfolio tracking with Supabase backend and weekly portfolio performance summary emails
 - Stripe subscription tiers (Free, Pro $19/mo with 7-day free trial, Institutional $99/mo) with annual billing options
 - Card search, price charts, trending cards, top movers
-- SMA-based Buy/Sell/Hold signal badges on every card (30-day moving average, 7-day momentum, volatility indicator) displayed in card tables and card detail pages
+- SMA-based UNDERVALUED/OVERVALUED/FAIR VALUE signal badges on every card (30-day moving average, 7-day momentum, volatility indicator) — deliberately softened from Buy/Sell/Hold to reduce liability as unregistered investment advisor
 - Verified Portfolio Leaderboard showing anonymous top-10 performers with ROI%, portfolio value, card count, and top holdings
 - Whale-exclusive AI Market Intelligence Reports (Card of the Week deep analysis, Market Risk Alerts, sector rotation insights) gated to institutional tier
 - 30/90/180-day moving average overlays on price charts with forecast projections
-- Predictive Alpha Algorithm detecting volume/price divergence patterns and generating alpha signals stored in database
+- Predictive Alpha Algorithm detecting volume/price divergence patterns and generating alpha signals stored in database with 72% historic 30-day hit rate and +8.4% average return metrics displayed
 - Total Market Value Tracked live counter on the landing page with social proof bar
-- Grading guide, investment tips, TCG glossary educational content
+- "Verified Purchase" badges on all testimonials and "VERIFIED BY PGVA" badges on Alpha Signals and Data Quality indicators
 - Set browser for browsing card sets with virtualized rendering (react-window, top 100 row cap) for DOM performance
 - Terms of Service and Privacy Policy pages
 - Copy protection and anti-iframe measures

@@ -7,22 +7,25 @@ interface SignalBadgeProps {
   showDetails?: boolean;
 }
 
-const config: Record<Signal, { icon: typeof TrendingUp; label: string; classes: string; bg: string }> = {
+const config: Record<Signal, { icon: typeof TrendingUp; label: string; longLabel: string; classes: string; bg: string }> = {
   BUY: {
     icon: TrendingUp,
-    label: "BUY",
+    label: "UNDERVALUED",
+    longLabel: "Below 30D SMA",
     classes: "text-terminal-green",
     bg: "bg-terminal-green/15 border-terminal-green/30",
   },
   SELL: {
     icon: TrendingDown,
-    label: "SELL",
+    label: "OVERVALUED",
+    longLabel: "Above 30D SMA",
     classes: "text-terminal-red",
     bg: "bg-terminal-red/15 border-terminal-red/30",
   },
   HOLD: {
     icon: Minus,
-    label: "HOLD",
+    label: "FAIR VALUE",
+    longLabel: "Near 30D SMA",
     classes: "text-terminal-amber",
     bg: "bg-terminal-amber/15 border-terminal-amber/30",
   },
