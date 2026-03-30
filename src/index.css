@@ -400,6 +400,11 @@ img {
   pointer-events: auto;
 }
 
+/* Bottom padding for fixed copyright banner */
+#root {
+  padding-bottom: 2.5rem;
+}
+
 @media print {
   body {
     display: none !important;
