@@ -12,54 +12,58 @@ import type { CardData } from "@/data/marketData";
 import { getContestLeaderboard, type LeaderboardEntry, type BotDifficulty } from "@/data/tradingBots";
 import BotActivityFeed from "@/components/BotActivityFeed";
 
-const TraderGate = ({ children }: { children: React.ReactNode }) => {
-  const { user, subscribed, tier } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [showAuth, setShowAuth] = useState(false);
-  const isTrader = subscribed && tier === "trader";
-  if (isTrader) return <>{children}</>;
+const FREE_DAILY_TRADES = 3;
 
-  const handleUpgrade = async () => {
-    if (!user) { setShowAuth(true); return; }
-    setLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { priceId: STRIPE_TIERS.trader.price_id },
-      });
-      if (error) throw error;
-      if (data?.url) window.open(data.url, "_blank");
-    } catch {} finally { setLoading(false); }
-  };
-
-  return (
-    <div className="relative">
-      <div className="pointer-events-none select-none blur-sm opacity-50">{children}</div>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="terminal-card border-primary/30 bg-background/95 backdrop-blur-sm p-6 text-center max-w-md mx-auto">
-          <div className="flex justify-center mb-3">
-            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center ring-2 ring-primary/20">
-              <Gamepad2 className="h-5 w-5 text-primary" />
-            </div>
-          </div>
-          <h3 className="font-mono text-sm font-bold text-foreground mb-1">🎮 TRADER Tier — Play Now</h3>
-          <p className="text-xs text-muted-foreground mb-3">SimTrader requires a Trader subscription ($499/mo).</p>
-          <ul className="text-left max-w-xs mx-auto space-y-1.5 mb-4 font-mono text-[11px]">
-            <li className="flex items-center gap-2"><Zap className="w-3.5 h-3.5 text-primary flex-shrink-0" /> $100K virtual trading balance</li>
-            <li className="flex items-center gap-2"><Zap className="w-3.5 h-3.5 text-primary flex-shrink-0" /> Limit orders & stop-losses</li>
-            <li className="flex items-center gap-2"><Zap className="w-3.5 h-3.5 text-primary flex-shrink-0" /> Daily contests & leaderboards</li>
-          </ul>
-          <button onClick={handleUpgrade} disabled={loading} className="w-full py-3 rounded-lg font-mono text-sm font-bold bg-primary text-primary-foreground hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2">
-            <Gamepad2 className="h-4 w-4" />
-            {loading ? "Loading..." : "Subscribe to Trader — $499/mo"}
-          </button>
-          {!user && <p className="text-[10px] text-muted-foreground mt-2">Sign in required to subscribe</p>}
-          <a href="/pricing" className="block font-mono text-[10px] text-primary hover:underline mt-2">Compare all plans →</a>
-        </motion.div>
-      </div>
-      {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
-    </div>
-  );
+const getTradesUsedToday = (): number => {
+  const key = `simtrader_trades_${new Date().toISOString().slice(0, 10)}`;
+  return parseInt(localStorage.getItem(key) || "0", 10);
 };
+
+const incrementTradesToday = () => {
+  const key = `simtrader_trades_${new Date().toISOString().slice(0, 10)}`;
+  const current = getTradesUsedToday();
+  localStorage.setItem(key, String(current + 1));
+};
+
+const FreemiumBanner = ({ tradesLeft, onUpgrade, loading }: { tradesLeft: number; onUpgrade: () => void; loading: boolean }) => (
+  <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="terminal-card border-primary/30 p-3 flex items-center justify-between gap-3 flex-wrap">
+    <div className="flex items-center gap-2">
+      <Gamepad2 className="h-4 w-4 text-primary" />
+      <span className="font-mono text-xs text-foreground">
+        <span className="font-bold">{tradesLeft}</span>/{FREE_DAILY_TRADES} free trades remaining today
+      </span>
+    </div>
+    <button onClick={onUpgrade} disabled={loading} className="font-mono text-[10px] font-bold bg-primary text-primary-foreground px-3 py-1.5 rounded hover:opacity-90 disabled:opacity-50 flex items-center gap-1.5">
+      <Zap className="h-3 w-3" />
+      {loading ? "Loading..." : "Unlimited Trades — $99/mo"}
+    </button>
+  </motion.div>
+);
+
+const TradeLimitModal = ({ onUpgrade, onClose, loading }: { onUpgrade: () => void; onClose: () => void; loading: boolean }) => (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="terminal-card border-primary/30 bg-background p-6 text-center max-w-md w-full">
+      <div className="flex justify-center mb-3">
+        <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center ring-2 ring-primary/20">
+          <Lock className="h-5 w-5 text-primary" />
+        </div>
+      </div>
+      <h3 className="font-mono text-sm font-bold text-foreground mb-1">🔒 Daily Trade Limit Reached</h3>
+      <p className="text-xs text-muted-foreground mb-3">You've used all {FREE_DAILY_TRADES} free trades for today. Upgrade to Trader for unlimited trades!</p>
+      <ul className="text-left max-w-xs mx-auto space-y-1.5 mb-4 font-mono text-[11px]">
+        <li className="flex items-center gap-2"><Zap className="w-3.5 h-3.5 text-primary flex-shrink-0" /> Unlimited daily trades</li>
+        <li className="flex items-center gap-2"><Zap className="w-3.5 h-3.5 text-primary flex-shrink-0" /> Contest entry & leaderboards</li>
+        <li className="flex items-center gap-2"><Zap className="w-3.5 h-3.5 text-primary flex-shrink-0" /> Limit orders & stop-losses</li>
+      </ul>
+      <button onClick={onUpgrade} disabled={loading} className="w-full py-3 rounded-lg font-mono text-sm font-bold bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2">
+        <Gamepad2 className="h-4 w-4" />
+        {loading ? "Loading..." : "Upgrade to Trader — $99/mo"}
+      </button>
+      <button onClick={onClose} className="w-full mt-2 py-1.5 font-mono text-[10px] text-muted-foreground hover:text-foreground">Come back tomorrow for more free trades</button>
+      <a href="/pricing" className="block font-mono text-[10px] text-primary hover:underline mt-2">Compare all plans →</a>
+    </motion.div>
+  </div>
+);
 
 const formatUSD = (v: number) => `$${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
