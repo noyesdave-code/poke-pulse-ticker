@@ -45,7 +45,19 @@ const TerminalHeader = () => {
   // Close menu on route change
   useEffect(() => {
     setMenuOpen(false);
+    setMoreOpen(false);
   }, [location.pathname]);
+
+  // Close "More" dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
+        setMoreOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   const handleNav = (path: string) => {
     navigate(path);
