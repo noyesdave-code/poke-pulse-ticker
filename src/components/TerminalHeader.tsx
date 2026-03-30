@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/AuthModal";
-import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain, CalendarDays, Eye, Mail, Bell, CheckCircle, User, Newspaper, ArrowLeftRight, DollarSign } from "lucide-react";
+import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain, CalendarDays, Eye, Mail, Bell, CheckCircle, User, ArrowLeftRight, DollarSign, ChevronDown } from "lucide-react";
 import AccessibilityToggle from "@/components/AccessibilityToggle";
 
-const navItems = [
+const primaryNav = [
   { path: "/", label: "Terminal", icon: LayoutDashboard },
   { path: "/sets", label: "Sets", icon: Layers },
   { path: "/releases", label: "Releases", icon: CalendarDays },
@@ -13,15 +13,19 @@ const navItems = [
   { path: "/alerts", label: "Alerts", icon: Bell },
   { path: "/portfolio", label: "Portfolio", icon: Briefcase },
   { path: "/dashboard", label: "Dashboard", icon: Activity },
+  { path: "/pricing", label: "Pricing", icon: DollarSign },
+];
+
+const moreNav = [
   { path: "/set-completion", label: "Collection", icon: CheckCircle },
   { path: "/guides", label: "Guides", icon: BookOpen },
-  
   { path: "/trade", label: "Trade", icon: ArrowLeftRight },
-  { path: "/pricing", label: "Pricing", icon: DollarSign },
   { path: "/command-center", label: "AI Center", icon: Brain },
   { path: "/profile", label: "Profile", icon: User },
   { path: "/contact", label: "Contact", icon: Mail },
 ];
+
+const allNav = [...primaryNav, ...moreNav];
 
 const TerminalHeader = () => {
   const [time, setTime] = useState(new Date());
