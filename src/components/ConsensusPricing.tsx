@@ -108,7 +108,7 @@ const ConsensusPricing = ({ data, isLoading }: Props) => {
       <div className="border-b border-border px-4 py-2 flex items-center gap-4">
         {(["tcgplayer", "ebay", "pricecharting"] as const).map((api) => (
           <div key={api} className="flex items-center gap-1.5">
-            <span className={`w-1.5 h-1.5 rounded-full ${data.apiStatus[api] ? "bg-terminal-green animate-pulse" : "bg-muted-foreground"}`} />
+            <span className={`w-1.5 h-1.5 rounded-full ${data.apiStatus[api] ? "bg-terminal-green pulse-live" : "bg-muted-foreground"}`} />
             <span className="font-mono text-[9px] text-muted-foreground uppercase">
               {api === "tcgplayer" ? "TCGPlayer" : api === "ebay" ? "eBay" : "PriceCharting"}
             </span>
