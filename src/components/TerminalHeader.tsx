@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/AuthModal";
 import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain, CalendarDays, Eye, Mail, Bell, CheckCircle, User, Newspaper, ArrowLeftRight, DollarSign } from "lucide-react";
+import AccessibilityToggle from "@/components/AccessibilityToggle";
 
 const navItems = [
   { path: "/", label: "Terminal", icon: LayoutDashboard },
@@ -99,6 +100,7 @@ const TerminalHeader = () => {
 
           {/* Right: status + auth */}
           <div className="flex items-center gap-2.5 sm:gap-3">
+            <AccessibilityToggle />
             <div className="hidden sm:flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1">
               <div className="h-2 w-2 rounded-full bg-primary pulse-live" />
               <span className="text-[11px] font-bold text-primary tracking-wide">LIVE</span>

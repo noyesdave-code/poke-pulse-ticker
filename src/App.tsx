@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import { useCopyProtection } from "@/hooks/useCopyProtection";
 import { AnimatePresence, motion } from "framer-motion";
 import Index from "./pages/Index.tsx";
@@ -30,6 +31,7 @@ import TradeCalculator from "./pages/TradeCalculator.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import Methodology from "./pages/Methodology.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
+import AccessibleLanding from "./pages/AccessibleLanding.tsx";
 
 const queryClient = new QueryClient();
 
@@ -69,6 +71,7 @@ const AnimatedRoutes = () => {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/methodology" element={<Methodology />} />
           <Route path="/unsubscribe" element={<Unsubscribe />} />
+          <Route path="/accessible" element={<AccessibleLanding />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>
@@ -85,7 +88,9 @@ const App = () => {
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <AnimatedRoutes />
+          <AccessibilityProvider>
+            <AnimatedRoutes />
+          </AccessibilityProvider>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>

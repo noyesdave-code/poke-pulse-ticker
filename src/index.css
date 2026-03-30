@@ -60,6 +60,133 @@
     --sidebar-border: 225 12% 19%;
     --sidebar-ring: 160 84% 50%;
   }
+
+  /* ============================================
+     HIGH-CONTRAST ACCESSIBILITY THEME
+     Activated via .high-contrast on <html>
+     ============================================ */
+  .high-contrast {
+    --background: 60 10% 96%;
+    --foreground: 0 0% 5%;
+
+    --card: 60 8% 92%;
+    --card-foreground: 0 0% 5%;
+
+    --popover: 60 8% 92%;
+    --popover-foreground: 0 0% 5%;
+
+    --primary: 220 85% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 30 100% 45%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 60 6% 85%;
+    --muted-foreground: 0 0% 25%;
+
+    --accent: 30 100% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 80% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 55%;
+    --input: 0 0% 55%;
+    --ring: 220 85% 40%;
+
+    --terminal-green: 140 80% 28%;
+    --terminal-red: 0 85% 42%;
+    --terminal-amber: 30 100% 38%;
+    --terminal-blue: 220 85% 40%;
+    --terminal-surface: 60 8% 90%;
+    --terminal-surface-hover: 60 6% 85%;
+    --terminal-header: 60 8% 94%;
+
+    --primary-glow: 220 85% 50%;
+    --gradient-hero: linear-gradient(135deg, hsl(60 8% 94%) 0%, hsl(60 6% 90%) 50%, hsl(60 8% 92%) 100%);
+    --shadow-card: 0 2px 8px hsl(0 0% 0% / 0.12);
+    --shadow-glow: 0 0 12px hsl(220 85% 40% / 0.15);
+
+    --sidebar-background: 60 8% 94%;
+    --sidebar-foreground: 0 0% 8%;
+    --sidebar-primary: 220 85% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 60 6% 85%;
+    --sidebar-accent-foreground: 0 0% 8%;
+    --sidebar-border: 0 0% 55%;
+    --sidebar-ring: 220 85% 40%;
+
+    font-size: 18px !important;
+    line-height: 1.8 !important;
+  }
+
+  .high-contrast * {
+    text-shadow: none !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .high-contrast body {
+    font-size: 18px;
+    line-height: 1.8;
+    font-weight: 500;
+  }
+
+  .high-contrast h1, .high-contrast h2, .high-contrast h3 {
+    font-weight: 900 !important;
+    letter-spacing: 0.01em !important;
+  }
+
+  .high-contrast .font-mono {
+    font-size: 0.95em;
+    font-weight: 600;
+  }
+
+  .high-contrast .terminal-card {
+    background: hsl(60 8% 92%) !important;
+    border: 2px solid hsl(0 0% 40%) !important;
+    box-shadow: 0 2px 6px hsl(0 0% 0% / 0.1) !important;
+  }
+
+  .high-contrast .terminal-card:hover {
+    border-color: hsl(220 85% 40%) !important;
+  }
+
+  .high-contrast .data-row:hover {
+    background: hsl(60 6% 82%) !important;
+    box-shadow: inset 4px 0 0 hsl(220 85% 40%) !important;
+  }
+
+  .high-contrast .glass {
+    background: hsl(60 8% 90% / 0.95) !important;
+    backdrop-filter: none !important;
+  }
+
+  .high-contrast .hero-glow-border::before {
+    display: none !important;
+  }
+
+  .high-contrast .shimmer-sweep {
+    animation: none !important;
+    background: transparent !important;
+  }
+
+  .high-contrast .pulse-live {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  .high-contrast a,
+  .high-contrast a:visited {
+    text-decoration: underline !important;
+    text-underline-offset: 3px !important;
+  }
+
+  .high-contrast *:focus-visible {
+    outline: 3px solid hsl(220 85% 40%) !important;
+    outline-offset: 3px !important;
+  }
 }
 
 @layer base {
