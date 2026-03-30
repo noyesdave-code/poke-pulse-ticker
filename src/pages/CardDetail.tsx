@@ -68,6 +68,11 @@ const CardDetail = () => {
   const cardApiId = isApiId ? slug : slug ? `local-${slug}` : undefined;
   const isWatched = useIsOnWatchlist(cardApiId);
   const token = card ? getCardToken(card) : null;
+  const { data: consensusData, isLoading: consensusLoading } = useConsensusPricing(
+    isApiId ? slug : undefined,
+    card?.name,
+    card?.set
+  );
 
   if (isLoading) {
     return (
