@@ -51,6 +51,26 @@ const Terms = () => (
       </section>
 
       <section className="space-y-3">
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">6A. SimTrader™ Proprietary Game System</h2>
+        <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+          SimTrader™, the Pokémon Stock Market Simulator, including but not limited to its concept, design, user interface, game mechanics, virtual trading engine, order types (market, limit, stop-loss), contest systems, leaderboard algorithms, portfolio simulation logic, token economy, and all associated source code, artwork, and documentation, is the exclusive proprietary intellectual property of PGVA Ventures, LLC, a company wholly owned by the Noyes Family Trust, managed by David Noyes. All rights are reserved under United States and international copyright, trade secret, and intellectual property law.
+        </p>
+        <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+          No individual, entity, corporation, partnership, or organization may copy, reproduce, reverse-engineer, decompile, disassemble, emulate, clone, create derivative works from, or otherwise replicate any aspect of SimTrader™ or the Poke-Pulse-Ticker platform without prior express written consent from PGVA Ventures, LLC. This prohibition extends to but is not limited to: the simulated stock market concept as applied to Pokémon TCG cards; the virtual currency and token trading mechanics; the daily contest and tournament systems; the integration of live market data into simulated trading; and all proprietary algorithms governing price simulation, order matching, and portfolio valuation.
+        </p>
+        <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+          Unauthorized reproduction or distribution of SimTrader™ or any component thereof constitutes willful infringement and will be prosecuted to the fullest extent of applicable law, including but not limited to claims under the Digital Millennium Copyright Act (DMCA), the Computer Fraud and Abuse Act (CFAA), the Defend Trade Secrets Act (DTSA), and applicable state trade secret statutes. PGVA Ventures, LLC reserves the right to seek injunctive relief, actual damages, statutory damages, attorneys' fees, and any other remedies available at law or in equity.
+        </p>
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">6B. Ownership Chain &amp; Legal Entity Structure</h2>
+        <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+          All intellectual property rights in and to Poke-Pulse-Ticker, SimTrader™, Pokegarageva, Poke Pulse Market Ticker, and all associated trademarks, trade names, service marks, copyrights, trade secrets, patents, and proprietary technology are owned exclusively by PGVA Ventures, LLC. PGVA Ventures, LLC is wholly owned by the Noyes Family Trust. The Noyes Family Trust is managed by David Noyes, who serves as the ultimate beneficial owner and controlling party of all aforementioned intellectual property. This ownership structure is established and maintained under the laws of the United States of America. Any dispute regarding ownership, licensing, or use of said intellectual property shall be governed by the laws of the State in which PGVA Ventures, LLC is organized, without regard to conflict of law principles.
+        </p>
+      </section>
+
+      <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">7. Prohibited Conduct</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
           You agree not to: scrape, harvest, or systematically extract data from the Service; reverse-engineer, decompile, or copy the Service or its algorithms; redistribute or resell any proprietary data, indexes, or signals; use automated tools (bots, crawlers, scripts) to access the Service; use the Service for any unlawful purpose; interfere with or disrupt the Service's operation; share account credentials or enable unauthorized access.
