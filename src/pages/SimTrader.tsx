@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTraderGame } from "@/hooks/useTraderGame";
 import TerminalHeader from "@/components/TerminalHeader";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import AuthModal from "@/components/AuthModal";
-import { TrendingUp, TrendingDown, DollarSign, Package, BarChart3, Clock, Zap, Shield, Trophy, Lock, Gamepad2 } from "lucide-react";
+import { TrendingUp, TrendingDown, DollarSign, Package, BarChart3, Clock, Zap, Shield, Trophy, Lock, Gamepad2, Bot, Crown, Medal } from "lucide-react";
 import { STRIPE_TIERS } from "@/lib/stripe";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import type { CardData } from "@/data/marketData";
+import { getContestLeaderboard, type LeaderboardEntry, type BotDifficulty } from "@/data/tradingBots";
 
 const TraderGate = ({ children }: { children: React.ReactNode }) => {
   const { user, subscribed, tier } = useAuth();
