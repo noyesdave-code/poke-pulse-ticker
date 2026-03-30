@@ -103,16 +103,24 @@ Also provide:
 Respond with valid JSON only.`;
 
     const userPrompt = `Perform a comprehensive audit of the Poke-Pulse Ticker platform. The platform is a Pokémon TCG market data terminal with:
-- Live market data from pokemontcg.io API
-- RAW 500, GRADED 1000, and SEALED 1000 market indexes
-- Portfolio tracking with Supabase backend
+- Live market data from pokemontcg.io API with Stale-While-Revalidate (SWR) caching (localStorage 24h TTL + placeholderData for instant loads and offline fallback)
+- RAW 500, GRADED 1000, and SEALED 1000 proprietary market indexes with server-side index caching (index_cache table, 5-min refresh)
+- Portfolio tracking with Supabase backend and weekly portfolio performance summary emails
 - Stripe subscription tiers (Scout $4.99, Analyst $9.99, Whale $19.99)
 - Card search, price charts, trending cards, top movers
+- SMA-based Buy/Sell/Hold signal badges on every card (30-day moving average, 7-day momentum, volatility indicator) displayed in card tables and card detail pages
+- Verified Portfolio Leaderboard showing anonymous top-10 performers with ROI%, portfolio value, card count, and top holdings
+- Whale-exclusive AI Market Intelligence Reports (Card of the Week deep analysis, Market Risk Alerts, sector rotation insights) gated to institutional tier
+- 30/90/180-day moving average overlays on price charts with forecast projections
+- Predictive Alpha Algorithm detecting volume/price divergence patterns and generating alpha signals stored in database
+- Total Market Value Tracked live counter on the landing page with social proof bar
 - Grading guide, investment tips, TCG glossary educational content
-- Set browser for browsing card sets
+- Set browser for browsing card sets with virtualized rendering (react-window, top 100 row cap) for DOM performance
 - Terms of Service and Privacy Policy pages
 - Copy protection and anti-iframe measures
 - Mobile-responsive PWA with install prompt
+- Consensus pricing aggregation from multiple seller sources
+- Automated daily site audits with AI-powered scoring across 11 categories
 
 Owner: PGVA Ventures, LLC
 Domain: poke-pulse-ticker.com
