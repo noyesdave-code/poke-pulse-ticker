@@ -248,6 +248,7 @@ const Index = () => {
       </main>
       <InstallPrompt />
       <FomoPopup />
+      <ExitIntentPopup />
     </div>
   );
 };

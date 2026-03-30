@@ -87,6 +87,7 @@ const AnimatedRoutes = () => {
 
 const App = () => {
   useCopyProtection();
+  useSessionTimeout();
   return (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
