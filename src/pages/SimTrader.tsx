@@ -338,6 +338,13 @@ const TradingDashboard = () => {
           ⚠️ SIMULATION ONLY — SimTrader uses virtual currency and does not involve real money trading. All trades are simulated based on live market data. No real financial transactions occur. For entertainment and educational purposes only.
         </p>
       </div>
+
+      {/* Legal IP Notice */}
+      <div className="terminal-card border-border p-3 space-y-1">
+        <p className="font-mono text-[8px] text-muted-foreground/60 text-center leading-relaxed">
+          SimTrader™ is the exclusive proprietary intellectual property of PGVA Ventures, LLC, wholly owned by the Noyes Family Trust, managed by David Noyes. All rights reserved under U.S. and international copyright, trade secret, and intellectual property law. Unauthorized copying, reproduction, reverse-engineering, or creation of derivative works is strictly prohibited and will be prosecuted under the DMCA, CFAA, DTSA, and applicable state law. © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.
+        </p>
+      </div>
     </div>
   );
 };
