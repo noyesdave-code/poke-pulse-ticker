@@ -87,7 +87,7 @@ const TerminalHeader = () => {
                   className={`text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1.5 rounded-md transition-all ${
                     location.pathname === item.path
                       ? "text-primary bg-primary/10"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
+                      : "text-foreground/80 hover:text-foreground hover:bg-muted/40"
                   }`}
                 >
                   {item.label}
@@ -108,7 +108,7 @@ const TerminalHeader = () => {
                 {tier}
               </span>
             )}
-            <div className="hidden md:block font-mono text-xs text-muted-foreground">
+            <div className="hidden md:block font-mono text-xs text-foreground">
               {time.toLocaleString()}
             </div>
             {user ? (
