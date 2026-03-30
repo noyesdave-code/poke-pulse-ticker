@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { usePublicProfile } from "@/hooks/useProfile";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
