@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import TerminalHeader from "@/components/TerminalHeader";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -747,6 +748,7 @@ const CommandCenter = () => {
             </CardContent>
           </Card>
         )}
+        <FinancialDisclaimer compact />
       </main>
     </>
   );

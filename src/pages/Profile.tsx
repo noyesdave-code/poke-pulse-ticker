@@ -1,4 +1,5 @@
 import { useState } from "react";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
@@ -166,6 +167,7 @@ const ProfilePage = () => {
             <PushNotificationToggle />
           </div>
         )}
+        <FinancialDisclaimer compact />
       </main>
     </div>
   );

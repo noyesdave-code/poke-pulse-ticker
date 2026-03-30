@@ -1,4 +1,5 @@
 import { useState } from "react";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useMyPosts, useCreatePost, useUpdatePost, useDeletePost, type BlogPost } from "@/hooks/useBlog";
@@ -177,6 +178,7 @@ const BlogEditor = () => {
             </div>
           </div>
         ))}
+        <FinancialDisclaimer compact />
       </main>
     </div>
   );

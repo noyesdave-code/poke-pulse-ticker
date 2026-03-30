@@ -1,4 +1,5 @@
 import TerminalHeader from "@/components/TerminalHeader";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 
 const Terms = () => (
   <>
@@ -69,6 +70,7 @@ const Terms = () => (
           For questions about these terms, contact us at <a href="mailto:contact@poke-pulse-ticker.com" className="text-primary hover:underline">contact@poke-pulse-ticker.com</a>.
         </p>
       </section>
+      <FinancialDisclaimer compact />
     </main>
   </>
 );

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { useSearchParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, CheckCircle, XCircle, MailX } from "lucide-react";
@@ -130,6 +131,7 @@ const Unsubscribe = () => {
         <Link to="/" className="inline-block font-mono text-xs text-primary hover:underline mt-4">
           ← Back to Poke-Pulse-Ticker
         </Link>
+        <FinancialDisclaimer compact />
       </div>
     </div>
   );
