@@ -447,9 +447,9 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  {selectedCard.image && (
+                  {selectedCard._image && (
                     <div className="h-12 w-10 rounded-lg overflow-hidden bg-muted flex-shrink-0 ring-1 ring-border">
-                      <img src={selectedCard.image} alt="" className="h-full w-full object-cover" />
+                      <img src={selectedCard._image} alt="" className="h-full w-full object-cover" />
                     </div>
                   )}
                   <div>
