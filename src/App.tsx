@@ -93,6 +93,7 @@ const App = () => {
         <AuthProvider>
           <AccessibilityProvider>
             <AnimatedRoutes />
+            <CopyrightBanner />
           </AccessibilityProvider>
         </AuthProvider>
       </BrowserRouter>
