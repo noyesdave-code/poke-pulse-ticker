@@ -8,6 +8,7 @@ import TerminalHeader from "@/components/TerminalHeader";
 import SubscriptionStatus from "@/components/SubscriptionStatus";
 import TickerBar from "@/components/TickerBar";
 import PushNotificationToggle from "@/components/PushNotificationToggle";
+import PasskeyEnrollment from "@/components/PasskeyEnrollment";
 import AuthModal from "@/components/AuthModal";
 import { ArrowLeft, User, Globe, Lock, Loader2, Save } from "lucide-react";
 
@@ -162,6 +163,9 @@ const ProfilePage = () => {
 
             {/* Subscription Status */}
             <SubscriptionStatus />
+
+            {/* 2FA / Passkey Security */}
+            <PasskeyEnrollment />
 
             {/* Push notifications */}
             <PushNotificationToggle />

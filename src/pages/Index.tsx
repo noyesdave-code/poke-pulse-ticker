@@ -41,6 +41,7 @@ import AlphaAccuracy from "@/components/AlphaAccuracy";
 import ImportFromTCGPlayer from "@/components/ImportFromTCGPlayer";
 import TeamPlanCTA from "@/components/TeamPlanCTA";
 import GradingArbitrage from "@/components/GradingArbitrage";
+import GradeRatioArbitrageBot from "@/components/GradeRatioArbitrageBot";
 import { SkeletonIndexCard, SkeletonTableRow, SkeletonTrendingCard } from "@/components/SkeletonCard";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
@@ -187,6 +188,11 @@ const Index = () => {
         {/* Grading Arbitrage Scanner */}
         <ProGate feature="Grading Arbitrage Scanner" blur>
           <GradingArbitrage />
+        </ProGate>
+
+        {/* Grade Ratio Arbitrage Bot */}
+        <ProGate feature="Grade Ratio Arbitrage Bot" blur>
+          <GradeRatioArbitrageBot />
         </ProGate>
 
         {/* Alpha Algorithm Accuracy Metrics */}
