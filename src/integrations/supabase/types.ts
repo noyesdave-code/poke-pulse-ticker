@@ -842,6 +842,36 @@ export type Database = {
         }
         Relationships: []
       }
+      user_trials: {
+        Row: {
+          created_at: string
+          ends_at: string
+          id: string
+          is_active: boolean
+          starts_at: string
+          tier: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          ends_at?: string
+          id?: string
+          is_active?: boolean
+          starts_at?: string
+          tier?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          ends_at?: string
+          id?: string
+          is_active?: boolean
+          starts_at?: string
+          tier?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       watchlist: {
         Row: {
           added_at: string
