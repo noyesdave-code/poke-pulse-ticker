@@ -74,7 +74,12 @@ const Testimonials = () => {
                 "{t.quote}"
               </p>
               <div>
-                <p className="font-mono text-[11px] font-semibold text-foreground">{t.name}</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="font-mono text-[11px] font-semibold text-foreground">{t.name}</p>
+                  {t.verified && (
+                    <span className="font-mono text-[7px] px-1 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary font-bold tracking-wider">✓ VERIFIED</span>
+                  )}
+                </div>
                 <p className="font-mono text-[10px] text-muted-foreground">{t.role}</p>
               </div>
             </motion.div>
