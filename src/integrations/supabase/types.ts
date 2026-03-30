@@ -151,6 +151,54 @@ export type Database = {
         }
         Relationships: []
       }
+      contest_entries: {
+        Row: {
+          contest_id: string
+          final_value: number | null
+          id: string
+          joined_at: string
+          pnl_pct: number | null
+          portfolio_id: string
+          rank: number | null
+          user_id: string
+        }
+        Insert: {
+          contest_id: string
+          final_value?: number | null
+          id?: string
+          joined_at?: string
+          pnl_pct?: number | null
+          portfolio_id: string
+          rank?: number | null
+          user_id: string
+        }
+        Update: {
+          contest_id?: string
+          final_value?: number | null
+          id?: string
+          joined_at?: string
+          pnl_pct?: number | null
+          portfolio_id?: string
+          rank?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contest_entries_contest_id_fkey"
+            columns: ["contest_id"]
+            isOneToOne: false
+            referencedRelation: "trading_contests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contest_entries_portfolio_id_fkey"
+            columns: ["portfolio_id"]
+            isOneToOne: false
+            referencedRelation: "trader_portfolios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       delta_alerts: {
         Row: {
           card_api_id: string
@@ -601,6 +649,196 @@ export type Database = {
           id?: string
           metadata?: Json | null
           reason?: string
+        }
+        Relationships: []
+      }
+      trade_orders: {
+        Row: {
+          card_api_id: string
+          card_image: string | null
+          card_name: string
+          card_set: string
+          created_at: string
+          expires_at: string | null
+          filled_at: string | null
+          id: string
+          limit_price: number | null
+          order_type: string
+          portfolio_id: string
+          price: number
+          quantity: number
+          side: string
+          status: string
+          stop_price: number | null
+          user_id: string
+        }
+        Insert: {
+          card_api_id: string
+          card_image?: string | null
+          card_name: string
+          card_set: string
+          created_at?: string
+          expires_at?: string | null
+          filled_at?: string | null
+          id?: string
+          limit_price?: number | null
+          order_type?: string
+          portfolio_id: string
+          price: number
+          quantity: number
+          side?: string
+          status?: string
+          stop_price?: number | null
+          user_id: string
+        }
+        Update: {
+          card_api_id?: string
+          card_image?: string | null
+          card_name?: string
+          card_set?: string
+          created_at?: string
+          expires_at?: string | null
+          filled_at?: string | null
+          id?: string
+          limit_price?: number | null
+          order_type?: string
+          portfolio_id?: string
+          price?: number
+          quantity?: number
+          side?: string
+          status?: string
+          stop_price?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trade_orders_portfolio_id_fkey"
+            columns: ["portfolio_id"]
+            isOneToOne: false
+            referencedRelation: "trader_portfolios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trader_holdings: {
+        Row: {
+          avg_cost: number
+          card_api_id: string
+          card_image: string | null
+          card_name: string
+          card_set: string
+          created_at: string
+          id: string
+          portfolio_id: string
+          quantity: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avg_cost?: number
+          card_api_id: string
+          card_image?: string | null
+          card_name: string
+          card_set: string
+          created_at?: string
+          id?: string
+          portfolio_id: string
+          quantity?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avg_cost?: number
+          card_api_id?: string
+          card_image?: string | null
+          card_name?: string
+          card_set?: string
+          created_at?: string
+          id?: string
+          portfolio_id?: string
+          quantity?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trader_holdings_portfolio_id_fkey"
+            columns: ["portfolio_id"]
+            isOneToOne: false
+            referencedRelation: "trader_portfolios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trader_portfolios: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          season_id: string
+          starting_balance: number
+          total_portfolio_value: number
+          updated_at: string
+          user_id: string
+          virtual_balance: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          season_id?: string
+          starting_balance?: number
+          total_portfolio_value?: number
+          updated_at?: string
+          user_id: string
+          virtual_balance?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          season_id?: string
+          starting_balance?: number
+          total_portfolio_value?: number
+          updated_at?: string
+          user_id?: string
+          virtual_balance?: number
+        }
+        Relationships: []
+      }
+      trading_contests: {
+        Row: {
+          created_at: string
+          description: string | null
+          ends_at: string
+          entry_balance: number
+          id: string
+          name: string
+          prize_description: string | null
+          starts_at: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          ends_at: string
+          entry_balance?: number
+          id?: string
+          name: string
+          prize_description?: string | null
+          starts_at: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          ends_at?: string
+          entry_balance?: number
+          id?: string
+          name?: string
+          prize_description?: string | null
+          starts_at?: string
+          status?: string
         }
         Relationships: []
       }
