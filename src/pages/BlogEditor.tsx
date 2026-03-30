@@ -178,6 +178,7 @@ const BlogEditor = () => {
             </div>
           </div>
         ))}
+        <FinancialDisclaimer compact />
       </main>
     </div>
   );

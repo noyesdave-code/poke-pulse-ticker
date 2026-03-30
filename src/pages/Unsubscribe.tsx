@@ -131,6 +131,7 @@ const Unsubscribe = () => {
         <Link to="/" className="inline-block font-mono text-xs text-primary hover:underline mt-4">
           ← Back to Poke-Pulse-Ticker
         </Link>
+        <FinancialDisclaimer compact />
       </div>
     </div>
   );

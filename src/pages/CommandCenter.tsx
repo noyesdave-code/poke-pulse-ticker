@@ -748,6 +748,7 @@ const CommandCenter = () => {
             </CardContent>
           </Card>
         )}
+        <FinancialDisclaimer compact />
       </main>
     </>
   );

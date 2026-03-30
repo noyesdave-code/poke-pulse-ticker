@@ -153,6 +153,7 @@ const Contact = () => {
             contact@poke-pulse-ticker.com
           </a>
         </p>
+        <FinancialDisclaimer compact />
       </main>
     </div>
   );

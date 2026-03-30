@@ -146,6 +146,7 @@ const PublicProfile = () => {
             )}
           </>
         )}
+        <FinancialDisclaimer compact />
       </main>
     </div>
   );

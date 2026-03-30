@@ -167,6 +167,7 @@ const ProfilePage = () => {
             <PushNotificationToggle />
           </div>
         )}
+        <FinancialDisclaimer compact />
       </main>
     </div>
   );
