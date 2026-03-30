@@ -10,6 +10,8 @@ interface AuthContextType {
   subscribed: boolean;
   tier: TierKey | null;
   subscriptionEnd: string | null;
+  trial: boolean;
+  trialEndsAt: string | null;
   signOut: () => Promise<void>;
   checkSubscription: () => Promise<void>;
 }
