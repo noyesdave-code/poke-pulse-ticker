@@ -9,7 +9,9 @@ import ProGate from "@/components/ProGate";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
-import { ArrowLeft, Bell, BellRing, Trash2, Loader2, TrendingDown, TrendingUp, CheckCircle } from "lucide-react";
+import DeltaAlerts from "@/components/DeltaAlerts";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ArrowLeft, Bell, BellRing, Trash2, Loader2, TrendingDown, TrendingUp, CheckCircle, Activity } from "lucide-react";
 
 const PriceAlerts = () => {
   const navigate = useNavigate();
