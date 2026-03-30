@@ -149,28 +149,28 @@ const TerminalHeader = () => {
           </div>
 
           {/* Right: status + auth */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
             <AccessibilityToggle />
-            <div className="hidden sm:flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1">
-              <div className="h-2 w-2 rounded-full bg-primary pulse-live" />
-              <span className="text-[11px] font-bold text-primary tracking-wide">LIVE</span>
+            <div className="hidden sm:flex items-center gap-1 rounded-md border border-border px-2 py-0.5">
+              <div className="h-1.5 w-1.5 rounded-full bg-primary pulse-live" />
+              <span className="text-[10px] font-bold text-primary tracking-wide">LIVE</span>
             </div>
             {tier && (
-              <span className="hidden sm:inline text-[10px] px-2 py-0.5 rounded-md bg-secondary text-secondary-foreground font-bold uppercase tracking-wide">
+              <span className="hidden sm:inline text-[9px] px-1.5 py-0.5 rounded-md bg-secondary text-secondary-foreground font-bold uppercase tracking-wide">
                 {tier}
               </span>
             )}
-            <div className="hidden md:block font-mono text-xs text-primary">
+            <div className="hidden md:block font-mono text-[10px] text-primary whitespace-nowrap">
               {time.toLocaleString()}
             </div>
             {user ? (
-              <div className="flex items-center gap-2">
-                <span className="hidden sm:inline text-xs text-muted-foreground truncate max-w-[120px]">
+              <div className="flex items-center gap-1.5">
+                <span className="hidden lg:inline text-[10px] text-muted-foreground truncate max-w-[100px]">
                   {user.email}
                 </span>
                 <button
                   onClick={signOut}
-                  className="text-xs font-medium text-muted-foreground hover:text-foreground border border-border rounded-md px-2.5 py-1 transition-colors hover:bg-muted/40"
+                  className="text-[10px] font-medium text-muted-foreground hover:text-foreground border border-border rounded-md px-2 py-1 transition-colors hover:bg-muted/40 whitespace-nowrap"
                 >
                   Sign Out
                 </button>
@@ -178,7 +178,7 @@ const TerminalHeader = () => {
             ) : (
               <button
                 onClick={() => setShowAuth(true)}
-                className="text-xs font-bold bg-primary text-primary-foreground rounded-md px-3.5 py-1.5 hover:opacity-90 transition-opacity shadow-sm"
+                className="text-[11px] font-bold bg-primary text-primary-foreground rounded-md px-2.5 py-1 hover:opacity-90 transition-opacity shadow-sm whitespace-nowrap"
               >
                 Sign In
               </button>
