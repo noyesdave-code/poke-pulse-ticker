@@ -164,6 +164,9 @@ const ProfilePage = () => {
             {/* Subscription Status */}
             <SubscriptionStatus />
 
+            {/* 2FA / Passkey Security */}
+            <PasskeyEnrollment />
+
             {/* Push notifications */}
             <PushNotificationToggle />
           </div>
