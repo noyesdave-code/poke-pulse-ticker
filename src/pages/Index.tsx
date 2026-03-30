@@ -153,6 +153,11 @@ const Index = () => {
 
         <TrustSignals />
 
+        {/* Alpha Signals — Predictive Divergence */}
+        <ProGate feature="Predictive Alpha Signals" blur>
+          <AlphaSignals signals={alphaSignals} />
+        </ProGate>
+
         {/* Recent Notable Sales */}
         <RecentNotableSales cards={displayCards} />
 
