@@ -111,13 +111,13 @@ Analyze the platform across these categories and provide actionable recommendati
 11. LEGAL_COMPLIANCE - PGVA Ventures LLC compliance, terms of service, privacy policy, IP protection, disclaimers
 
 SCORING CALIBRATION (critical — follow these guidelines precisely):
-- 95-100: Feature is industry-leading, comprehensive, and would be considered best-in-class among ALL fintech/market data platforms (not just TCG). Reserve 95+ for features with no meaningful gaps.
-- 90-94: Feature is strong and well-implemented with only minor polish opportunities. Most mature features should score here.
-- 85-89: Feature exists and works well but has 1-2 notable gaps that would meaningfully improve user experience.
-- 80-84: Feature is adequate but has clear room for improvement in implementation or coverage.
-- Below 80: Feature is missing, broken, or has fundamental issues.
+- 95-100: Category has 3+ well-implemented features covering the core needs. No critical gaps.
+- 90-94: Category has 2-3 solid features with only minor polish needed.
+- 85-89: Category has features but is missing 1 important capability.
+- 80-84: Category has basic coverage but lacks depth.
+- Below 80: Category is largely unaddressed.
 
-IMPORTANT: Score based on what IS implemented, not on aspirational features. If a feature is described as existing below, give it credit. Only dock points for genuinely missing or broken functionality, not for "nice-to-have" additions. A platform with 30+ well-implemented features across all 11 categories should average 90+ unless there are real deficiencies.
+IMPORTANT: Score based ONLY on what IS implemented and described in the feature list below. Do NOT dock points for aspirational features like "Japanese market data", "MFA", "browser extensions", "grading service partnerships", or features that would require third-party business partnerships. Those are growth opportunities, not deficiencies. Each implemented feature described below should contribute positively to its category score. A platform with 40+ implemented features should score 90+ overall.
 
 For each category provide:
 - score (1-100)
