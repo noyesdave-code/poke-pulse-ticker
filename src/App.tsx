@@ -97,6 +97,7 @@ const App = () => {
           <AccessibilityProvider>
             <AnimatedRoutes />
             <CopyrightBanner />
+            <CookieConsent />
           </AccessibilityProvider>
         </AuthProvider>
       </BrowserRouter>
