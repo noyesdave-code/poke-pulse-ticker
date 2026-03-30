@@ -135,17 +135,20 @@ Respond with valid JSON only.`;
 - Predictive Alpha Algorithm detecting volume/price divergence patterns and generating alpha signals stored in database with 72% historic 30-day hit rate and +8.4% average return metrics displayed
 - Total Market Value Tracked live counter on the landing page with social proof bar
 - "Verified Purchase" badges on all testimonials and "VERIFIED BY PGVA" badges on Alpha Signals and Data Quality indicators
+- Grading guide, investment tips, TCG glossary educational content
 - Set browser for browsing card sets with virtualized rendering (react-window, top 100 row cap) for DOM performance
-- Terms of Service and Privacy Policy pages
+- Dedicated Methodology page (/methodology) explaining how RAW 500, GRADED 1000, and SEALED 1000 indexes are calculated for full transparency
+- Terms of Service with anti-data-scraping, anti-redistribution, and Pokémon fair use clauses
+- Privacy Policy page with data handling practices
 - Copy protection and anti-iframe measures
 - Mobile-responsive PWA with install prompt
 - Consensus pricing aggregation from multiple seller sources
 - Automated daily site audits with AI-powered scoring across 11 categories
 - RSI (14-period) technical indicator with overbought/oversold zones on price charts alongside SMA overlays
 - Whale-exclusive CSV portfolio export with full P&L breakdown
-- Whale-exclusive Capital Gains Tax Report with holding period analysis (short-term vs long-term), cost basis, FMV, and unrealized gains
+- Whale-exclusive Capital Gains Tax Report with holding period analysis (short-term vs long-term), cost basis, FMV, and unrealized gains with ironclad CPA disclaimer and FIFO disclosure
 - Verified Data freshness badges showing source attribution, last-updated timestamps, SWR cache status, and auto-refresh indicators
-- Hardened legal disclaimers on all Alpha Signals ("Not Financial Advice"), Buy/Sell/Hold signal badges, and Capital Gains Tax Reports with liability limitation
+- Hardened "Not Financial Advice" disclaimers on Alpha Signals (sticky/persistent, always visible), signal badges (UNDERVALUED/OVERVALUED/FAIR VALUE labels instead of Buy/Sell/Hold to reduce unregistered advisor liability), and Capital Gains Tax Reports
 - IP-based rate limiting (30 req/min) on card search API proxy with path whitelisting and parameter validation
 - FOMO conversion pop-ups for free users showing real-time market activity and 7-day trial CTAs (session-based, non-intrusive)
 - Shimmer skeleton loading placeholders on all data-heavy components (index cards, tables, trending cards) for perceived performance
