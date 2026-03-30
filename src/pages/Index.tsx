@@ -182,6 +182,8 @@ const Index = () => {
               <span className="text-border">•</span>
               <a href="/privacy" className="text-xs text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a>
               <span className="text-border">•</span>
+              <a href="/methodology" className="text-xs text-muted-foreground hover:text-primary transition-colors">Methodology</a>
+              <span className="text-border">•</span>
               <a href="mailto:contact@poke-pulse-ticker.com" className="text-xs text-muted-foreground hover:text-primary transition-colors">Contact</a>
             </div>
             <p className="text-[11px] text-muted-foreground text-center max-w-md leading-relaxed">
