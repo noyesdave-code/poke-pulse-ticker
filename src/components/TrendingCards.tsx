@@ -5,9 +5,11 @@ import type { CardData } from "@/data/marketData";
 import { getCardSignal } from "@/hooks/useSignalIndicator";
 import { getCardToken } from "@/lib/tokenSymbols";
 import SignalBadge from "@/components/SignalBadge";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface TrendingCardsProps {
   cards: CardData[];
+  isLoading?: boolean;
 }
 
 const TrendingCards = ({ cards }: TrendingCardsProps) => {
