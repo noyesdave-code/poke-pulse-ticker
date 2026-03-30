@@ -68,9 +68,13 @@ async function proxyFetch(path: string, params?: Record<string, string>): Promis
   const { data: sessionData } = await supabase.auth.getSession();
   const token = sessionData?.session?.access_token;
 
+  // Generate request timestamp for integrity validation
+  const timestamp = Date.now().toString();
+
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+    "X-Request-Timestamp": timestamp,
   };
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
