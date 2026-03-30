@@ -101,7 +101,7 @@ const HeroSection = ({ onSearchFocus }: HeroSectionProps) => {
               transition={{ delay: 0.2, duration: 0.5 }}
               className="text-xl sm:text-3xl font-extrabold tracking-tight text-foreground"
             >
-              <span className="glow-p pulse-live">P</span>okémon TCG{" "}
+              <span className="glow-p">P</span>okémon TCG{" "}
               <span className="text-primary">Market Terminal</span>
             </motion.h1>
             <motion.p
