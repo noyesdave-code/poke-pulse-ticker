@@ -34,6 +34,7 @@ import Pricing from "./pages/Pricing.tsx";
 import Methodology from "./pages/Methodology.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
 import AccessibleLanding from "./pages/AccessibleLanding.tsx";
+import SocialLanding from "./pages/SocialLanding.tsx";
 
 const queryClient = new QueryClient();
 
