@@ -120,7 +120,7 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
             </tr>
           </thead>
           <tbody>
-            {sorted.map((card, i) => (
+            {sorted.slice(0, 100).map((card, i) => (
               <tr key={i} className="data-row cursor-pointer" onClick={() => navigate(cardRoute(card))}>
                 <td className="px-4 py-2">
                   <span className="font-mono text-[10px] text-primary font-bold tracking-wider bg-primary/10 px-1.5 py-0.5 rounded">
