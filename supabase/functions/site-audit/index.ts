@@ -128,6 +128,14 @@ Respond with valid JSON only.`;
 - Hardened legal disclaimers on all Alpha Signals ("Not Financial Advice"), Buy/Sell/Hold signal badges, and Capital Gains Tax Reports with liability limitation
 - IP-based rate limiting (30 req/min) on card search API proxy with path whitelisting and parameter validation
 - FOMO conversion pop-ups for free users showing real-time market activity and 7-day trial CTAs (session-based, non-intrusive)
+- Shimmer skeleton loading placeholders on all data-heavy components (index cards, tables, trending cards) for perceived performance
+- Cross-route page transitions with framer-motion AnimatePresence (fade + slide)
+- Content Security Policy (CSP) meta headers restricting script/style/img/connect sources with XSS protection
+- Auto-logout session timeout after 30 minutes of inactivity for security
+- Zod-based input sanitization on card search and all user-facing forms with HTML tag stripping
+- Annual billing toggle with prominent savings badges ("Save $38" / "Save $198") on pricing cards
+- Exit-intent popup on desktop offering 7-day free trial when cursor leaves viewport (session-based, one-time)
+- Social proof on pricing page showing "2,400+ active traders", "4.8/5 rating", and "Bank-level encryption" badges
 
 Owner: PGVA Ventures, LLC
 Domain: poke-pulse-ticker.com

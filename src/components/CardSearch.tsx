@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { rawCards, gradedCards, sealedProducts } from "@/data/marketData";
 import AffiliateLinks from "@/components/AffiliateLinks";
+import { sanitizeSearchInput } from "@/hooks/useInputSanitizer";
 
 const CardSearch = () => {
   const [query, setQuery] = useState("");
@@ -22,7 +23,7 @@ const CardSearch = () => {
           <input
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => setQuery(sanitizeSearchInput(e.target.value))}
             placeholder="Search by card name or set..."
             className="w-full rounded border border-border bg-muted px-3 py-2 pl-8 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
           />
