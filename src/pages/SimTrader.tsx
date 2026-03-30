@@ -140,7 +140,12 @@ const SimTraderPage = () => {
   );
 };
 
-const TradingDashboard = () => {
+const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModal }: {
+  isTrader: boolean;
+  onUpgrade: () => void;
+  upgradeLoading: boolean;
+  onShowLimitModal: () => void;
+}) => {
   const { portfolio, holdings, orders, loading, tradableCards, placeOrder, totalValue, holdingsValue, pnl, pnlPct } = useTraderGame();
   const [tab, setTab] = useState<"market" | "holdings" | "orders" | "contests">("market");
   const [selectedCard, setSelectedCard] = useState<CardData | null>(null);
@@ -148,6 +153,9 @@ const TradingDashboard = () => {
   const [orderQty, setOrderQty] = useState(1);
   const [orderType, setOrderType] = useState<"market" | "limit" | "stop_loss">("market");
   const [limitPrice, setLimitPrice] = useState("");
+  const [tradesUsed, setTradesUsed] = useState(getTradesUsedToday());
+
+  const tradesLeft = Math.max(0, FREE_DAILY_TRADES - tradesUsed);
 
   if (loading) {
     return (
@@ -159,6 +167,16 @@ const TradingDashboard = () => {
 
   const handleTrade = () => {
     if (!selectedCard) return;
+    // Enforce free trade limit for non-traders
+    if (!isTrader && tradesLeft <= 0) {
+      onShowLimitModal();
+      return;
+    }
+    // Free users can only use market orders
+    if (!isTrader && orderType !== "market") {
+      onShowLimitModal();
+      return;
+    }
     placeOrder(
       selectedCard,
       orderSide,
@@ -167,6 +185,10 @@ const TradingDashboard = () => {
       orderType === "limit" ? parseFloat(limitPrice) : undefined,
       orderType === "stop_loss" ? parseFloat(limitPrice) : undefined,
     );
+    if (!isTrader) {
+      incrementTradesToday();
+      setTradesUsed(getTradesUsedToday());
+    }
     setSelectedCard(null);
     setOrderQty(1);
     setLimitPrice("");
