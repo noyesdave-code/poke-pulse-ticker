@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Info } from "lucide-react";
 
 interface MarketIndexCardProps {
   title: string;
@@ -35,8 +37,13 @@ const MarketIndexCard = ({ title, value, change, count, description, variant = "
         ${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
       </div>
       <p className="text-xs text-muted-foreground mb-2">{description}</p>
-      <div className={`font-mono text-sm font-semibold ${change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
-        {change >= 0 ? "▲" : "▼"} {Math.abs(change).toFixed(2)}%
+      <div className="flex items-center justify-between">
+        <span className={`font-mono text-sm font-semibold ${change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
+          {change >= 0 ? "▲" : "▼"} {Math.abs(change).toFixed(2)}%
+        </span>
+        <Link to="/methodology" className="flex items-center gap-1 text-[10px] text-muted-foreground hover:text-primary transition-colors font-mono">
+          <Info className="w-3 h-3" /> How it's calculated
+        </Link>
       </div>
     </motion.div>
   );
