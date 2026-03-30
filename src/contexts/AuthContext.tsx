@@ -38,6 +38,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [subscribed, setSubscribed] = useState(false);
   const [tier, setTier] = useState<TierKey | null>(null);
   const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
+  const [trial, setTrial] = useState(false);
+  const [trialEndsAt, setTrialEndsAt] = useState<string | null>(null);
 
   const checkSubscription = useCallback(async () => {
     try {
@@ -46,10 +48,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setSubscribed(data.subscribed ?? false);
       setTier(data.product_id ? getTierByProductId(data.product_id) : null);
       setSubscriptionEnd(data.subscription_end ?? null);
+      setTrial(data.trial ?? false);
+      setTrialEndsAt(data.trial_ends_at ?? null);
     } catch {
       setSubscribed(false);
       setTier(null);
       setSubscriptionEnd(null);
+      setTrial(false);
+      setTrialEndsAt(null);
     }
   }, []);
 
