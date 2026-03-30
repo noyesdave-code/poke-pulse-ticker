@@ -45,7 +45,7 @@ const TickerBar = ({ cards = [], isLive = false, lastUpdated }: TickerBarProps) 
             <span key={i} className="inline-flex items-center gap-2 px-4 font-mono text-xs">
               <span className="text-primary font-bold text-[10px]">{getCardToken(card)}</span>
               <span className="text-secondary font-semibold">{card.name}</span>
-              <span className="text-foreground">${card.market.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+              <span className="text-foreground font-semibold">${card.market.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
               <span className={card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}>
                 {card.change >= 0 ? "▲" : "▼"} {Math.abs(card.change).toFixed(2)}%
               </span>

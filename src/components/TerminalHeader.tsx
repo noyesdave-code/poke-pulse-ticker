@@ -108,7 +108,7 @@ const TerminalHeader = () => {
                 {tier}
               </span>
             )}
-            <div className="hidden md:block font-mono text-xs text-foreground">
+            <div className="hidden md:block font-mono text-xs text-primary">
               {time.toLocaleString()}
             </div>
             {user ? (
