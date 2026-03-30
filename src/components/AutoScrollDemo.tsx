@@ -43,6 +43,7 @@ const AutoScrollDemo = () => {
 
       if (currentScroll >= maxScroll - 5) {
         setActive(false);
+        document.body.classList.remove("demo-mode");
         return;
       }
 
