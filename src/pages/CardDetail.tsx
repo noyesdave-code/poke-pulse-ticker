@@ -9,6 +9,8 @@ import { useAddToWatchlist, useIsOnWatchlist } from "@/hooks/useWatchlist";
 import { useAddPriceAlert } from "@/hooks/usePriceAlerts";
 import { useCreateDeltaAlert } from "@/hooks/useDeltaAlerts";
 import { getCardToken } from "@/lib/tokenSymbols";
+import { getCardSignal } from "@/hooks/useSignalIndicator";
+import SignalBadge from "@/components/SignalBadge";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import CardPriceHistory from "@/components/CardPriceHistory";
