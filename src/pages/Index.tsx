@@ -190,6 +190,11 @@ const Index = () => {
           <GradingArbitrage />
         </ProGate>
 
+        {/* Grade Ratio Arbitrage Bot */}
+        <ProGate feature="Grade Ratio Arbitrage Bot" blur>
+          <GradeRatioArbitrageBot />
+        </ProGate>
+
         {/* Alpha Algorithm Accuracy Metrics */}
         <ProGate feature="Alpha Signal Accuracy Metrics" blur>
           <AlphaAccuracy />
