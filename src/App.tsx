@@ -34,6 +34,7 @@ import Pricing from "./pages/Pricing.tsx";
 import Methodology from "./pages/Methodology.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
 import AccessibleLanding from "./pages/AccessibleLanding.tsx";
+import SocialLanding from "./pages/SocialLanding.tsx";
 
 const queryClient = new QueryClient();
 
@@ -74,6 +75,7 @@ const AnimatedRoutes = () => {
           <Route path="/methodology" element={<Methodology />} />
           <Route path="/unsubscribe" element={<Unsubscribe />} />
           <Route path="/accessible" element={<AccessibleLanding />} />
+          <Route path="/go" element={<SocialLanding />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>
