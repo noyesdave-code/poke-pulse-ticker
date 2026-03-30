@@ -40,16 +40,14 @@ serve(async (req) => {
       );
     }
 
-    // Verify user
-    const supabase = createClient(supabaseUrl, supabaseKey, {
-      global: { headers: { Authorization: authHeader || "" } },
-    });
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
-      return new Response(
-        JSON.stringify({ error: "Unauthorized" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    // Try to verify user, use a fixed anonymous UUID if no auth
+    let userId = "00000000-0000-0000-0000-000000000000";
+    if (authHeader) {
+      const supabase = createClient(supabaseUrl, supabaseKey, {
+        global: { headers: { Authorization: authHeader } },
+      });
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) userId = user.id;
     }
 
     const body = await req.json().catch(() => ({}));
@@ -60,7 +58,7 @@ serve(async (req) => {
     const { data: audit, error: insertError } = await adminClient
       .from("site_audits")
       .insert({
-        user_id: user.id,
+        user_id: userId,
         trigger_type: triggerType,
         status: "running",
       })

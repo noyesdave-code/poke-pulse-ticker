@@ -1,0 +1,1 @@
+CREATE POLICY "Anyone can view audits" ON public.site_audits FOR SELECT USING (true);

@@ -98,7 +98,6 @@ const CommandCenter = () => {
       if (error) throw error;
       return data as unknown as AuditResult[];
     },
-    enabled: !!user,
   });
 
   const { data: actions } = useQuery({
@@ -185,26 +184,6 @@ const CommandCenter = () => {
   const activeActions = actions?.filter((a) => a.status !== "dismissed") || [];
   const completedCount = activeActions.filter((a) => a.status === "completed").length;
 
-  if (!user) {
-    return (
-      <>
-        <TerminalHeader />
-        <main className="max-w-7xl mx-auto px-4 py-10">
-          <div className="text-center space-y-4">
-            <Brain className="h-16 w-16 text-primary mx-auto" />
-            <h1 className="font-mono text-2xl font-bold tracking-wider">AI COMMAND CENTER</h1>
-            <p className="font-mono text-sm text-muted-foreground max-w-lg mx-auto">
-              Sign in to access your AI-powered site audit dashboard. Our agents analyze aesthetics, security, legal compliance, competitive positioning, and more.
-            </p>
-            <Button onClick={() => setShowAuth(true)} className="font-mono">
-              Sign In to Access
-            </Button>
-          </div>
-          {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
-        </main>
-      </>
-    );
-  }
 
   return (
     <>
