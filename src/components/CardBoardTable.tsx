@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import type { CardData } from "@/data/marketData";
 import { getCardToken } from "@/lib/tokenSymbols";
+import { getCardSignal } from "@/hooks/useSignalIndicator";
+import SignalBadge from "@/components/SignalBadge";
 
 const cardRoute = (card: CardData) =>
   card._apiId ? `/card/${card._apiId}` : `/card/${encodeURIComponent(`${card.name}-${card.set}-${card.number}`.replace(/\s+/g, "-").toLowerCase())}`;
