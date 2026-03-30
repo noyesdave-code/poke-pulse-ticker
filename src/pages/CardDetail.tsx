@@ -18,7 +18,7 @@ import CardSentimentPoll from "@/components/CardSentimentPoll";
 import SellerComparison from "@/components/SellerComparison";
 import AffiliateLinks from "@/components/AffiliateLinks";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
-import { ArrowLeft, Loader2, Briefcase, Eye, EyeOff, Bell } from "lucide-react";
+import { ArrowLeft, Loader2, Briefcase, Eye, EyeOff, Bell, Activity } from "lucide-react";
 
 const allCards = [...rawCards, ...gradedCards];
 
