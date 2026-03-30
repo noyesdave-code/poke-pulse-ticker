@@ -98,7 +98,6 @@ const CommandCenter = () => {
       if (error) throw error;
       return data as unknown as AuditResult[];
     },
-    enabled: !!user,
   });
 
   const { data: actions } = useQuery({
