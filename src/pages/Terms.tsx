@@ -1,4 +1,5 @@
 import TerminalHeader from "@/components/TerminalHeader";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 
 const Terms = () => (
   <>
