@@ -87,7 +87,7 @@ const TerminalHeader = () => {
                   className={`text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1.5 rounded-md transition-all ${
                     location.pathname === item.path
                       ? "text-primary bg-primary/10"
-                      : "text-foreground/80 hover:text-foreground hover:bg-muted/40"
+                      : "text-primary/70 hover:text-primary hover:bg-muted/40"
                   }`}
                 >
                   {item.label}
