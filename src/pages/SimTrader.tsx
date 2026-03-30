@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTraderGame } from "@/hooks/useTraderGame";
 import TerminalHeader from "@/components/TerminalHeader";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import AuthModal from "@/components/AuthModal";
-import { TrendingUp, TrendingDown, DollarSign, Package, BarChart3, Clock, Zap, Shield, Trophy, Lock, Gamepad2 } from "lucide-react";
+import { TrendingUp, TrendingDown, DollarSign, Package, BarChart3, Clock, Zap, Shield, Trophy, Lock, Gamepad2, Bot, Crown, Medal } from "lucide-react";
 import { STRIPE_TIERS } from "@/lib/stripe";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import type { CardData } from "@/data/marketData";
+import { getContestLeaderboard, type LeaderboardEntry, type BotDifficulty } from "@/data/tradingBots";
 
 const TraderGate = ({ children }: { children: React.ReactNode }) => {
   const { user, subscribed, tier } = useAuth();
@@ -299,37 +300,10 @@ const TradingDashboard = () => {
 
       {/* Contests Tab */}
       {tab === "contests" && (
-        <div className="terminal-card p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <Trophy className="h-5 w-5 text-primary" />
-            <h3 className="font-mono text-sm font-bold">Daily Trading Contests</h3>
-          </div>
-          <div className="space-y-3">
-            <div className="border border-primary/30 rounded-lg p-4 bg-primary/5">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-xs font-bold text-primary">DAILY BLITZ</span>
-                <span className="font-mono text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded">ACTIVE</span>
-              </div>
-              <p className="font-mono text-[10px] text-muted-foreground mb-2">Trade with $50,000 virtual balance. Highest P&L wins!</p>
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] text-muted-foreground"><Clock className="inline h-3 w-3 mr-1" />Ends in 14h 23m</span>
-                <span className="font-mono text-[10px] text-primary font-semibold">🏆 Badge + 1 Month Extension</span>
-              </div>
-            </div>
-            <div className="border border-border rounded-lg p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-xs font-bold">WEEKEND WARRIOR</span>
-                <span className="font-mono text-[10px] bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded">UPCOMING</span>
-              </div>
-              <p className="font-mono text-[10px] text-muted-foreground mb-2">48-hour marathon. Extended trading with $100K balance.</p>
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] text-muted-foreground">Starts Sat 12:00 AM EST</span>
-                <span className="font-mono text-[10px] text-primary font-semibold">🏆 Exclusive Trader Badge</span>
-              </div>
-            </div>
-          </div>
-          <p className="font-mono text-[9px] text-muted-foreground mt-4 text-center">Contest prizes are in-app rewards only. No real monetary value.</p>
-        </div>
+        <ContestsPanel
+          userTotalValue={totalValue}
+          userPnlPct={pnlPct}
+        />
       )}
 
       {/* Disclaimer */}
@@ -345,6 +319,124 @@ const TradingDashboard = () => {
           SimTrader™ is the exclusive proprietary intellectual property of PGVA Ventures, LLC, wholly owned by the Noyes Family Trust, managed by David Noyes. All rights reserved under U.S. and international copyright, trade secret, and intellectual property law. Unauthorized copying, reproduction, reverse-engineering, or creation of derivative works is strictly prohibited and will be prosecuted under the DMCA, CFAA, DTSA, and applicable state law. © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.
         </p>
       </div>
+    </div>
+  );
+};
+
+const difficultyColor = (d: BotDifficulty) =>
+  d === "easy" ? "text-green-400" : d === "medium" ? "text-yellow-400" : "text-red-400";
+const difficultyLabel = (d: BotDifficulty) =>
+  d === "easy" ? "EASY" : d === "medium" ? "MED" : "HARD";
+
+const ContestsPanel = ({ userTotalValue, userPnlPct }: { userTotalValue: number; userPnlPct: number }) => {
+  const today = new Date().toISOString().slice(0, 10);
+  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
+
+  const dailyLeaderboard = useMemo(() =>
+    getContestLeaderboard(`daily_${today}`, 50000, Math.max(1, dayOfYear % 7), {
+      name: "You",
+      totalValue: userTotalValue,
+      pnlPct: userPnlPct,
+    }), [today, dayOfYear, userTotalValue, userPnlPct]);
+
+  const weekendLeaderboard = useMemo(() =>
+    getContestLeaderboard(`weekend_${today}`, 100000, 2, {
+      name: "You",
+      totalValue: userTotalValue,
+      pnlPct: userPnlPct,
+    }), [today, userTotalValue, userPnlPct]);
+
+  const [activeContest, setActiveContest] = useState<"daily" | "weekend">("daily");
+  const leaderboard = activeContest === "daily" ? dailyLeaderboard : weekendLeaderboard;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-2 mb-2">
+        <Trophy className="h-5 w-5 text-primary" />
+        <h3 className="font-mono text-sm font-bold">Trading Contests</h3>
+        <div className="ml-auto flex items-center gap-1">
+          <Bot className="h-3.5 w-3.5 text-muted-foreground" />
+          <span className="font-mono text-[9px] text-muted-foreground">10 AI OPPONENTS</span>
+        </div>
+      </div>
+
+      {/* Contest Selector */}
+      <div className="grid grid-cols-2 gap-2">
+        <button onClick={() => setActiveContest("daily")} className={`terminal-card p-3 text-left transition-all ${activeContest === "daily" ? "border-primary/50 bg-primary/5" : "hover:bg-muted/50"}`}>
+          <div className="flex items-center justify-between mb-1">
+            <span className="font-mono text-[10px] font-bold text-primary">DAILY BLITZ</span>
+            <span className="font-mono text-[8px] bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded">ACTIVE</span>
+          </div>
+          <p className="font-mono text-[8px] text-muted-foreground">$50K balance · Highest P&L wins</p>
+        </button>
+        <button onClick={() => setActiveContest("weekend")} className={`terminal-card p-3 text-left transition-all ${activeContest === "weekend" ? "border-primary/50 bg-primary/5" : "hover:bg-muted/50"}`}>
+          <div className="flex items-center justify-between mb-1">
+            <span className="font-mono text-[10px] font-bold">WEEKEND WARRIOR</span>
+            <span className="font-mono text-[8px] bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded">UPCOMING</span>
+          </div>
+          <p className="font-mono text-[8px] text-muted-foreground">$100K balance · 48hr marathon</p>
+        </button>
+      </div>
+
+      {/* Leaderboard */}
+      <div className="terminal-card overflow-hidden">
+        <div className="grid grid-cols-[30px_1fr_60px_70px] gap-2 px-3 py-2 border-b border-border font-mono text-[9px] text-muted-foreground tracking-wider">
+          <span>#</span><span>TRADER</span><span className="text-right">P&L %</span><span className="text-right">VALUE</span>
+        </div>
+        <div className="max-h-[400px] overflow-y-auto">
+          {leaderboard.map((entry) => (
+            <motion.div
+              key={entry.id}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: entry.rank * 0.03 }}
+              className={`grid grid-cols-[30px_1fr_60px_70px] gap-2 px-3 py-2.5 border-b border-border/50 items-center ${
+                !entry.isBot ? "bg-primary/5 ring-1 ring-primary/20" : "hover:bg-muted/30"
+              }`}
+            >
+              <span className="font-mono text-xs font-bold">
+                {entry.rank === 1 ? <Crown className="h-4 w-4 text-yellow-400" /> :
+                 entry.rank === 2 ? <Medal className="h-4 w-4 text-gray-400" /> :
+                 entry.rank === 3 ? <Medal className="h-4 w-4 text-amber-600" /> :
+                 <span className="text-muted-foreground">{entry.rank}</span>}
+              </span>
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="text-base flex-shrink-0">{entry.avatar}</span>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <p className={`font-mono text-[11px] font-semibold truncate ${!entry.isBot ? "text-primary" : "text-foreground"}`}>
+                      {entry.name}
+                    </p>
+                    {entry.isBot && (
+                      <span className={`font-mono text-[7px] font-bold px-1 py-0.5 rounded ${difficultyColor(entry.difficulty!)}`}>
+                        {difficultyLabel(entry.difficulty!)}
+                      </span>
+                    )}
+                    {!entry.isBot && (
+                      <span className="font-mono text-[7px] font-bold px-1 py-0.5 rounded bg-primary/20 text-primary">YOU</span>
+                    )}
+                  </div>
+                  <p className="font-mono text-[8px] text-muted-foreground truncate">
+                    {entry.isBot ? entry.title : "Human Player"}
+                  </p>
+                </div>
+              </div>
+              <span className={`font-mono text-[10px] text-right font-bold ${entry.pnlPct >= 0 ? "text-green-400" : "text-red-400"}`}>
+                {entry.pnlPct >= 0 ? "+" : ""}{entry.pnlPct.toFixed(2)}%
+              </span>
+              <span className="font-mono text-[10px] text-right text-foreground">
+                {formatUSD(entry.totalValue)}
+              </span>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <span className="font-mono text-[9px] text-muted-foreground"><Clock className="inline h-3 w-3 mr-1" />Resets daily at midnight EST</span>
+        <span className="font-mono text-[9px] text-primary font-semibold">🏆 Badge + 1 Month Extension</span>
+      </div>
+      <p className="font-mono text-[8px] text-muted-foreground text-center">Contest prizes are in-app rewards only. No real monetary value. AI bots simulate trading strategies for competitive gameplay.</p>
     </div>
   );
 };
