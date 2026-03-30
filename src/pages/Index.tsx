@@ -36,6 +36,10 @@ import FomoPopup from "@/components/FomoPopup";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import MarketIntelWidget from "@/components/MarketIntelWidget";
 import ReferralCTA from "@/components/ReferralCTA";
+import SystemStatusIndicator from "@/components/SystemStatusIndicator";
+import AlphaAccuracy from "@/components/AlphaAccuracy";
+import ImportFromTCGPlayer from "@/components/ImportFromTCGPlayer";
+import TeamPlanCTA from "@/components/TeamPlanCTA";
 import { SkeletonIndexCard, SkeletonTableRow, SkeletonTrendingCard } from "@/components/SkeletonCard";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
@@ -171,9 +175,17 @@ const Index = () => {
 
         <TrustSignals />
 
+        {/* System Status for Consumer Confidence */}
+        <SystemStatusIndicator />
+
         {/* Alpha Signals — Predictive Divergence */}
         <ProGate feature="Predictive Alpha Signals" blur>
           <AlphaSignals signals={alphaSignals} />
+        </ProGate>
+
+        {/* Alpha Algorithm Accuracy Metrics */}
+        <ProGate feature="Alpha Signal Accuracy Metrics" blur>
+          <AlphaAccuracy />
         </ProGate>
 
         {/* Recent Notable Sales */}
@@ -209,7 +221,13 @@ const Index = () => {
 
         <Testimonials />
 
+        {/* Import from competitors */}
+        <ImportFromTCGPlayer />
+
         <SubscriptionTiers />
+
+        {/* Team/Shop Plan CTA */}
+        <TeamPlanCTA />
 
         {/* Referral Program */}
         <ReferralCTA />

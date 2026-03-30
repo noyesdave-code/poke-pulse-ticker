@@ -23,6 +23,7 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [gradeFilter, setGradeFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState("");
+  const [compact, setCompact] = useState(false);
 
   const toggleSort = (col: "market" | "change") => {
     if (sortBy === col) setSortDir(d => d === "asc" ? "desc" : "asc");
@@ -88,6 +89,12 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
             </div>
           )}
           <span className="font-mono text-[10px] text-muted-foreground">{filtered.length} items</span>
+          <button
+            onClick={() => setCompact(c => !c)}
+            className="px-2 py-0.5 font-mono text-[10px] tracking-wider rounded transition-colors border border-border text-muted-foreground hover:text-foreground"
+          >
+            {compact ? "EXPANDED" : "COMPACT"}
+          </button>
           </div>
         </div>
       </div>
@@ -121,36 +128,42 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
           </thead>
           <tbody>
             {sorted.slice(0, 100).map((card, i) => (
-              <tr key={i} className="data-row cursor-pointer" onClick={() => navigate(cardRoute(card))}>
-                <td className="px-4 py-2">
+              <tr key={i} className={`data-row cursor-pointer ${compact ? "h-8" : ""}`} onClick={() => navigate(cardRoute(card))}>
+                <td className={compact ? "px-2 py-1" : "px-4 py-2"}>
                   <span className="font-mono text-[10px] text-primary font-bold tracking-wider bg-primary/10 px-1.5 py-0.5 rounded">
                     {getCardToken(card)}
                   </span>
                 </td>
-                <td className="px-4 py-2 font-mono text-sm text-foreground font-medium flex items-center gap-2">
-                  {card._image && <img src={card._image} alt="" className="w-6 h-8 rounded object-cover" />}
+                <td className={`${compact ? "px-2 py-1 text-xs" : "px-4 py-2 text-sm"} font-mono text-foreground font-medium flex items-center gap-2`}>
+                  {!compact && card._image && <img src={card._image} alt="" className="w-6 h-8 rounded object-cover" />}
                   {card.name}
                 </td>
-                <td className="px-4 py-2 font-mono text-xs text-muted-foreground">{card.set}</td>
-                {showGrade && (
+                {!compact && <td className="px-4 py-2 font-mono text-xs text-muted-foreground">{card.set}</td>}
+                {showGrade && !compact && (
                   <td className="px-4 py-2 font-mono text-xs text-terminal-amber font-semibold">{card.grade}</td>
                 )}
-                <td className="px-4 py-2 font-mono text-xs text-muted-foreground">{card.number}</td>
-                <td className="px-4 py-2 font-mono text-sm text-foreground text-right">
+                {!compact && <td className="px-4 py-2 font-mono text-xs text-muted-foreground">{card.number}</td>}
+                <td className={`${compact ? "px-2 py-1 text-xs" : "px-4 py-2 text-sm"} font-mono text-foreground text-right`}>
                   ${card.market.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </td>
-                <td className="px-4 py-2 font-mono text-xs text-muted-foreground text-right">
-                  ${card.low.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                </td>
-                <td className="px-4 py-2 font-mono text-xs text-muted-foreground text-right">
-                  ${card.mid.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                </td>
-                <td className={`px-4 py-2 font-mono text-sm text-right font-semibold ${card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
+                {!compact && (
+                  <>
+                    <td className="px-4 py-2 font-mono text-xs text-muted-foreground text-right">
+                      ${card.low.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    </td>
+                    <td className="px-4 py-2 font-mono text-xs text-muted-foreground text-right">
+                      ${card.mid.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    </td>
+                  </>
+                )}
+                <td className={`${compact ? "px-2 py-1 text-xs" : "px-4 py-2 text-sm"} font-mono text-right font-semibold ${card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
                   {card.change >= 0 ? "+" : ""}{card.change.toFixed(2)}%
                 </td>
-                <td className="px-4 py-2 text-center">
-                  <SignalBadge result={getCardSignal(card)} />
-                </td>
+                {!compact && (
+                  <td className="px-4 py-2 text-center">
+                    <SignalBadge result={getCardSignal(card)} />
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

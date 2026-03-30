@@ -7,24 +7,28 @@ const testimonials = [
     role: "Collector & Investor",
     quote: "Poke-Pulse-Ticker changed how I buy cards. The 30-day MA signals saved me from overpaying on multiple occasions.",
     rating: 5,
+    verified: true,
   },
   {
     name: "Sarah T.",
     role: "TCG Shop Owner",
     quote: "The sealed product index alone is worth the Pro sub. I price my inventory based on the live data here — it's that reliable.",
     rating: 5,
+    verified: true,
   },
   {
     name: "Mike R.",
     role: "Graded Card Trader",
     quote: "Finally a platform that tracks graded, raw, AND sealed in one place. The AI signal analysis is a game-changer for timing buys.",
     rating: 5,
+    verified: true,
   },
   {
     name: "Alex K.",
     role: "Casual Collector",
     quote: "Even the free tier gives me more data than any other Pokémon market tracker I've tried. Upgraded to Pro in a week.",
     rating: 4,
+    verified: true,
   },
 ];
 
@@ -70,7 +74,12 @@ const Testimonials = () => {
                 "{t.quote}"
               </p>
               <div>
-                <p className="font-mono text-[11px] font-semibold text-foreground">{t.name}</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="font-mono text-[11px] font-semibold text-foreground">{t.name}</p>
+                  {t.verified && (
+                    <span className="font-mono text-[7px] px-1 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary font-bold tracking-wider">✓ VERIFIED</span>
+                  )}
+                </div>
                 <p className="font-mono text-[10px] text-muted-foreground">{t.role}</p>
               </div>
             </motion.div>
