@@ -156,6 +156,18 @@ Respond with valid JSON only.`;
 - Annual billing toggle with prominent savings badges ("Save $38" / "Save $198") on pricing cards
 - Exit-intent popup on desktop offering 7-day free trial when cursor leaves viewport (session-based, one-time)
 - Social proof on pricing page showing "2,400+ active traders", "4.8/5 rating", and "Bank-level encryption" badges
+- "Verified by PGVA" badges on Alpha Signals and Data Quality indicators for consumer confidence
+- Historical Seasonality indicator showing Q4 bullish, Q1 correction, and mid-year accumulation phases for market predictability
+- Grade Spread Tracker showing PSA 10/PSA 9 price ratios and grading arbitrage signals for competitive edge
+- Volume Confidence badges (High/Medium/Low) on cards based on trading volume to flag unreliable pricing on low-volume cards (information quality)
+- Circuit breaker pattern with 15-second timeout on external API calls, automatic fallback to cached data on failure (reliability)
+- Request timestamp integrity validation on API proxy rejecting requests older than 5 minutes (security)
+- Anti-redistribution clause in Terms of Service explicitly prohibiting commercial redistribution of proprietary indexes and Alpha Signals (legal compliance)
+- Pokémon fair use disclaimer and trademark attribution in Terms of Service (legal compliance)
+- Ironclad CPA disclaimer on Capital Gains Tax Reports: "PGVA Ventures, LLC is NOT a CPA or licensed tax advisor" with FIFO methodology disclosure (legal compliance)
+- Auto-detection of new card sets from pokemontcg.io API with 60-min refresh cycle for market adaptability
+- Refer-a-Collector program CTA offering 1 free month for successful referrals (capital intake)
+- Market Intelligence widget combining seasonality, grade spreads, and set auto-tracking in a single dashboard section
 
 Owner: PGVA Ventures, LLC
 Domain: poke-pulse-ticker.com

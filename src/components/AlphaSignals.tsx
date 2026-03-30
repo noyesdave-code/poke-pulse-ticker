@@ -34,9 +34,14 @@ const AlphaSignals = ({ signals }: AlphaSignalsProps) => {
           <h3 className="text-sm font-bold tracking-wide text-secondary uppercase flex items-center gap-2">
             <Zap className="w-3.5 h-3.5" /> Alpha Signals — Predictive Divergence
           </h3>
-          <span className="font-mono text-[10px] text-muted-foreground px-2 py-0.5 rounded bg-muted border border-border">
-            {signals.length} ACTIVE
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary font-bold tracking-wider">
+              ✓ VERIFIED BY PGVA
+            </span>
+            <span className="font-mono text-[10px] text-muted-foreground px-2 py-0.5 rounded bg-muted border border-border">
+              {signals.length} ACTIVE
+            </span>
+          </div>
         </div>
 
         <div className="divide-y divide-border">

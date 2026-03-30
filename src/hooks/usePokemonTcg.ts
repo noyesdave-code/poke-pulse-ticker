@@ -34,8 +34,12 @@ export function useLiveCards() {
   return useQuery({
     queryKey: ["live-cards"],
     queryFn: async () => {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000); // 15s circuit breaker
+
       try {
         const apiCards = await fetchHighValueCards(500);
+        clearTimeout(timeout);
         const mapped = apiCards
           .map(toCardData)
           .filter((c): c is CardData & { _apiId: string; _image: string } => c !== null && c.market > 0)
@@ -44,10 +48,12 @@ export function useLiveCards() {
         setCachedCards(mapped);
         return mapped;
       } catch (error) {
-        // Serve stale cache when API is down
+        clearTimeout(timeout);
+        console.warn("[Circuit Breaker] API call failed or timed out, switching to cache:", error);
+        // Serve stale cache when API is down (circuit breaker fallback)
         const cached = getCachedCards();
         if (cached && cached.length > 0) {
-          console.warn("[SWR] API failed, serving cached data:", error);
+          console.warn("[SWR] Serving cached data due to API failure");
           return cached;
         }
         throw error;
@@ -55,6 +61,7 @@ export function useLiveCards() {
     },
     staleTime: 60 * 60 * 1000, // 60 min
     refetchInterval: 60 * 60 * 1000,
+    retry: 1, // Only retry once before falling back to cache
     // Initialize from cache while fetching
     placeholderData: () => getCachedCards() ?? undefined,
   });

@@ -34,6 +34,8 @@ import MarketTrendSummary from "@/components/MarketTrendSummary";
 import DataQualityBadge from "@/components/DataQualityBadge";
 import FomoPopup from "@/components/FomoPopup";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
+import MarketIntelWidget from "@/components/MarketIntelWidget";
+import ReferralCTA from "@/components/ReferralCTA";
 import { SkeletonIndexCard, SkeletonTableRow, SkeletonTrendingCard } from "@/components/SkeletonCard";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
@@ -164,6 +166,9 @@ const Index = () => {
         {/* Market Trend Summary */}
         <MarketTrendSummary cards={displayCards} />
 
+        {/* Market Intelligence: Seasonality + Grade Spread + Adaptability */}
+        <MarketIntelWidget cards={displayCards} />
+
         <TrustSignals />
 
         {/* Alpha Signals — Predictive Divergence */}
@@ -205,6 +210,9 @@ const Index = () => {
         <Testimonials />
 
         <SubscriptionTiers />
+
+        {/* Referral Program */}
+        <ReferralCTA />
 
         <FinancialDisclaimer />
 
