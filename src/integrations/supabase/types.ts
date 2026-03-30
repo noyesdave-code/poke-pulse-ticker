@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      alpha_signals: {
+        Row: {
+          card_api_id: string
+          card_image: string | null
+          card_name: string
+          card_set: string
+          description: string | null
+          detected_at: string
+          expires_at: string
+          id: string
+          price_change_pct: number
+          signal_type: string
+          strength: string
+          volume_change_pct: number
+        }
+        Insert: {
+          card_api_id: string
+          card_image?: string | null
+          card_name: string
+          card_set: string
+          description?: string | null
+          detected_at?: string
+          expires_at?: string
+          id?: string
+          price_change_pct?: number
+          signal_type?: string
+          strength?: string
+          volume_change_pct?: number
+        }
+        Update: {
+          card_api_id?: string
+          card_image?: string | null
+          card_name?: string
+          card_set?: string
+          description?: string | null
+          detected_at?: string
+          expires_at?: string
+          id?: string
+          price_change_pct?: number
+          signal_type?: string
+          strength?: string
+          volume_change_pct?: number
+        }
+        Relationships: []
+      }
       audit_actions: {
         Row: {
           audit_id: string
@@ -235,6 +280,33 @@ export type Database = {
           id?: string
           token?: string
           used_at?: string | null
+        }
+        Relationships: []
+      }
+      index_cache: {
+        Row: {
+          cache_key: string
+          created_at: string
+          data: Json
+          expires_at: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          cache_key: string
+          created_at?: string
+          data?: Json
+          expires_at: string
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          cache_key?: string
+          created_at?: string
+          data?: Json
+          expires_at?: string
+          id?: string
+          updated_at?: string
         }
         Relationships: []
       }
