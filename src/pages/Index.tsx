@@ -288,6 +288,7 @@ const Index = () => {
       <InstallPrompt />
       <FomoPopup />
       <ExitIntentPopup />
+      <SimTraderPromo />
     </div>
   );
 };
