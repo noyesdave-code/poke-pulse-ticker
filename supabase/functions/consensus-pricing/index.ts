@@ -95,43 +95,66 @@ async function fetchEbayPrice(cardName: string, setName: string, cardId: string,
   const seed = simHash(cardId, 42);
 
   if (ebayKey) {
-    // Real eBay Browse API call
     try {
       const query = encodeURIComponent(`${cardName} ${setName} pokemon card`);
-      const res = await fetch(
-        `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${query}&limit=5&filter=conditionIds:{1000|1500|2000|2500|3000}&sort=-price`,
+      
+      // Fetch SOLD/completed items for actual market data
+      const soldRes = await fetch(
+        `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${query}&limit=10&filter=conditionIds:{1000|1500|2000|2500|3000},buyingOptions:{FIXED_PRICE|AUCTION}&sort=-endDate`,
         {
           headers: {
             Authorization: `Bearer ${ebayKey}`,
             "Content-Type": "application/json",
+            "X-EBAY-C-MARKETPLACE-ID": "EBAY_US",
           },
         }
       );
-      if (res.ok) {
-        const data = await res.json();
+
+      const sources: PriceSource[] = [];
+      
+      if (soldRes.ok) {
+        const data = await soldRes.json();
         const items = data.itemSummaries || [];
         if (items.length > 0) {
           const prices = items
             .map((i: any) => parseFloat(i.price?.value || "0"))
             .filter((p: number) => p > 0);
           if (prices.length > 0) {
+            const sorted = [...prices].sort((a, b) => a - b);
             const avg = prices.reduce((a: number, b: number) => a + b, 0) / prices.length;
-            return [{
+            const median = sorted[Math.floor(sorted.length / 2)];
+            
+            sources.push({
               source: "eBay",
-              variant: "Buy It Now",
+              variant: "Sold (Avg)",
               price: Math.round(avg * 100) / 100,
-              low: Math.round(Math.min(...prices) * 100) / 100,
-              high: Math.round(Math.max(...prices) * 100) / 100,
+              low: Math.round(sorted[0] * 100) / 100,
+              high: Math.round(sorted[sorted.length - 1] * 100) / 100,
               shipping: 0,
               condition: "Near Mint",
-              url: `https://www.ebay.com/sch/i.html?_nkw=${query}`,
+              url: `https://www.ebay.com/sch/i.html?_nkw=${query}&LH_Complete=1&LH_Sold=1`,
               isLive: true,
               updatedAt: new Date().toISOString(),
-            }];
+            });
+            
+            sources.push({
+              source: "eBay",
+              variant: "Sold (Median)",
+              price: Math.round(median * 100) / 100,
+              low: Math.round(sorted[Math.floor(sorted.length * 0.25)] * 100) / 100,
+              high: Math.round(sorted[Math.floor(sorted.length * 0.75)] * 100) / 100,
+              shipping: 0,
+              condition: "Near Mint",
+              url: `https://www.ebay.com/sch/i.html?_nkw=${query}&LH_Complete=1&LH_Sold=1`,
+              isLive: true,
+              updatedAt: new Date().toISOString(),
+            });
+            
+            return sources;
           }
         }
       } else {
-        await res.text();
+        await soldRes.text();
       }
     } catch (e) {
       console.error("eBay API error:", e);
