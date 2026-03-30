@@ -5,6 +5,7 @@ import { usePortfolio, useRemoveFromPortfolio, useUpdatePortfolioCard, type Port
 import { useQuery } from "@tanstack/react-query";
 import { fetchCardById, getBestPrice } from "@/lib/pokemonTcgApi";
 import TerminalHeader from "@/components/TerminalHeader";
+import PortfolioExport from "@/components/PortfolioExport";
 import NotificationSettings from "@/components/NotificationSettings";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
