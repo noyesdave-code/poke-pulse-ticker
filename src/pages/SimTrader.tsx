@@ -68,7 +68,23 @@ const TradeLimitModal = ({ onUpgrade, onClose, loading }: { onUpgrade: () => voi
 const formatUSD = (v: number) => `$${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
 const SimTraderPage = () => {
-  const { user } = useAuth();
+  const { user, subscribed, tier } = useAuth();
+  const [showAuth, setShowAuth] = useState(false);
+  const [upgradeLoading, setUpgradeLoading] = useState(false);
+  const [showLimitModal, setShowLimitModal] = useState(false);
+  const isTrader = subscribed && tier === "trader";
+
+  const handleUpgrade = async () => {
+    if (!user) { setShowAuth(true); return; }
+    setUpgradeLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { priceId: STRIPE_TIERS.trader.price_id },
+      });
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch {} finally { setUpgradeLoading(false); }
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -83,21 +99,43 @@ const SimTraderPage = () => {
             <p className="font-mono text-[10px] text-muted-foreground tracking-wider">POKÉMON STOCK MARKET SIMULATOR · LIVE DATA</p>
           </div>
           <div className="ml-auto flex items-center gap-1.5">
-            <Shield className="h-3.5 w-3.5 text-primary" />
-            <span className="font-mono text-[10px] text-primary font-semibold">SECURE SANDBOX</span>
+            {isTrader ? (
+              <>
+                <Crown className="h-3.5 w-3.5 text-primary" />
+                <span className="font-mono text-[10px] text-primary font-semibold">UNLIMITED</span>
+              </>
+            ) : (
+              <>
+                <Shield className="h-3.5 w-3.5 text-primary" />
+                <span className="font-mono text-[10px] text-primary font-semibold">FREE MODE</span>
+              </>
+            )}
           </div>
         </div>
 
-        <TraderGate>
-          {user ? <TradingDashboard /> : (
-            <div className="terminal-card p-8 text-center">
-              <p className="font-mono text-sm text-muted-foreground">Sign in to access SimTrader</p>
-            </div>
-          )}
-        </TraderGate>
+        {user ? (
+          <TradingDashboard
+            isTrader={isTrader}
+            onUpgrade={handleUpgrade}
+            upgradeLoading={upgradeLoading}
+            onShowLimitModal={() => setShowLimitModal(true)}
+          />
+        ) : (
+          <div className="terminal-card p-8 text-center space-y-3">
+            <Gamepad2 className="h-8 w-8 text-primary mx-auto" />
+            <p className="font-mono text-sm text-foreground font-bold">Play SimTrader™ Free</p>
+            <p className="font-mono text-xs text-muted-foreground">Get {FREE_DAILY_TRADES} free trades per day. Sign in to start!</p>
+            <button onClick={() => setShowAuth(true)} className="font-mono text-sm font-semibold bg-primary text-primary-foreground rounded px-6 py-2.5 hover:opacity-90">Sign In to Play</button>
+          </div>
+        )}
+
+        {showLimitModal && (
+          <TradeLimitModal onUpgrade={handleUpgrade} onClose={() => setShowLimitModal(false)} loading={upgradeLoading} />
+        )}
 
         <FinancialDisclaimer />
       </main>
+      {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </div>
   );
 };
