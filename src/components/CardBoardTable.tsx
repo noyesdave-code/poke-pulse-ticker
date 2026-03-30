@@ -148,6 +148,9 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
                 <td className={`px-4 py-2 font-mono text-sm text-right font-semibold ${card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
                   {card.change >= 0 ? "+" : ""}{card.change.toFixed(2)}%
                 </td>
+                <td className="px-4 py-2 text-center">
+                  <SignalBadge result={getCardSignal(card)} />
+                </td>
               </tr>
             ))}
           </tbody>
