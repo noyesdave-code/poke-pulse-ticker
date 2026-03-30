@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import { useCopyProtection } from "@/hooks/useCopyProtection";
 import Watermark from "@/components/Watermark";
+import CopyrightBanner from "@/components/CopyrightBanner";
 import { AnimatePresence, motion } from "framer-motion";
 import Index from "./pages/Index.tsx";
 import CardDetail from "./pages/CardDetail.tsx";
