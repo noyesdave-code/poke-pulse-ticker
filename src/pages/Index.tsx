@@ -166,6 +166,9 @@ const Index = () => {
         {/* Market Trend Summary */}
         <MarketTrendSummary cards={displayCards} />
 
+        {/* Market Intelligence: Seasonality + Grade Spread + Adaptability */}
+        <MarketIntelWidget cards={displayCards} />
+
         <TrustSignals />
 
         {/* Alpha Signals — Predictive Divergence */}
