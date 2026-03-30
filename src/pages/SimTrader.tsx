@@ -220,8 +220,8 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
       {/* Tabs */}
       <div className="flex gap-1 border-b border-border">
         {(["market", "holdings", "orders", "contests"] as const).map(t => (
-          <button key={t} onClick={() => setTab(t)} className={`font-mono text-xs px-3 py-2 border-b-2 transition-colors ${tab === t ? "border-primary text-primary font-bold" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
-            {t.toUpperCase()}
+          <button key={t} onClick={() => { if (!isTrader && t === "contests") { onShowLimitModal(); return; } setTab(t); }} className={`font-mono text-xs px-3 py-2 border-b-2 transition-colors ${tab === t ? "border-primary text-primary font-bold" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
+            {t.toUpperCase()} {!isTrader && t === "contests" && <Lock className="inline h-3 w-3 ml-1" />}
           </button>
         ))}
       </div>
