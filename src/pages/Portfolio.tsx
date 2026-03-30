@@ -75,6 +75,9 @@ const Portfolio = () => {
         {/* Email Notification Settings */}
         <NotificationSettings />
 
+        {/* Whale-exclusive exports — always visible for Whale users */}
+        <PortfolioExport portfolio={portfolio ?? []} livePrices={undefined} />
+
         {isLoading ? (
           <div className="flex items-center justify-center py-12 gap-2">
             <Loader2 className="w-5 h-5 text-primary animate-spin" />
