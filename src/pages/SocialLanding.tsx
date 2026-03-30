@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Zap, ArrowRight, TrendingUp, Shield, Clock, Star,
-  BarChart3, Bell, Layers, CheckCircle2, ChevronDown, Gamepad2,
+  BarChart3, Bell, Layers, CheckCircle2, ChevronDown, Gamepad2, Video,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/AuthModal";
