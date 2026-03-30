@@ -116,6 +116,7 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
               >
                 Chg%<SortIcon col="change" />
               </th>
+              <th className="px-4 py-2 text-center font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Signal</th>
             </tr>
           </thead>
           <tbody>
