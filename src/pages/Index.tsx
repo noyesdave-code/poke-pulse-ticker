@@ -211,6 +211,9 @@ const Index = () => {
 
         <SubscriptionTiers />
 
+        {/* Referral Program */}
+        <ReferralCTA />
+
         <FinancialDisclaimer />
 
         {/* Footer */}
