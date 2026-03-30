@@ -30,6 +30,7 @@ const DeltaAlerts = () => {
                 set: card.set?.name || "",
                 number: card.number || "",
                 market: p.market,
+                low: p.low ?? p.market * 0.85,
                 change: 0,
                 mid: p.market,
                 volume: 0,
