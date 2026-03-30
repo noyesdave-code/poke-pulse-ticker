@@ -1,9 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bot, TrendingUp, TrendingDown, Bell, BellOff, ArrowRight, Shield } from "lucide-react";
+import { useLiveCards } from "@/hooks/usePokemonTcg";
 import { useGradedCards } from "@/hooks/useGradedCards";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import type { CardData } from "@/data/marketData";
 
 interface SpreadAlert {
   name: string;
