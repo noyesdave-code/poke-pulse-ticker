@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useAddToPortfolio } from "@/hooks/usePortfolio";
 import { useAddToWatchlist, useIsOnWatchlist } from "@/hooks/useWatchlist";
 import { useAddPriceAlert } from "@/hooks/usePriceAlerts";
+import { useCreateDeltaAlert } from "@/hooks/useDeltaAlerts";
 import { getCardToken } from "@/lib/tokenSymbols";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
