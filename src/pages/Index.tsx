@@ -1,5 +1,5 @@
 import { useRef, useEffect, useMemo } from "react";
-import AutoScrollDemo from "@/components/AutoScrollDemo";
+
 import { rawCards, gradedCards, sealedProducts, getIndexValue, getIndexChange } from "@/data/marketData";
 import { useLiveCards } from "@/hooks/usePokemonTcg";
 import { useGradedCards } from "@/hooks/useGradedCards";
@@ -213,7 +213,7 @@ const Index = () => {
         </footer>
       </main>
       <InstallPrompt />
-      <AutoScrollDemo />
+      
     </div>
   );
 };
