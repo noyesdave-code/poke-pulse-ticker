@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { rawCards, gradedCards, sealedProducts } from "@/data/marketData";
 import AffiliateLinks from "@/components/AffiliateLinks";
+import { sanitizeSearchInput } from "@/hooks/useInputSanitizer";
 
 const CardSearch = () => {
   const [query, setQuery] = useState("");
