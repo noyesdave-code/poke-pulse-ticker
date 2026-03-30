@@ -14,6 +14,7 @@ const primaryNav = [
   { path: "/portfolio", label: "Portfolio", icon: Briefcase },
   { path: "/dashboard", label: "Dashboard", icon: Activity },
   { path: "/pricing", label: "Pricing", icon: DollarSign },
+  { path: "/sim-trader", label: "SimTrader", icon: Gamepad2 },
 ];
 
 const moreNav = [
