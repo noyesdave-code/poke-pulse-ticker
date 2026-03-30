@@ -87,13 +87,19 @@ const PriceChart = ({ cards }: PriceChartProps) => {
   const filteredHistory = history.slice(-days - 1);
 
   const sma20 = calcSMA(history, 20).slice(-days - 1);
+  const sma30 = calcSMA(history, 30).slice(-days - 1);
   const sma50 = calcSMA(history, 50).slice(-days - 1);
+  const sma90 = calcSMA(history, 90).slice(-days - 1);
+  const sma180 = calcSMA(history, 180).slice(-days - 1);
   const rsiValues = calcRSI(history).slice(-days - 1);
 
   const chartData = filteredHistory.map((d, i) => ({
     ...d,
     sma20: sma20[i],
+    sma30: sma30[i],
     sma50: sma50[i],
+    sma90: sma90[i],
+    sma180: sma180[i],
     rsi: rsiValues[i],
   }));
 
