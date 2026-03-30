@@ -105,7 +105,12 @@ const PriceChart = ({ cards }: PriceChartProps) => {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="terminal-card overflow-hidden">
       <div className="border-b border-border px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold">Price History</h2>
+        <div className="flex flex-col">
+          <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold">Price History</h2>
+          <span className="font-mono text-[9px] text-muted-foreground/60">
+            Data updated: {new Date().toLocaleString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}
+          </span>
+        </div>
         <div className="flex items-center gap-3">
           {/* Indicator toggle */}
           <div className="flex items-center gap-1">
