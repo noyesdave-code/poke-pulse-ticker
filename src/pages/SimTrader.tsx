@@ -196,6 +196,10 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
 
   return (
     <div className="space-y-4">
+      {/* Freemium Banner */}
+      {!isTrader && (
+        <FreemiumBanner tradesLeft={tradesLeft} onUpgrade={onUpgrade} loading={upgradeLoading} />
+      )}
       {/* Portfolio Summary */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <StatCard icon={<DollarSign className="h-4 w-4" />} label="Cash Balance" value={formatUSD(portfolio?.virtual_balance ?? 0)} />
