@@ -21,19 +21,19 @@ const GradingArbitrage = () => {
     if (!cards || cards.length === 0) return [];
 
     return cards
-      .filter((c) => c.price > 5)
+      .filter((c) => c.market > 5)
       .map((card) => {
         const gradingCost = 20;
         const hash = card.name.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
         const multiplier = 2.5 + (hash % 40) / 10;
-        const psa10 = +(card.price * multiplier).toFixed(2);
-        const profit = +((psa10 - card.price - gradingCost) / (card.price + gradingCost) * 100).toFixed(1);
+        const psa10 = +(card.market * multiplier).toFixed(2);
+        const profit = +((psa10 - card.market - gradingCost) / (card.market + gradingCost) * 100).toFixed(1);
         const confidence: "high" | "medium" | "low" = profit > 150 ? "high" : profit > 80 ? "medium" : "low";
         return {
           name: card.name,
           set: card.set,
-          image: card.image,
-          rawPrice: card.price,
+          image: card._image ?? null,
+          rawPrice: card.market,
           estimatedGradingCost: gradingCost,
           psa10Estimate: psa10,
           profitMargin: profit,

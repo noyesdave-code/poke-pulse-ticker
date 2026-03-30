@@ -68,16 +68,16 @@ const ExitIntentPopup = () => {
               Markets move fast. <br />Stay ahead for free.
             </h3>
             <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-              Try Pro for 7 days — get real-time signals, AI analysis, and portfolio tracking. No credit card charged during trial.
+              Try Pro for {trialDays} days — get real-time signals, AI analysis, and portfolio tracking. No credit card charged during trial.
             </p>
             <button
               onClick={() => { setVisible(false); navigate("/pricing"); }}
               className="w-full py-3 rounded-lg font-mono text-sm font-bold bg-primary text-primary-foreground hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
             >
               <Zap className="w-4 h-4" />
-              Start 7-Day Free Trial
+              Start {trialDays}-Day Free Trial
             </button>
-            <p className="font-mono text-[9px] text-muted-foreground text-center">Cancel anytime. No obligations.</p>
+            <p className="font-mono text-[9px] text-muted-foreground text-center">Cancel anytime. No obligations. {trialDays === 14 ? "Extended trial — limited time." : ""}</p>
           </motion.div>
         </motion.div>
       )}
