@@ -326,8 +326,14 @@ const CardDetail = () => {
           <AffiliateLinks cardName={card.name} setName={card.set} />
         </div>
 
-        {/* Seller Comparison */}
-        <SellerComparison card={card} />
+        {/* Consensus Pricing Engine */}
+        {consensusData ? (
+          <ConsensusPricing data={consensusData} isLoading={consensusLoading} />
+        ) : consensusLoading ? (
+          <ConsensusPricing data={null as any} isLoading={true} />
+        ) : (
+          <SellerComparison card={card} />
+        )}
 
         {/* Disclaimer */}
         <FinancialDisclaimer />
