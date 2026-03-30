@@ -40,16 +40,14 @@ serve(async (req) => {
       );
     }
 
-    // Verify user
-    const supabase = createClient(supabaseUrl, supabaseKey, {
-      global: { headers: { Authorization: authHeader || "" } },
-    });
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
-      return new Response(
-        JSON.stringify({ error: "Unauthorized" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    // Try to verify user, allow anonymous if no auth
+    let userId = "anonymous";
+    if (authHeader) {
+      const supabase = createClient(supabaseUrl, supabaseKey, {
+        global: { headers: { Authorization: authHeader } },
+      });
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) userId = user.id;
     }
 
     const body = await req.json().catch(() => ({}));
