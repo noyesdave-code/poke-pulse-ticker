@@ -69,10 +69,10 @@ const TerminalHeader = () => {
                 <span className="font-black text-[40px] leading-none text-foreground select-none transition-all duration-300 group-hover:scale-110 group-hover:brightness-150" style={{ textShadow: '0 0 8px hsl(210 20% 98% / 0.7), 0 0 20px hsl(210 20% 98% / 0.4), 0 0 40px hsl(210 20% 98% / 0.2)' }}>P</span>
               </div>
               <div className="hidden min-[400px]:block">
-                <h1 className="text-[13px] font-extrabold tracking-tight text-foreground leading-none">
+                <h1 className="text-[13px] font-extrabold tracking-tight leading-none text-primary">
                   Poke Pulse
                 </h1>
-                <p className="text-[9px] font-semibold tracking-[0.15em] text-primary/80 uppercase mt-0.5">
+                <p className="text-[9px] font-semibold tracking-[0.15em] text-secondary uppercase mt-0.5">
                   Market Terminal
                 </p>
               </div>
