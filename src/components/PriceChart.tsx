@@ -289,14 +289,17 @@ const PriceChart = ({ cards }: PriceChartProps) => {
           {indicator === "sma" && (
             <>
               <span className="font-mono text-[10px] text-muted-foreground">
-                SMA 20: <span className="text-[hsl(45,100%,60%)] font-semibold">${chartData[chartData.length - 1]?.sma20?.toFixed(2) ?? "—"}</span>
+                SMA 30: <span className="text-[hsl(200,80%,60%)] font-semibold">${chartData[chartData.length - 1]?.sma30?.toFixed(2) ?? "—"}</span>
               </span>
               <span className="font-mono text-[10px] text-muted-foreground">
-                SMA 50: <span className="text-[hsl(280,80%,65%)] font-semibold">${chartData[chartData.length - 1]?.sma50?.toFixed(2) ?? "—"}</span>
+                SMA 90: <span className="text-[hsl(30,90%,55%)] font-semibold">${chartData[chartData.length - 1]?.sma90?.toFixed(2) ?? "—"}</span>
               </span>
-              {chartData[chartData.length - 1]?.sma20 && chartData[chartData.length - 1]?.sma50 && (
-                <span className={`font-mono text-[10px] font-bold ${chartData[chartData.length - 1].sma20! > chartData[chartData.length - 1].sma50! ? "text-terminal-green" : "text-terminal-red"}`}>
-                  {chartData[chartData.length - 1].sma20! > chartData[chartData.length - 1].sma50! ? "▲ BULLISH CROSS" : "▼ BEARISH CROSS"}
+              <span className="font-mono text-[10px] text-muted-foreground">
+                SMA 180: <span className="text-[hsl(0,70%,60%)] font-semibold">${chartData[chartData.length - 1]?.sma180?.toFixed(2) ?? "—"}</span>
+              </span>
+              {chartData[chartData.length - 1]?.sma30 && chartData[chartData.length - 1]?.sma90 && (
+                <span className={`font-mono text-[10px] font-bold ${chartData[chartData.length - 1].sma30! > chartData[chartData.length - 1].sma90! ? "text-terminal-green" : "text-terminal-red"}`}>
+                  {chartData[chartData.length - 1].sma30! > chartData[chartData.length - 1].sma90! ? "▲ BULLISH CROSS" : "▼ BEARISH CROSS"}
                 </span>
               )}
             </>
