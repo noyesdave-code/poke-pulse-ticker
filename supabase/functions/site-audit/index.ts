@@ -106,7 +106,7 @@ Respond with valid JSON only.`;
 - Live market data from pokemontcg.io API with Stale-While-Revalidate (SWR) caching (localStorage 24h TTL + placeholderData for instant loads and offline fallback)
 - RAW 500, GRADED 1000, and SEALED 1000 proprietary market indexes with server-side index caching (index_cache table, 5-min refresh)
 - Portfolio tracking with Supabase backend and weekly portfolio performance summary emails
-- Stripe subscription tiers (Scout $4.99, Analyst $9.99, Whale $19.99)
+- Stripe subscription tiers (Free, Pro $19/mo with 7-day free trial, Institutional $99/mo) with annual billing options
 - Card search, price charts, trending cards, top movers
 - SMA-based Buy/Sell/Hold signal badges on every card (30-day moving average, 7-day momentum, volatility indicator) displayed in card tables and card detail pages
 - Verified Portfolio Leaderboard showing anonymous top-10 performers with ROI%, portfolio value, card count, and top holdings
