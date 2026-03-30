@@ -20,8 +20,8 @@ const AutoScrollDemo = () => {
     if (countdown <= 0) return;
     const timer = setTimeout(() => {
       if (countdown === 1) {
-        // Start scrolling
         window.scrollTo({ top: 0 });
+        document.body.classList.add("demo-mode");
         setActive(true);
         setCountdown(0);
       } else {
