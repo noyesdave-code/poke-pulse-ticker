@@ -58,7 +58,7 @@ serve(async (req) => {
     const { data: audit, error: insertError } = await adminClient
       .from("site_audits")
       .insert({
-        user_id: user.id,
+        user_id: userId,
         trigger_type: triggerType,
         status: "running",
       })
