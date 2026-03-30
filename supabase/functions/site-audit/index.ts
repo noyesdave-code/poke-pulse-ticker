@@ -121,6 +121,10 @@ Respond with valid JSON only.`;
 - Mobile-responsive PWA with install prompt
 - Consensus pricing aggregation from multiple seller sources
 - Automated daily site audits with AI-powered scoring across 11 categories
+- RSI (14-period) technical indicator with overbought/oversold zones on price charts alongside SMA overlays
+- Whale-exclusive CSV portfolio export with full P&L breakdown
+- Whale-exclusive Capital Gains Tax Report with holding period analysis (short-term vs long-term), cost basis, FMV, and unrealized gains
+- Verified Data freshness badges showing source attribution, last-updated timestamps, SWR cache status, and auto-refresh indicators
 
 Owner: PGVA Ventures, LLC
 Domain: poke-pulse-ticker.com
