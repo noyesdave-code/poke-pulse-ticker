@@ -20,8 +20,8 @@ const AutoScrollDemo = () => {
     if (countdown <= 0) return;
     const timer = setTimeout(() => {
       if (countdown === 1) {
-        // Start scrolling
         window.scrollTo({ top: 0 });
+        document.body.classList.add("demo-mode");
         setActive(true);
         setCountdown(0);
       } else {
@@ -43,6 +43,7 @@ const AutoScrollDemo = () => {
 
       if (currentScroll >= maxScroll - 5) {
         setActive(false);
+        document.body.classList.remove("demo-mode");
         return;
       }
 
@@ -60,6 +61,7 @@ const AutoScrollDemo = () => {
   const stop = () => {
     setActive(false);
     setCountdown(0);
+    document.body.classList.remove("demo-mode");
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
   };
 

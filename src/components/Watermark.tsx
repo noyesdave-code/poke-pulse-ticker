@@ -1,6 +1,7 @@
 const Watermark = () => {
   return (
     <div
+      data-demo-hide
       className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden select-none"
       aria-hidden="true"
       style={{
