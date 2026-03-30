@@ -75,6 +75,9 @@ const Portfolio = () => {
         {/* Email Notification Settings */}
         <NotificationSettings />
 
+        {/* Whale-exclusive exports — always visible for Whale users */}
+        <PortfolioExport portfolio={portfolio ?? []} livePrices={undefined} />
+
         {isLoading ? (
           <div className="flex items-center justify-center py-12 gap-2">
             <Loader2 className="w-5 h-5 text-primary animate-spin" />
@@ -155,8 +158,7 @@ function PortfolioContent({
 
   return (
     <>
-      {/* Whale-exclusive exports */}
-      <PortfolioExport portfolio={portfolio} livePrices={livePrices} />
+      {/* Summary cards */}
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <SummaryCard label="Current Value" value={`$${summary.totalCurrent.toLocaleString("en-US", { minimumFractionDigits: 2 })}`} />
