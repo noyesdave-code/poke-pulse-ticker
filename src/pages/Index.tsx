@@ -32,6 +32,7 @@ import RecentNotableSales from "@/components/RecentNotableSales";
 import EraIndexCards from "@/components/EraIndexCards";
 import MarketTrendSummary from "@/components/MarketTrendSummary";
 import DataQualityBadge from "@/components/DataQualityBadge";
+import FomoPopup from "@/components/FomoPopup";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
