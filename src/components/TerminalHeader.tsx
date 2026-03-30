@@ -190,7 +190,7 @@ const TerminalHeader = () => {
         {menuOpen && (
           <div className="sm:hidden border-t border-border bg-terminal-header animate-in slide-in-from-top-2 duration-200">
             <nav className="flex flex-col py-1.5">
-              {navItems.map((item) => {
+              {allNav.map((item) => {
                 const Icon = item.icon;
                 const active = location.pathname === item.path;
                 return (
