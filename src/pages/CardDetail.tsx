@@ -192,6 +192,24 @@ const CardDetail = () => {
                           <Bell className="w-3.5 h-3.5" />
                           Alert
                         </button>
+                        <button
+                          onClick={() => {
+                            if (!cardApiId) return;
+                            createDeltaAlert.mutate({
+                              card_api_id: cardApiId,
+                              card_name: card.name,
+                              card_set: card.set,
+                              card_number: card.number,
+                              card_image: card._image,
+                            });
+                          }}
+                          disabled={createDeltaAlert.isPending}
+                          className="flex items-center gap-1.5 font-mono text-xs font-semibold bg-terminal-amber/20 text-terminal-amber border border-terminal-amber/30 rounded px-3 py-1.5 hover:bg-terminal-amber/30 disabled:opacity-50"
+                          title="Track volatility — get notified when price deviates from 30-day MA"
+                        >
+                          <Activity className="w-3.5 h-3.5" />
+                          {createDeltaAlert.isPending ? "…" : "Δ Track"}
+                        </button>
                       </div>
                       {showAlertInput && (
                         <div className="flex items-center gap-2 mt-2 justify-end">
