@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useAddToPortfolio } from "@/hooks/usePortfolio";
 import { useAddToWatchlist, useIsOnWatchlist } from "@/hooks/useWatchlist";
 import { useAddPriceAlert } from "@/hooks/usePriceAlerts";
+import { useCreateDeltaAlert } from "@/hooks/useDeltaAlerts";
 import { getCardToken } from "@/lib/tokenSymbols";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
@@ -17,7 +18,7 @@ import CardSentimentPoll from "@/components/CardSentimentPoll";
 import SellerComparison from "@/components/SellerComparison";
 import AffiliateLinks from "@/components/AffiliateLinks";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
-import { ArrowLeft, Loader2, Briefcase, Eye, EyeOff, Bell } from "lucide-react";
+import { ArrowLeft, Loader2, Briefcase, Eye, EyeOff, Bell, Activity } from "lucide-react";
 
 const allCards = [...rawCards, ...gradedCards];
 
@@ -28,6 +29,7 @@ const CardDetail = () => {
   const addToPortfolio = useAddToPortfolio();
   const addToWatchlist = useAddToWatchlist();
   const addPriceAlert = useAddPriceAlert();
+  const createDeltaAlert = useCreateDeltaAlert();
   const [showAlertInput, setShowAlertInput] = useState(false);
   const [alertPrice, setAlertPrice] = useState("");
   const [alertDirection, setAlertDirection] = useState<"below" | "above">("below");
@@ -189,6 +191,24 @@ const CardDetail = () => {
                         >
                           <Bell className="w-3.5 h-3.5" />
                           Alert
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (!cardApiId) return;
+                            createDeltaAlert.mutate({
+                              card_api_id: cardApiId,
+                              card_name: card.name,
+                              card_set: card.set,
+                              card_number: card.number,
+                              card_image: card._image,
+                            });
+                          }}
+                          disabled={createDeltaAlert.isPending}
+                          className="flex items-center gap-1.5 font-mono text-xs font-semibold bg-terminal-amber/20 text-terminal-amber border border-terminal-amber/30 rounded px-3 py-1.5 hover:bg-terminal-amber/30 disabled:opacity-50"
+                          title="Track volatility — get notified when price deviates from 30-day MA"
+                        >
+                          <Activity className="w-3.5 h-3.5" />
+                          {createDeltaAlert.isPending ? "…" : "Δ Track"}
                         </button>
                       </div>
                       {showAlertInput && (
