@@ -332,6 +332,32 @@ Return a JSON object with this exact structure:
       })
       .eq("id", audit.id);
 
+    // Send daily audit report email
+    try {
+      await adminClient.functions.invoke('send-transactional-email', {
+        body: {
+          templateName: 'daily-audit-report',
+          recipientEmail: 'noyes.dave@gmail.com',
+          idempotencyKey: `daily-audit-${audit.id}`,
+          templateData: {
+            overallScore: auditResult.overall_score,
+            summary: auditResult.summary,
+            auditDate: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+            categories: (auditResult.categories || []).map((c: any) => ({
+              name: c.name,
+              score: c.score,
+              status: c.status,
+              recommendations: c.recommendations?.slice(0, 1) || [],
+            })),
+            topPriorities: (auditResult.top_priorities || []).slice(0, 3),
+          },
+        },
+      });
+      console.log('Audit report email sent to noyes.dave@gmail.com');
+    } catch (emailErr) {
+      console.error('Failed to send audit report email:', emailErr);
+    }
+
     return new Response(
       JSON.stringify({ success: true, audit_id: audit.id, result: auditResult }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
