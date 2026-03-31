@@ -42,6 +42,21 @@ export const STRIPE_TIERS = {
       savings: "Save $198",
     },
   },
+  team: {
+    product_id: "prod_UFL2cezPipeaUs",
+    price_id: "price_1TGqM9PRXT5iryzGk8MA0p0p",
+    name: "LGS TEAM",
+    price: "$149",
+    period: "/month",
+    seats: 3,
+    annual: {
+      product_id: "prod_UFL2LEJfzon17Q",
+      price_id: "price_1TGqMgPRXT5iryzGXdYlD1Yb",
+      price: "$1,490",
+      period: "/year",
+      savings: "Save $298",
+    },
+  },
 } as const;
 
 export type TierKey = keyof typeof STRIPE_TIERS;
