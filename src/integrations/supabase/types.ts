@@ -1122,7 +1122,16 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      arena_leaderboard: {
+        Row: {
+          avatar_url: string | null
+          display_name: string | null
+          lifetime_wagered: number | null
+          lifetime_won: number | null
+          user_id: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       delete_email: {
