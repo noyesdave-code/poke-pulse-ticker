@@ -199,18 +199,21 @@ const Arena = () => {
 
         {/* Game Tabs */}
         <Tabs defaultValue="predictions" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4 h-12">
-            <TabsTrigger value="predictions" className="flex items-center gap-2 text-xs font-bold">
-              <TrendingUp className="w-4 h-4" /> Price Bets
+          <TabsList className="grid w-full grid-cols-5 h-12">
+            <TabsTrigger value="predictions" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+              <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" /> Bets
             </TabsTrigger>
-            <TabsTrigger value="packs" className="flex items-center gap-2 text-xs font-bold">
-              <Package className="w-4 h-4" /> Pack Lottery
+            <TabsTrigger value="packs" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+              <Package className="w-3 h-3 sm:w-4 sm:h-4" /> Packs
             </TabsTrigger>
-            <TabsTrigger value="tournaments" className="flex items-center gap-2 text-xs font-bold">
-              <Trophy className="w-4 h-4" /> Tournaments
+            <TabsTrigger value="shop" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+              <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" /> Coin Shop
             </TabsTrigger>
-            <TabsTrigger value="leaderboard" className="flex items-center gap-2 text-xs font-bold">
-              <Medal className="w-4 h-4" /> Leaderboard
+            <TabsTrigger value="tournaments" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+              <Trophy className="w-3 h-3 sm:w-4 sm:h-4" /> Tourneys
+            </TabsTrigger>
+            <TabsTrigger value="leaderboard" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+              <Medal className="w-3 h-3 sm:w-4 sm:h-4" /> Ranks
             </TabsTrigger>
           </TabsList>
 
