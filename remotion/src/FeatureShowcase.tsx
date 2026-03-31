@@ -433,7 +433,7 @@ const SceneSocialProof: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center" }}>
-        <TextReveal text="TRUSTED BY COLLECTORS" delay={5} fontSize={48} color="rgba(255,255,255,0.5)" />
+        <TextReveal text="TRUSTED BY COLLECTORS" delay={5} fontSize={40} color="rgba(255,255,255,0.5)" />
         <div style={{ marginTop: 50, display: "flex", gap: 60, justifyContent: "center" }}>
           <StatBlock value="95" label="AUDIT SCORE" delay={20} color={ACCENT} />
           <StatBlock value="500+" label="CARDS TRACKED" delay={30} color={GOLD} />
