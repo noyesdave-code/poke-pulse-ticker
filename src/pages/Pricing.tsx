@@ -8,32 +8,36 @@ import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
-import { ArrowLeft, Check, Minus, Zap, Crown, Building2, Users, Shield, Star, Store } from "lucide-react";
+import { ArrowLeft, Check, Minus, Zap, Crown, Building2, Users, Shield, Star, Store, Gamepad2 } from "lucide-react";
 
 const features = [
-  { name: "Raw card market ticker", free: "Delayed 15 min", pro: "Real-time", institutional: "Real-time", team: "Real-time" },
-  { name: "Top movers dashboard", free: "Top 12", pro: "Unlimited", institutional: "Unlimited", team: "Unlimited" },
-  { name: "Daily market summary", free: true, pro: true, institutional: true, team: true },
-  { name: "Community access", free: true, pro: true, institutional: true, team: true },
-  { name: "Graded card ticker", free: false, pro: true, institutional: true, team: true },
-  { name: "Sealed product ticker", free: false, pro: true, institutional: true, team: true },
-  { name: "Full card board (500+)", free: false, pro: true, institutional: true, team: true },
-  { name: "Price alerts & notifications", free: false, pro: true, institutional: true, team: true },
-  { name: "Historical price charts", free: false, pro: true, institutional: true, team: true },
-  { name: "AI signal analysis", free: false, pro: true, institutional: true, team: true },
-  { name: "Portfolio tracking & P&L", free: false, pro: true, institutional: true, team: true },
-  { name: "API access", free: false, pro: false, institutional: true, team: true },
-  { name: "Arbitrage scanner", free: false, pro: false, institutional: true, team: true },
-  { name: "Bulk export (CSV/JSON)", free: false, pro: false, institutional: true, team: true },
-  { name: "Priority support", free: false, pro: false, institutional: true, team: true },
-  { name: "Custom watchlists (unlimited)", free: false, pro: false, institutional: true, team: true },
-  { name: "Multi-seat access (3 seats)", free: false, pro: false, institutional: false, team: true },
+  { name: "Raw card market ticker", free: "Delayed 15 min", pro: "Real-time", institutional: "Real-time", trader: "Real-time", team: "Real-time" },
+  { name: "Top movers dashboard", free: "Top 12", pro: "Unlimited", institutional: "Unlimited", trader: "Unlimited", team: "Unlimited" },
+  { name: "Daily market summary", free: true, pro: true, institutional: true, trader: true, team: true },
+  { name: "Community access", free: true, pro: true, institutional: true, trader: true, team: true },
+  { name: "Graded card ticker", free: false, pro: true, institutional: true, trader: true, team: true },
+  { name: "Sealed product ticker", free: false, pro: true, institutional: true, trader: true, team: true },
+  { name: "Full card board (500+)", free: false, pro: true, institutional: true, trader: true, team: true },
+  { name: "Price alerts & notifications", free: false, pro: true, institutional: true, trader: true, team: true },
+  { name: "Historical price charts", free: false, pro: true, institutional: true, trader: true, team: true },
+  { name: "AI signal analysis", free: false, pro: true, institutional: true, trader: true, team: true },
+  { name: "Portfolio tracking & P&L", free: false, pro: true, institutional: true, trader: true, team: true },
+  { name: "API access", free: false, pro: false, institutional: true, trader: false, team: true },
+  { name: "Arbitrage scanner", free: false, pro: false, institutional: true, trader: false, team: true },
+  { name: "Bulk export (CSV/JSON)", free: false, pro: false, institutional: true, trader: false, team: true },
+  { name: "Priority support", free: false, pro: false, institutional: true, trader: true, team: true },
+  { name: "Custom watchlists (unlimited)", free: false, pro: false, institutional: true, trader: true, team: true },
+  { name: "SimTrader™ unlimited trades", free: false, pro: false, institutional: false, trader: true, team: false },
+  { name: "Limit & stop-loss orders", free: false, pro: false, institutional: false, trader: true, team: false },
+  { name: "Trading contests", free: false, pro: false, institutional: false, trader: true, team: false },
+  { name: "Multi-seat access (3 seats)", free: false, pro: false, institutional: false, trader: false, team: true },
 ];
 
 const tiers = [
   { key: "free" as const, name: "FREE", icon: <Minus className="h-5 w-5" /> },
   { key: "pro" as const, name: "PRO", icon: <Zap className="h-5 w-5" /> },
   { key: "institutional" as const, name: "INSTITUTIONAL", icon: <Building2 className="h-5 w-5" /> },
+  { key: "trader" as const, name: "TRADER", icon: <Gamepad2 className="h-5 w-5" /> },
   { key: "team" as const, name: "LGS TEAM", icon: <Store className="h-5 w-5" /> },
 ];
 
@@ -146,11 +150,12 @@ const Pricing = () => {
         </div>
 
         {/* Tier Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
           {tiers.map((t) => {
             const current = isCurrent(t.key);
             const highlight = t.key === "pro";
             const isTeam = t.key === "team";
+            const isTrader = t.key === "trader";
             const stripeTier = (t.key !== "free" ? STRIPE_TIERS[t.key as keyof typeof STRIPE_TIERS] : null) as any;
             const price = !stripeTier ? "$0" : annual ? stripeTier.annual.price : stripeTier.price;
             const period = !stripeTier ? "forever" : annual ? stripeTier.annual.period : stripeTier.period;
@@ -163,6 +168,7 @@ const Pricing = () => {
                 className={`terminal-card p-5 flex flex-col relative transition-all duration-300 ${
                   highlight ? "border-t-2 border-t-primary shadow-[0_0_24px_hsl(var(--primary)/0.15)] hover:shadow-[0_0_32px_hsl(var(--primary)/0.25)] scale-[1.02]" : ""
                 } ${isTeam ? "border-t-2 border-t-terminal-amber shadow-[0_0_16px_rgba(245,158,11,0.1)]" : ""
+                } ${isTrader ? "border-t-2 border-t-purple-500 shadow-[0_0_16px_rgba(168,85,247,0.1)]" : ""
                 } ${current ? "ring-1 ring-primary" : ""}`}
               >
                 {current && (
@@ -195,6 +201,11 @@ const Pricing = () => {
                 {isTeam && (
                   <span className="inline-block font-mono text-[10px] text-terminal-amber font-bold bg-terminal-amber/10 border border-terminal-amber/20 px-2 py-0.5 rounded mb-2">
                     🏪 3 SEATS INCLUDED
+                  </span>
+                )}
+                {isTrader && (
+                  <span className="inline-block font-mono text-[10px] text-purple-400 font-bold bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded mb-2">
+                    🎮 UNLIMITED SIMTRADER™
                   </span>
                 )}
                 {savings && (
@@ -276,6 +287,7 @@ const Pricing = () => {
                     <td className="text-center p-3">{renderCell(f.free)}</td>
                     <td className="text-center p-3">{renderCell(f.pro)}</td>
                     <td className="text-center p-3">{renderCell(f.institutional)}</td>
+                    <td className="text-center p-3">{renderCell((f as any).trader)}</td>
                     <td className="text-center p-3">{renderCell((f as any).team)}</td>
                   </tr>
                 ))}
