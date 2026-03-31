@@ -18,6 +18,7 @@ const moreNav = [
   { path: "/watchlist", label: "Watchlist", icon: Eye },
   { path: "/alerts", label: "Alerts", icon: Bell },
   { path: "/releases", label: "Releases", icon: CalendarDays },
+  { path: "/videos", label: "Videos", icon: Video },
   { path: "/promo", label: "Promo", icon: Video },
   { path: "/set-completion", label: "Collection", icon: CheckCircle },
   { path: "/guides", label: "Guides", icon: BookOpen },
