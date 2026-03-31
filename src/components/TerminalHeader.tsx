@@ -104,7 +104,7 @@ const TerminalHeader = () => {
                 <button
                   key={item.path}
                   onClick={() => handleNav(item.path)}
-                  className={`relative text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1.5 rounded-md transition-all duration-200 hover:scale-105 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:bg-primary after:transition-all after:duration-300 ${
+                  className={`relative text-[10px] font-semibold uppercase tracking-wide px-2 py-1.5 rounded-md transition-all duration-200 whitespace-nowrap flex-shrink-0 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:bg-primary after:transition-all after:duration-300 ${
                     location.pathname === item.path
                       ? "text-primary bg-primary/10 after:w-3/4"
                       : "text-foreground hover:text-primary hover:bg-muted/40 after:w-0 hover:after:w-3/4"
