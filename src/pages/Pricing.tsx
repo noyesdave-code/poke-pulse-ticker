@@ -331,7 +331,8 @@ const Pricing = () => {
             {[
               { q: "Can I cancel anytime?", a: "Yes. Cancel from your subscription portal — no lock-in contracts." },
               { q: "Do I need a credit card for Free?", a: "No. The Free tier requires no payment information." },
-              { q: "What's included in the 7-day trial?", a: "Full Pro access — real-time data, alerts, charts, and portfolio tracking. No card charged until day 8." },
+              { q: "What's included in the 14-day trial?", a: "Full Pro access — real-time data, alerts, charts, and portfolio tracking. No card charged until day 15." },
+              { q: "What's the Starter plan?", a: "At just $4.99/mo — less than a coffee — you get real-time data, top 50 movers, and basic alerts. Perfect entry point." },
               { q: "Can I upgrade or downgrade?", a: "Absolutely. Changes take effect on your next billing cycle." },
               { q: "How does the Team plan work?", a: "3 seats with full Premium access. Perfect for LGS shops that need shared market data across staff." },
               { q: "Is my payment secure?", a: "All payments are processed through Stripe with bank-level encryption." },
