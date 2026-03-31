@@ -50,6 +50,7 @@ const Arena = () => {
   const [packResult, setPackResult] = useState<any[] | null>(null);
   const [openingPack, setOpeningPack] = useState(false);
   const [buyingPack, setBuyingPack] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("predictions");
 
   const handleBuyCoins = async (priceId: string, packId: string) => {
     setBuyingPack(packId);
