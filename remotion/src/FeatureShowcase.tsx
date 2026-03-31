@@ -362,7 +362,7 @@ const SceneProTools: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", width: "90%" }}>
-        <TextReveal text="⚡ PRO TOOLS" delay={5} fontSize={48} color="white" />
+        <TextReveal text="⚡ PRO TOOLS" delay={5} fontSize={42} color="white" />
         <div style={{ marginTop: 40, display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap" }}>
           <FeatureCard icon="📊" title="Grading Arbitrage" desc="Find undervalued grading opportunities" delay={20} accent={ACCENT} />
           <FeatureCard icon="🐋" title="Whale Reports" desc="See what top collectors are buying" delay={32} accent={BLUE} />
