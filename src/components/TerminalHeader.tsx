@@ -8,9 +8,6 @@ import AccessibilityToggle from "@/components/AccessibilityToggle";
 const primaryNav = [
   { path: "/", label: "Terminal", icon: LayoutDashboard },
   { path: "/sets", label: "Sets", icon: Layers },
-  { path: "/releases", label: "Releases", icon: CalendarDays },
-  { path: "/watchlist", label: "Watchlist", icon: Eye },
-  { path: "/alerts", label: "Alerts", icon: Bell },
   { path: "/portfolio", label: "Portfolio", icon: Briefcase },
   { path: "/dashboard", label: "Dashboard", icon: Activity },
   { path: "/pricing", label: "Pricing", icon: DollarSign },
@@ -18,6 +15,9 @@ const primaryNav = [
 ];
 
 const moreNav = [
+  { path: "/watchlist", label: "Watchlist", icon: Eye },
+  { path: "/alerts", label: "Alerts", icon: Bell },
+  { path: "/releases", label: "Releases", icon: CalendarDays },
   { path: "/promo", label: "Promo", icon: Video },
   { path: "/set-completion", label: "Collection", icon: CheckCircle },
   { path: "/guides", label: "Guides", icon: BookOpen },
@@ -164,12 +164,9 @@ const TerminalHeader = () => {
               </span>
             )}
 
-            {/* Clock — compact on mobile */}
-            <div className="hidden sm:block font-mono text-[10px] text-primary whitespace-nowrap">
+            {/* Clock — hidden below lg, full on lg+ */}
+            <div className="hidden lg:block font-mono text-[10px] text-primary whitespace-nowrap">
               {time.toLocaleString()}
-            </div>
-            <div className="sm:hidden font-mono text-[9px] text-primary whitespace-nowrap">
-              {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </div>
 
             <AccessibilityToggle />
