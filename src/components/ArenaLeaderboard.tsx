@@ -18,7 +18,7 @@ const RANK_COLORS = ["text-amber-400", "text-slate-300", "text-amber-600"];
 const ArenaLeaderboard = () => {
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sortBy, setSortBy] = useState<"lifetime_won" | "balance">("lifetime_won");
+  const sortBy = "lifetime_won";
 
   useEffect(() => {
     const fetch = async () => {
