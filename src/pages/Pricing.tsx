@@ -211,9 +211,14 @@ const Pricing = () => {
                   <span className="font-mono text-sm text-muted-foreground">{period}</span>
                 </div>
 
+                {t.key === "starter" && !current && (
+                  <span className="inline-block font-mono text-[10px] text-terminal-amber font-bold bg-terminal-amber/10 border border-terminal-amber/20 px-2 py-0.5 rounded mb-2">
+                    ☕ LESS THAN A COFFEE
+                  </span>
+                )}
                 {t.key === "pro" && !current && (
                   <span className="inline-block font-mono text-[10px] text-terminal-green font-bold bg-terminal-green/10 border border-terminal-green/20 px-2 py-0.5 rounded mb-2">
-                    🎁 7-DAY FREE TRIAL
+                    🎁 14-DAY FREE TRIAL
                   </span>
                 )}
                 {isTeam && (
