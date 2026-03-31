@@ -24,7 +24,7 @@ serve(async (req) => {
     const user = data.user;
     if (!user?.email) throw new Error("User not authenticated or email not available");
 
-    const { priceId, trial } = await req.json();
+    const { priceId, trial, coupon } = await req.json();
     if (!priceId) throw new Error("Price ID is required");
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
@@ -49,6 +49,11 @@ serve(async (req) => {
     // Add free trial if requested
     if (trial && typeof trial === "number" && trial > 0) {
       sessionParams.subscription_data = { trial_period_days: trial };
+    }
+
+    // Auto-apply coupon if provided
+    if (coupon && typeof coupon === "string") {
+      sessionParams.discounts = [{ coupon }];
     }
 
     const session = await stripe.checkout.sessions.create(sessionParams);

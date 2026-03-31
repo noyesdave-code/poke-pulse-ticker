@@ -63,8 +63,9 @@ const Pricing = () => {
     }
     setLoadingTier(tierKey);
     try {
+      const coupon = sessionStorage.getItem("checkout_coupon") || undefined;
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { priceId, trial: tierKey === "pro" ? 7 : undefined },
+        body: { priceId, trial: tierKey === "pro" ? 7 : undefined, coupon },
       });
       if (error) throw error;
       if (data?.url) window.open(data.url, "_blank");

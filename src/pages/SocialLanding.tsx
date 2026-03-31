@@ -39,10 +39,11 @@ const SocialLanding = () => {
   const { user } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
 
-  // Track UTM params for analytics
+  // Track UTM params and coupon for analytics
   const utm = {
     ref: searchParams.get("ref") || "direct",
     campaign: searchParams.get("campaign") || "",
+    coupon: searchParams.get("coupon") || "",
   };
 
   useEffect(() => {
@@ -51,7 +52,10 @@ const SocialLanding = () => {
       sessionStorage.setItem("utm_ref", utm.ref);
       if (utm.campaign) sessionStorage.setItem("utm_campaign", utm.campaign);
     }
-  }, [utm.ref, utm.campaign]);
+    if (utm.coupon) {
+      sessionStorage.setItem("checkout_coupon", utm.coupon);
+    }
+  }, [utm.ref, utm.campaign, utm.coupon]);
 
   const handleCTA = () => {
     if (user) {
