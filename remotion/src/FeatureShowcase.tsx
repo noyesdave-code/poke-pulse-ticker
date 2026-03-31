@@ -263,8 +263,8 @@ const SceneSimTrader: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", width: "88%" }}>
-        <TextReveal text="🎮 SIMTRADER WORLD™" delay={5} fontSize={52} color={ACCENT} fontWeight={900} />
-        <TextReveal text="Paper trade with real market prices" delay={15} fontSize={24} color="rgba(255,255,255,0.45)" />
+        <TextReveal text="🎮 SIMTRADER WORLD™" delay={5} fontSize={42} color={ACCENT} fontWeight={900} />
+        <TextReveal text="Paper trade with real market prices" delay={15} fontSize={22} color="rgba(255,255,255,0.45)" />
         <Sequence from={22}>
           {(() => {
             const s = spring({ frame: frame - 22, fps, config: { damping: 14 } });
