@@ -150,7 +150,8 @@ const Pricing = () => {
           {tiers.map((t) => {
             const current = isCurrent(t.key);
             const highlight = t.key === "pro";
-            const stripeTier = t.key !== "free" ? STRIPE_TIERS[t.key] : null;
+            const isTeam = t.key === "team";
+            const stripeTier = (t.key !== "free" ? STRIPE_TIERS[t.key as keyof typeof STRIPE_TIERS] : null) as any;
             const price = !stripeTier ? "$0" : annual ? stripeTier.annual.price : stripeTier.price;
             const period = !stripeTier ? "forever" : annual ? stripeTier.annual.period : stripeTier.period;
             const priceId = !stripeTier ? null : annual ? stripeTier.annual.price_id : stripeTier.price_id;
