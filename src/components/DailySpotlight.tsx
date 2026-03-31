@@ -19,8 +19,8 @@ const DailySpotlight = ({ cards }: { cards: CardData[] }) => {
     const volume24h = 120 + (hash % 400);
     const weekTrend = ((hash % 20) - 10) + card.change * 0.5;
     const rsi = 30 + (hash % 40);
-    const support = card.price * (0.85 + (hash % 10) / 100);
-    const resistance = card.price * (1.1 + (hash % 15) / 100);
+    const support = card.market * (0.85 + (hash % 10) / 100);
+    const resistance = card.market * (1.1 + (hash % 15) / 100);
 
     return { card, signal, signalColor, volume24h, weekTrend, rsi, support, resistance };
   }, [cards]);
@@ -43,9 +43,9 @@ const DailySpotlight = ({ cards }: { cards: CardData[] }) => {
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-0">
         {/* Card Image */}
         <div className="flex items-center justify-center p-4 bg-muted/30">
-          {card.image ? (
+          {card._image ? (
             <img
-              src={card.image}
+              src={card._image}
               alt={card.name}
               className="w-36 h-auto rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
               loading="lazy"
@@ -67,7 +67,7 @@ const DailySpotlight = ({ cards }: { cards: CardData[] }) => {
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="font-mono text-xl font-bold text-foreground">${card.price.toFixed(2)}</span>
+            <span className="font-mono text-xl font-bold text-foreground">${card.market.toFixed(2)}</span>
             <span className={`font-mono text-sm font-bold flex items-center gap-1 ${card.change >= 0 ? "text-primary" : "text-destructive"}`}>
               {card.change >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
               {card.change >= 0 ? "+" : ""}{card.change.toFixed(1)}%

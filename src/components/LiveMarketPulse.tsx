@@ -36,11 +36,11 @@ const LiveMarketPulse = ({ cards }: { cards: CardData[] }) => {
     if (!cards.length) return [];
     return cards.slice(0, 50).flatMap((card) => {
       const items: Omit<PulseEvent, "id" | "timestamp">[] = [];
-      if (card.change > 2) items.push({ type: "price_move", card: card.name, detail: `+${card.change.toFixed(1)}% to $${card.price.toFixed(2)}`, icon: "up" });
-      if (card.change < -2) items.push({ type: "price_move", card: card.name, detail: `${card.change.toFixed(1)}% to $${card.price.toFixed(2)}`, icon: "down" });
+      if (card.change > 2) items.push({ type: "price_move", card: card.name, detail: `+${card.change.toFixed(1)}% to $${card.market.toFixed(2)}`, icon: "up" });
+      if (card.change < -2) items.push({ type: "price_move", card: card.name, detail: `${card.change.toFixed(1)}% to $${card.market.toFixed(2)}`, icon: "down" });
       const hash = card.name.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
       if (hash % 4 === 0) items.push({ type: "volume_spike", card: card.name, detail: `Volume up ${80 + (hash % 200)}% in 1h`, icon: "volume" });
-      if (hash % 5 === 0) items.push({ type: "big_sale", card: card.name, detail: `Sold for $${(card.price * (1 + (hash % 30) / 100)).toFixed(2)} on eBay`, icon: "sale" });
+      if (hash % 5 === 0) items.push({ type: "big_sale", card: card.name, detail: `Sold for $${(card.market * (1 + (hash % 30) / 100)).toFixed(2)} on eBay`, icon: "sale" });
       if (hash % 7 === 0) items.push({ type: "trending", card: card.name, detail: `Trending — ${10 + (hash % 50)} searches/hr`, icon: "fire" });
       return items;
     });

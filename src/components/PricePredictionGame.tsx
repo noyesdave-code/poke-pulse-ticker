@@ -97,12 +97,12 @@ const PricePredictionGame = ({ cards }: { cards: CardData[] }) => {
               }`}
             >
               <div className="flex items-center gap-2 mb-2">
-                {card.image && (
-                  <img src={card.image} alt="" className="w-10 h-14 rounded object-cover" loading="lazy" />
+                {card._image && (
+                  <img src={card._image} alt="" className="w-10 h-14 rounded object-cover" loading="lazy" />
                 )}
                 <div className="min-w-0">
                   <p className="font-mono text-[11px] font-bold text-foreground truncate">{card.name}</p>
-                  <p className="font-mono text-xs text-foreground">${card.price.toFixed(2)}</p>
+                  <p className="font-mono text-xs text-foreground">${card.market.toFixed(2)}</p>
                   <p className={`font-mono text-[10px] font-bold ${card.change >= 0 ? "text-primary" : "text-destructive"}`}>
                     {card.change >= 0 ? "+" : ""}{card.change.toFixed(1)}%
                   </p>
