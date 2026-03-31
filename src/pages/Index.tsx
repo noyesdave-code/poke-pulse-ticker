@@ -118,7 +118,7 @@ const Index = () => {
       <TerminalHeader />
       <TickerBar cards={displayCards} isLive={isLive} lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined} />
 
-      <main className="max-w-7xl mx-auto px-4 lg:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 lg:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6">
         {/* 1. Hero with urgency hook */}
         <HeroSection
           onSearchFocus={handleSearchFocus}
