@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard, Layers, Briefcase, Activity, TrendingUp,
   Eye, Bell, Gamepad2, Brain, ChevronRight, ChevronLeft, X,
-  Rocket, Play, BarChart3, Shield, DollarSign, Sparkles,
+  Rocket, Play, BarChart3, Shield, DollarSign, Sparkles, ArrowLeftRight,
 } from "lucide-react";
 
 const DEMO_EMAIL = "demo@poke-pulse-ticker.com";
