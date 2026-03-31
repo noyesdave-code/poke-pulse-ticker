@@ -8,7 +8,7 @@ import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
-import { ArrowLeft, Check, Minus, Zap, Crown, Building2, Users, Shield, Star, Store } from "lucide-react";
+import { ArrowLeft, Check, Minus, Zap, Crown, Building2, Users, Shield, Star, Store, Gamepad2 } from "lucide-react";
 
 const features = [
   { name: "Raw card market ticker", free: "Delayed 15 min", pro: "Real-time", institutional: "Real-time", team: "Real-time" },
