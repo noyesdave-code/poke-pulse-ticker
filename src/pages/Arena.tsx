@@ -156,10 +156,7 @@ const Arena = () => {
                 <p>Wagered: <span className="text-foreground font-bold">{wallet?.lifetime_wagered.toLocaleString()}</span></p>
               </div>
               <div className="h-8 w-px bg-border" />
-              <Button size="sm" variant="outline" className="text-xs font-bold gap-1" onClick={() => {
-                const el = document.querySelector('[data-value="shop"]') as HTMLButtonElement;
-                el?.click();
-              }}>
+              <Button size="sm" variant="outline" className="text-xs font-bold gap-1" onClick={() => setActiveTab("shop")}>
                 <ShoppingCart className="w-3 h-3" /> Buy
               </Button>
             </CardContent>
