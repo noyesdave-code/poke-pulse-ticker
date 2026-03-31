@@ -117,7 +117,7 @@ const TerminalHeader = () => {
               <div ref={moreRef} className="relative">
                 <button
                   onClick={() => setMoreOpen(!moreOpen)}
-                  className={`flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1.5 rounded-md transition-all ${
+                  className={`flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide px-2 py-1.5 rounded-md transition-all flex-shrink-0 ${
                     moreNav.some(i => i.path === location.pathname)
                       ? "text-primary bg-primary/10"
                       : "text-foreground hover:text-primary hover:bg-muted/40"
