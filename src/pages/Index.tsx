@@ -258,6 +258,9 @@ const Index = () => {
         {/* Whale-Exclusive AI Report */}
         <WhaleReport cards={displayCards} />
 
+        {/* Pro upgrade nudge before testimonials */}
+        <InlineUpgradeNudge variant="default" />
+
         <Testimonials />
 
         {/* Import from competitors */}
