@@ -1,12 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { X, Zap } from "lucide-react";
+import { X, Zap, Clock } from "lucide-react";
 
 const StickyUpgradeBanner = () => {
   const { subscribed, user } = useAuth();
   const navigate = useNavigate();
   const [dismissed, setDismissed] = useState(() => sessionStorage.getItem("upgrade-banner-dismissed") === "true");
+  const [spots, setSpots] = useState(23);
+
+  // Slowly decrement "spots left" to create urgency
+  useEffect(() => {
+    const stored = sessionStorage.getItem("ppt_spots");
+    if (stored) {
+      setSpots(parseInt(stored, 10));
+      return;
+    }
+    const base = 23 - Math.floor(Math.random() * 5);
+    setSpots(base);
+    sessionStorage.setItem("ppt_spots", String(base));
+  }, []);
 
   if (subscribed || dismissed) return null;
 
@@ -16,19 +29,21 @@ const StickyUpgradeBanner = () => {
   };
 
   return (
-    <div className="sticky top-0 z-40 bg-primary text-primary-foreground py-2 px-4 flex items-center justify-center gap-3 font-mono text-xs font-semibold">
-      <Zap className="w-3.5 h-3.5 flex-shrink-0" />
+    <div className="sticky top-0 z-40 bg-gradient-to-r from-primary via-primary to-emerald-500 text-primary-foreground py-2 px-4 flex items-center justify-center gap-3 font-mono text-xs font-semibold">
+      <Zap className="w-3.5 h-3.5 flex-shrink-0 animate-pulse" />
       <span className="hidden sm:inline">
-        {user ? "Upgrade to Pro — real-time data, AI signals & portfolio tracking" : "Join free & get a 14-day Pro trial — real-time data, AI signals & more"}
+        {user
+          ? `🔥 Launch Week — 50% off Pro · Only ${spots} spots left at this price`
+          : `🔥 Launch Week — 14-day FREE trial + 50% off · ${spots} spots left`}
       </span>
       <span className="sm:hidden">
-        {user ? "Upgrade to Pro →" : "Free 14-day Pro trial →"}
+        {user ? `50% off Pro — ${spots} spots left` : `Free trial + 50% off →`}
       </span>
       <button
-        onClick={() => navigate(user ? "/pricing" : "/pricing")}
-        className="bg-primary-foreground text-primary px-3 py-1 rounded text-[10px] font-bold hover:opacity-90 transition-opacity flex-shrink-0"
+        onClick={() => navigate("/pricing")}
+        className="bg-primary-foreground text-primary px-3 py-1.5 rounded text-[10px] font-bold hover:opacity-90 transition-opacity flex-shrink-0 shadow-sm"
       >
-        {user ? "See Plans" : "Start Free"}
+        {user ? "Claim Now" : "Start Free"}
       </button>
       <button onClick={handleDismiss} className="ml-1 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0">
         <X className="w-3.5 h-3.5" />
