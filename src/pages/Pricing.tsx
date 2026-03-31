@@ -313,6 +313,7 @@ const Pricing = () => {
                   >
                     <td className="font-mono text-xs text-foreground p-3">{f.name}</td>
                     <td className="text-center p-3">{renderCell(f.free)}</td>
+                    <td className="text-center p-3">{renderCell((f as any).starter)}</td>
                     <td className="text-center p-3">{renderCell(f.pro)}</td>
                     <td className="text-center p-3">{renderCell(f.premium)}</td>
                     <td className="text-center p-3">{renderCell(f.team)}</td>
