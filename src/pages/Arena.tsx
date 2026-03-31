@@ -1,6 +1,9 @@
 import { useState, useMemo } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useArena } from "@/hooks/useArena";
+import { supabase } from "@/integrations/supabase/client";
+import { POKECOIN_PACKS } from "@/lib/pokecoinPacks";
+import { STRIPE_TIERS } from "@/lib/stripe";
 import TerminalHeader from "@/components/TerminalHeader";
 import AuthModal from "@/components/AuthModal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,9 +11,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Coins, TrendingUp, TrendingDown, Package, Trophy, Shield, AlertTriangle, Sparkles, Zap, Crown, Timer, Medal } from "lucide-react";
+import { Coins, TrendingUp, TrendingDown, Package, Trophy, Shield, AlertTriangle, Sparkles, Zap, Crown, Timer, Medal, ShoppingCart, CreditCard } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ArenaLeaderboard from "@/components/ArenaLeaderboard";
+import { useToast } from "@/hooks/use-toast";
 
 // Admin emails allowed to see GO LIVE switch
 const ADMIN_EMAILS = ["david@poke-pulse-ticker.com", "demo@poke-pulse-ticker.com", "davidnoyes@me.com"];
