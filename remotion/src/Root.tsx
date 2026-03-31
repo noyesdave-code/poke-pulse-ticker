@@ -40,7 +40,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition
       id="feature-showcase"
       component={FeatureShowcase}
-      durationInFrames={1770}
+      durationInFrames={2520}
       fps={30}
       width={1080}
       height={1920}
@@ -48,7 +48,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition
       id="feature-showcase-yt"
       component={FeatureShowcase}
-      durationInFrames={1770}
+      durationInFrames={2520}
       fps={30}
       width={1920}
       height={1080}
