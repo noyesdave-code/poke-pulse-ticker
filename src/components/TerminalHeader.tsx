@@ -8,9 +8,6 @@ import AccessibilityToggle from "@/components/AccessibilityToggle";
 const primaryNav = [
   { path: "/", label: "Terminal", icon: LayoutDashboard },
   { path: "/sets", label: "Sets", icon: Layers },
-  { path: "/releases", label: "Releases", icon: CalendarDays },
-  { path: "/watchlist", label: "Watchlist", icon: Eye },
-  { path: "/alerts", label: "Alerts", icon: Bell },
   { path: "/portfolio", label: "Portfolio", icon: Briefcase },
   { path: "/dashboard", label: "Dashboard", icon: Activity },
   { path: "/pricing", label: "Pricing", icon: DollarSign },
@@ -18,6 +15,9 @@ const primaryNav = [
 ];
 
 const moreNav = [
+  { path: "/watchlist", label: "Watchlist", icon: Eye },
+  { path: "/alerts", label: "Alerts", icon: Bell },
+  { path: "/releases", label: "Releases", icon: CalendarDays },
   { path: "/promo", label: "Promo", icon: Video },
   { path: "/set-completion", label: "Collection", icon: CheckCircle },
   { path: "/guides", label: "Guides", icon: BookOpen },
