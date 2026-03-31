@@ -1,6 +1,6 @@
 {
-  "name": "POKE-PULSE-TICKER — Live Pokémon TCG Market Data",
-  "short_name": "PokePulseTicker",
+  "name": "Pokémon TCG Market Terminal",
+  "short_name": "PokéTCG Terminal",
   "description": "Live Pokémon TCG market data for collectors and traders",
   "start_url": "/",
   "display": "standalone",
