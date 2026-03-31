@@ -297,6 +297,8 @@ const Index = () => {
               </span>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
+              <a href="/arena" className="text-xs text-muted-foreground hover:text-primary transition-colors">Arena</a>
+              <span className="text-border">•</span>
               <a href="/videos" className="text-xs text-muted-foreground hover:text-primary transition-colors">Video Library</a>
               <span className="text-border">•</span>
               <a href="/terms" className="text-xs text-muted-foreground hover:text-primary transition-colors">Terms of Service</a>
