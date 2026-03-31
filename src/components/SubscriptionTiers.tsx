@@ -8,7 +8,7 @@ const tierDefs = [
   {
     key: "free" as const,
     name: "FREE",
-    description: "Basic market access for casual collectors",
+    description: "Explore the market — no card required",
     features: [
       "Raw card market ticker (delayed 15 min)",
       "Top 12 movers dashboard",
@@ -21,50 +21,48 @@ const tierDefs = [
   {
     key: "pro" as const,
     name: "PRO",
-    description: "Real-time data for serious traders",
+    description: "Real-time data for active collectors",
     features: [
       "Everything in Free",
-      "Real-time raw card ticker",
-      "Real-time graded card ticker",
-      "Real-time sealed product ticker",
+      "Real-time raw, graded & sealed tickers",
       "Full card board (500+ cards)",
       "Price alerts & notifications",
       "Historical price charts",
+      "AI signal analysis",
+      "Portfolio tracking & P&L",
     ],
-    cta: "Subscribe to Pro",
+    cta: "Start Free Trial",
     highlight: true,
   },
   {
-    key: "institutional" as const,
-    name: "INSTITUTIONAL",
-    description: "Enterprise-grade analytics for dealers & shops",
+    key: "premium" as const,
+    name: "PREMIUM",
+    description: "Full platform access for serious investors",
     features: [
       "Everything in Pro",
-      "API access for custom integrations",
+      "API access & bulk export (CSV/JSON)",
       "Arbitrage scanner",
-      "Portfolio tracking & P&L",
-      "Bulk export (CSV/JSON)",
+      "SimTrader™ unlimited trades",
+      "Limit orders & stop-losses",
+      "Trading contests & leaderboards",
+      "Capital gains tax reports",
+      "AI market intelligence reports",
       "Priority support",
-      "Custom watchlists (unlimited)",
     ],
-    cta: "Subscribe to Institutional",
+    cta: "Get Premium",
     highlight: false,
   },
   {
-    key: "trader" as const,
-    name: "TRADER",
-    description: "Simulated Pokémon stock market trading game",
+    key: "team" as const,
+    name: "TEAM",
+    description: "Multi-seat access for local game stores",
     features: [
-      "Everything in Institutional",
-      "$100K virtual trading balance",
-      "Buy/sell tokens at live prices",
-      "Limit orders & stop-losses",
-      "Daily trading contests & tournaments",
-      "Leaderboards & in-app rewards",
-      "Play vs AI & other traders",
-      "Secure sandbox environment",
+      "Everything in Premium",
+      "3 seats included",
+      "Shared market data across staff",
+      "Team portfolio management",
     ],
-    cta: "Subscribe to Trader",
+    cta: "Get Team",
     highlight: false,
   },
 ];
@@ -80,16 +78,13 @@ const SubscriptionTiers = () => {
       toast({ title: "Sign in required", description: "Please sign in to subscribe.", variant: "destructive" });
       return;
     }
-
     setLoadingTier(tierName);
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
         body: { priceId, trial: tierName === "pro" ? 7 : undefined },
       });
       if (error) throw error;
-      if (data?.url) {
-        window.open(data.url, "_blank");
-      }
+      if (data?.url) window.open(data.url, "_blank");
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {
@@ -101,9 +96,7 @@ const SubscriptionTiers = () => {
     try {
       const { data, error } = await supabase.functions.invoke("customer-portal");
       if (error) throw error;
-      if (data?.url) {
-        window.open(data.url, "_blank");
-      }
+      if (data?.url) window.open(data.url, "_blank");
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     }
@@ -121,14 +114,13 @@ const SubscriptionTiers = () => {
           Subscription Plans
         </h2>
         <p className="text-2xl font-extrabold text-foreground mb-2">
-          Upgrade Your Market Intelligence
+          Pick Your Edge
         </p>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          From casual collectors to institutional dealers — pick the plan that matches your trading volume.
+          Start free. Upgrade when you're ready. Cancel anytime.
         </p>
       </div>
 
-      {/* Billing Toggle */}
       <div className="flex items-center justify-center gap-3 mb-8">
         <span className={`font-mono text-xs font-semibold ${!annual ? "text-foreground" : "text-muted-foreground"}`}>
           Monthly
@@ -152,7 +144,7 @@ const SubscriptionTiers = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
         {tierDefs.map((t) => {
           const isCurrent = isCurrentTier(t.key);
-          const stripeTier = t.key !== "free" ? STRIPE_TIERS[t.key] : null;
+          const stripeTier = t.key !== "free" ? (STRIPE_TIERS as any)[t.key] : null;
           const price = !stripeTier ? "$0" : annual ? stripeTier.annual.price : stripeTier.price;
           const period = !stripeTier ? "forever" : annual ? stripeTier.annual.period : stripeTier.period;
           const priceId = !stripeTier ? null : annual ? stripeTier.annual.price_id : stripeTier.price_id;
@@ -208,7 +200,7 @@ const SubscriptionTiers = () => {
                       : "border border-border text-foreground hover:bg-muted"
                   } disabled:opacity-50`}
                 >
-                  {loadingTier === t.key ? "Loading..." : t.key === "pro" ? "Start 7-Day Free Trial" : t.cta}
+                  {loadingTier === t.key ? "Loading..." : t.cta}
                 </button>
               ) : (
                 <button
