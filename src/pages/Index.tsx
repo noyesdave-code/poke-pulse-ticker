@@ -154,6 +154,15 @@ const Index = () => {
           </div>
         )}
 
+        {/* Daily Index Charts — Wall Street Hours */}
+        {!isLoading && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <IndexDayChart title="RAW 500 INDEX" indexValue={rawIndex} indexChange={rawChange} variant="green" />
+            <IndexDayChart title="GRADED 1000 INDEX" indexValue={gradedIndex} indexChange={gradedChange} variant="amber" />
+            <IndexDayChart title="SEALED 1000 INDEX" indexValue={sealedIndex} indexChange={sealedChange} variant="blue" />
+          </div>
+        )}
+
         {/* Data Quality & Freshness */}
         <DataQualityBadge isLive={isLive} lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined} cardCount={displayCards.length} />
 
