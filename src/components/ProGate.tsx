@@ -94,7 +94,7 @@ const ProGate = ({ children, feature = "This feature", blur = false }: ProGatePr
           <div className="flex items-center justify-center gap-1.5 mt-2.5">
             <Clock className="w-3 h-3 text-primary/60" />
             <span className="font-mono text-[10px] text-primary/70">
-              Then $19/mo · Cancel anytime
+              Then $9/mo · Cancel anytime
             </span>
           </div>
 
