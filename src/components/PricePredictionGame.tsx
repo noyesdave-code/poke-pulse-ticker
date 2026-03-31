@@ -117,6 +117,10 @@ const PricePredictionGame = ({ cards }: { cards: CardData[] }) => {
                   {pick?.direction === "bull" ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
                   YOUR PICK: {pick?.direction === "bull" ? "BULLISH 🐂" : "BEARISH 🐻"}
                 </div>
+              ) : allPicksMade ? (
+                <div className="flex items-center justify-center py-2 rounded font-mono text-[10px] text-muted-foreground bg-muted/30">
+                  All picks locked
+                </div>
               ) : (
                 <div className="grid grid-cols-2 gap-2">
                   <button
