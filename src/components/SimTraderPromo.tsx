@@ -56,7 +56,7 @@ const SimTraderPromo = () => {
               </div>
               <div className="min-w-0">
                 <p className="font-mono text-xs font-bold text-foreground flex items-center gap-1.5">
-                  🎮 SimTrader™ is FREE
+                  🎮 SimTrader World™ is FREE
                   <span className="font-mono text-[8px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-bold animate-pulse">NEW</span>
                 </p>
                 <p className="font-mono text-[11px] text-muted-foreground mt-1 leading-relaxed">

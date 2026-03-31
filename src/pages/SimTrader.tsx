@@ -265,7 +265,7 @@ const SimTraderPage = () => {
           </motion.div>
           <div>
             <h1 className="font-mono text-xl font-black text-foreground tracking-tight flex items-center gap-2">
-              SIMTRADER<span className="text-primary">™</span>
+              SIMTRADER WORLD<span className="text-primary">™</span>
             </h1>
             <p className="font-mono text-[10px] text-muted-foreground tracking-widest">POKÉMON STOCK MARKET SIMULATOR · LIVE DATA</p>
           </div>
@@ -360,7 +360,7 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
           <div className="absolute inset-0 rounded-full border-2 border-primary/20" />
           <div className="absolute inset-0 rounded-full border-2 border-primary border-t-transparent animate-spin" />
         </div>
-        <p className="font-mono text-sm text-muted-foreground">Loading SimTrader™...</p>
+        <p className="font-mono text-sm text-muted-foreground">Loading SimTrader World™...</p>
       </div>
     );
   }
