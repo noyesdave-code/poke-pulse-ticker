@@ -205,7 +205,7 @@ const Arena = () => {
         </div>
 
         {/* Game Tabs */}
-        <Tabs defaultValue="predictions" className="space-y-4">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
           <TabsList className="grid w-full grid-cols-5 h-12">
             <TabsTrigger value="predictions" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
               <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" /> Bets
