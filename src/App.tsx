@@ -40,6 +40,7 @@ import AccessibleLanding from "./pages/AccessibleLanding.tsx";
 import SocialLanding from "./pages/SocialLanding.tsx";
 import SimTrader from "./pages/SimTrader.tsx";
 import PromoAssets from "./pages/PromoAssets.tsx";
+import VideoLibrary from "./pages/VideoLibrary.tsx";
 
 const queryClient = new QueryClient();
 
