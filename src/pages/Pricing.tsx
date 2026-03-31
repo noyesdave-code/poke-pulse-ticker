@@ -192,6 +192,11 @@ const Pricing = () => {
                     🎁 7-DAY FREE TRIAL — NO CARD CHARGED
                   </span>
                 )}
+                {isTeam && (
+                  <span className="inline-block font-mono text-[10px] text-terminal-amber font-bold bg-terminal-amber/10 border border-terminal-amber/20 px-2 py-0.5 rounded mb-2">
+                    🏪 3 SEATS INCLUDED
+                  </span>
+                )}
                 {savings && (
                   <span className="inline-block font-mono text-[10px] text-primary font-bold bg-primary/10 border border-primary/20 px-2 py-0.5 rounded mb-3">
                     💰 {savings}
