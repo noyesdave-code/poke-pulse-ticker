@@ -38,6 +38,7 @@ import MarketIntelWidget from "@/components/MarketIntelWidget";
 import ReferralCTA from "@/components/ReferralCTA";
 import SystemStatusIndicator from "@/components/SystemStatusIndicator";
 import SimTraderPromo from "@/components/SimTraderPromo";
+import StickyUpgradeBanner from "@/components/StickyUpgradeBanner";
 import AlphaAccuracy from "@/components/AlphaAccuracy";
 import ImportFromTCGPlayer from "@/components/ImportFromTCGPlayer";
 import TeamPlanCTA from "@/components/TeamPlanCTA";
@@ -105,6 +106,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <StickyUpgradeBanner />
       <TerminalHeader />
       <TickerBar cards={displayCards} isLive={isLive} lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined} />
 

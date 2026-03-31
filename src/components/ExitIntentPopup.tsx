@@ -62,13 +62,13 @@ const ExitIntentPopup = () => {
             </button>
             <div className="flex items-center gap-2 text-primary">
               <TrendingUp className="w-5 h-5" />
-              <span className="font-mono text-xs font-bold tracking-widest uppercase">Wait — Don't Miss Out</span>
+              <span className="font-mono text-xs font-bold tracking-widest uppercase">🚨 Before You Go</span>
             </div>
             <h3 className="font-mono text-lg font-bold text-foreground">
-              Markets move fast. <br />Stay ahead for free.
+              Unlock Pro — <span className="text-primary">50% off</span> your first month
             </h3>
             <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-              Try Pro for {trialDays} days — get real-time signals, AI analysis, and portfolio tracking. No credit card charged during trial.
+              Real-time signals, AI analysis, portfolio tracking — all for just $4.50/mo for your first month. Plus a {trialDays}-day free trial. No credit card charged during trial.
             </p>
             <button
               onClick={() => { setVisible(false); navigate("/pricing"); }}
