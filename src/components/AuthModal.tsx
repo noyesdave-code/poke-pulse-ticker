@@ -76,9 +76,19 @@ const AuthModal = ({ onClose }: { onClose: () => void }) => {
           </button>
         </form>
 
+        {!isSignUp && (
+          <button
+            type="button"
+            onClick={() => { setEmail("demo@poke-pulse-ticker.com"); setPassword("Demo2026!"); }}
+            className="mt-3 w-full rounded border border-dashed border-secondary py-2 font-mono text-[10px] font-semibold uppercase tracking-wider text-secondary hover:bg-secondary/10 transition-colors"
+          >
+            ⚡ Demo Login
+          </button>
+        )}
+
         <button
           onClick={() => setIsSignUp(!isSignUp)}
-          className="mt-4 w-full text-center font-mono text-xs text-muted-foreground hover:text-foreground"
+          className="mt-3 w-full text-center font-mono text-xs text-muted-foreground hover:text-foreground"
         >
           {isSignUp ? "Already have an account? Sign In" : "Need an account? Sign Up"}
         </button>
