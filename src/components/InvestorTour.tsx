@@ -94,6 +94,14 @@ const TOUR_STEPS: TourStep[] = [
     badge: "TEAM",
   },
   {
+    title: "Trade Calculator",
+    description:
+      "Multi-card trade comparison tool. Build trades between two parties, auto-calculate total market values, and see a fairness indicator showing which side is ahead.",
+    icon: ArrowLeftRight,
+    route: "/trade",
+    badge: "FREE",
+  },
+  {
     title: "Subscription Tiers",
     description:
       "Flexible pricing: Free browsing, Scout ($9/mo), Pro ($29/mo), and Team ($99/mo) plans. 7-day free trial on all paid tiers.",
