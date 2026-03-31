@@ -163,7 +163,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
               transition={{ delay: 0.6 }}
               className="font-mono text-[10px] text-primary/70 tracking-wide"
             >
-              ✓ 7-day free trial &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ No credit card to browse
+              ✓ 14-day free trial &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ No credit card to browse
             </motion.p>
           </div>
           <motion.div

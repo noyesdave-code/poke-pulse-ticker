@@ -19,10 +19,10 @@ const StickyUpgradeBanner = () => {
     <div className="sticky top-0 z-40 bg-primary text-primary-foreground py-2 px-4 flex items-center justify-center gap-3 font-mono text-xs font-semibold">
       <Zap className="w-3.5 h-3.5 flex-shrink-0" />
       <span className="hidden sm:inline">
-        {user ? "Upgrade to Pro — real-time data, AI signals & portfolio tracking" : "Join free & get a 7-day Pro trial — real-time data, AI signals & more"}
+        {user ? "Upgrade to Pro — real-time data, AI signals & portfolio tracking" : "Join free & get a 14-day Pro trial — real-time data, AI signals & more"}
       </span>
       <span className="sm:hidden">
-        {user ? "Upgrade to Pro →" : "Free 7-day Pro trial →"}
+        {user ? "Upgrade to Pro →" : "Free 14-day Pro trial →"}
       </span>
       <button
         onClick={() => navigate(user ? "/pricing" : "/pricing")}

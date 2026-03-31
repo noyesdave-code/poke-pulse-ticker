@@ -3,12 +3,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { STRIPE_TIERS } from "@/lib/stripe";
 import { useToast } from "@/hooks/use-toast";
+import { Sparkles, Zap, Gem, Store } from "lucide-react";
 
 const tierDefs = [
   {
     key: "free" as const,
     name: "FREE",
     description: "Explore the market — no card required",
+    icon: <Sparkles className="w-4 h-4" />,
     features: [
       "Raw card market ticker (delayed 15 min)",
       "Top 12 movers dashboard",
@@ -17,53 +19,82 @@ const tierDefs = [
     ],
     cta: "Current Plan",
     highlight: false,
+    color: "muted-foreground",
+  },
+  {
+    key: "starter" as const,
+    name: "STARTER",
+    description: "Essential tools for casual collectors",
+    icon: <Sparkles className="w-4 h-4" />,
+    features: [
+      "Everything in Free",
+      "Real-time raw card ticker",
+      "Top 50 movers dashboard",
+      "Basic price alerts (5 max)",
+      "7-day price history",
+    ],
+    cta: "Get Starter",
+    highlight: false,
+    badge: "☕ LESS THAN A COFFEE",
+    badgeColor: "text-terminal-amber bg-terminal-amber/10 border-terminal-amber/20",
+    color: "terminal-amber",
   },
   {
     key: "pro" as const,
     name: "PRO",
     description: "Real-time data for active collectors",
+    icon: <Zap className="w-4 h-4" />,
     features: [
-      "Everything in Free",
-      "Real-time raw, graded & sealed tickers",
+      "Everything in Starter",
+      "Graded & sealed tickers",
       "Full card board (500+ cards)",
-      "Price alerts & notifications",
+      "Unlimited price alerts",
       "Historical price charts",
       "AI signal analysis",
       "Portfolio tracking & P&L",
     ],
     cta: "Start Free Trial",
     highlight: true,
+    badge: "⚡ MOST POPULAR",
+    badgeColor: "text-primary bg-primary/10 border-primary/20",
+    color: "primary",
   },
   {
     key: "premium" as const,
     name: "PREMIUM",
-    description: "Full platform access for serious investors",
+    description: "Full platform for serious investors",
+    icon: <Gem className="w-4 h-4" />,
     features: [
       "Everything in Pro",
-      "API access & bulk export (CSV/JSON)",
+      "API access & bulk export",
       "Arbitrage scanner",
-      "SimTrader™ unlimited trades",
+      "SimTrader™ unlimited",
       "Limit orders & stop-losses",
-      "Trading contests & leaderboards",
-      "Capital gains tax reports",
-      "AI market intelligence reports",
+      "AI market intelligence",
       "Priority support",
     ],
     cta: "Get Premium",
     highlight: false,
+    badge: "💎 BEST VALUE",
+    badgeColor: "text-purple-400 bg-purple-500/10 border-purple-500/20",
+    color: "purple-400",
   },
   {
     key: "team" as const,
     name: "TEAM",
-    description: "Multi-seat access for local game stores",
+    description: "Multi-seat for local game stores",
+    icon: <Store className="w-4 h-4" />,
     features: [
       "Everything in Premium",
       "3 seats included",
-      "Shared market data across staff",
+      "Shared market data",
       "Team portfolio management",
     ],
     cta: "Get Team",
     highlight: false,
+    badge: "🏪 3 SEATS",
+    badgeColor: "text-terminal-amber bg-terminal-amber/10 border-terminal-amber/20",
+    color: "terminal-amber",
   },
 ];
 
@@ -80,8 +111,9 @@ const SubscriptionTiers = () => {
     }
     setLoadingTier(tierName);
     try {
+      const coupon = sessionStorage.getItem("checkout_coupon") || undefined;
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { priceId, trial: tierName === "pro" ? 7 : undefined },
+        body: { priceId, trial: tierName === "pro" ? 14 : undefined, coupon },
       });
       if (error) throw error;
       if (data?.url) window.open(data.url, "_blank");
@@ -141,7 +173,7 @@ const SubscriptionTiers = () => {
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
         {tierDefs.map((t) => {
           const isCurrent = isCurrentTier(t.key);
           const stripeTier = t.key !== "free" ? (STRIPE_TIERS as any)[t.key] : null;
@@ -153,32 +185,39 @@ const SubscriptionTiers = () => {
           return (
             <div
               key={t.name}
-              className={`terminal-card p-6 flex flex-col relative ${
-                t.highlight ? "border-t-2 border-t-primary glow-green" : ""
-              } ${isCurrent ? "ring-1 ring-primary" : ""}`}
+              className={`terminal-card p-5 flex flex-col relative transition-all duration-300 ${
+                t.highlight ? "border-t-2 border-t-primary shadow-[0_0_24px_hsl(var(--primary)/0.15)] scale-[1.01]" : ""
+              } ${t.key === "premium" ? "border-t-2 border-t-purple-500" : ""}
+              ${t.key === "starter" ? "border-t-2 border-t-terminal-amber" : ""}
+              ${isCurrent ? "ring-1 ring-primary" : ""}`}
             >
               {isCurrent && (
                 <span className="absolute -top-3 left-4 font-mono text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded">
                   YOUR PLAN
                 </span>
               )}
-              <div className="mb-4">
+              {t.badge && !isCurrent && (
+                <span className={`absolute -top-3 right-3 font-mono text-[9px] px-2 py-0.5 rounded-full font-bold border ${t.badgeColor}`}>
+                  {t.badge}
+                </span>
+              )}
+              <div className="mb-3">
                 <span className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
                   {t.name}
                 </span>
               </div>
               <div className="mb-1 flex items-baseline gap-1">
-                <span className="font-mono text-3xl font-bold text-foreground">{price}</span>
-                <span className="font-mono text-sm text-muted-foreground">{period}</span>
+                <span className="font-mono text-2xl font-bold text-foreground">{price}</span>
+                <span className="font-mono text-xs text-muted-foreground">{period}</span>
               </div>
               {savings && (
-                <span className="font-mono text-[10px] text-primary font-semibold mb-2">{savings}</span>
+                <span className="font-mono text-[10px] text-primary font-semibold mb-1">{savings}</span>
               )}
-              <p className="text-xs text-muted-foreground mb-6">{t.description}</p>
-              <ul className="space-y-2.5 mb-8 flex-1">
+              <p className="text-[11px] text-muted-foreground mb-4 leading-relaxed">{t.description}</p>
+              <ul className="space-y-2 mb-6 flex-1">
                 {t.features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-foreground">
-                    <span className="text-primary mt-0.5 text-xs">✓</span>
+                  <li key={i} className="flex items-start gap-2 text-xs text-foreground">
+                    <span className="text-primary mt-0.5 text-[10px]">✓</span>
                     <span>{f}</span>
                   </li>
                 ))}
@@ -186,7 +225,7 @@ const SubscriptionTiers = () => {
               {isCurrent && subscribed ? (
                 <button
                   onClick={handleManage}
-                  className="w-full py-2.5 rounded font-mono text-sm font-semibold border border-border text-foreground hover:bg-muted"
+                  className="w-full py-2.5 rounded font-mono text-xs font-semibold border border-border text-foreground hover:bg-muted"
                 >
                   Manage Subscription
                 </button>
@@ -194,9 +233,11 @@ const SubscriptionTiers = () => {
                 <button
                   onClick={() => handleSubscribe(priceId, t.key)}
                   disabled={loadingTier === t.key}
-                  className={`w-full py-2.5 rounded font-mono text-sm font-semibold transition-all ${
+                  className={`w-full py-2.5 rounded font-mono text-xs font-semibold transition-all ${
                     t.highlight
                       ? "bg-primary text-primary-foreground hover:opacity-90"
+                      : t.key === "premium"
+                      ? "bg-purple-500 text-white hover:bg-purple-600"
                       : "border border-border text-foreground hover:bg-muted"
                   } disabled:opacity-50`}
                 >
@@ -205,7 +246,7 @@ const SubscriptionTiers = () => {
               ) : (
                 <button
                   disabled
-                  className="w-full py-2.5 rounded font-mono text-sm font-semibold border border-border text-muted-foreground"
+                  className="w-full py-2.5 rounded font-mono text-xs font-semibold border border-border text-muted-foreground"
                 >
                   {t.cta}
                 </button>
@@ -214,6 +255,11 @@ const SubscriptionTiers = () => {
           );
         })}
       </div>
+
+      {/* Trust line */}
+      <p className="text-center font-mono text-[10px] text-muted-foreground mt-6">
+        ✓ 14-day free Pro trial &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ Secure Stripe payments
+      </p>
     </section>
   );
 };
