@@ -1,12 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Activity, TrendingUp, TrendingDown, DollarSign, Volume2, Flame } from "lucide-react";
-
-interface CardData {
-  name: string;
-  price: number;
-  change: number;
-  image?: string;
-}
+import type { CardData } from "@/data/marketData";
 
 type PulseEvent = {
   id: number;

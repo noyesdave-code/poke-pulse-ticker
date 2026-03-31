@@ -1,13 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
-import { TrendingUp, TrendingDown, Trophy, Target, ChevronRight, Sparkles } from "lucide-react";
+import { TrendingUp, TrendingDown, Trophy, Target, Sparkles } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-
-interface CardData {
-  name: string;
-  price: number;
-  change: number;
-  image?: string;
-}
+import type { CardData } from "@/data/marketData";
 
 type Prediction = { cardName: string; direction: "bull" | "bear"; date: string };
 

@@ -1,14 +1,6 @@
 import { useMemo } from "react";
-import { Star, TrendingUp, TrendingDown, Zap, Target, BarChart3 } from "lucide-react";
-
-interface CardData {
-  name: string;
-  price: number;
-  change: number;
-  image?: string;
-  set?: string;
-  number?: string;
-}
+import { Star, TrendingUp, TrendingDown, Zap, Target } from "lucide-react";
+import type { CardData } from "@/data/marketData";
 
 const DailySpotlight = ({ cards }: { cards: CardData[] }) => {
   const spotlight = useMemo(() => {
