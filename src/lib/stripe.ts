@@ -1,6 +1,20 @@
-// Stripe product/price mapping — 5 tiers for maximum conversion
-// Free → Starter ($4.99) → Pro ($9) → Premium ($39) → Team ($99)
+// Stripe product/price mapping — 6 tiers for maximum conversion
+// Free → Arena ($0.99) → Starter ($4.99) → Pro ($9) → Premium ($39) → Team ($99)
 export const STRIPE_TIERS = {
+  arena: {
+    product_id: "prod_UFeyXfI3gOan3o",
+    price_id: "price_1TH9eLPRXT5iryzGltaBaKJ9",
+    name: "ARENA",
+    price: "$0.99",
+    period: "/month",
+    annual: {
+      product_id: "prod_UFeyXfI3gOan3o",
+      price_id: "price_1TH9eLPRXT5iryzGltaBaKJ9",
+      price: "$0.99",
+      period: "/month",
+      savings: "",
+    },
+  },
   starter: {
     product_id: "prod_UFbILYIMFAhdbd",
     price_id: "price_1TH65uPRXT5iryzG4IbTPZbm",

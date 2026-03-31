@@ -1,6 +1,9 @@
 import { useState, useMemo } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useArena } from "@/hooks/useArena";
+import { supabase } from "@/integrations/supabase/client";
+import { POKECOIN_PACKS } from "@/lib/pokecoinPacks";
+import { STRIPE_TIERS } from "@/lib/stripe";
 import TerminalHeader from "@/components/TerminalHeader";
 import AuthModal from "@/components/AuthModal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,9 +11,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Coins, TrendingUp, TrendingDown, Package, Trophy, Shield, AlertTriangle, Sparkles, Zap, Crown, Timer, Medal } from "lucide-react";
+import { Coins, TrendingUp, TrendingDown, Package, Trophy, Shield, AlertTriangle, Sparkles, Zap, Crown, Timer, Medal, ShoppingCart, CreditCard } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ArenaLeaderboard from "@/components/ArenaLeaderboard";
+import { useToast } from "@/hooks/use-toast";
 
 // Admin emails allowed to see GO LIVE switch
 const ADMIN_EMAILS = ["david@poke-pulse-ticker.com", "demo@poke-pulse-ticker.com", "davidnoyes@me.com"];
@@ -35,6 +39,7 @@ const RARITY_LABELS: Record<string, string> = {
 
 const Arena = () => {
   const { user } = useAuth();
+  const { toast } = useToast();
   const { wallet, bets, packHistory, tournaments, loading, tradableCards, placeBet, openPack, PACK_TYPES } = useArena();
   const [showAuth, setShowAuth] = useState(false);
   const [goLive, setGoLive] = useState(false);
@@ -44,6 +49,38 @@ const Arena = () => {
   const [betDuration, setBetDuration] = useState<"1h" | "4h" | "24h">("1h");
   const [packResult, setPackResult] = useState<any[] | null>(null);
   const [openingPack, setOpeningPack] = useState(false);
+  const [buyingPack, setBuyingPack] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("predictions");
+
+  const handleBuyCoins = async (priceId: string, packId: string) => {
+    setBuyingPack(packId);
+    try {
+      const { data, error } = await supabase.functions.invoke("buy-pokecoins", {
+        body: { priceId },
+      });
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch (err: any) {
+      toast({ title: "Purchase error", description: err.message, variant: "destructive" });
+    } finally {
+      setBuyingPack(null);
+    }
+  };
+
+  const handleSubscribeArena = async () => {
+    setBuyingPack("arena_sub");
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { priceId: STRIPE_TIERS.arena.price_id },
+      });
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setBuyingPack(null);
+    }
+  };
 
   const isAdmin = user?.email && ADMIN_EMAILS.includes(user.email);
 
@@ -118,6 +155,10 @@ const Arena = () => {
                 <p>Won: <span className="text-primary font-bold">{wallet?.lifetime_won.toLocaleString()}</span></p>
                 <p>Wagered: <span className="text-foreground font-bold">{wallet?.lifetime_wagered.toLocaleString()}</span></p>
               </div>
+              <div className="h-8 w-px bg-border" />
+              <Button size="sm" variant="outline" className="text-xs font-bold gap-1" onClick={() => setActiveTab("shop")}>
+                <ShoppingCart className="w-3 h-3" /> Buy
+              </Button>
             </CardContent>
           </Card>
         </div>
@@ -162,19 +203,22 @@ const Arena = () => {
         </div>
 
         {/* Game Tabs */}
-        <Tabs defaultValue="predictions" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4 h-12">
-            <TabsTrigger value="predictions" className="flex items-center gap-2 text-xs font-bold">
-              <TrendingUp className="w-4 h-4" /> Price Bets
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+          <TabsList className="grid w-full grid-cols-5 h-12">
+            <TabsTrigger value="predictions" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+              <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" /> Bets
             </TabsTrigger>
-            <TabsTrigger value="packs" className="flex items-center gap-2 text-xs font-bold">
-              <Package className="w-4 h-4" /> Pack Lottery
+            <TabsTrigger value="packs" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+              <Package className="w-3 h-3 sm:w-4 sm:h-4" /> Packs
             </TabsTrigger>
-            <TabsTrigger value="tournaments" className="flex items-center gap-2 text-xs font-bold">
-              <Trophy className="w-4 h-4" /> Tournaments
+            <TabsTrigger value="shop" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+              <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" /> Coin Shop
             </TabsTrigger>
-            <TabsTrigger value="leaderboard" className="flex items-center gap-2 text-xs font-bold">
-              <Medal className="w-4 h-4" /> Leaderboard
+            <TabsTrigger value="tournaments" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+              <Trophy className="w-3 h-3 sm:w-4 sm:h-4" /> Tourneys
+            </TabsTrigger>
+            <TabsTrigger value="leaderboard" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+              <Medal className="w-3 h-3 sm:w-4 sm:h-4" /> Ranks
             </TabsTrigger>
           </TabsList>
 
@@ -444,6 +488,96 @@ const Arena = () => {
                 </CardContent>
               </Card>
             )}
+          </TabsContent>
+
+          {/* ===== COIN SHOP ===== */}
+          <TabsContent value="shop" className="space-y-4">
+            {/* Arena Access subscription */}
+            <Card className="border-primary/40 bg-gradient-to-br from-primary/5 to-transparent">
+              <CardContent className="p-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <CreditCard className="w-5 h-5 text-primary" />
+                    <div>
+                      <h3 className="text-sm font-black text-foreground">ARENA ACCESS</h3>
+                      <p className="text-[10px] text-muted-foreground">Unlock all games, tournaments & bonus coins</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-black text-primary">$0.99</p>
+                    <p className="text-[10px] text-muted-foreground">/month</p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="outline" className="text-[10px]">✅ 5,000 bonus PokéCoins/mo</Badge>
+                  <Badge variant="outline" className="text-[10px]">✅ All game modes</Badge>
+                  <Badge variant="outline" className="text-[10px]">✅ Tournament entry</Badge>
+                  <Badge variant="outline" className="text-[10px]">✅ Exclusive packs</Badge>
+                </div>
+                <Button
+                  onClick={handleSubscribeArena}
+                  disabled={buyingPack === "arena_sub"}
+                  className="w-full font-bold"
+                >
+                  {buyingPack === "arena_sub" ? "Processing..." : "Subscribe — $0.99/mo"}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Coin packs */}
+            <div>
+              <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
+                <Coins className="w-4 h-4 text-amber-400" />
+                Buy PokéCoins Instantly
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {POKECOIN_PACKS.map(pack => (
+                  <Card
+                    key={pack.id}
+                    className={`relative overflow-hidden transition-all hover:border-primary/50 ${pack.popular ? "border-primary/40 ring-1 ring-primary/20" : ""}`}
+                  >
+                    {pack.popular && (
+                      <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-[8px] font-bold px-2 py-0.5 rounded-bl-lg">
+                        BEST VALUE
+                      </div>
+                    )}
+                    <CardContent className="p-4 text-center space-y-2">
+                      <div className="text-3xl">{pack.icon}</div>
+                      <h4 className="text-xs font-black text-foreground">{pack.name}</h4>
+                      <div className="flex items-center justify-center gap-1">
+                        <Coins className="w-3 h-3 text-amber-400" />
+                        <span className="text-lg font-black text-foreground">{pack.coins.toLocaleString()}</span>
+                      </div>
+                      {pack.bonus && (
+                        <p className="text-[10px] font-bold text-primary">{pack.bonus}</p>
+                      )}
+                      <div className="text-lg font-black text-foreground">{pack.price}</div>
+                      <Button
+                        onClick={() => handleBuyCoins(pack.price_id, pack.id)}
+                        disabled={buyingPack === pack.id}
+                        size="sm"
+                        className="w-full font-bold text-xs"
+                        variant={pack.popular ? "default" : "outline"}
+                      >
+                        {buyingPack === pack.id ? "..." : "Buy Now"}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Payment methods info */}
+            <Card className="bg-muted/30">
+              <CardContent className="p-4 flex items-start gap-3">
+                <Shield className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+                <div className="text-xs text-muted-foreground space-y-1">
+                  <p className="font-bold text-foreground">Secure Checkout via Stripe</p>
+                  <p>💳 Credit/Debit Cards • Apple Pay • Google Pay • Cash App • Link</p>
+                  <p>All payments processed securely. PokéCoins are added to your wallet instantly after purchase. No refunds on virtual currency.</p>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* ===== TOURNAMENTS ===== */}

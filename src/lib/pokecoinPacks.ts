@@ -1,0 +1,43 @@
+// PokéCoin purchase packs — one-time Stripe payments
+export const POKECOIN_PACKS = [
+  {
+    id: "pack_1500",
+    name: "Starter Pack",
+    coins: 1_500,
+    price: "$0.99",
+    price_id: "price_1TH9emPRXT5iryzGhI5uLkzL",
+    icon: "🪙",
+    popular: false,
+    bonus: "",
+  },
+  {
+    id: "pack_10000",
+    name: "Trainer Bundle",
+    coins: 10_000,
+    price: "$4.99",
+    price_id: "price_1TH9f6PRXT5iryzGmiFzldVC",
+    icon: "💰",
+    popular: false,
+    bonus: "+2,000 bonus",
+  },
+  {
+    id: "pack_25000",
+    name: "Champion Chest",
+    coins: 25_000,
+    price: "$9.99",
+    price_id: "price_1TH9fdPRXT5iryzGktae58ho",
+    icon: "👑",
+    popular: true,
+    bonus: "+7,000 bonus",
+  },
+  {
+    id: "pack_75000",
+    name: "Master Vault",
+    coins: 75_000,
+    price: "$19.99",
+    price_id: "price_1TH9fxPRXT5iryzGyPRjGHcB",
+    icon: "🏆",
+    popular: false,
+    bonus: "+25,000 bonus",
+  },
+] as const;
