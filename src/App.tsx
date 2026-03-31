@@ -103,6 +103,7 @@ const App = () => {
         <AuthProvider>
           <AccessibilityProvider>
             <AnimatedRoutes />
+            <InvestorTour />
             <CopyrightBanner />
             <CookieConsent />
           </AccessibilityProvider>
