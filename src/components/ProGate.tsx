@@ -88,7 +88,7 @@ const ProGate = ({ children, feature = "This feature", blur = false }: ProGatePr
           >
             <div className="absolute inset-0 shimmer-sweep opacity-50" />
             <Zap className="relative h-4 w-4" />
-            <span className="relative">{loading ? "Loading..." : "Start 7-Day Free Trial"}</span>
+            <span className="relative">{loading ? "Loading..." : "Start 14-Day Free Trial"}</span>
           </button>
 
           <div className="flex items-center justify-center gap-1.5 mt-2.5">
