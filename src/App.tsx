@@ -84,6 +84,7 @@ const AnimatedRoutes = () => {
           <Route path="/go" element={<SocialLanding />} />
           <Route path="/sim-trader" element={<SimTrader />} />
           <Route path="/promo" element={<PromoAssets />} />
+          <Route path="/videos" element={<VideoLibrary />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>
