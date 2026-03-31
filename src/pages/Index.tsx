@@ -126,6 +126,9 @@ const Index = () => {
           topMoverChange={topMover?.change}
         />
 
+        {/* Launch Countdown — urgency drives first purchase */}
+        <LaunchCountdown />
+
         {/* 2. Social proof — immediately after hero */}
         <SocialProofBar
           totalMarketValue={totalMarketValue}
@@ -161,14 +164,26 @@ const Index = () => {
         {/* 4. Trending Cards with images — above the fold dopamine hit */}
         <TrendingCards cards={displayCards} isLoading={isLoading} />
 
+        {/* Quick Collection Value Calculator — instant engagement hook */}
+        <QuickValueCalculator />
+
+        {/* Inline upgrade nudge — after first value moment */}
+        <InlineUpgradeNudge variant="savings" />
+
         {/* Daily Card Spotlight — AI-analyzed pick drives daily return visits */}
         <DailySpotlight cards={displayCards} />
 
         {/* Live Market Pulse — real-time feed creates hourly engagement */}
         <LiveMarketPulse cards={displayCards} />
 
+        {/* Value Unlock Preview — show what Pro users see */}
+        <ValueUnlockPreview />
+
         {/* Daily Price Predictions — gamified engagement loop */}
         <PricePredictionGame cards={displayCards} />
+
+        {/* Trust nudge */}
+        <InlineUpgradeNudge variant="trust" />
 
         <MarketUpdateBanner cards={displayCards} />
 
