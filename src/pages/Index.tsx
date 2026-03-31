@@ -284,6 +284,7 @@ const Index = () => {
       <FomoPopup />
       <ExitIntentPopup />
       <SimTraderPromo />
+      <OnboardingWalkthrough />
     </div>
   );
 };
