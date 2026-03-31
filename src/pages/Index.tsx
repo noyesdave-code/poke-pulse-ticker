@@ -31,7 +31,7 @@ import WhaleReport from "@/components/WhaleReport";
 import RecentNotableSales from "@/components/RecentNotableSales";
 import EraIndexCards from "@/components/EraIndexCards";
 import MarketTrendSummary from "@/components/MarketTrendSummary";
-import DataQualityBadge from "@/components/DataQualityBadge";
+// DataQualityBadge merged into SocialProofBar
 import FomoPopup from "@/components/FomoPopup";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import MarketIntelWidget from "@/components/MarketIntelWidget";

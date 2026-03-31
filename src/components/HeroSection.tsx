@@ -196,18 +196,18 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
                   navigate(item.path);
                 }
               }}
-              className="relative flex flex-col items-center gap-2.5 px-3 py-5 sm:py-6 transition-colors group cursor-pointer hover:bg-muted/30 overflow-hidden"
+              className="relative flex flex-col items-center gap-1.5 sm:gap-2.5 px-2 sm:px-3 py-4 sm:py-6 transition-colors group cursor-pointer hover:bg-muted/30 overflow-hidden min-h-[72px] sm:min-h-0"
             >
               <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <div className="absolute inset-0 shimmer-sweep" />
               </div>
-              <div className="relative w-11 h-11 rounded-xl bg-muted/60 flex items-center justify-center group-hover:bg-primary/15 group-hover:shadow-[0_0_20px_hsl(160_84%_50%/0.15)] transition-all duration-300 overflow-hidden">
+              <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-muted/60 flex items-center justify-center group-hover:bg-primary/15 group-hover:shadow-[0_0_20px_hsl(160_84%_50%/0.15)] transition-all duration-300 overflow-hidden">
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-xl" style={{ background: "linear-gradient(135deg, transparent 30%, hsl(var(--primary) / 0.12) 50%, hsl(var(--terminal-blue) / 0.08) 60%, transparent 70%)" }} />
                 <Icon className="relative w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
               </div>
               <div className="text-center">
-                <span className="text-sm font-semibold text-foreground block">{item.label}</span>
-                <span className="text-[11px] text-muted-foreground leading-snug hidden sm:block mt-1">
+                <span className="text-xs sm:text-sm font-semibold text-foreground block">{item.label}</span>
+                <span className="text-[10px] sm:text-[11px] text-muted-foreground leading-snug hidden sm:block mt-1">
                   {item.desc}
                 </span>
               </div>
