@@ -37,6 +37,7 @@ const tiers = [
   { key: "free" as const, name: "FREE", icon: <Minus className="h-5 w-5" /> },
   { key: "pro" as const, name: "PRO", icon: <Zap className="h-5 w-5" /> },
   { key: "institutional" as const, name: "INSTITUTIONAL", icon: <Building2 className="h-5 w-5" /> },
+  { key: "trader" as const, name: "TRADER", icon: <Gamepad2 className="h-5 w-5" /> },
   { key: "team" as const, name: "LGS TEAM", icon: <Store className="h-5 w-5" /> },
 ];
 
