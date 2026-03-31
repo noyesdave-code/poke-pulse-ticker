@@ -231,7 +231,7 @@ const SimTraderPage = () => {
   const [showAuth, setShowAuth] = useState(false);
   const [upgradeLoading, setUpgradeLoading] = useState(false);
   const [showLimitModal, setShowLimitModal] = useState(false);
-  const isTrader = subscribed && tier === "trader";
+  const isTrader = subscribed && (tier === "premium" || tier === "team");
 
   const handleUpgrade = async () => {
     if (!user) { setShowAuth(true); return; }
