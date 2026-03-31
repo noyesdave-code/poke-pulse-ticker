@@ -66,11 +66,11 @@ const Background: React.FC = () => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
 
-  const particles = Array.from({ length: 30 }, (_, i) => ({
-    x: (i * 137.5) % width,
-    y: ((i * 97.3) % height) + Math.sin(frame * 0.04 + i) * 40,
-    size: 2 + (i % 4) * 1.2,
-    opacity: 0.08 + Math.sin(frame * 0.03 + i * 0.8) * 0.06,
+  const particles = Array.from({ length: 12 }, (_, i) => ({
+    x: (i * 137.5 + 40) % (width - 80),
+    y: ((i * 157.3) % (height - 80)) + Math.sin(frame * 0.025 + i) * 30,
+    size: 1.5 + (i % 3) * 0.8,
+    opacity: 0.04 + Math.sin(frame * 0.02 + i * 0.8) * 0.03,
     color: [ACCENT, BLUE, GOLD, PURPLE][i % 4],
   }));
 
