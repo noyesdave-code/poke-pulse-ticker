@@ -23,7 +23,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition
       id="investor-pitch"
       component={InvestorPitch}
-      durationInFrames={900}
+      durationInFrames={1852}
       fps={30}
       width={1920}
       height={1080}

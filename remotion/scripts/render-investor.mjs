@@ -28,7 +28,7 @@ await renderMedia({
   composition,
   serveUrl: bundled,
   codec: "h264",
-  outputLocation: "/mnt/documents/investor-pitch-q1-2026.mp4",
+  outputLocation: "/tmp/investor-pitch-noaudio.mp4",
   puppeteerInstance: browser,
   muted: true,
   concurrency: 1,
