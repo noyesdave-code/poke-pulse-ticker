@@ -203,6 +203,11 @@ const Pricing = () => {
                     🏪 3 SEATS INCLUDED
                   </span>
                 )}
+                {isTrader && (
+                  <span className="inline-block font-mono text-[10px] text-purple-400 font-bold bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded mb-2">
+                    🎮 UNLIMITED SIMTRADER™
+                  </span>
+                )}
                 {savings && (
                   <span className="inline-block font-mono text-[10px] text-primary font-bold bg-primary/10 border border-primary/20 px-2 py-0.5 rounded mb-3">
                     💰 {savings}
