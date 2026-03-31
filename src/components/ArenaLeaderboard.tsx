@@ -6,10 +6,10 @@ import { Coins, Crown, Medal, Trophy } from "lucide-react";
 
 interface LeaderboardEntry {
   user_id: string;
-  balance: number;
   lifetime_won: number;
   lifetime_wagered: number;
   display_name: string | null;
+  avatar_url: string | null;
 }
 
 const RANK_ICONS = ["👑", "🥈", "🥉"];
