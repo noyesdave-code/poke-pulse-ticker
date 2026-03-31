@@ -396,8 +396,8 @@ const ScenePricing: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", width: "92%" }}>
-        <TextReveal text="START AT $0.99" delay={5} fontSize={52} color="white" />
-        <TextReveal text="LESS THAN A COFFEE ☕" delay={15} fontSize={28} color={GOLD} />
+        <TextReveal text="START AT $0.99" delay={5} fontSize={44} color="white" />
+        <TextReveal text="LESS THAN A COFFEE ☕" delay={15} fontSize={24} color={GOLD} />
         <div style={{ marginTop: 36, display: "flex", gap: 16, justifyContent: "center" }}>
           {tiers.map((t, i) => {
             const s = spring({ frame: frame - 25 - i * 10, fps, config: { damping: 14 } });
