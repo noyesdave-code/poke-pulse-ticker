@@ -107,11 +107,11 @@ const SceneHook: React.FC = () => {
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
       <div style={{ position: "absolute", width: 600, height: 600, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,210,106,${glowOp * 0.2}) 0%, transparent 70%)`, filter: "blur(60px)" }} />
       <div style={{ textAlign: "center", transform: `scale(${pulse})` }}>
-        <TextReveal text="YOUR POKÉMON CARDS" delay={5} fontSize={64} color="white" fontWeight={900} />
-        <TextReveal text="ARE WORTH MORE" delay={18} fontSize={64} color={ACCENT} fontWeight={900} />
-        <TextReveal text="THAN YOU THINK" delay={30} fontSize={64} color={GOLD} fontWeight={900} />
+        <TextReveal text="YOUR POKÉMON CARDS" delay={5} fontSize={52} color="white" fontWeight={900} />
+        <TextReveal text="ARE WORTH MORE" delay={18} fontSize={52} color={ACCENT} fontWeight={900} />
+        <TextReveal text="THAN YOU THINK" delay={30} fontSize={52} color={GOLD} fontWeight={900} />
         <Sequence from={50}>
-          <TextReveal text="Track. Trade. Compete." delay={0} fontSize={30} color="rgba(255,255,255,0.5)" fontWeight={500} letterSpacing={6} />
+          <TextReveal text="Track. Trade. Compete." delay={0} fontSize={26} color="rgba(255,255,255,0.5)" fontWeight={500} letterSpacing={5} />
         </Sequence>
       </div>
     </AbsoluteFill>
