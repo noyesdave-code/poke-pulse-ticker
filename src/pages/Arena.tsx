@@ -163,7 +163,7 @@ const Arena = () => {
 
         {/* Game Tabs */}
         <Tabs defaultValue="predictions" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-3 h-12">
+          <TabsList className="grid w-full grid-cols-4 h-12">
             <TabsTrigger value="predictions" className="flex items-center gap-2 text-xs font-bold">
               <TrendingUp className="w-4 h-4" /> Price Bets
             </TabsTrigger>
@@ -172,6 +172,9 @@ const Arena = () => {
             </TabsTrigger>
             <TabsTrigger value="tournaments" className="flex items-center gap-2 text-xs font-bold">
               <Trophy className="w-4 h-4" /> Tournaments
+            </TabsTrigger>
+            <TabsTrigger value="leaderboard" className="flex items-center gap-2 text-xs font-bold">
+              <Medal className="w-4 h-4" /> Leaderboard
             </TabsTrigger>
           </TabsList>
 
