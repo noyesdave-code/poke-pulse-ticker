@@ -84,12 +84,9 @@ const Background: React.FC = () => {
           linear-gradient(180deg, ${BG} 0%, #0a1220 50%, ${BG} 100%)
         `,
       }} />
-      <AbsoluteFill style={{ opacity: 0.035 }}>
-        {Array.from({ length: 12 }, (_, i) => (
-          <div key={`h${i}`} style={{ position: "absolute", top: i * (height / 12), left: 0, right: 0, height: 1, background: ACCENT }} />
-        ))}
-        {Array.from({ length: 8 }, (_, i) => (
-          <div key={`v${i}`} style={{ position: "absolute", left: i * (width / 8), top: 0, bottom: 0, width: 1, background: ACCENT }} />
+      <AbsoluteFill style={{ opacity: 0.015 }}>
+        {Array.from({ length: 6 }, (_, i) => (
+          <div key={`h${i}`} style={{ position: "absolute", top: i * (height / 6), left: 0, right: 0, height: 1, background: ACCENT }} />
         ))}
       </AbsoluteFill>
       {particles.map((p, i) => (
