@@ -38,6 +38,7 @@ import MarketIntelWidget from "@/components/MarketIntelWidget";
 import ReferralCTA from "@/components/ReferralCTA";
 import SystemStatusIndicator from "@/components/SystemStatusIndicator";
 import SimTraderPromo from "@/components/SimTraderPromo";
+import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
 import StickyUpgradeBanner from "@/components/StickyUpgradeBanner";
 import AlphaAccuracy from "@/components/AlphaAccuracy";
 import ImportFromTCGPlayer from "@/components/ImportFromTCGPlayer";
@@ -283,6 +284,7 @@ const Index = () => {
       <FomoPopup />
       <ExitIntentPopup />
       <SimTraderPromo />
+      <OnboardingWalkthrough />
     </div>
   );
 };
