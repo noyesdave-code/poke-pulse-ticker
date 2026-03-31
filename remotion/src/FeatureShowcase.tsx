@@ -181,8 +181,8 @@ const ScenePortfolio: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center" }}>
-        <TextReveal text="💼 PORTFOLIO TRACKER" delay={5} fontSize={52} color="white" />
-        <TextReveal text="Know what you own & what it's worth" delay={15} fontSize={24} color="rgba(255,255,255,0.45)" />
+        <TextReveal text="💼 PORTFOLIO TRACKER" delay={5} fontSize={42} color="white" />
+        <TextReveal text="Know what you own & what it's worth" delay={15} fontSize={22} color="rgba(255,255,255,0.45)" />
         <Sequence from={20}>
           {(() => {
             const cardPop = spring({ frame: frame - 20, fps, config: { damping: 14 } });
