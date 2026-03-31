@@ -71,7 +71,7 @@ const TerminalHeader = () => {
       <header data-demo-hide className="sticky top-0 z-50 border-b border-border bg-terminal-header/95 backdrop-blur-md shadow-[0_4px_24px_-4px_hsl(225_40%_4%/0.7),0_0_20px_hsl(160_84%_50%/0.04)]">
         <div className="flex items-center justify-between px-3 py-2.5 sm:px-4 sm:py-3 lg:px-6">
           {/* Left: logo + hamburger */}
-          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 overflow-hidden">
             {/* Hamburger — mobile only */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -99,12 +99,12 @@ const TerminalHeader = () => {
             </div>
 
             {/* Desktop nav */}
-            <nav className="hidden sm:flex items-center gap-0.5 ml-5">
+            <nav className="hidden sm:flex items-center gap-0.5 ml-3 overflow-hidden">
               {primaryNav.map((item) => (
                 <button
                   key={item.path}
                   onClick={() => handleNav(item.path)}
-                  className={`relative text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1.5 rounded-md transition-all duration-200 hover:scale-105 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:bg-primary after:transition-all after:duration-300 ${
+                  className={`relative text-[10px] font-semibold uppercase tracking-wide px-2 py-1.5 rounded-md transition-all duration-200 whitespace-nowrap flex-shrink-0 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:bg-primary after:transition-all after:duration-300 ${
                     location.pathname === item.path
                       ? "text-primary bg-primary/10 after:w-3/4"
                       : "text-foreground hover:text-primary hover:bg-muted/40 after:w-0 hover:after:w-3/4"
@@ -117,7 +117,7 @@ const TerminalHeader = () => {
               <div ref={moreRef} className="relative">
                 <button
                   onClick={() => setMoreOpen(!moreOpen)}
-                  className={`flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1.5 rounded-md transition-all ${
+                  className={`flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide px-2 py-1.5 rounded-md transition-all flex-shrink-0 ${
                     moreNav.some(i => i.path === location.pathname)
                       ? "text-primary bg-primary/10"
                       : "text-foreground hover:text-primary hover:bg-muted/40"
