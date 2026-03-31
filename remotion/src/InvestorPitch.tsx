@@ -45,20 +45,20 @@ const StatBlock: React.FC<{ value: string; label: string; delay: number; color?:
   );
 };
 
-// ─── Scene 1: Title (0–183) ───
+// ─── Scene 1: Title (0–120) ───
 const SceneTitle: React.FC = () => {
   const frame = useCurrentFrame();
   const glowOp = interpolate(frame, [0, 30], [0, 0.7], { extrapolateRight: "clamp" });
-  const exitOp = interpolate(frame, [155, 183], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [95, 120], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
       <div style={{ position: "absolute", width: 900, height: 900, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,210,106,${glowOp * 0.25}) 0%, transparent 70%)`, filter: "blur(60px)" }} />
       <div style={{ textAlign: "center", position: "relative" }}>
         <TextReveal text="POKE PULSE TICKER" delay={5} fontSize={100} color={ACCENT} fontWeight={900} letterSpacing={8} />
-        <Sequence from={20}>
+        <Sequence from={15}>
           <TextReveal text="INVESTOR PITCH" delay={0} fontSize={52} color="rgba(255,255,255,0.5)" fontWeight={600} letterSpacing={10} />
         </Sequence>
-        <Sequence from={40}>
+        <Sequence from={30}>
           <TextReveal text="Q1 2026" delay={0} fontSize={40} color={GOLD} fontWeight={700} letterSpacing={6} />
         </Sequence>
       </div>
@@ -66,15 +66,15 @@ const SceneTitle: React.FC = () => {
   );
 };
 
-// ─── Scene 2: Audit Score (183–481) ───
+// ─── Scene 2: Audit Score (120–300) ───
 const SceneAudit: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const enterOp = interpolate(frame, [0, 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const exitOp = interpolate(frame, [270, 298], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const scoreProgress = interpolate(frame, [15, 70], [0, 95], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [155, 180], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const scoreProgress = interpolate(frame, [15, 60], [0, 95], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const displayScore = Math.floor(scoreProgress);
-  const ringProgress = interpolate(frame, [15, 80], [0, 0.95], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const ringProgress = interpolate(frame, [15, 70], [0, 0.95], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const circumference = 2 * Math.PI * 200;
   const strokeDash = circumference * ringProgress;
 
@@ -106,7 +106,7 @@ const SceneAudit: React.FC = () => {
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 20, justifyContent: "center", maxWidth: 800, margin: "0 auto" }}>
           {categories.map((cat, i) => {
-            const barSpring = spring({ frame: frame - 80 - i * 10, fps, config: { damping: 15 } });
+            const barSpring = spring({ frame: frame - 70 - i * 8, fps, config: { damping: 15 } });
             return (
               <div key={i} style={{ width: 240, opacity: barSpring, transform: `translateY(${interpolate(barSpring, [0, 1], [20, 0])}px)` }}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
@@ -125,12 +125,12 @@ const SceneAudit: React.FC = () => {
   );
 };
 
-// ─── Scene 3: Subscription Tiers (481–988) ───
+// ─── Scene 3: Subscription Tiers (300–480) ───
 const SceneTiers: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const enterOp = interpolate(frame, [0, 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const exitOp = interpolate(frame, [480, 507], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [155, 180], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   const tiers = [
     { name: "FREE", price: "$0", color: "rgba(255,255,255,0.3)", features: ["Market ticker", "Top movers", "Community"] },
@@ -146,7 +146,7 @@ const SceneTiers: React.FC = () => {
         <TextReveal text="4 SUBSCRIPTION TIERS" delay={12} fontSize={64} color="white" />
         <div style={{ marginTop: 55, display: "flex", gap: 24, justifyContent: "center", flexWrap: "wrap" }}>
           {tiers.map((t, i) => {
-            const cardSpring = spring({ frame: frame - 30 - i * 15, fps, config: { damping: 15 } });
+            const cardSpring = spring({ frame: frame - 25 - i * 12, fps, config: { damping: 15 } });
             return (
               <div key={i} style={{
                 width: 300, padding: "36px 28px", borderRadius: 20,
@@ -165,7 +165,7 @@ const SceneTiers: React.FC = () => {
             );
           })}
         </div>
-        <Sequence from={200}>
+        <Sequence from={120}>
           <TextReveal text="ARR potential: $500K+ at 3,000 subs" delay={0} fontSize={34} color={GOLD} fontWeight={600} />
         </Sequence>
       </div>
@@ -173,12 +173,12 @@ const SceneTiers: React.FC = () => {
   );
 };
 
-// ─── Scene 4: Competitor Price Comparison Chart (988–1353) ───
+// ─── Scene 4: Competitor Price Chart (480–660) ───
 const ScenePriceChart: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const enterOp = interpolate(frame, [0, 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const exitOp = interpolate(frame, [340, 365], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [155, 180], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   const chartW = 1400;
   const chartH = 500;
@@ -189,7 +189,6 @@ const ScenePriceChart: React.FC = () => {
   const innerW = chartW - padL - padR;
   const innerH = chartH - padT - padB;
 
-  // Simulated 12-month price data (monthly avg card index price)
   const months = ["Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar"];
   const pokePulse = [100,108,115,122,135,142,155,168,180,195,210,230];
   const tcgPlayer = [100,102,105,103,108,110,112,115,118,120,122,125];
@@ -198,7 +197,7 @@ const ScenePriceChart: React.FC = () => {
   const maxVal = 250;
   const minVal = 90;
 
-  const drawProgress = interpolate(frame, [20, 120], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const drawProgress = interpolate(frame, [20, 100], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   const toX = (i: number) => padL + (i / (months.length - 1)) * innerW;
   const toY = (v: number) => padT + innerH - ((v - minVal) / (maxVal - minVal)) * innerH;
@@ -232,27 +231,23 @@ const ScenePriceChart: React.FC = () => {
           12-MONTH COMPARISON — NORMALIZED TO 100
         </div>
         <svg width={chartW} height={chartH}>
-          {/* Grid lines */}
           {[100, 150, 200, 250].map(v => (
             <g key={v}>
               <line x1={padL} y1={toY(v)} x2={padL + innerW} y2={toY(v)} stroke="rgba(255,255,255,0.06)" strokeWidth={1} />
               <text x={padL - 14} y={toY(v) + 5} textAnchor="end" fill="rgba(255,255,255,0.3)" fontSize={16} fontFamily="monospace">{v}</text>
             </g>
           ))}
-          {/* Month labels */}
           {months.map((m, i) => (
             <text key={i} x={toX(i)} y={chartH - 10} textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize={16} fontFamily="sans-serif">{m}</text>
           ))}
-          {/* Lines */}
           {datasets.map((ds, di) => (
             <path key={di} d={buildPath(ds.data)} fill="none" stroke={ds.color} strokeWidth={di === 0 ? 5 : 3}
               strokeLinecap="round" strokeLinejoin="round" opacity={di === 0 ? 1 : 0.7} />
           ))}
         </svg>
-        {/* Legend */}
         <div style={{ display: "flex", gap: 50, justifyContent: "center", marginTop: 30 }}>
           {datasets.map((ds, i) => {
-            const legendSpring = spring({ frame: frame - 130 - i * 15, fps, config: { damping: 15 } });
+            const legendSpring = spring({ frame: frame - 110 - i * 12, fps, config: { damping: 15 } });
             return (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, opacity: legendSpring, transform: `translateY(${interpolate(legendSpring, [0, 1], [20, 0])}px)` }}>
                 <div style={{ width: 18, height: 18, borderRadius: 4, background: ds.color }} />
@@ -267,12 +262,184 @@ const ScenePriceChart: React.FC = () => {
   );
 };
 
-// ─── Scene 5: Competitive Edge (1353–1718) ───
+// ─── Scene 5: SimTrader World™ Showcase (660–840) ───
+const SceneSimTrader: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const enterOp = interpolate(frame, [0, 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [155, 180], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+
+  // Animated portfolio value counter
+  const portfolioValue = interpolate(frame, [30, 90], [100000, 127450], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const pnl = portfolioValue - 100000;
+  const pnlPct = ((pnl / 100000) * 100).toFixed(1);
+
+  // Simulated mini price chart (animated sparkline)
+  const sparkData = [100, 98, 103, 107, 104, 112, 118, 115, 122, 127];
+  const sparkW = 300;
+  const sparkH = 80;
+  const sparkProgress = interpolate(frame, [40, 100], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const sparkPath = (() => {
+    const pts: string[] = [];
+    const visible = Math.floor(sparkProgress * sparkData.length);
+    for (let i = 0; i <= Math.min(visible, sparkData.length - 1); i++) {
+      const x = (i / (sparkData.length - 1)) * sparkW;
+      const y = sparkH - ((sparkData[i] - 95) / 35) * sparkH;
+      pts.push(`${x},${y}`);
+    }
+    return pts.length > 1 ? `M${pts.join("L")}` : "";
+  })();
+
+  // Bot activity feed entries
+  const bots = [
+    { name: "Neural Nate", action: "BUY", card: "Charizard ex", price: "$42.50", color: ACCENT },
+    { name: "Whale Wendy", action: "SELL", card: "Pikachu VMAX", price: "$28.90", color: RED },
+    { name: "Swing Sara", action: "BUY", card: "Lugia V", price: "$18.75", color: ACCENT },
+    { name: "Momentum Mike", action: "BUY", card: "Mewtwo ex", price: "$35.20", color: ACCENT },
+  ];
+
+  // Floating orbs
+  const orbPositions = [
+    { x: 150, y: 200, size: 200, color: ACCENT },
+    { x: 1600, y: 700, size: 250, color: BLUE },
+    { x: 900, y: 100, size: 180, color: GOLD },
+  ];
+
+  return (
+    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
+      {/* Floating orbs background */}
+      {orbPositions.map((orb, i) => (
+        <div key={i} style={{
+          position: "absolute",
+          left: orb.x + Math.sin(frame * 0.02 + i * 2) * 30,
+          top: orb.y + Math.cos(frame * 0.015 + i) * 25,
+          width: orb.size, height: orb.size,
+          borderRadius: "50%",
+          background: `radial-gradient(circle, ${orb.color}15 0%, transparent 70%)`,
+          filter: "blur(40px)",
+        }} />
+      ))}
+
+      <div style={{ display: "flex", gap: 60, alignItems: "flex-start", position: "relative" }}>
+        {/* Left: Dashboard mock */}
+        <div style={{ width: 700 }}>
+          <TextReveal text="SIMTRADER WORLD™" delay={5} fontSize={56} color={ACCENT} fontWeight={900} letterSpacing={4} />
+          <Sequence from={15}>
+            <TextReveal text="Virtual Trading. Real Market Data." delay={0} fontSize={26} color="rgba(255,255,255,0.4)" fontWeight={500} letterSpacing={3} />
+          </Sequence>
+
+          {/* Portfolio card */}
+          <Sequence from={25}>
+            {(() => {
+              const cardPop = spring({ frame: frame - 25, fps, config: { damping: 14, stiffness: 160 } });
+              return (
+                <div style={{
+                  marginTop: 40,
+                  padding: "32px 36px",
+                  borderRadius: 20,
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(0,210,106,0.2)",
+                  transform: `scale(${cardPop})`,
+                  opacity: cardPop,
+                }}>
+                  <div style={{ fontFamily: "monospace", fontSize: 16, color: "rgba(255,255,255,0.35)", letterSpacing: 4, marginBottom: 12 }}>PORTFOLIO VALUE</div>
+                  <div style={{ fontFamily: "monospace", fontSize: 64, fontWeight: 900, color: "white" }}>
+                    ${Math.floor(portfolioValue).toLocaleString()}
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 20, marginTop: 12 }}>
+                    <span style={{ fontFamily: "monospace", fontSize: 28, fontWeight: 700, color: ACCENT }}>
+                      +${Math.floor(pnl).toLocaleString()} ({pnlPct}%)
+                    </span>
+                    <svg width={sparkW} height={sparkH}>
+                      <path d={sparkPath} fill="none" stroke={ACCENT} strokeWidth={3} strokeLinecap="round" />
+                    </svg>
+                  </div>
+                  <div style={{ display: "flex", gap: 40, marginTop: 20 }}>
+                    <div>
+                      <div style={{ fontFamily: "monospace", fontSize: 14, color: "rgba(255,255,255,0.3)" }}>Starting Balance</div>
+                      <div style={{ fontFamily: "monospace", fontSize: 22, color: "white" }}>$100,000</div>
+                    </div>
+                    <div>
+                      <div style={{ fontFamily: "monospace", fontSize: 14, color: "rgba(255,255,255,0.3)" }}>Cards Held</div>
+                      <div style={{ fontFamily: "monospace", fontSize: 22, color: GOLD }}>14</div>
+                    </div>
+                    <div>
+                      <div style={{ fontFamily: "monospace", fontSize: 14, color: "rgba(255,255,255,0.3)" }}>Difficulty</div>
+                      <div style={{ fontFamily: "monospace", fontSize: 22, color: RED }}>HARD</div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+          </Sequence>
+        </div>
+
+        {/* Right: Bot Activity Feed */}
+        <div style={{ width: 480, marginTop: 80 }}>
+          <div style={{ fontFamily: "monospace", fontSize: 18, color: "rgba(255,255,255,0.35)", letterSpacing: 4, marginBottom: 20 }}>LIVE BOT ACTIVITY</div>
+          {bots.map((bot, i) => {
+            const rowSpring = spring({ frame: frame - 50 - i * 15, fps, config: { damping: 16 } });
+            return (
+              <div key={i} style={{
+                padding: "16px 20px",
+                marginBottom: 10,
+                borderRadius: 12,
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                opacity: rowSpring,
+                transform: `translateX(${interpolate(rowSpring, [0, 1], [40, 0])}px)`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div style={{
+                    width: 36, height: 36, borderRadius: 8,
+                    background: `${bot.color}20`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontFamily: "monospace", fontSize: 14, fontWeight: 700, color: bot.color,
+                  }}>
+                    {bot.action === "BUY" ? "▲" : "▼"}
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: "sans-serif", fontSize: 16, color: "rgba(255,255,255,0.7)" }}>{bot.name}</div>
+                    <div style={{ fontFamily: "monospace", fontSize: 13, color: "rgba(255,255,255,0.35)" }}>{bot.action} {bot.card}</div>
+                  </div>
+                </div>
+                <div style={{ fontFamily: "monospace", fontSize: 18, fontWeight: 700, color: bot.color }}>{bot.price}</div>
+              </div>
+            );
+          })}
+
+          {/* 10 AI opponents badge */}
+          <Sequence from={110}>
+            {(() => {
+              const badgeSpring = spring({ frame: frame - 110, fps, config: { damping: 12 } });
+              return (
+                <div style={{
+                  marginTop: 16, padding: "14px 20px", borderRadius: 12,
+                  background: `${GOLD}10`, border: `1px solid ${GOLD}30`,
+                  textAlign: "center", opacity: badgeSpring, transform: `scale(${badgeSpring})`,
+                }}>
+                  <span style={{ fontFamily: "monospace", fontSize: 16, color: GOLD, fontWeight: 700, letterSpacing: 2 }}>
+                    🤖 10 AI OPPONENTS • 3 DIFFICULTY LEVELS
+                  </span>
+                </div>
+              );
+            })()}
+          </Sequence>
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ─── Scene 6: Competitive Edge (840–1020) ───
 const SceneCompetitive: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const enterOp = interpolate(frame, [0, 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const exitOp = interpolate(frame, [340, 365], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [155, 180], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   const rows = [
     { feature: "Real-time pricing", us: true, tcg: false, rare: false },
@@ -289,7 +456,7 @@ const SceneCompetitive: React.FC = () => {
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ width: "88%", textAlign: "center" }}>
         <TextReveal text="COMPETITIVE ADVANTAGE" delay={5} fontSize={52} color="white" />
-        <div style={{ marginTop: 50 }}>
+        <div style={{ marginTop: 40 }}>
           <div style={{ display: "flex", padding: "0 20px 18px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
             <div style={{ flex: 2, fontFamily: "sans-serif", fontSize: 20, color: "rgba(255,255,255,0.3)", textAlign: "left" }}>Feature</div>
             <div style={{ flex: 1, fontFamily: "monospace", fontSize: 18, color: ACCENT, textAlign: "center" }}>US</div>
@@ -297,10 +464,10 @@ const SceneCompetitive: React.FC = () => {
             <div style={{ flex: 1, fontFamily: "monospace", fontSize: 18, color: "rgba(255,255,255,0.3)", textAlign: "center" }}>RareCandy</div>
           </div>
           {rows.map((row, i) => {
-            const rowSpring = spring({ frame: frame - 30 - i * 10, fps, config: { damping: 18 } });
+            const rowSpring = spring({ frame: frame - 25 - i * 8, fps, config: { damping: 18 } });
             return (
               <div key={i} style={{
-                display: "flex", padding: "16px 20px", alignItems: "center",
+                display: "flex", padding: "14px 20px", alignItems: "center",
                 opacity: rowSpring, transform: `translateX(${interpolate(rowSpring, [0, 1], [-30, 0])}px)`,
                 background: i % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent",
               }}>
@@ -312,7 +479,7 @@ const SceneCompetitive: React.FC = () => {
             );
           })}
         </div>
-        <Sequence from={180}>
+        <Sequence from={120}>
           <TextReveal text="8 of 8 exclusive features" delay={0} fontSize={36} color={ACCENT} fontWeight={700} />
         </Sequence>
       </div>
@@ -320,25 +487,25 @@ const SceneCompetitive: React.FC = () => {
   );
 };
 
-// ─── Scene 6: Key Metrics (1718–1991) ───
+// ─── Scene 7: Key Metrics (1020–1170) ───
 const SceneMetrics: React.FC = () => {
   const frame = useCurrentFrame();
   const enterOp = interpolate(frame, [0, 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const exitOp = interpolate(frame, [245, 273], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [125, 150], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const pulse = 1 + Math.sin(frame * 0.06) * 0.012;
 
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", transform: `scale(${pulse})` }}>
         <TextReveal text="BY THE NUMBERS" delay={5} fontSize={52} color="rgba(255,255,255,0.4)" fontWeight={600} />
-        <div style={{ marginTop: 60, display: "flex", gap: 80, justifyContent: "center", flexWrap: "wrap" }}>
+        <div style={{ marginTop: 50, display: "flex", gap: 80, justifyContent: "center", flexWrap: "wrap" }}>
           <StatBlock value="500+" label="Cards Tracked" delay={15} large />
           <StatBlock value="95" label="Audit Score" delay={25} color={GOLD} large />
           <StatBlock value="4" label="Revenue Tiers" delay={35} large />
           <StatBlock value="24/7" label="Live Data" delay={45} color={BLUE} large />
         </div>
-        <Sequence from={80}>
-          <div style={{ marginTop: 60, display: "flex", gap: 80, justifyContent: "center" }}>
+        <Sequence from={60}>
+          <div style={{ marginTop: 50, display: "flex", gap: 80, justifyContent: "center" }}>
             <StatBlock value="$43B" label="TCG Market" delay={0} color={GOLD} large />
             <StatBlock value="0" label="Direct Competitors" delay={10} color={ACCENT} large />
           </div>
@@ -348,7 +515,7 @@ const SceneMetrics: React.FC = () => {
   );
 };
 
-// ─── Scene 7: CTA (1991–2217) ───
+// ─── Scene 8: CTA (1170–1350) ───
 const SceneCTA: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -386,14 +553,15 @@ export const InvestorPitch: React.FC = () => {
     return { x, y, size, opacity, color: colors[i % 4] };
   });
 
-  // Scene timings (frames at 30fps)
-  const S1 = 0, S1D = 183;
-  const S2 = 183, S2D = 298;
-  const S3 = 481, S3D = 507;
-  const S4 = 988, S4D = 365;   // Price Chart (NEW)
-  const S5 = 1353, S5D = 365;  // Competitive
-  const S6 = 1718, S6D = 273;  // Metrics
-  const S7 = 1991, S7D = 226;  // CTA
+  // Scene timings (45 seconds = 1350 frames at 30fps)
+  const S1 = 0, S1D = 120;       // Title (4s)
+  const S2 = 120, S2D = 180;     // Audit (6s)
+  const S3 = 300, S3D = 180;     // Tiers (6s)
+  const S4 = 480, S4D = 180;     // Price Chart (6s)
+  const S5 = 660, S5D = 180;     // SimTrader World (6s)
+  const S6 = 840, S6D = 180;     // Competitive (6s)
+  const S7 = 1020, S7D = 150;    // Metrics (5s)
+  const S8 = 1170, S8D = 180;    // CTA (6s)
 
   return (
     <AbsoluteFill>
@@ -430,18 +598,20 @@ export const InvestorPitch: React.FC = () => {
       <Sequence from={S2}><Audio src={staticFile("audio/audit.mp3")} volume={1} /></Sequence>
       <Sequence from={S3}><Audio src={staticFile("audio/tiers.mp3")} volume={1} /></Sequence>
       <Sequence from={S4}><Audio src={staticFile("audio/pricechart.mp3")} volume={1} /></Sequence>
-      <Sequence from={S5}><Audio src={staticFile("audio/competitive.mp3")} volume={1} /></Sequence>
-      <Sequence from={S6}><Audio src={staticFile("audio/metrics.mp3")} volume={1} /></Sequence>
-      <Sequence from={S7}><Audio src={staticFile("audio/cta.mp3")} volume={1} /></Sequence>
+      <Sequence from={S5}><Audio src={staticFile("audio/simtrader.mp3")} volume={1} /></Sequence>
+      <Sequence from={S6}><Audio src={staticFile("audio/competitive.mp3")} volume={1} /></Sequence>
+      <Sequence from={S7}><Audio src={staticFile("audio/metrics.mp3")} volume={1} /></Sequence>
+      <Sequence from={S8}><Audio src={staticFile("audio/cta.mp3")} volume={1} /></Sequence>
 
       {/* Scenes */}
       <Sequence from={S1} durationInFrames={S1D}><SceneTitle /></Sequence>
       <Sequence from={S2} durationInFrames={S2D}><SceneAudit /></Sequence>
       <Sequence from={S3} durationInFrames={S3D}><SceneTiers /></Sequence>
       <Sequence from={S4} durationInFrames={S4D}><ScenePriceChart /></Sequence>
-      <Sequence from={S5} durationInFrames={S5D}><SceneCompetitive /></Sequence>
-      <Sequence from={S6} durationInFrames={S6D}><SceneMetrics /></Sequence>
-      <Sequence from={S7} durationInFrames={S7D}><SceneCTA /></Sequence>
+      <Sequence from={S5} durationInFrames={S5D}><SceneSimTrader /></Sequence>
+      <Sequence from={S6} durationInFrames={S6D}><SceneCompetitive /></Sequence>
+      <Sequence from={S7} durationInFrames={S7D}><SceneMetrics /></Sequence>
+      <Sequence from={S8} durationInFrames={S8D}><SceneCTA /></Sequence>
 
       {/* Watermark */}
       <div style={{ position: "absolute", bottom: 30, left: 0, right: 0, textAlign: "center", fontFamily: "monospace", fontSize: 14, color: "rgba(255,255,255,0.12)", letterSpacing: 4 }}>
