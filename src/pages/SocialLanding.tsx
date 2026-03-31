@@ -120,7 +120,7 @@ const SocialLanding = () => {
           </div>
 
           <p className="font-mono text-[10px] text-primary/60 tracking-wide">
-            ✓ No credit card required &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ 7-day free trial
+            ✓ No credit card required &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ 14-day free trial
           </p>
         </motion.div>
 
