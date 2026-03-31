@@ -157,6 +157,15 @@ const Index = () => {
         {/* 4. Trending Cards with images — above the fold dopamine hit */}
         <TrendingCards cards={displayCards} isLoading={isLoading} />
 
+        {/* Daily Card Spotlight — AI-analyzed pick drives daily return visits */}
+        <DailySpotlight cards={displayCards} />
+
+        {/* Live Market Pulse — real-time feed creates hourly engagement */}
+        <LiveMarketPulse cards={displayCards} />
+
+        {/* Daily Price Predictions — gamified engagement loop */}
+        <PricePredictionGame cards={displayCards} />
+
         <MarketUpdateBanner cards={displayCards} />
 
         {/* Top Movers with card thumbnails */}
