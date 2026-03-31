@@ -547,6 +547,11 @@ const Arena = () => {
               </CardContent>
             </Card>
           </TabsContent>
+
+          {/* ===== LEADERBOARD ===== */}
+          <TabsContent value="leaderboard" className="space-y-4">
+            <ArenaLeaderboard />
+          </TabsContent>
         </Tabs>
 
         {/* Footer disclaimer */}
