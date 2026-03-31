@@ -10,7 +10,7 @@ interface PortfolioExportProps {
 
 const PortfolioExport = ({ portfolio, livePrices }: PortfolioExportProps) => {
   const { tier } = useAuth();
-  const isWhale = tier === "institutional";
+  const isWhale = tier === "premium" || tier === "team";
   const [exporting, setExporting] = useState<string | null>(null);
 
   const downloadCSV = (filename: string, rows: string[][]) => {

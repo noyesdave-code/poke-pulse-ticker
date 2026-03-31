@@ -70,7 +70,7 @@ const WhaleReport = ({ cards }: WhaleReportProps) => {
   const [report, setReport] = useState<AIReport | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const isWhale = tier === "institutional";
+  const isWhale = tier === "premium" || tier === "team";
 
   const handleGenerate = async () => {
     setLoading(true);

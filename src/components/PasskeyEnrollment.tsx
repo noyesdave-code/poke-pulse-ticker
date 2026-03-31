@@ -10,7 +10,7 @@ const PasskeyEnrollment = () => {
   const [enrolled, setEnrolled] = useState(() => localStorage.getItem("ppt_passkey_enrolled") === "1");
   const [enrolling, setEnrolling] = useState(false);
 
-  const isInstitutional = tier === "institutional";
+  const isInstitutional = tier === "premium" || tier === "team";
 
   const handleEnroll = async () => {
     if (!isInstitutional) {

@@ -238,7 +238,7 @@ const SimTraderPage = () => {
     setUpgradeLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { priceId: STRIPE_TIERS.trader.price_id },
+        body: { priceId: STRIPE_TIERS.premium.price_id },
       });
       if (error) throw error;
       if (data?.url) window.open(data.url, "_blank");
