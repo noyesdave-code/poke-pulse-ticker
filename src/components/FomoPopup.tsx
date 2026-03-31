@@ -111,7 +111,7 @@ const FomoPopup = () => {
                 className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 rounded-lg font-mono text-xs font-bold bg-primary text-primary-foreground hover:opacity-90 transition-all disabled:opacity-50"
               >
                 <Zap className="w-3.5 h-3.5" />
-                {loading ? "Loading…" : "Start 7-Day Free Trial"}
+                {loading ? "Loading…" : "Start 14-Day Free Trial"}
                 <ArrowRight className="w-3 h-3" />
               </button>
 
