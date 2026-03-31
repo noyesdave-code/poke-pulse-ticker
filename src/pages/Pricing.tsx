@@ -160,6 +160,7 @@ const Pricing = () => {
             const highlight = t.key === "pro";
             const isPremium = t.key === "premium";
             const isTeam = t.key === "team";
+            const isStarter = t.key === "starter";
             const stripeTier = t.key !== "free" ? (STRIPE_TIERS as any)[t.key] : null;
             const price = !stripeTier ? "$0" : annual ? stripeTier.annual.price : stripeTier.price;
             const period = !stripeTier ? "forever" : annual ? stripeTier.annual.period : stripeTier.period;
