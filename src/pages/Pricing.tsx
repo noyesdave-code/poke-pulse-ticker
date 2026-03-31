@@ -8,37 +8,39 @@ import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
-import { ArrowLeft, Check, Minus, Zap, Crown, Building2, Users, Shield, Star, Store, Gamepad2 } from "lucide-react";
+import { ArrowLeft, Check, Minus, Zap, Crown, Users, Shield, Star, Gem, Store } from "lucide-react";
 
 const features = [
-  { name: "Raw card market ticker", free: "Delayed 15 min", pro: "Real-time", institutional: "Real-time", trader: "Real-time", team: "Real-time" },
-  { name: "Top movers dashboard", free: "Top 12", pro: "Unlimited", institutional: "Unlimited", trader: "Unlimited", team: "Unlimited" },
-  { name: "Daily market summary", free: true, pro: true, institutional: true, trader: true, team: true },
-  { name: "Community access", free: true, pro: true, institutional: true, trader: true, team: true },
-  { name: "Graded card ticker", free: false, pro: true, institutional: true, trader: true, team: true },
-  { name: "Sealed product ticker", free: false, pro: true, institutional: true, trader: true, team: true },
-  { name: "Full card board (500+)", free: false, pro: true, institutional: true, trader: true, team: true },
-  { name: "Price alerts & notifications", free: false, pro: true, institutional: true, trader: true, team: true },
-  { name: "Historical price charts", free: false, pro: true, institutional: true, trader: true, team: true },
-  { name: "AI signal analysis", free: false, pro: true, institutional: true, trader: true, team: true },
-  { name: "Portfolio tracking & P&L", free: false, pro: true, institutional: true, trader: true, team: true },
-  { name: "API access", free: false, pro: false, institutional: true, trader: false, team: true },
-  { name: "Arbitrage scanner", free: false, pro: false, institutional: true, trader: false, team: true },
-  { name: "Bulk export (CSV/JSON)", free: false, pro: false, institutional: true, trader: false, team: true },
-  { name: "Priority support", free: false, pro: false, institutional: true, trader: true, team: true },
-  { name: "Custom watchlists (unlimited)", free: false, pro: false, institutional: true, trader: true, team: true },
-  { name: "SimTrader™ unlimited trades", free: false, pro: false, institutional: false, trader: true, team: false },
-  { name: "Limit & stop-loss orders", free: false, pro: false, institutional: false, trader: true, team: false },
-  { name: "Trading contests", free: false, pro: false, institutional: false, trader: true, team: false },
-  { name: "Multi-seat access (3 seats)", free: false, pro: false, institutional: false, trader: false, team: true },
+  { name: "Raw card market ticker", free: "Delayed 15 min", pro: "Real-time", premium: "Real-time", team: "Real-time" },
+  { name: "Top movers dashboard", free: "Top 12", pro: "Unlimited", premium: "Unlimited", team: "Unlimited" },
+  { name: "Daily market summary", free: true, pro: true, premium: true, team: true },
+  { name: "Community access", free: true, pro: true, premium: true, team: true },
+  { name: "Graded card ticker", free: false, pro: true, premium: true, team: true },
+  { name: "Sealed product ticker", free: false, pro: true, premium: true, team: true },
+  { name: "Full card board (500+)", free: false, pro: true, premium: true, team: true },
+  { name: "Price alerts & notifications", free: false, pro: true, premium: true, team: true },
+  { name: "Historical price charts", free: false, pro: true, premium: true, team: true },
+  { name: "AI signal analysis", free: false, pro: true, premium: true, team: true },
+  { name: "Portfolio tracking & P&L", free: false, pro: true, premium: true, team: true },
+  { name: "API access", free: false, pro: false, premium: true, team: true },
+  { name: "Arbitrage scanner", free: false, pro: false, premium: true, team: true },
+  { name: "Bulk export (CSV/JSON)", free: false, pro: false, premium: true, team: true },
+  { name: "SimTrader™ unlimited trades", free: false, pro: false, premium: true, team: true },
+  { name: "Limit & stop-loss orders", free: false, pro: false, premium: true, team: true },
+  { name: "Trading contests", free: false, pro: false, premium: true, team: true },
+  { name: "Capital gains tax reports", free: false, pro: false, premium: true, team: true },
+  { name: "AI market intelligence", free: false, pro: false, premium: true, team: true },
+  { name: "Priority support", free: false, pro: false, premium: true, team: true },
+  { name: "Multi-seat access (3 seats)", free: false, pro: false, premium: false, team: true },
 ];
 
-const tiers = [
-  { key: "free" as const, name: "FREE", icon: <Minus className="h-5 w-5" /> },
-  { key: "pro" as const, name: "PRO", icon: <Zap className="h-5 w-5" /> },
-  { key: "institutional" as const, name: "INSTITUTIONAL", icon: <Building2 className="h-5 w-5" /> },
-  { key: "trader" as const, name: "TRADER", icon: <Gamepad2 className="h-5 w-5" /> },
-  { key: "team" as const, name: "LGS TEAM", icon: <Store className="h-5 w-5" /> },
+type TierDef = { key: string; name: string; icon: React.ReactNode; description: string };
+
+const tiers: TierDef[] = [
+  { key: "free", name: "FREE", icon: <Minus className="h-5 w-5" />, description: "Explore the market" },
+  { key: "pro", name: "PRO", icon: <Zap className="h-5 w-5" />, description: "For active collectors" },
+  { key: "premium", name: "PREMIUM", icon: <Gem className="h-5 w-5" />, description: "For serious investors" },
+  { key: "team", name: "TEAM", icon: <Store className="h-5 w-5" />, description: "For local game stores" },
 ];
 
 const Pricing = () => {
@@ -109,18 +111,17 @@ const Pricing = () => {
         {/* Header */}
         <div className="text-center space-y-3">
           <h1 className="font-mono text-2xl md:text-3xl font-bold text-foreground">
-            Upgrade Your Market Intelligence
+            Pick Your Edge
           </h1>
           <p className="font-mono text-sm text-muted-foreground max-w-lg mx-auto">
-            From casual collectors to institutional dealers — pick the plan that matches your trading volume.
+            Start free. Upgrade when you're ready. Cancel anytime.
           </p>
-          {/* Social Proof */}
           <div className="flex items-center justify-center gap-4 flex-wrap pt-1">
             <span className="flex items-center gap-1.5 font-mono text-[10px] text-primary font-semibold">
-              <Users className="w-3.5 h-3.5" /> 2,400+ active traders
+              <Users className="w-3.5 h-3.5" /> 2,400+ traders
             </span>
             <span className="flex items-center gap-1.5 font-mono text-[10px] text-terminal-amber font-semibold">
-              <Star className="w-3.5 h-3.5" /> 4.8/5 avg rating
+              <Star className="w-3.5 h-3.5" /> 4.8/5 rating
             </span>
             <span className="flex items-center gap-1.5 font-mono text-[10px] text-terminal-green font-semibold">
               <Shield className="w-3.5 h-3.5" /> Bank-level encryption
@@ -150,13 +151,13 @@ const Pricing = () => {
         </div>
 
         {/* Tier Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {tiers.map((t) => {
             const current = isCurrent(t.key);
             const highlight = t.key === "pro";
+            const isPremium = t.key === "premium";
             const isTeam = t.key === "team";
-            const isTrader = t.key === "trader";
-            const stripeTier = (t.key !== "free" ? STRIPE_TIERS[t.key as keyof typeof STRIPE_TIERS] : null) as any;
+            const stripeTier = t.key !== "free" ? (STRIPE_TIERS as any)[t.key] : null;
             const price = !stripeTier ? "$0" : annual ? stripeTier.annual.price : stripeTier.price;
             const period = !stripeTier ? "forever" : annual ? stripeTier.annual.period : stripeTier.period;
             const priceId = !stripeTier ? null : annual ? stripeTier.annual.price_id : stripeTier.price_id;
@@ -167,8 +168,8 @@ const Pricing = () => {
                 key={t.key}
                 className={`terminal-card p-5 flex flex-col relative transition-all duration-300 ${
                   highlight ? "border-t-2 border-t-primary shadow-[0_0_24px_hsl(var(--primary)/0.15)] hover:shadow-[0_0_32px_hsl(var(--primary)/0.25)] scale-[1.02]" : ""
+                } ${isPremium ? "border-t-2 border-t-purple-500 shadow-[0_0_16px_rgba(168,85,247,0.1)]" : ""
                 } ${isTeam ? "border-t-2 border-t-terminal-amber shadow-[0_0_16px_rgba(245,158,11,0.1)]" : ""
-                } ${isTrader ? "border-t-2 border-t-purple-500 shadow-[0_0_16px_rgba(168,85,247,0.1)]" : ""
                 } ${current ? "ring-1 ring-primary" : ""}`}
               >
                 {current && (
@@ -181,21 +182,33 @@ const Pricing = () => {
                     ⚡ MOST POPULAR
                   </span>
                 )}
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="h-8 w-8 rounded bg-primary/10 flex items-center justify-center text-primary">
+                {isPremium && !current && (
+                  <span className="absolute -top-3 right-4 font-mono text-[10px] bg-purple-500 text-white px-2.5 py-0.5 rounded-full font-bold">
+                    💎 BEST VALUE
+                  </span>
+                )}
+
+                <div className="flex items-center gap-2 mb-1">
+                  <div className={`h-8 w-8 rounded flex items-center justify-center ${
+                    isPremium ? "bg-purple-500/10 text-purple-400" : isTeam ? "bg-terminal-amber/10 text-terminal-amber" : "bg-primary/10 text-primary"
+                  }`}>
                     {t.icon}
                   </div>
                   <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase font-semibold">
                     {t.name}
                   </span>
                 </div>
+
+                <p className="font-mono text-[10px] text-muted-foreground mb-3">{t.description}</p>
+
                 <div className="mb-1 flex items-baseline gap-1">
                   <span className="font-mono text-3xl font-bold text-foreground">{price}</span>
                   <span className="font-mono text-sm text-muted-foreground">{period}</span>
                 </div>
+
                 {t.key === "pro" && !current && (
                   <span className="inline-block font-mono text-[10px] text-terminal-green font-bold bg-terminal-green/10 border border-terminal-green/20 px-2 py-0.5 rounded mb-2">
-                    🎁 7-DAY FREE TRIAL — NO CARD CHARGED
+                    🎁 7-DAY FREE TRIAL
                   </span>
                 )}
                 {isTeam && (
@@ -203,9 +216,9 @@ const Pricing = () => {
                     🏪 3 SEATS INCLUDED
                   </span>
                 )}
-                {isTrader && (
+                {isPremium && !current && (
                   <span className="inline-block font-mono text-[10px] text-purple-400 font-bold bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded mb-2">
-                    🎮 UNLIMITED SIMTRADER™
+                    🎮 ALL FEATURES UNLOCKED
                   </span>
                 )}
                 {savings && (
@@ -213,8 +226,7 @@ const Pricing = () => {
                     💰 {savings}
                   </span>
                 )}
-                {!savings && t.key !== "pro" && <div className="mb-3" />}
-                {!savings && t.key === "pro" && !current && <div className="mb-1" />}
+                {!savings && <div className="mb-3" />}
 
                 <div className="mt-auto">
                   {current && subscribed ? (
@@ -231,10 +243,16 @@ const Pricing = () => {
                       className={`w-full py-2.5 rounded font-mono text-sm font-semibold transition-all disabled:opacity-50 ${
                         highlight
                           ? "bg-primary text-primary-foreground hover:opacity-90"
+                          : isPremium
+                          ? "bg-purple-500 text-white hover:bg-purple-600"
                           : "border border-border text-foreground hover:bg-muted"
                       }`}
                     >
-                      {loadingTier === t.key ? "Loading..." : t.key === "pro" ? "Start 7-Day Free Trial" : `Get ${t.name}`}
+                      {loadingTier === t.key
+                        ? "Loading..."
+                        : t.key === "pro"
+                        ? "Start Free Trial"
+                        : `Get ${t.name}`}
                     </button>
                   ) : (
                     <button
@@ -262,7 +280,7 @@ const Pricing = () => {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border bg-muted/30">
-                  <th className="text-left font-mono text-[10px] uppercase tracking-widest text-muted-foreground p-3 w-1/2">
+                  <th className="text-left font-mono text-[10px] uppercase tracking-widest text-muted-foreground p-3 w-2/5">
                     Feature
                   </th>
                   {tiers.map((t) => (
@@ -286,9 +304,8 @@ const Pricing = () => {
                     <td className="font-mono text-xs text-foreground p-3">{f.name}</td>
                     <td className="text-center p-3">{renderCell(f.free)}</td>
                     <td className="text-center p-3">{renderCell(f.pro)}</td>
-                    <td className="text-center p-3">{renderCell(f.institutional)}</td>
-                    <td className="text-center p-3">{renderCell((f as any).trader)}</td>
-                    <td className="text-center p-3">{renderCell((f as any).team)}</td>
+                    <td className="text-center p-3">{renderCell(f.premium)}</td>
+                    <td className="text-center p-3">{renderCell(f.team)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -301,9 +318,11 @@ const Pricing = () => {
           <h2 className="font-mono text-sm font-bold text-foreground">Frequently Asked Questions</h2>
           <div className="space-y-3">
             {[
-              { q: "Can I cancel anytime?", a: "Yes. Cancel from your subscription management portal — no lock-in contracts." },
+              { q: "Can I cancel anytime?", a: "Yes. Cancel from your subscription portal — no lock-in contracts." },
               { q: "Do I need a credit card for Free?", a: "No. The Free tier requires no payment information." },
+              { q: "What's included in the 7-day trial?", a: "Full Pro access — real-time data, alerts, charts, and portfolio tracking. No card charged until day 8." },
               { q: "Can I upgrade or downgrade?", a: "Absolutely. Changes take effect on your next billing cycle." },
+              { q: "How does the Team plan work?", a: "3 seats with full Premium access. Perfect for LGS shops that need shared market data across staff." },
               { q: "Is my payment secure?", a: "All payments are processed through Stripe with bank-level encryption." },
             ].map(({ q, a }) => (
               <div key={q}>
