@@ -276,6 +276,7 @@ const Pricing = () => {
                     <td className="text-center p-3">{renderCell(f.free)}</td>
                     <td className="text-center p-3">{renderCell(f.pro)}</td>
                     <td className="text-center p-3">{renderCell(f.institutional)}</td>
+                    <td className="text-center p-3">{renderCell((f as any).team)}</td>
                   </tr>
                 ))}
               </tbody>
