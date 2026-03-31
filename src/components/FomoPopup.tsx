@@ -35,11 +35,11 @@ const FomoPopup = () => {
       return;
     }
 
-    // Show after 45 seconds of browsing
+    // Show after 15 seconds of browsing for faster engagement
     const timer = setTimeout(() => {
       setMessageIdx(Math.floor(Math.random() * FOMO_MESSAGES.length));
       setVisible(true);
-    }, 45000);
+    }, 15000);
 
     return () => clearTimeout(timer);
   }, [shouldShow]);
