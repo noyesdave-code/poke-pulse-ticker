@@ -8,36 +8,38 @@ import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
-import { ArrowLeft, Check, Minus, Zap, Crown, Users, Shield, Star, Gem, Store } from "lucide-react";
+import { ArrowLeft, Check, Minus, Zap, Crown, Users, Shield, Star, Gem, Store, Sparkles } from "lucide-react";
 
 const features = [
-  { name: "Raw card market ticker", free: "Delayed 15 min", pro: "Real-time", premium: "Real-time", team: "Real-time" },
-  { name: "Top movers dashboard", free: "Top 12", pro: "Unlimited", premium: "Unlimited", team: "Unlimited" },
-  { name: "Daily market summary", free: true, pro: true, premium: true, team: true },
-  { name: "Community access", free: true, pro: true, premium: true, team: true },
-  { name: "Graded card ticker", free: false, pro: true, premium: true, team: true },
-  { name: "Sealed product ticker", free: false, pro: true, premium: true, team: true },
-  { name: "Full card board (500+)", free: false, pro: true, premium: true, team: true },
-  { name: "Price alerts & notifications", free: false, pro: true, premium: true, team: true },
-  { name: "Historical price charts", free: false, pro: true, premium: true, team: true },
-  { name: "AI signal analysis", free: false, pro: true, premium: true, team: true },
-  { name: "Portfolio tracking & P&L", free: false, pro: true, premium: true, team: true },
-  { name: "API access", free: false, pro: false, premium: true, team: true },
-  { name: "Arbitrage scanner", free: false, pro: false, premium: true, team: true },
-  { name: "Bulk export (CSV/JSON)", free: false, pro: false, premium: true, team: true },
-  { name: "SimTrader™ unlimited trades", free: false, pro: false, premium: true, team: true },
-  { name: "Limit & stop-loss orders", free: false, pro: false, premium: true, team: true },
-  { name: "Trading contests", free: false, pro: false, premium: true, team: true },
-  { name: "Capital gains tax reports", free: false, pro: false, premium: true, team: true },
-  { name: "AI market intelligence", free: false, pro: false, premium: true, team: true },
-  { name: "Priority support", free: false, pro: false, premium: true, team: true },
-  { name: "Multi-seat access (3 seats)", free: false, pro: false, premium: false, team: true },
+  { name: "Raw card market ticker", free: "Delayed 15 min", starter: "Real-time", pro: "Real-time", premium: "Real-time", team: "Real-time" },
+  { name: "Top movers dashboard", free: "Top 12", starter: "Top 50", pro: "Unlimited", premium: "Unlimited", team: "Unlimited" },
+  { name: "Daily market summary", free: true, starter: true, pro: true, premium: true, team: true },
+  { name: "Community access", free: true, starter: true, pro: true, premium: true, team: true },
+  { name: "Basic price alerts", free: false, starter: "5 max", pro: "Unlimited", premium: "Unlimited", team: "Unlimited" },
+  { name: "7-day price history", free: false, starter: true, pro: true, premium: true, team: true },
+  { name: "Graded card ticker", free: false, starter: false, pro: true, premium: true, team: true },
+  { name: "Sealed product ticker", free: false, starter: false, pro: true, premium: true, team: true },
+  { name: "Full card board (500+)", free: false, starter: false, pro: true, premium: true, team: true },
+  { name: "Historical price charts", free: false, starter: false, pro: true, premium: true, team: true },
+  { name: "AI signal analysis", free: false, starter: false, pro: true, premium: true, team: true },
+  { name: "Portfolio tracking & P&L", free: false, starter: false, pro: true, premium: true, team: true },
+  { name: "API access", free: false, starter: false, pro: false, premium: true, team: true },
+  { name: "Arbitrage scanner", free: false, starter: false, pro: false, premium: true, team: true },
+  { name: "Bulk export (CSV/JSON)", free: false, starter: false, pro: false, premium: true, team: true },
+  { name: "SimTrader™ unlimited trades", free: false, starter: false, pro: false, premium: true, team: true },
+  { name: "Limit & stop-loss orders", free: false, starter: false, pro: false, premium: true, team: true },
+  { name: "Trading contests", free: false, starter: false, pro: false, premium: true, team: true },
+  { name: "Capital gains tax reports", free: false, starter: false, pro: false, premium: true, team: true },
+  { name: "AI market intelligence", free: false, starter: false, pro: false, premium: true, team: true },
+  { name: "Priority support", free: false, starter: false, pro: false, premium: true, team: true },
+  { name: "Multi-seat access (3 seats)", free: false, starter: false, pro: false, premium: false, team: true },
 ];
 
 type TierDef = { key: string; name: string; icon: React.ReactNode; description: string };
 
 const tiers: TierDef[] = [
   { key: "free", name: "FREE", icon: <Minus className="h-5 w-5" />, description: "Explore the market" },
+  { key: "starter", name: "STARTER", icon: <Sparkles className="h-5 w-5" />, description: "For casual collectors" },
   { key: "pro", name: "PRO", icon: <Zap className="h-5 w-5" />, description: "For active collectors" },
   { key: "premium", name: "PREMIUM", icon: <Gem className="h-5 w-5" />, description: "For serious investors" },
   { key: "team", name: "TEAM", icon: <Store className="h-5 w-5" />, description: "For local game stores" },
@@ -152,12 +154,13 @@ const Pricing = () => {
         </div>
 
         {/* Tier Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {tiers.map((t) => {
             const current = isCurrent(t.key);
             const highlight = t.key === "pro";
             const isPremium = t.key === "premium";
             const isTeam = t.key === "team";
+            const isStarter = t.key === "starter";
             const stripeTier = t.key !== "free" ? (STRIPE_TIERS as any)[t.key] : null;
             const price = !stripeTier ? "$0" : annual ? stripeTier.annual.price : stripeTier.price;
             const period = !stripeTier ? "forever" : annual ? stripeTier.annual.period : stripeTier.period;
@@ -170,6 +173,7 @@ const Pricing = () => {
                 className={`terminal-card p-5 flex flex-col relative transition-all duration-300 ${
                   highlight ? "border-t-2 border-t-primary shadow-[0_0_24px_hsl(var(--primary)/0.15)] hover:shadow-[0_0_32px_hsl(var(--primary)/0.25)] scale-[1.02]" : ""
                 } ${isPremium ? "border-t-2 border-t-purple-500 shadow-[0_0_16px_rgba(168,85,247,0.1)]" : ""
+                } ${isStarter ? "border-t-2 border-t-terminal-amber shadow-[0_0_16px_rgba(245,158,11,0.1)]" : ""
                 } ${isTeam ? "border-t-2 border-t-terminal-amber shadow-[0_0_16px_rgba(245,158,11,0.1)]" : ""
                 } ${current ? "ring-1 ring-primary" : ""}`}
               >
@@ -207,9 +211,14 @@ const Pricing = () => {
                   <span className="font-mono text-sm text-muted-foreground">{period}</span>
                 </div>
 
+                {t.key === "starter" && !current && (
+                  <span className="inline-block font-mono text-[10px] text-terminal-amber font-bold bg-terminal-amber/10 border border-terminal-amber/20 px-2 py-0.5 rounded mb-2">
+                    ☕ LESS THAN A COFFEE
+                  </span>
+                )}
                 {t.key === "pro" && !current && (
                   <span className="inline-block font-mono text-[10px] text-terminal-green font-bold bg-terminal-green/10 border border-terminal-green/20 px-2 py-0.5 rounded mb-2">
-                    🎁 7-DAY FREE TRIAL
+                    🎁 14-DAY FREE TRIAL
                   </span>
                 )}
                 {isTeam && (
@@ -304,6 +313,7 @@ const Pricing = () => {
                   >
                     <td className="font-mono text-xs text-foreground p-3">{f.name}</td>
                     <td className="text-center p-3">{renderCell(f.free)}</td>
+                    <td className="text-center p-3">{renderCell((f as any).starter)}</td>
                     <td className="text-center p-3">{renderCell(f.pro)}</td>
                     <td className="text-center p-3">{renderCell(f.premium)}</td>
                     <td className="text-center p-3">{renderCell(f.team)}</td>
@@ -321,7 +331,8 @@ const Pricing = () => {
             {[
               { q: "Can I cancel anytime?", a: "Yes. Cancel from your subscription portal — no lock-in contracts." },
               { q: "Do I need a credit card for Free?", a: "No. The Free tier requires no payment information." },
-              { q: "What's included in the 7-day trial?", a: "Full Pro access — real-time data, alerts, charts, and portfolio tracking. No card charged until day 8." },
+              { q: "What's included in the 14-day trial?", a: "Full Pro access — real-time data, alerts, charts, and portfolio tracking. No card charged until day 15." },
+              { q: "What's the Starter plan?", a: "At just $4.99/mo — less than a coffee — you get real-time data, top 50 movers, and basic alerts. Perfect entry point." },
               { q: "Can I upgrade or downgrade?", a: "Absolutely. Changes take effect on your next billing cycle." },
               { q: "How does the Team plan work?", a: "3 seats with full Premium access. Perfect for LGS shops that need shared market data across staff." },
               { q: "Is my payment secure?", a: "All payments are processed through Stripe with bank-level encryption." },

@@ -1,6 +1,20 @@
-// Stripe product/price mapping — restructured for maximum conversion
-// 4 clear tiers: Free → Pro ($9) → Premium ($39) → Team ($99)
+// Stripe product/price mapping — 5 tiers for maximum conversion
+// Free → Starter ($4.99) → Pro ($9) → Premium ($39) → Team ($99)
 export const STRIPE_TIERS = {
+  starter: {
+    product_id: "prod_UFbILYIMFAhdbd",
+    price_id: "price_1TH65uPRXT5iryzG4IbTPZbm",
+    name: "STARTER",
+    price: "$4.99",
+    period: "/month",
+    annual: {
+      product_id: "prod_UFbIN8K7i1sjCg",
+      price_id: "price_1TH66GPRXT5iryzGaxOeXQ6H",
+      price: "$49",
+      period: "/year",
+      savings: "Save $10.88",
+    },
+  },
   pro: {
     product_id: "prod_UFLCtrgrLTQwAK",
     price_id: "price_1TGqW6PRXT5iryzGS5kcM8bp",
