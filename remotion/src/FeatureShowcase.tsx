@@ -136,8 +136,8 @@ const SceneMarket: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", width: "88%" }}>
-        <TextReveal text="📊 LIVE MARKET DATA" delay={5} fontSize={52} color={ACCENT} />
-        <TextReveal text="3 indexes. 500+ cards. Updated hourly." delay={15} fontSize={26} color="rgba(255,255,255,0.5)" />
+        <TextReveal text="📊 LIVE MARKET DATA" delay={5} fontSize={42} color={ACCENT} />
+        <TextReveal text="3 indexes · 500+ cards · Updated hourly" delay={15} fontSize={22} color="rgba(255,255,255,0.5)" />
         <div style={{ marginTop: 40 }}>
           {tickers.map((t, i) => {
             const s = spring({ frame: frame - 25 - i * 8, fps, config: { damping: 14 } });
