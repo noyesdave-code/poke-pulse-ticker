@@ -39,6 +39,7 @@ const RARITY_LABELS: Record<string, string> = {
 
 const Arena = () => {
   const { user } = useAuth();
+  const { toast } = useToast();
   const { wallet, bets, packHistory, tournaments, loading, tradableCards, placeBet, openPack, PACK_TYPES } = useArena();
   const [showAuth, setShowAuth] = useState(false);
   const [goLive, setGoLive] = useState(false);
@@ -48,6 +49,37 @@ const Arena = () => {
   const [betDuration, setBetDuration] = useState<"1h" | "4h" | "24h">("1h");
   const [packResult, setPackResult] = useState<any[] | null>(null);
   const [openingPack, setOpeningPack] = useState(false);
+  const [buyingPack, setBuyingPack] = useState<string | null>(null);
+
+  const handleBuyCoins = async (priceId: string, packId: string) => {
+    setBuyingPack(packId);
+    try {
+      const { data, error } = await supabase.functions.invoke("buy-pokecoins", {
+        body: { priceId },
+      });
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch (err: any) {
+      toast({ title: "Purchase error", description: err.message, variant: "destructive" });
+    } finally {
+      setBuyingPack(null);
+    }
+  };
+
+  const handleSubscribeArena = async () => {
+    setBuyingPack("arena_sub");
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { priceId: STRIPE_TIERS.arena.price_id },
+      });
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setBuyingPack(null);
+    }
+  };
 
   const isAdmin = user?.email && ADMIN_EMAILS.includes(user.email);
 
