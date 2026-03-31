@@ -191,12 +191,14 @@ const InvestorTour = () => {
       {/* Tour overlay */}
       <AnimatePresence>
         {active && current && (
-          <>
+          <motion.div
+            key="tour-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
             {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+            <div
               className="fixed inset-0 z-[70] bg-background/60 backdrop-blur-sm"
               onClick={endTour}
             />
@@ -208,7 +210,7 @@ const InvestorTour = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed z-[80] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[94vw] max-w-lg"
+              className="fixed z-[80] inset-x-3 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 top-1/2 -translate-y-1/2 sm:w-full sm:max-w-lg"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="rounded-2xl border border-border bg-card shadow-2xl shadow-primary/10 overflow-hidden">
