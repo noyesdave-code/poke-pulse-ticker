@@ -315,8 +315,8 @@ const SceneArena: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", width: "88%" }}>
-        <TextReveal text="⚡ POKE-PULSE ARENA™" delay={5} fontSize={52} color={GOLD} fontWeight={900} />
-        <TextReveal text="Bet PokéCoins on real card prices" delay={15} fontSize={24} color="rgba(255,255,255,0.45)" />
+        <TextReveal text="⚡ POKE-PULSE ARENA™" delay={5} fontSize={40} color={GOLD} fontWeight={900} />
+        <TextReveal text="Bet PokéCoins on real card prices" delay={15} fontSize={22} color="rgba(255,255,255,0.45)" />
 
         <Sequence from={25}>
           {(() => {
