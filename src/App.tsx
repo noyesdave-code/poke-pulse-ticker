@@ -8,6 +8,7 @@ import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import { useCopyProtection } from "@/hooks/useCopyProtection";
 import { useSessionTimeout } from "@/hooks/useSessionTimeout";
 import Watermark from "@/components/Watermark";
+import InvestorTour from "@/components/InvestorTour";
 import CopyrightBanner from "@/components/CopyrightBanner";
 import CookieConsent from "@/components/CookieConsent";
 import { AnimatePresence, motion } from "framer-motion";
@@ -102,6 +103,7 @@ const App = () => {
         <AuthProvider>
           <AccessibilityProvider>
             <AnimatedRoutes />
+            <InvestorTour />
             <CopyrightBanner />
             <CookieConsent />
           </AccessibilityProvider>
