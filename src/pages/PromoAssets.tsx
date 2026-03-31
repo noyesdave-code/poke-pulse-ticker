@@ -6,6 +6,33 @@ import { useEffect, useRef, useState } from "react";
 
 const videos = [
   {
+    id: "feature-showcase-v5",
+    title: "Feature Showcase v5 — Full Platform Tour (16:9)",
+    description: "84-second cinematic deep dive with Laura voiceover & electronic music. 15 scenes covering Market Pulse, SimTrader World™, Arena, AI Signals, and Pro Tools.",
+    file: "/videos/feature-showcase-2026.mp4",
+    aspect: "16:9",
+    resolution: "1080×1920",
+    platforms: ["YouTube", "Facebook", "LinkedIn", "Website"],
+  },
+  {
+    id: "investor-pitch",
+    title: "Investor Pitch — Why Poke Pulse Ticker (16:9)",
+    description: "45-second investor-focused pitch covering audit scores, subscription tiers, competitive advantages, and market metrics.",
+    file: "/videos/investor-pitch-horizontal.mp4",
+    aspect: "16:9",
+    resolution: "1920×1080",
+    platforms: ["YouTube", "LinkedIn", "Investor Decks"],
+  },
+  {
+    id: "social-pitch-vertical",
+    title: "Social Pitch — Vertical (9:16)",
+    description: "45-second vertical investor/social pitch optimized for mobile-first platforms.",
+    file: "/videos/social-pitch-vertical.mp4",
+    aspect: "9:16",
+    resolution: "1080×1920",
+    platforms: ["TikTok", "Instagram Reels", "YouTube Shorts"],
+  },
+  {
     id: "youtube",
     title: "SimTrader™ Promo — YouTube (16:9)",
     description: "30-second horizontal promo with voiceover and techno background music. Optimized for YouTube, Facebook, and desktop.",
