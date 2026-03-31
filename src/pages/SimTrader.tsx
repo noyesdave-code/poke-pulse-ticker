@@ -265,7 +265,7 @@ const SimTraderPage = () => {
           </motion.div>
           <div>
             <h1 className="font-mono text-xl font-black text-foreground tracking-tight flex items-center gap-2">
-              SIMTRADER<span className="text-primary">™</span>
+              SIMTRADER WORLD<span className="text-primary">™</span>
             </h1>
             <p className="font-mono text-[10px] text-muted-foreground tracking-widest">POKÉMON STOCK MARKET SIMULATOR · LIVE DATA</p>
           </div>
