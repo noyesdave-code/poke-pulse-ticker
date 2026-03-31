@@ -8,7 +8,7 @@ const SimTraderPromo = () => {
   const [visible, setVisible] = useState(false);
   const { subscribed, tier } = useAuth();
   const navigate = useNavigate();
-  const isTrader = subscribed && tier === "trader";
+  const isTrader = subscribed && (tier === "premium" || tier === "team");
 
   useEffect(() => {
     const dismissed = sessionStorage.getItem("simtrader_promo_dismissed");

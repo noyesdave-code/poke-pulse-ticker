@@ -231,14 +231,14 @@ const SimTraderPage = () => {
   const [showAuth, setShowAuth] = useState(false);
   const [upgradeLoading, setUpgradeLoading] = useState(false);
   const [showLimitModal, setShowLimitModal] = useState(false);
-  const isTrader = subscribed && tier === "trader";
+  const isTrader = subscribed && (tier === "premium" || tier === "team");
 
   const handleUpgrade = async () => {
     if (!user) { setShowAuth(true); return; }
     setUpgradeLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { priceId: STRIPE_TIERS.trader.price_id },
+        body: { priceId: STRIPE_TIERS.premium.price_id },
       });
       if (error) throw error;
       if (data?.url) window.open(data.url, "_blank");
