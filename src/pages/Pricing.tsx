@@ -39,6 +39,7 @@ type TierDef = { key: string; name: string; icon: React.ReactNode; description: 
 
 const tiers: TierDef[] = [
   { key: "free", name: "FREE", icon: <Minus className="h-5 w-5" />, description: "Explore the market" },
+  { key: "starter", name: "STARTER", icon: <Sparkles className="h-5 w-5" />, description: "For casual collectors" },
   { key: "pro", name: "PRO", icon: <Zap className="h-5 w-5" />, description: "For active collectors" },
   { key: "premium", name: "PREMIUM", icon: <Gem className="h-5 w-5" />, description: "For serious investors" },
   { key: "team", name: "TEAM", icon: <Store className="h-5 w-5" />, description: "For local game stores" },
