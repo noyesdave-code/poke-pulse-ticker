@@ -462,9 +462,9 @@ const SceneCTA: React.FC = () => {
         filter: "blur(80px)",
       }} />
       <div style={{ textAlign: "center", transform: `scale(${ctaSpring * pulse})`, position: "relative" }}>
-        <div style={{ fontFamily: "sans-serif", fontSize: 60, fontWeight: 900, color: "white", marginBottom: 8 }}>SIGN UP FREE</div>
-        <div style={{ fontFamily: "sans-serif", fontSize: 60, fontWeight: 900, color: ACCENT, marginBottom: 30 }}>TODAY</div>
-        <div style={{ fontFamily: "sans-serif", fontSize: 28, color: "rgba(255,255,255,0.5)", marginBottom: 40 }}>Arena access from just $0.99</div>
+        <div style={{ fontFamily: "sans-serif", fontSize: 50, fontWeight: 900, color: "white", marginBottom: 8 }}>SIGN UP FREE</div>
+        <div style={{ fontFamily: "sans-serif", fontSize: 50, fontWeight: 900, color: ACCENT, marginBottom: 30 }}>TODAY</div>
+        <div style={{ fontFamily: "sans-serif", fontSize: 24, color: "rgba(255,255,255,0.5)", marginBottom: 40 }}>Arena access from just $0.99</div>
         <div style={{
           transform: `scale(${urlSpring})`,
           fontFamily: "monospace", fontSize: 28, color: ACCENT,
