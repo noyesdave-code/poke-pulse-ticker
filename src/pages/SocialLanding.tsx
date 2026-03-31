@@ -108,7 +108,7 @@ const SocialLanding = () => {
             >
               <div className="absolute inset-0 shimmer-sweep opacity-60" />
               <Zap className="relative w-5 h-5" />
-              <span className="relative">START FREE — 7 DAYS</span>
+              <span className="relative">START FREE — 14 DAYS</span>
               <ArrowRight className="relative w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
             <button
