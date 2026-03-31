@@ -41,6 +41,7 @@ import SocialLanding from "./pages/SocialLanding.tsx";
 import SimTrader from "./pages/SimTrader.tsx";
 import PromoAssets from "./pages/PromoAssets.tsx";
 import VideoLibrary from "./pages/VideoLibrary.tsx";
+import Arena from "./pages/Arena.tsx";
 
 const queryClient = new QueryClient();
 
@@ -85,6 +86,7 @@ const AnimatedRoutes = () => {
           <Route path="/sim-trader" element={<SimTrader />} />
           <Route path="/promo" element={<PromoAssets />} />
           <Route path="/videos" element={<VideoLibrary />} />
+          <Route path="/arena" element={<Arena />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>

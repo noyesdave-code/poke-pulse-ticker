@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/AuthModal";
-import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain, CalendarDays, Eye, Mail, Bell, CheckCircle, User, ArrowLeftRight, DollarSign, ChevronDown, Gamepad2, Video } from "lucide-react";
+import { Menu, X, LayoutDashboard, Layers, Briefcase, Activity, BookOpen, Brain, CalendarDays, Eye, Mail, Bell, CheckCircle, User, ArrowLeftRight, DollarSign, ChevronDown, Gamepad2, Video, Sparkles } from "lucide-react";
 import AccessibilityToggle from "@/components/AccessibilityToggle";
 
 const primaryNav = [
@@ -12,6 +12,7 @@ const primaryNav = [
   { path: "/dashboard", label: "Dashboard", icon: Activity },
   { path: "/pricing", label: "Pricing", icon: DollarSign },
   { path: "/sim-trader", label: "SimTrader World", icon: Gamepad2 },
+  { path: "/arena", label: "Arena", icon: Sparkles },
 ];
 
 const moreNav = [

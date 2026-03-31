@@ -59,6 +59,218 @@ export type Database = {
         }
         Relationships: []
       }
+      arena_pack_opens: {
+        Row: {
+          cards_pulled: Json
+          cost: number
+          created_at: string
+          id: string
+          pack_type: string
+          rarity_hit: string | null
+          total_value: number
+          user_id: string
+        }
+        Insert: {
+          cards_pulled?: Json
+          cost?: number
+          created_at?: string
+          id?: string
+          pack_type?: string
+          rarity_hit?: string | null
+          total_value?: number
+          user_id: string
+        }
+        Update: {
+          cards_pulled?: Json
+          cost?: number
+          created_at?: string
+          id?: string
+          pack_type?: string
+          rarity_hit?: string | null
+          total_value?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      arena_price_bets: {
+        Row: {
+          card_api_id: string
+          card_image: string | null
+          card_name: string
+          card_set: string
+          created_at: string
+          id: string
+          index_type: string
+          odds: number
+          payout: number | null
+          prediction: string
+          resolved_at: string | null
+          resolved_price: number | null
+          resolves_at: string
+          snapshot_price: number
+          status: string
+          user_id: string
+          wager: number
+        }
+        Insert: {
+          card_api_id: string
+          card_image?: string | null
+          card_name: string
+          card_set: string
+          created_at?: string
+          id?: string
+          index_type?: string
+          odds?: number
+          payout?: number | null
+          prediction?: string
+          resolved_at?: string | null
+          resolved_price?: number | null
+          resolves_at: string
+          snapshot_price: number
+          status?: string
+          user_id: string
+          wager?: number
+        }
+        Update: {
+          card_api_id?: string
+          card_image?: string | null
+          card_name?: string
+          card_set?: string
+          created_at?: string
+          id?: string
+          index_type?: string
+          odds?: number
+          payout?: number | null
+          prediction?: string
+          resolved_at?: string | null
+          resolved_price?: number | null
+          resolves_at?: string
+          snapshot_price?: number
+          status?: string
+          user_id?: string
+          wager?: number
+        }
+        Relationships: []
+      }
+      arena_tournament_entries: {
+        Row: {
+          id: string
+          joined_at: string
+          prize_awarded: string | null
+          rank: number | null
+          score: number
+          tournament_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          joined_at?: string
+          prize_awarded?: string | null
+          rank?: number | null
+          score?: number
+          tournament_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          joined_at?: string
+          prize_awarded?: string | null
+          rank?: number | null
+          score?: number
+          tournament_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "arena_tournament_entries_tournament_id_fkey"
+            columns: ["tournament_id"]
+            isOneToOne: false
+            referencedRelation: "arena_tournaments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      arena_tournaments: {
+        Row: {
+          created_at: string
+          current_entries: number
+          description: string | null
+          ends_at: string
+          entry_cost: number
+          game_type: string
+          id: string
+          max_entries: number
+          name: string
+          prize_description: string | null
+          prize_pool: number
+          starts_at: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          current_entries?: number
+          description?: string | null
+          ends_at: string
+          entry_cost?: number
+          game_type?: string
+          id?: string
+          max_entries?: number
+          name: string
+          prize_description?: string | null
+          prize_pool?: number
+          starts_at: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          current_entries?: number
+          description?: string | null
+          ends_at?: string
+          entry_cost?: number
+          game_type?: string
+          id?: string
+          max_entries?: number
+          name?: string
+          prize_description?: string | null
+          prize_pool?: number
+          starts_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      arena_wallets: {
+        Row: {
+          balance: number
+          created_at: string
+          id: string
+          lifetime_earned: number
+          lifetime_wagered: number
+          lifetime_won: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          id?: string
+          lifetime_earned?: number
+          lifetime_wagered?: number
+          lifetime_won?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          id?: string
+          lifetime_earned?: number
+          lifetime_wagered?: number
+          lifetime_won?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       audit_actions: {
         Row: {
           audit_id: string
