@@ -320,7 +320,7 @@ const InvestorTour = () => {
                 </div>
               </div>
             </motion.div>
-          </>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
