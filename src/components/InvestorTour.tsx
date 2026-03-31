@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard, Layers, Briefcase, Activity, TrendingUp,
   Eye, Bell, Gamepad2, Brain, ChevronRight, ChevronLeft, X,
-  Rocket, Play, BarChart3, Shield, DollarSign, Sparkles,
+  Rocket, Play, BarChart3, Shield, DollarSign, Sparkles, ArrowLeftRight,
 } from "lucide-react";
 
 const DEMO_EMAIL = "demo@poke-pulse-ticker.com";
@@ -92,6 +92,14 @@ const TOUR_STEPS: TourStep[] = [
     icon: Brain,
     route: "/command-center",
     badge: "TEAM",
+  },
+  {
+    title: "Trade Calculator",
+    description:
+      "Multi-card trade comparison tool. Build trades between two parties, auto-calculate total market values, and see a fairness indicator showing which side is ahead.",
+    icon: ArrowLeftRight,
+    route: "/trade",
+    badge: "FREE",
   },
   {
     title: "Subscription Tiers",
