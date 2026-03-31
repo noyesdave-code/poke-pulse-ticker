@@ -42,6 +42,9 @@ import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
 import StickyUpgradeBanner from "@/components/StickyUpgradeBanner";
 import AlphaAccuracy from "@/components/AlphaAccuracy";
 import ImportFromTCGPlayer from "@/components/ImportFromTCGPlayer";
+import DailySpotlight from "@/components/DailySpotlight";
+import LiveMarketPulse from "@/components/LiveMarketPulse";
+import PricePredictionGame from "@/components/PricePredictionGame";
 import TeamPlanCTA from "@/components/TeamPlanCTA";
 import GradingArbitrage from "@/components/GradingArbitrage";
 import GradeRatioArbitrageBot from "@/components/GradeRatioArbitrageBot";
@@ -153,6 +156,15 @@ const Index = () => {
 
         {/* 4. Trending Cards with images — above the fold dopamine hit */}
         <TrendingCards cards={displayCards} isLoading={isLoading} />
+
+        {/* Daily Card Spotlight — AI-analyzed pick drives daily return visits */}
+        <DailySpotlight cards={displayCards} />
+
+        {/* Live Market Pulse — real-time feed creates hourly engagement */}
+        <LiveMarketPulse cards={displayCards} />
+
+        {/* Daily Price Predictions — gamified engagement loop */}
+        <PricePredictionGame cards={displayCards} />
 
         <MarketUpdateBanner cards={displayCards} />
 
