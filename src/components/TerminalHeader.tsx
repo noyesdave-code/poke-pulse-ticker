@@ -164,12 +164,9 @@ const TerminalHeader = () => {
               </span>
             )}
 
-            {/* Clock — compact on mobile */}
-            <div className="hidden sm:block font-mono text-[10px] text-primary whitespace-nowrap">
+            {/* Clock — hidden below lg, full on lg+ */}
+            <div className="hidden lg:block font-mono text-[10px] text-primary whitespace-nowrap">
               {time.toLocaleString()}
-            </div>
-            <div className="sm:hidden font-mono text-[9px] text-primary whitespace-nowrap">
-              {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </div>
 
             <AccessibilityToggle />
