@@ -5,6 +5,8 @@ import {
   interpolate,
   spring,
   Sequence,
+  Audio,
+  staticFile,
 } from "remotion";
 
 const ACCENT = "#00d26a";
@@ -17,7 +19,7 @@ const BG = "#060a10";
 
 const TextReveal: React.FC<{
   text: string; delay: number; fontSize?: number; color?: string; fontWeight?: number; letterSpacing?: number;
-}> = ({ text, delay, fontSize = 48, color = "white", fontWeight = 800, letterSpacing = 0 }) => {
+}> = ({ text, delay, fontSize = 56, color = "white", fontWeight = 800, letterSpacing = 0 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const s = spring({ frame: frame - delay, fps, config: { damping: 18, stiffness: 160 } });
@@ -30,53 +32,50 @@ const TextReveal: React.FC<{
   );
 };
 
-const StatBlock: React.FC<{ value: string; label: string; delay: number; color?: string }> = ({ value, label, delay, color = ACCENT }) => {
+const StatBlock: React.FC<{ value: string; label: string; delay: number; color?: string; large?: boolean }> = ({ value, label, delay, color = ACCENT, large }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const pop = spring({ frame: frame - delay, fps, config: { damping: 10, stiffness: 200 } });
+  const sz = large ? 72 : 56;
   return (
     <div style={{ textAlign: "center", transform: `scale(${pop})` }}>
-      <div style={{ fontFamily: "monospace", fontSize: 48, fontWeight: 900, color }}>{value}</div>
-      <div style={{ fontFamily: "sans-serif", fontSize: 14, color: "rgba(255,255,255,0.45)", letterSpacing: 3, marginTop: 6, textTransform: "uppercase" }}>{label}</div>
+      <div style={{ fontFamily: "monospace", fontSize: sz, fontWeight: 900, color }}>{value}</div>
+      <div style={{ fontFamily: "sans-serif", fontSize: 16, color: "rgba(255,255,255,0.45)", letterSpacing: 3, marginTop: 8, textTransform: "uppercase" }}>{label}</div>
     </div>
   );
 };
 
-// ─── Scene 1: Title (0–120) ───
+// ─── Scene 1: Title (0–183) ───
 const SceneTitle: React.FC = () => {
   const frame = useCurrentFrame();
   const glowOp = interpolate(frame, [0, 30], [0, 0.7], { extrapolateRight: "clamp" });
-  const exitOp = interpolate(frame, [100, 120], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [155, 183], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
-      <div style={{ position: "absolute", width: 500, height: 500, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,210,106,${glowOp * 0.2}) 0%, transparent 70%)`, filter: "blur(60px)" }} />
+      <div style={{ position: "absolute", width: 700, height: 700, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,210,106,${glowOp * 0.25}) 0%, transparent 70%)`, filter: "blur(60px)" }} />
       <div style={{ textAlign: "center", position: "relative" }}>
-        <TextReveal text="POKE PULSE TICKER" delay={5} fontSize={64} color={ACCENT} fontWeight={900} letterSpacing={4} />
+        <TextReveal text="POKE PULSE TICKER" delay={5} fontSize={80} color={ACCENT} fontWeight={900} letterSpacing={6} />
         <Sequence from={20}>
-          <TextReveal text="INVESTOR PITCH" delay={0} fontSize={32} color="rgba(255,255,255,0.5)" fontWeight={600} letterSpacing={6} />
+          <TextReveal text="INVESTOR PITCH" delay={0} fontSize={40} color="rgba(255,255,255,0.5)" fontWeight={600} letterSpacing={8} />
         </Sequence>
         <Sequence from={40}>
-          <TextReveal text="Q1 2026" delay={0} fontSize={24} color={GOLD} fontWeight={700} letterSpacing={3} />
+          <TextReveal text="Q1 2026" delay={0} fontSize={32} color={GOLD} fontWeight={700} letterSpacing={4} />
         </Sequence>
       </div>
     </AbsoluteFill>
   );
 };
 
-// ─── Scene 2: Audit Score (120–300) ───
+// ─── Scene 2: Audit Score (183–481) ───
 const SceneAudit: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const enterOp = interpolate(frame, [0, 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const exitOp = interpolate(frame, [160, 180], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-
-  // Animate score counting
-  const scoreProgress = interpolate(frame, [15, 60], [0, 95], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [270, 298], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const scoreProgress = interpolate(frame, [15, 70], [0, 95], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const displayScore = Math.floor(scoreProgress);
-
-  // Ring animation
-  const ringProgress = interpolate(frame, [15, 70], [0, 0.95], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const circumference = 2 * Math.PI * 120;
+  const ringProgress = interpolate(frame, [15, 80], [0, 0.95], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const circumference = 2 * Math.PI * 160;
   const strokeDash = circumference * ringProgress;
 
   const categories = [
@@ -91,35 +90,31 @@ const SceneAudit: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center" }}>
-        <div style={{ fontFamily: "sans-serif", fontSize: 22, color: "rgba(255,255,255,0.4)", letterSpacing: 5, marginBottom: 30, textTransform: "uppercase" }}>
+        <div style={{ fontFamily: "sans-serif", fontSize: 28, color: "rgba(255,255,255,0.4)", letterSpacing: 6, marginBottom: 35, textTransform: "uppercase" }}>
           Platform Audit Score
         </div>
-
-        {/* Score ring */}
-        <div style={{ position: "relative", width: 280, height: 280, margin: "0 auto 30px" }}>
-          <svg width={280} height={280} style={{ transform: "rotate(-90deg)" }}>
-            <circle cx={140} cy={140} r={120} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={10} />
-            <circle cx={140} cy={140} r={120} fill="none" stroke={ACCENT} strokeWidth={10}
+        <div style={{ position: "relative", width: 360, height: 360, margin: "0 auto 40px" }}>
+          <svg width={360} height={360} style={{ transform: "rotate(-90deg)" }}>
+            <circle cx={180} cy={180} r={160} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={12} />
+            <circle cx={180} cy={180} r={160} fill="none" stroke={ACCENT} strokeWidth={12}
               strokeDasharray={`${strokeDash} ${circumference}`} strokeLinecap="round" />
           </svg>
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <div style={{ fontFamily: "monospace", fontSize: 80, fontWeight: 900, color: "white" }}>{displayScore}</div>
-            <div style={{ fontFamily: "monospace", fontSize: 20, color: "rgba(255,255,255,0.4)" }}>/100</div>
+            <div style={{ fontFamily: "monospace", fontSize: 100, fontWeight: 900, color: "white" }}>{displayScore}</div>
+            <div style={{ fontFamily: "monospace", fontSize: 24, color: "rgba(255,255,255,0.4)" }}>/100</div>
           </div>
         </div>
-
-        {/* Category bars */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", maxWidth: 500, margin: "0 auto" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center", maxWidth: 650, margin: "0 auto" }}>
           {categories.map((cat, i) => {
-            const barSpring = spring({ frame: frame - 70 - i * 8, fps, config: { damping: 15 } });
+            const barSpring = spring({ frame: frame - 80 - i * 10, fps, config: { damping: 15 } });
             return (
-              <div key={i} style={{ width: 150, opacity: barSpring, transform: `translateY(${interpolate(barSpring, [0, 1], [20, 0])}px)` }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                  <span style={{ fontFamily: "sans-serif", fontSize: 11, color: "rgba(255,255,255,0.5)" }}>{cat.name}</span>
-                  <span style={{ fontFamily: "monospace", fontSize: 11, color: ACCENT }}>{cat.score}</span>
+              <div key={i} style={{ width: 190, opacity: barSpring, transform: `translateY(${interpolate(barSpring, [0, 1], [20, 0])}px)` }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                  <span style={{ fontFamily: "sans-serif", fontSize: 14, color: "rgba(255,255,255,0.5)" }}>{cat.name}</span>
+                  <span style={{ fontFamily: "monospace", fontSize: 14, color: ACCENT }}>{cat.score}</span>
                 </div>
-                <div style={{ height: 4, background: "rgba(255,255,255,0.06)", borderRadius: 2, overflow: "hidden" }}>
-                  <div style={{ height: "100%", width: `${cat.score}%`, background: ACCENT, borderRadius: 2, transform: `scaleX(${barSpring})`, transformOrigin: "left" }} />
+                <div style={{ height: 6, background: "rgba(255,255,255,0.06)", borderRadius: 3, overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: `${cat.score}%`, background: ACCENT, borderRadius: 3, transform: `scaleX(${barSpring})`, transformOrigin: "left" }} />
                 </div>
               </div>
             );
@@ -130,12 +125,12 @@ const SceneAudit: React.FC = () => {
   );
 };
 
-// ─── Scene 3: Subscription Tiers (300–490) ───
+// ─── Scene 3: Subscription Tiers (481–988) ───
 const SceneTiers: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const enterOp = interpolate(frame, [0, 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const exitOp = interpolate(frame, [170, 190], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [480, 507], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   const tiers = [
     { name: "FREE", price: "$0", color: "rgba(255,255,255,0.3)", features: ["Market ticker", "Top movers", "Community"] },
@@ -147,45 +142,43 @@ const SceneTiers: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", width: "90%" }}>
-        <TextReveal text="REVENUE MODEL" delay={5} fontSize={36} color="rgba(255,255,255,0.4)" fontWeight={600} />
-        <TextReveal text="4 SUBSCRIPTION TIERS" delay={12} fontSize={44} color="white" />
-
-        <div style={{ marginTop: 40, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+        <TextReveal text="REVENUE MODEL" delay={5} fontSize={40} color="rgba(255,255,255,0.4)" fontWeight={600} />
+        <TextReveal text="4 SUBSCRIPTION TIERS" delay={12} fontSize={52} color="white" />
+        <div style={{ marginTop: 50, display: "flex", gap: 18, justifyContent: "center", flexWrap: "wrap" }}>
           {tiers.map((t, i) => {
-            const cardSpring = spring({ frame: frame - 30 - i * 12, fps, config: { damping: 15 } });
+            const cardSpring = spring({ frame: frame - 30 - i * 15, fps, config: { damping: 15 } });
             return (
               <div key={i} style={{
-                width: 200, padding: "20px 16px", borderRadius: 14,
+                width: 260, padding: "28px 22px", borderRadius: 18,
                 background: "rgba(255,255,255,0.04)", border: `1px solid ${i === 1 ? ACCENT : "rgba(255,255,255,0.08)"}`,
-                transform: `scale(${cardSpring}) ${i === 1 ? "translateY(-8px)" : ""}`,
+                transform: `scale(${cardSpring}) ${i === 1 ? "translateY(-12px)" : ""}`,
                 opacity: cardSpring,
               }}>
-                <div style={{ fontFamily: "monospace", fontSize: 11, color: t.color, letterSpacing: 3, marginBottom: 8 }}>{t.name}</div>
-                <div style={{ fontFamily: "monospace", fontSize: 28, fontWeight: 900, color: "white", marginBottom: 12 }}>{t.price}</div>
+                <div style={{ fontFamily: "monospace", fontSize: 14, color: t.color, letterSpacing: 4, marginBottom: 10 }}>{t.name}</div>
+                <div style={{ fontFamily: "monospace", fontSize: 36, fontWeight: 900, color: "white", marginBottom: 16 }}>{t.price}</div>
                 {t.features.map((f, fi) => (
-                  <div key={fi} style={{ fontFamily: "sans-serif", fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 4, display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ color: t.color, fontSize: 10 }}>✓</span> {f}
+                  <div key={fi} style={{ fontFamily: "sans-serif", fontSize: 15, color: "rgba(255,255,255,0.5)", marginBottom: 6, display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ color: t.color, fontSize: 12 }}>✓</span> {f}
                   </div>
                 ))}
               </div>
             );
           })}
         </div>
-
-        <Sequence from={100}>
-          <TextReveal text="ARR potential: $500K+ at 3,000 subs" delay={0} fontSize={22} color={GOLD} fontWeight={600} />
+        <Sequence from={200}>
+          <TextReveal text="ARR potential: $500K+ at 3,000 subs" delay={0} fontSize={28} color={GOLD} fontWeight={600} />
         </Sequence>
       </div>
     </AbsoluteFill>
   );
 };
 
-// ─── Scene 4: Competitive Edge (490–680) ───
+// ─── Scene 4: Competitive Edge (988–1353) ───
 const SceneCompetitive: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const enterOp = interpolate(frame, [0, 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const exitOp = interpolate(frame, [170, 190], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [340, 365], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   const rows = [
     { feature: "Real-time pricing", us: true, tcg: false, rare: false },
@@ -200,65 +193,60 @@ const SceneCompetitive: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
-      <div style={{ width: "88%", textAlign: "center" }}>
-        <TextReveal text="COMPETITIVE ADVANTAGE" delay={5} fontSize={36} color="white" />
-
-        <div style={{ marginTop: 35 }}>
-          {/* Header */}
-          <div style={{ display: "flex", padding: "0 12px 10px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-            <div style={{ flex: 2, fontFamily: "sans-serif", fontSize: 12, color: "rgba(255,255,255,0.3)", textAlign: "left" }}>Feature</div>
-            <div style={{ flex: 1, fontFamily: "monospace", fontSize: 11, color: ACCENT, textAlign: "center" }}>US</div>
-            <div style={{ flex: 1, fontFamily: "monospace", fontSize: 11, color: "rgba(255,255,255,0.3)", textAlign: "center" }}>TCGPlayer</div>
-            <div style={{ flex: 1, fontFamily: "monospace", fontSize: 11, color: "rgba(255,255,255,0.3)", textAlign: "center" }}>RareCandy</div>
+      <div style={{ width: "85%", textAlign: "center" }}>
+        <TextReveal text="COMPETITIVE ADVANTAGE" delay={5} fontSize={44} color="white" />
+        <div style={{ marginTop: 45 }}>
+          <div style={{ display: "flex", padding: "0 16px 14px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+            <div style={{ flex: 2, fontFamily: "sans-serif", fontSize: 16, color: "rgba(255,255,255,0.3)", textAlign: "left" }}>Feature</div>
+            <div style={{ flex: 1, fontFamily: "monospace", fontSize: 14, color: ACCENT, textAlign: "center" }}>US</div>
+            <div style={{ flex: 1, fontFamily: "monospace", fontSize: 14, color: "rgba(255,255,255,0.3)", textAlign: "center" }}>TCGPlayer</div>
+            <div style={{ flex: 1, fontFamily: "monospace", fontSize: 14, color: "rgba(255,255,255,0.3)", textAlign: "center" }}>RareCandy</div>
           </div>
-
           {rows.map((row, i) => {
-            const rowSpring = spring({ frame: frame - 25 - i * 8, fps, config: { damping: 18 } });
+            const rowSpring = spring({ frame: frame - 30 - i * 10, fps, config: { damping: 18 } });
             return (
               <div key={i} style={{
-                display: "flex", padding: "8px 12px", alignItems: "center",
+                display: "flex", padding: "12px 16px", alignItems: "center",
                 opacity: rowSpring, transform: `translateX(${interpolate(rowSpring, [0, 1], [-30, 0])}px)`,
                 background: i % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent",
               }}>
-                <div style={{ flex: 2, fontFamily: "sans-serif", fontSize: 13, color: "rgba(255,255,255,0.7)", textAlign: "left" }}>{row.feature}</div>
-                <div style={{ flex: 1, textAlign: "center", fontSize: 16 }}>{row.us ? "✅" : "❌"}</div>
-                <div style={{ flex: 1, textAlign: "center", fontSize: 16 }}>{row.tcg ? "✅" : "❌"}</div>
-                <div style={{ flex: 1, textAlign: "center", fontSize: 16 }}>{row.rare ? "✅" : "❌"}</div>
+                <div style={{ flex: 2, fontFamily: "sans-serif", fontSize: 17, color: "rgba(255,255,255,0.7)", textAlign: "left" }}>{row.feature}</div>
+                <div style={{ flex: 1, textAlign: "center", fontSize: 20 }}>{row.us ? "✅" : "❌"}</div>
+                <div style={{ flex: 1, textAlign: "center", fontSize: 20 }}>{row.tcg ? "✅" : "❌"}</div>
+                <div style={{ flex: 1, textAlign: "center", fontSize: 20 }}>{row.rare ? "✅" : "❌"}</div>
               </div>
             );
           })}
         </div>
-
-        <Sequence from={110}>
-          <TextReveal text="8 of 8 exclusive features" delay={0} fontSize={24} color={ACCENT} fontWeight={700} />
+        <Sequence from={180}>
+          <TextReveal text="8 of 8 exclusive features" delay={0} fontSize={30} color={ACCENT} fontWeight={700} />
         </Sequence>
       </div>
     </AbsoluteFill>
   );
 };
 
-// ─── Scene 5: Key Metrics (680–820) ───
+// ─── Scene 5: Key Metrics (1353–1626) ───
 const SceneMetrics: React.FC = () => {
   const frame = useCurrentFrame();
   const enterOp = interpolate(frame, [0, 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const exitOp = interpolate(frame, [120, 140], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const pulse = 1 + Math.sin(frame * 0.06) * 0.015;
+  const exitOp = interpolate(frame, [245, 273], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const pulse = 1 + Math.sin(frame * 0.06) * 0.012;
 
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", transform: `scale(${pulse})` }}>
-        <TextReveal text="BY THE NUMBERS" delay={5} fontSize={34} color="rgba(255,255,255,0.4)" fontWeight={600} />
-        <div style={{ marginTop: 40, display: "flex", gap: 50, justifyContent: "center", flexWrap: "wrap" }}>
-          <StatBlock value="500+" label="Cards Tracked" delay={15} />
-          <StatBlock value="95" label="Audit Score" delay={25} color={GOLD} />
-          <StatBlock value="4" label="Revenue Tiers" delay={35} />
-          <StatBlock value="24/7" label="Live Data" delay={45} color={BLUE} />
+        <TextReveal text="BY THE NUMBERS" delay={5} fontSize={42} color="rgba(255,255,255,0.4)" fontWeight={600} />
+        <div style={{ marginTop: 50, display: "flex", gap: 70, justifyContent: "center", flexWrap: "wrap" }}>
+          <StatBlock value="500+" label="Cards Tracked" delay={15} large />
+          <StatBlock value="95" label="Audit Score" delay={25} color={GOLD} large />
+          <StatBlock value="4" label="Revenue Tiers" delay={35} large />
+          <StatBlock value="24/7" label="Live Data" delay={45} color={BLUE} large />
         </div>
-
-        <Sequence from={70}>
-          <div style={{ marginTop: 40, display: "flex", gap: 50, justifyContent: "center" }}>
-            <StatBlock value="$43B" label="TCG Market" delay={75} color={GOLD} />
-            <StatBlock value="0" label="Direct Competitors" delay={85} color={ACCENT} />
+        <Sequence from={80}>
+          <div style={{ marginTop: 50, display: "flex", gap: 70, justifyContent: "center" }}>
+            <StatBlock value="$43B" label="TCG Market" delay={0} color={GOLD} large />
+            <StatBlock value="0" label="Direct Competitors" delay={10} color={ACCENT} large />
           </div>
         </Sequence>
       </div>
@@ -266,7 +254,7 @@ const SceneMetrics: React.FC = () => {
   );
 };
 
-// ─── Scene 6: CTA (820–900) ───
+// ─── Scene 6: CTA (1626–1852) ───
 const SceneCTA: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -276,13 +264,13 @@ const SceneCTA: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp }}>
-      <div style={{ position: "absolute", width: 600, height: 600, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,210,106,${glowPulse}) 0%, transparent 70%)`, filter: "blur(80px)" }} />
+      <div style={{ position: "absolute", width: 800, height: 800, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,210,106,${glowPulse}) 0%, transparent 70%)`, filter: "blur(80px)" }} />
       <div style={{ textAlign: "center", transform: `scale(${ctaSpring})`, position: "relative" }}>
-        <div style={{ fontFamily: "sans-serif", fontSize: 52, fontWeight: 900, color: "white", marginBottom: 10 }}>LET'S BUILD</div>
-        <div style={{ fontFamily: "sans-serif", fontSize: 52, fontWeight: 900, color: ACCENT, marginBottom: 30 }}>TOGETHER</div>
-        <div style={{ fontFamily: "monospace", fontSize: 20, color: "rgba(255,255,255,0.4)", letterSpacing: 4 }}>PGVA VENTURES, LLC.</div>
+        <div style={{ fontFamily: "sans-serif", fontSize: 68, fontWeight: 900, color: "white", marginBottom: 12 }}>LET'S BUILD</div>
+        <div style={{ fontFamily: "sans-serif", fontSize: 68, fontWeight: 900, color: ACCENT, marginBottom: 35 }}>TOGETHER</div>
+        <div style={{ fontFamily: "monospace", fontSize: 26, color: "rgba(255,255,255,0.4)", letterSpacing: 5 }}>PGVA VENTURES, LLC.</div>
         <Sequence from={25}>
-          <TextReveal text="noyes.dave@gmail.com" delay={0} fontSize={18} color={ACCENT} fontWeight={500} />
+          <TextReveal text="noyes.dave@gmail.com" delay={0} fontSize={22} color={ACCENT} fontWeight={500} />
         </Sequence>
       </div>
     </AbsoluteFill>
@@ -304,9 +292,17 @@ export const InvestorPitch: React.FC = () => {
     return { x, y, size, opacity, color: colors[i % 4] };
   });
 
+  // Scene timings (frames): intro=183, audit=298, tiers=507, competitive=365, metrics=273, cta=226
+  const S1 = 0, S1D = 183;
+  const S2 = 183, S2D = 298;
+  const S3 = 481, S3D = 507;
+  const S4 = 988, S4D = 365;
+  const S5 = 1353, S5D = 273;
+  const S6 = 1626, S6D = 226;
+
   return (
     <AbsoluteFill>
-      {/* Animated background */}
+      {/* Background */}
       <AbsoluteFill style={{
         background: `
           radial-gradient(ellipse at 30% 20%, hsl(${160 + Math.sin(frame * 0.012) * 12}, 50%, 6%) 0%, transparent 50%),
@@ -331,16 +327,24 @@ export const InvestorPitch: React.FC = () => {
         <div key={i} style={{ position: "absolute", left: p.x, top: p.y, width: p.size, height: p.size, borderRadius: "50%", background: p.color, opacity: p.opacity }} />
       ))}
 
+      {/* Voiceover Audio */}
+      <Sequence from={S1}><Audio src={staticFile("audio/intro.mp3")} volume={1} /></Sequence>
+      <Sequence from={S2}><Audio src={staticFile("audio/audit.mp3")} volume={1} /></Sequence>
+      <Sequence from={S3}><Audio src={staticFile("audio/tiers.mp3")} volume={1} /></Sequence>
+      <Sequence from={S4}><Audio src={staticFile("audio/competitive.mp3")} volume={1} /></Sequence>
+      <Sequence from={S5}><Audio src={staticFile("audio/metrics.mp3")} volume={1} /></Sequence>
+      <Sequence from={S6}><Audio src={staticFile("audio/cta.mp3")} volume={1} /></Sequence>
+
       {/* Scenes */}
-      <Sequence from={0} durationInFrames={130}><SceneTitle /></Sequence>
-      <Sequence from={120} durationInFrames={190}><SceneAudit /></Sequence>
-      <Sequence from={300} durationInFrames={200}><SceneTiers /></Sequence>
-      <Sequence from={490} durationInFrames={200}><SceneCompetitive /></Sequence>
-      <Sequence from={680} durationInFrames={150}><SceneMetrics /></Sequence>
-      <Sequence from={820}><SceneCTA /></Sequence>
+      <Sequence from={S1} durationInFrames={S1D}><SceneTitle /></Sequence>
+      <Sequence from={S2} durationInFrames={S2D}><SceneAudit /></Sequence>
+      <Sequence from={S3} durationInFrames={S3D}><SceneTiers /></Sequence>
+      <Sequence from={S4} durationInFrames={S4D}><SceneCompetitive /></Sequence>
+      <Sequence from={S5} durationInFrames={S5D}><SceneMetrics /></Sequence>
+      <Sequence from={S6} durationInFrames={S6D}><SceneCTA /></Sequence>
 
       {/* Watermark */}
-      <div style={{ position: "absolute", bottom: 25, left: 0, right: 0, textAlign: "center", fontFamily: "monospace", fontSize: 10, color: "rgba(255,255,255,0.12)", letterSpacing: 3 }}>
+      <div style={{ position: "absolute", bottom: 30, left: 0, right: 0, textAlign: "center", fontFamily: "monospace", fontSize: 12, color: "rgba(255,255,255,0.12)", letterSpacing: 4 }}>
         CONFIDENTIAL — INVESTOR USE ONLY
       </div>
     </AbsoluteFill>
