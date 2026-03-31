@@ -219,8 +219,8 @@ const SceneSignals: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", width: "88%" }}>
-        <TextReveal text="🤖 AI ALPHA SIGNALS" delay={5} fontSize={42} color={PURPLE} />
-        <TextReveal text="Spot opportunities before the market" delay={15} fontSize={22} color="rgba(255,255,255,0.45)" />
+        <TextReveal text="🤖 AI ALPHA SIGNALS" delay={5} fontSize={38} color={PURPLE} />
+        <TextReveal text="Spot opportunities before the market" delay={15} fontSize={20} color="rgba(255,255,255,0.45)" />
         <div style={{ marginTop: 40 }}>
           {signals.map((sig, i) => {
             const s = spring({ frame: frame - 30 - i * 12, fps, config: { damping: 12 } });
