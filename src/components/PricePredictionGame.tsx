@@ -62,6 +62,7 @@ const PricePredictionGame = ({ cards }: { cards: CardData[] }) => {
 
   const alreadyPicked = (name: string) => todayPredictions.some((p) => p.cardName === name);
   const getPick = (name: string) => todayPredictions.find((p) => p.cardName === name);
+  const allPicksMade = todayPredictions.length >= 3;
 
   if (!dailyCards.length) return null;
 
