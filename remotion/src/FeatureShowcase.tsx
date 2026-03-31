@@ -66,11 +66,11 @@ const Background: React.FC = () => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
 
-  const particles = Array.from({ length: 30 }, (_, i) => ({
-    x: (i * 137.5) % width,
-    y: ((i * 97.3) % height) + Math.sin(frame * 0.04 + i) * 40,
-    size: 2 + (i % 4) * 1.2,
-    opacity: 0.08 + Math.sin(frame * 0.03 + i * 0.8) * 0.06,
+  const particles = Array.from({ length: 12 }, (_, i) => ({
+    x: (i * 137.5 + 40) % (width - 80),
+    y: ((i * 157.3) % (height - 80)) + Math.sin(frame * 0.025 + i) * 30,
+    size: 1.5 + (i % 3) * 0.8,
+    opacity: 0.04 + Math.sin(frame * 0.02 + i * 0.8) * 0.03,
     color: [ACCENT, BLUE, GOLD, PURPLE][i % 4],
   }));
 
@@ -84,12 +84,9 @@ const Background: React.FC = () => {
           linear-gradient(180deg, ${BG} 0%, #0a1220 50%, ${BG} 100%)
         `,
       }} />
-      <AbsoluteFill style={{ opacity: 0.035 }}>
-        {Array.from({ length: 12 }, (_, i) => (
-          <div key={`h${i}`} style={{ position: "absolute", top: i * (height / 12), left: 0, right: 0, height: 1, background: ACCENT }} />
-        ))}
-        {Array.from({ length: 8 }, (_, i) => (
-          <div key={`v${i}`} style={{ position: "absolute", left: i * (width / 8), top: 0, bottom: 0, width: 1, background: ACCENT }} />
+      <AbsoluteFill style={{ opacity: 0.015 }}>
+        {Array.from({ length: 6 }, (_, i) => (
+          <div key={`h${i}`} style={{ position: "absolute", top: i * (height / 6), left: 0, right: 0, height: 1, background: ACCENT }} />
         ))}
       </AbsoluteFill>
       {particles.map((p, i) => (
@@ -110,11 +107,11 @@ const SceneHook: React.FC = () => {
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
       <div style={{ position: "absolute", width: 600, height: 600, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,210,106,${glowOp * 0.2}) 0%, transparent 70%)`, filter: "blur(60px)" }} />
       <div style={{ textAlign: "center", transform: `scale(${pulse})` }}>
-        <TextReveal text="YOUR POKÉMON CARDS" delay={5} fontSize={64} color="white" fontWeight={900} />
-        <TextReveal text="ARE WORTH MORE" delay={18} fontSize={64} color={ACCENT} fontWeight={900} />
-        <TextReveal text="THAN YOU THINK" delay={30} fontSize={64} color={GOLD} fontWeight={900} />
+        <TextReveal text="YOUR POKÉMON CARDS" delay={5} fontSize={46} color="white" fontWeight={900} />
+        <TextReveal text="ARE WORTH MORE" delay={18} fontSize={46} color={ACCENT} fontWeight={900} />
+        <TextReveal text="THAN YOU THINK" delay={30} fontSize={46} color={GOLD} fontWeight={900} />
         <Sequence from={50}>
-          <TextReveal text="Track. Trade. Compete." delay={0} fontSize={30} color="rgba(255,255,255,0.5)" fontWeight={500} letterSpacing={6} />
+          <TextReveal text="Track. Trade. Compete." delay={0} fontSize={26} color="rgba(255,255,255,0.5)" fontWeight={500} letterSpacing={5} />
         </Sequence>
       </div>
     </AbsoluteFill>
@@ -139,8 +136,8 @@ const SceneMarket: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", width: "88%" }}>
-        <TextReveal text="📊 LIVE MARKET DATA" delay={5} fontSize={52} color={ACCENT} />
-        <TextReveal text="3 indexes. 500+ cards. Updated hourly." delay={15} fontSize={26} color="rgba(255,255,255,0.5)" />
+        <TextReveal text="📊 LIVE MARKET DATA" delay={5} fontSize={42} color={ACCENT} />
+        <TextReveal text="3 indexes · 500+ cards · Updated hourly" delay={15} fontSize={22} color="rgba(255,255,255,0.5)" />
         <div style={{ marginTop: 40 }}>
           {tickers.map((t, i) => {
             const s = spring({ frame: frame - 25 - i * 8, fps, config: { damping: 14 } });
@@ -184,8 +181,8 @@ const ScenePortfolio: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center" }}>
-        <TextReveal text="💼 PORTFOLIO TRACKER" delay={5} fontSize={52} color="white" />
-        <TextReveal text="Know what you own & what it's worth" delay={15} fontSize={24} color="rgba(255,255,255,0.45)" />
+        <TextReveal text="💼 PORTFOLIO TRACKER" delay={5} fontSize={42} color="white" />
+        <TextReveal text="Know what you own & what it's worth" delay={15} fontSize={22} color="rgba(255,255,255,0.45)" />
         <Sequence from={20}>
           {(() => {
             const cardPop = spring({ frame: frame - 20, fps, config: { damping: 14 } });
@@ -222,8 +219,8 @@ const SceneSignals: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", width: "88%" }}>
-        <TextReveal text="🤖 AI ALPHA SIGNALS" delay={5} fontSize={52} color={PURPLE} />
-        <TextReveal text="Spot opportunities before the market" delay={15} fontSize={26} color="rgba(255,255,255,0.45)" />
+        <TextReveal text="🤖 AI ALPHA SIGNALS" delay={5} fontSize={38} color={PURPLE} />
+        <TextReveal text="Spot opportunities before the market" delay={15} fontSize={20} color="rgba(255,255,255,0.45)" />
         <div style={{ marginTop: 40 }}>
           {signals.map((sig, i) => {
             const s = spring({ frame: frame - 30 - i * 12, fps, config: { damping: 12 } });
@@ -266,8 +263,8 @@ const SceneSimTrader: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", width: "88%" }}>
-        <TextReveal text="🎮 SIMTRADER WORLD™" delay={5} fontSize={52} color={ACCENT} fontWeight={900} />
-        <TextReveal text="Paper trade with real market prices" delay={15} fontSize={24} color="rgba(255,255,255,0.45)" />
+        <TextReveal text="🎮 SIMTRADER WORLD™" delay={5} fontSize={42} color={ACCENT} fontWeight={900} />
+        <TextReveal text="Paper trade with real market prices" delay={15} fontSize={22} color="rgba(255,255,255,0.45)" />
         <Sequence from={22}>
           {(() => {
             const s = spring({ frame: frame - 22, fps, config: { damping: 14 } });
@@ -318,8 +315,8 @@ const SceneArena: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", width: "88%" }}>
-        <TextReveal text="⚡ POKE-PULSE ARENA™" delay={5} fontSize={52} color={GOLD} fontWeight={900} />
-        <TextReveal text="Bet PokéCoins on real card prices" delay={15} fontSize={24} color="rgba(255,255,255,0.45)" />
+        <TextReveal text="⚡ POKE-PULSE ARENA™" delay={5} fontSize={36} color={GOLD} fontWeight={900} />
+        <TextReveal text="Bet PokéCoins on real card prices" delay={15} fontSize={20} color="rgba(255,255,255,0.45)" />
 
         <Sequence from={25}>
           {(() => {
@@ -365,7 +362,7 @@ const SceneProTools: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", width: "90%" }}>
-        <TextReveal text="⚡ PRO TOOLS" delay={5} fontSize={48} color="white" />
+        <TextReveal text="⚡ PRO TOOLS" delay={5} fontSize={42} color="white" />
         <div style={{ marginTop: 40, display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap" }}>
           <FeatureCard icon="📊" title="Grading Arbitrage" desc="Find undervalued grading opportunities" delay={20} accent={ACCENT} />
           <FeatureCard icon="🐋" title="Whale Reports" desc="See what top collectors are buying" delay={32} accent={BLUE} />
@@ -399,8 +396,8 @@ const ScenePricing: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center", width: "92%" }}>
-        <TextReveal text="START AT $0.99" delay={5} fontSize={52} color="white" />
-        <TextReveal text="LESS THAN A COFFEE ☕" delay={15} fontSize={28} color={GOLD} />
+        <TextReveal text="START AT $0.99" delay={5} fontSize={44} color="white" />
+        <TextReveal text="LESS THAN A COFFEE ☕" delay={15} fontSize={24} color={GOLD} />
         <div style={{ marginTop: 36, display: "flex", gap: 16, justifyContent: "center" }}>
           {tiers.map((t, i) => {
             const s = spring({ frame: frame - 25 - i * 10, fps, config: { damping: 14 } });
@@ -436,7 +433,7 @@ const SceneSocialProof: React.FC = () => {
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
       <div style={{ textAlign: "center" }}>
-        <TextReveal text="TRUSTED BY COLLECTORS" delay={5} fontSize={48} color="rgba(255,255,255,0.5)" />
+        <TextReveal text="TRUSTED BY COLLECTORS" delay={5} fontSize={40} color="rgba(255,255,255,0.5)" />
         <div style={{ marginTop: 50, display: "flex", gap: 60, justifyContent: "center" }}>
           <StatBlock value="95" label="AUDIT SCORE" delay={20} color={ACCENT} />
           <StatBlock value="500+" label="CARDS TRACKED" delay={30} color={GOLD} />
@@ -465,9 +462,9 @@ const SceneCTA: React.FC = () => {
         filter: "blur(80px)",
       }} />
       <div style={{ textAlign: "center", transform: `scale(${ctaSpring * pulse})`, position: "relative" }}>
-        <div style={{ fontFamily: "sans-serif", fontSize: 60, fontWeight: 900, color: "white", marginBottom: 8 }}>SIGN UP FREE</div>
-        <div style={{ fontFamily: "sans-serif", fontSize: 60, fontWeight: 900, color: ACCENT, marginBottom: 30 }}>TODAY</div>
-        <div style={{ fontFamily: "sans-serif", fontSize: 28, color: "rgba(255,255,255,0.5)", marginBottom: 40 }}>Arena access from just $0.99</div>
+        <div style={{ fontFamily: "sans-serif", fontSize: 50, fontWeight: 900, color: "white", marginBottom: 8 }}>SIGN UP FREE</div>
+        <div style={{ fontFamily: "sans-serif", fontSize: 50, fontWeight: 900, color: ACCENT, marginBottom: 30 }}>TODAY</div>
+        <div style={{ fontFamily: "sans-serif", fontSize: 24, color: "rgba(255,255,255,0.5)", marginBottom: 40 }}>Arena access from just $0.99</div>
         <div style={{
           transform: `scale(${urlSpring})`,
           fontFamily: "monospace", fontSize: 28, color: ACCENT,
