@@ -31,6 +31,21 @@ serve(async (req) => {
     const user = userData.user;
     if (!user?.email) throw new Error("User not authenticated or email not available");
 
+    // Demo account bypass — full Team tier access for investor demos
+    const DEMO_EMAIL = "demo@poke-pulse-ticker.com";
+    if (user.email === DEMO_EMAIL) {
+      return new Response(JSON.stringify({
+        subscribed: true,
+        product_id: "prod_UFLEYH02tl3Kso", // Team product ID
+        subscription_end: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+        trial: false,
+        trial_ends_at: null,
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
+
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
 
