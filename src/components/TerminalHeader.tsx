@@ -69,30 +69,30 @@ const TerminalHeader = () => {
   return (
     <>
       <header data-demo-hide className="sticky top-0 z-50 border-b border-border bg-terminal-header/95 backdrop-blur-md shadow-[0_4px_24px_-4px_hsl(225_40%_4%/0.7),0_0_20px_hsl(160_84%_50%/0.04)]">
-        <div className="flex items-center justify-between px-4 py-3.5 lg:px-6">
+        <div className="flex items-center justify-between px-3 py-2.5 sm:px-4 sm:py-3 lg:px-6">
           {/* Left: logo + hamburger */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             {/* Hamburger — mobile only */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="sm:hidden flex items-center justify-center w-9 h-9 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all"
+              className="sm:hidden flex items-center justify-center w-8 h-8 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all"
               aria-label="Toggle menu"
             >
               {menuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
 
             <div
-              className="flex items-center gap-3 cursor-pointer group"
+              className="flex items-center gap-2 sm:gap-3 cursor-pointer group"
               onClick={() => handleNav("/")}
             >
-              <div className="relative flex items-center justify-center" style={{ height: '40px', width: '32px' }}>
-                <span className="font-black text-[40px] leading-none text-foreground select-none transition-all duration-300 group-hover:scale-110 group-hover:brightness-150" style={{ textShadow: '0 0 8px hsl(210 20% 98% / 0.7), 0 0 20px hsl(210 20% 98% / 0.4), 0 0 40px hsl(210 20% 98% / 0.2)' }}>P</span>
+              <div className="relative flex items-center justify-center" style={{ height: '32px', width: '26px' }}>
+                <span className="font-black text-[32px] sm:text-[36px] leading-none text-foreground select-none transition-all duration-300 group-hover:scale-110 group-hover:brightness-150" style={{ textShadow: '0 0 8px hsl(210 20% 98% / 0.7), 0 0 20px hsl(210 20% 98% / 0.4), 0 0 40px hsl(210 20% 98% / 0.2)' }}>P</span>
               </div>
               <div className="hidden min-[400px]:block">
-                <h1 className="text-[13px] font-extrabold tracking-tight leading-none text-primary">
+                <h1 className="text-[12px] sm:text-[13px] font-extrabold tracking-tight leading-none text-primary">
                   Poke Pulse
                 </h1>
-                <p className="text-[9px] font-semibold tracking-[0.15em] text-secondary uppercase mt-0.5">
+                <p className="text-[8px] sm:text-[9px] font-semibold tracking-[0.15em] text-secondary uppercase mt-0.5">
                   Market Terminal
                 </p>
               </div>
@@ -150,47 +150,51 @@ const TerminalHeader = () => {
             </nav>
           </div>
 
-          {/* Right: status + auth */}
-          <div className="flex flex-col items-end gap-1 flex-shrink-0">
-            {/* Top row: LIVE, tier, A11Y, clock */}
-            <div className="flex items-center gap-1.5 sm:gap-2.5">
-              <AccessibilityToggle />
-              <div className="hidden sm:flex items-center gap-1 rounded-md border border-border px-2 py-0.5">
-                <div className="h-1.5 w-1.5 rounded-full bg-primary pulse-live" />
-                <span className="text-[10px] font-bold text-primary tracking-wide">LIVE</span>
-              </div>
-              {tier && (
-                <span className="hidden sm:inline text-[9px] px-1.5 py-0.5 rounded-md bg-secondary text-secondary-foreground font-bold uppercase tracking-wide">
-                  {tier}
+          {/* Right: status + auth — single row on mobile, stacked on desktop */}
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+            {/* LIVE indicator — always visible */}
+            <div className="flex items-center gap-1 rounded-md border border-border px-1.5 py-0.5 sm:px-2">
+              <div className="h-1.5 w-1.5 rounded-full bg-primary pulse-live" />
+              <span className="text-[9px] sm:text-[10px] font-bold text-primary tracking-wide">LIVE</span>
+            </div>
+
+            {tier && (
+              <span className="hidden sm:inline text-[9px] px-1.5 py-0.5 rounded-md bg-secondary text-secondary-foreground font-bold uppercase tracking-wide">
+                {tier}
+              </span>
+            )}
+
+            {/* Clock — compact on mobile */}
+            <div className="hidden sm:block font-mono text-[10px] text-primary whitespace-nowrap">
+              {time.toLocaleString()}
+            </div>
+            <div className="sm:hidden font-mono text-[9px] text-primary whitespace-nowrap">
+              {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </div>
+
+            <AccessibilityToggle />
+
+            {/* Auth button */}
+            {user ? (
+              <div className="flex items-center gap-1.5">
+                <span className="hidden lg:inline text-[10px] text-muted-foreground truncate max-w-[100px]">
+                  {user.email}
                 </span>
-              )}
-              <div className="hidden md:block font-mono text-[10px] text-primary whitespace-nowrap">
-                {time.toLocaleString()}
-              </div>
-            </div>
-            {/* Bottom row: auth button centered beneath */}
-            <div className="flex justify-center w-full">
-              {user ? (
-                <div className="flex items-center gap-1.5">
-                  <span className="hidden lg:inline text-[10px] text-muted-foreground truncate max-w-[100px]">
-                    {user.email}
-                  </span>
-                  <button
-                    onClick={signOut}
-                    className="text-[10px] font-medium text-muted-foreground hover:text-foreground border border-border rounded-md px-2 py-1 transition-colors hover:bg-muted/40 whitespace-nowrap"
-                  >
-                    Sign Out
-                  </button>
-                </div>
-              ) : (
                 <button
-                  onClick={() => setShowAuth(true)}
-                  className="text-[11px] font-bold bg-primary text-primary-foreground rounded-md px-2.5 py-1 hover:opacity-90 transition-opacity shadow-sm whitespace-nowrap"
+                  onClick={signOut}
+                  className="text-[10px] font-medium text-muted-foreground hover:text-foreground border border-border rounded-md px-2 py-1 transition-colors hover:bg-muted/40 whitespace-nowrap"
                 >
-                  Sign In
+                  Sign Out
                 </button>
-              )}
-            </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowAuth(true)}
+                className="text-[10px] sm:text-[11px] font-bold bg-primary text-primary-foreground rounded-md px-2 py-1 sm:px-2.5 hover:opacity-90 transition-opacity shadow-sm whitespace-nowrap"
+              >
+                Sign In
+              </button>
+            )}
           </div>
         </div>
 
