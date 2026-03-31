@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Clock, Zap, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Urgency countdown — shows time remaining on the "launch week" offer.
