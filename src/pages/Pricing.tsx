@@ -8,31 +8,33 @@ import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
-import { ArrowLeft, Check, Minus, Zap, Crown, Building2, Users, Shield, Star } from "lucide-react";
+import { ArrowLeft, Check, Minus, Zap, Crown, Building2, Users, Shield, Star, Store } from "lucide-react";
 
 const features = [
-  { name: "Raw card market ticker", free: "Delayed 15 min", pro: "Real-time", institutional: "Real-time" },
-  { name: "Top movers dashboard", free: "Top 12", pro: "Unlimited", institutional: "Unlimited" },
-  { name: "Daily market summary", free: true, pro: true, institutional: true },
-  { name: "Community access", free: true, pro: true, institutional: true },
-  { name: "Graded card ticker", free: false, pro: true, institutional: true },
-  { name: "Sealed product ticker", free: false, pro: true, institutional: true },
-  { name: "Full card board (500+)", free: false, pro: true, institutional: true },
-  { name: "Price alerts & notifications", free: false, pro: true, institutional: true },
-  { name: "Historical price charts", free: false, pro: true, institutional: true },
-  { name: "AI signal analysis", free: false, pro: true, institutional: true },
-  { name: "Portfolio tracking & P&L", free: false, pro: true, institutional: true },
-  { name: "API access", free: false, pro: false, institutional: true },
-  { name: "Arbitrage scanner", free: false, pro: false, institutional: true },
-  { name: "Bulk export (CSV/JSON)", free: false, pro: false, institutional: true },
-  { name: "Priority support", free: false, pro: false, institutional: true },
-  { name: "Custom watchlists (unlimited)", free: false, pro: false, institutional: true },
+  { name: "Raw card market ticker", free: "Delayed 15 min", pro: "Real-time", institutional: "Real-time", team: "Real-time" },
+  { name: "Top movers dashboard", free: "Top 12", pro: "Unlimited", institutional: "Unlimited", team: "Unlimited" },
+  { name: "Daily market summary", free: true, pro: true, institutional: true, team: true },
+  { name: "Community access", free: true, pro: true, institutional: true, team: true },
+  { name: "Graded card ticker", free: false, pro: true, institutional: true, team: true },
+  { name: "Sealed product ticker", free: false, pro: true, institutional: true, team: true },
+  { name: "Full card board (500+)", free: false, pro: true, institutional: true, team: true },
+  { name: "Price alerts & notifications", free: false, pro: true, institutional: true, team: true },
+  { name: "Historical price charts", free: false, pro: true, institutional: true, team: true },
+  { name: "AI signal analysis", free: false, pro: true, institutional: true, team: true },
+  { name: "Portfolio tracking & P&L", free: false, pro: true, institutional: true, team: true },
+  { name: "API access", free: false, pro: false, institutional: true, team: true },
+  { name: "Arbitrage scanner", free: false, pro: false, institutional: true, team: true },
+  { name: "Bulk export (CSV/JSON)", free: false, pro: false, institutional: true, team: true },
+  { name: "Priority support", free: false, pro: false, institutional: true, team: true },
+  { name: "Custom watchlists (unlimited)", free: false, pro: false, institutional: true, team: true },
+  { name: "Multi-seat access (3 seats)", free: false, pro: false, institutional: false, team: true },
 ];
 
 const tiers = [
   { key: "free" as const, name: "FREE", icon: <Minus className="h-5 w-5" /> },
   { key: "pro" as const, name: "PRO", icon: <Zap className="h-5 w-5" /> },
   { key: "institutional" as const, name: "INSTITUTIONAL", icon: <Building2 className="h-5 w-5" /> },
+  { key: "team" as const, name: "LGS TEAM", icon: <Store className="h-5 w-5" /> },
 ];
 
 const Pricing = () => {
