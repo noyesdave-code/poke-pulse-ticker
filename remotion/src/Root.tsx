@@ -1,6 +1,7 @@
 import { Composition } from "remotion";
 import { MainVideo } from "./MainVideo";
 import { InvestorPitch } from "./InvestorPitch";
+import { FeatureShowcase } from "./FeatureShowcase";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -35,6 +36,22 @@ export const RemotionRoot: React.FC = () => (
       fps={30}
       width={1080}
       height={1920}
+    />
+    <Composition
+      id="feature-showcase"
+      component={FeatureShowcase}
+      durationInFrames={1770}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+    <Composition
+      id="feature-showcase-yt"
+      component={FeatureShowcase}
+      durationInFrames={1770}
+      fps={30}
+      width={1920}
+      height={1080}
     />
   </>
 );
