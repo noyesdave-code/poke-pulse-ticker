@@ -140,7 +140,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
             >
               <button
                 onClick={() => navigate("/pricing")}
-                className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-mono text-sm font-bold bg-primary text-primary-foreground hover:shadow-[0_0_30px_hsl(160_84%_50%/0.35)] transition-all duration-300 overflow-hidden"
+                className="group relative inline-flex items-center gap-2 px-5 py-3 sm:py-2.5 rounded-lg font-mono text-sm font-bold bg-primary text-primary-foreground hover:shadow-[0_0_30px_hsl(160_84%_50%/0.35)] transition-all duration-300 overflow-hidden min-h-[48px]"
               >
                 <div className="absolute inset-0 shimmer-sweep opacity-60" />
                 <Zap className="relative w-4 h-4" />
@@ -149,7 +149,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
               </button>
               <button
                 onClick={onSearchFocus}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg font-mono text-sm font-medium border border-border text-foreground hover:border-primary/40 hover:bg-muted/50 transition-all duration-300"
+                className="inline-flex items-center gap-2 px-4 py-3 sm:py-2.5 rounded-lg font-mono text-sm font-medium border border-border text-foreground hover:border-primary/40 hover:bg-muted/50 transition-all duration-300 min-h-[48px]"
               >
                 <Search className="w-4 h-4 text-muted-foreground" />
                 Price Check a Card
