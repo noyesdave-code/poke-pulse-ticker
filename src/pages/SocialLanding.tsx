@@ -375,7 +375,7 @@ const SocialLanding = () => {
           </button>
 
           <div className="flex items-center justify-center gap-6 text-xs text-muted-foreground font-mono">
-            <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> 7-day free trial</span>
+            <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> 14-day free trial</span>
             <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> Cancel anytime</span>
             <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> No credit card</span>
           </div>

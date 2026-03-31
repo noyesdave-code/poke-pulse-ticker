@@ -116,7 +116,7 @@ const FomoPopup = () => {
               </button>
 
               <p className="font-mono text-[8px] text-muted-foreground/60 text-center mt-1.5">
-                Then $19/mo · Cancel anytime · No card charged during trial
+                Then $9/mo · Cancel anytime · No card charged during trial
               </p>
             </div>
           </motion.div>
