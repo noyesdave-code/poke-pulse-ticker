@@ -33,6 +33,7 @@ function formatTime(ms: number) {
 const LaunchCountdown = () => {
   const [endTime] = useState(getEndTime);
   const [remaining, setRemaining] = useState(endTime - Date.now());
+  const navigate = useNavigate();
 
   useEffect(() => {
     const id = setInterval(() => {
