@@ -104,7 +104,7 @@ const TOUR_STEPS: TourStep[] = [
   {
     title: "Subscription Tiers",
     description:
-      "Flexible pricing: Free browsing, Scout ($9/mo), Pro ($29/mo), and Team ($99/mo) plans. 7-day free trial on all paid tiers.",
+      "Flexible pricing: Free, Starter ($4.99/mo), Pro ($9/mo), Premium ($39/mo), and Team ($99/mo). 14-day free trial on Pro.",
     icon: DollarSign,
     route: "/pricing",
     badge: "BUSINESS",

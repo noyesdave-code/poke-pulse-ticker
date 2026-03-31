@@ -108,7 +108,7 @@ const SocialLanding = () => {
             >
               <div className="absolute inset-0 shimmer-sweep opacity-60" />
               <Zap className="relative w-5 h-5" />
-              <span className="relative">START FREE — 7 DAYS</span>
+              <span className="relative">START FREE — 14 DAYS</span>
               <ArrowRight className="relative w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
             <button
@@ -120,7 +120,7 @@ const SocialLanding = () => {
           </div>
 
           <p className="font-mono text-[10px] text-primary/60 tracking-wide">
-            ✓ No credit card required &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ 7-day free trial
+            ✓ No credit card required &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ 14-day free trial
           </p>
         </motion.div>
 
@@ -375,7 +375,7 @@ const SocialLanding = () => {
           </button>
 
           <div className="flex items-center justify-center gap-6 text-xs text-muted-foreground font-mono">
-            <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> 7-day free trial</span>
+            <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> 14-day free trial</span>
             <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> Cancel anytime</span>
             <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> No credit card</span>
           </div>

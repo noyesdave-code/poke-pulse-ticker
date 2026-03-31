@@ -31,7 +31,7 @@ import WhaleReport from "@/components/WhaleReport";
 import RecentNotableSales from "@/components/RecentNotableSales";
 import EraIndexCards from "@/components/EraIndexCards";
 import MarketTrendSummary from "@/components/MarketTrendSummary";
-import DataQualityBadge from "@/components/DataQualityBadge";
+// DataQualityBadge merged into SocialProofBar
 import FomoPopup from "@/components/FomoPopup";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import MarketIntelWidget from "@/components/MarketIntelWidget";
@@ -110,27 +110,7 @@ const Index = () => {
       <TerminalHeader />
       <TickerBar cards={displayCards} isLive={isLive} lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined} />
 
-      <main className="max-w-7xl mx-auto px-4 lg:px-6 py-6 space-y-6">
-        {/* Live indicator */}
-        {isLive && (
-          <div className="flex items-center gap-2">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-terminal-green opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-terminal-green"></span>
-            </span>
-            <span className="font-mono text-[10px] text-terminal-green uppercase tracking-widest">
-              Live Data — pokemontcg.io
-            </span>
-          </div>
-        )}
-        {isLoading && (
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest animate-pulse">
-              Loading live market data…
-            </span>
-          </div>
-        )}
-
+      <main className="max-w-7xl mx-auto px-4 lg:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6">
         {/* 1. Hero with urgency hook */}
         <HeroSection
           onSearchFocus={handleSearchFocus}
@@ -139,39 +119,41 @@ const Index = () => {
         />
 
         {/* 2. Social proof — immediately after hero */}
-        <SocialProofBar totalMarketValue={totalMarketValue} />
+        <SocialProofBar
+          totalMarketValue={totalMarketValue}
+          isLive={isLive}
+          lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined}
+          cardCount={displayCards.length}
+        />
 
         {/* 3. Market Index Cards — show the money right away */}
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <SkeletonIndexCard />
             <SkeletonIndexCard />
             <SkeletonIndexCard />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <MarketIndexCard title="RAW 500 INDEX" value={rawIndex} change={rawChange} count={displayCards.length} description="Average tracked raw card market value" variant="green" />
             <MarketIndexCard title="GRADED 1000 INDEX" value={gradedIndex} change={gradedChange} count={displayGraded.length} description="Average tracked graded card market value (PSA/CGC/BGS/TAG)" variant="amber" />
             <MarketIndexCard title="SEALED 1000 INDEX" value={sealedIndex} change={sealedChange} count={displaySealed.length} description="Average tracked sealed product value (Boxes/Packs/ETBs)" variant="blue" />
           </div>
         )}
 
-        {/* Daily Index Charts — Wall Street Hours */}
+        {/* Daily Index Charts — hidden on mobile by default */}
         {!isLoading && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="hidden md:grid grid-cols-3 gap-3">
             <IndexDayChart title="RAW 500 INDEX" indexValue={rawIndex} indexChange={rawChange} variant="green" />
             <IndexDayChart title="GRADED 1000 INDEX" indexValue={gradedIndex} indexChange={gradedChange} variant="amber" />
             <IndexDayChart title="SEALED 1000 INDEX" indexValue={sealedIndex} indexChange={sealedChange} variant="blue" />
           </div>
         )}
 
-        {/* Data Quality & Freshness */}
-        <DataQualityBadge isLive={isLive} lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined} cardCount={displayCards.length} />
-
-        <MarketUpdateBanner cards={displayCards} />
-
         {/* 4. Trending Cards with images — above the fold dopamine hit */}
         <TrendingCards cards={displayCards} isLoading={isLoading} />
+
+        <MarketUpdateBanner cards={displayCards} />
 
         {/* Top Movers with card thumbnails */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
