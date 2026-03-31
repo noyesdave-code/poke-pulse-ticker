@@ -106,6 +106,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <StickyUpgradeBanner />
       <TerminalHeader />
       <TickerBar cards={displayCards} isLive={isLive} lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined} />
 
