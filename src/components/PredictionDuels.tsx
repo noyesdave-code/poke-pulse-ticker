@@ -172,6 +172,29 @@ export default function PredictionDuels({ tradableCards, walletBalance, onBalanc
 
   return (
     <div className="space-y-4">
+      {/* Duel Encouragement Banner */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="rounded-xl border-2 border-primary/40 bg-gradient-to-r from-primary/10 via-primary/5 to-amber-500/10 p-4"
+      >
+        <div className="flex items-center gap-3">
+          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/20">
+            <Swords className="w-5 h-5 text-primary" />
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-black text-foreground">⚔️ Challenge a Rival Collector!</p>
+            <p className="text-xs text-muted-foreground">
+              Pick a card, predict its price movement, and put your PokéCoins on the line.
+              Winner takes the full 2x pot. The more you duel, the faster you climb the ranks!
+            </p>
+          </div>
+          <Badge variant="default" className="text-[10px] font-bold animate-pulse shrink-0">
+            2x PAYOUT
+          </Badge>
+        </div>
+      </motion.div>
+
       {/* Create Duel */}
       <Card className="border-primary/30">
         <CardHeader>
