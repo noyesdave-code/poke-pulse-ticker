@@ -693,6 +693,66 @@ export type Database = {
         }
         Relationships: []
       }
+      prediction_duels: {
+        Row: {
+          accepted_at: string | null
+          card_api_id: string
+          card_image: string | null
+          card_name: string
+          card_set: string
+          challenger_id: string
+          challenger_prediction: string
+          created_at: string
+          id: string
+          opponent_id: string | null
+          resolved_at: string | null
+          resolved_price: number | null
+          resolves_at: string
+          snapshot_price: number
+          status: string
+          wager: number
+          winner_id: string | null
+        }
+        Insert: {
+          accepted_at?: string | null
+          card_api_id: string
+          card_image?: string | null
+          card_name: string
+          card_set: string
+          challenger_id: string
+          challenger_prediction?: string
+          created_at?: string
+          id?: string
+          opponent_id?: string | null
+          resolved_at?: string | null
+          resolved_price?: number | null
+          resolves_at: string
+          snapshot_price: number
+          status?: string
+          wager?: number
+          winner_id?: string | null
+        }
+        Update: {
+          accepted_at?: string | null
+          card_api_id?: string
+          card_image?: string | null
+          card_name?: string
+          card_set?: string
+          challenger_id?: string
+          challenger_prediction?: string
+          created_at?: string
+          id?: string
+          opponent_id?: string | null
+          resolved_at?: string | null
+          resolved_price?: number | null
+          resolves_at?: string
+          snapshot_price?: number
+          status?: string
+          wager?: number
+          winner_id?: string | null
+        }
+        Relationships: []
+      }
       price_alerts: {
         Row: {
           card_api_id: string
