@@ -8,41 +8,46 @@ import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
-import { ArrowLeft, Check, Minus, Zap, Crown, Users, Shield, Star, Gem, Store, Sparkles } from "lucide-react";
+import { ArrowLeft, Check, Minus, Zap, Crown, Users, Shield, Star, Gem, Store, Sparkles, Anchor } from "lucide-react";
 
 const features = [
-  { name: "Raw card market ticker", free: "Delayed 15 min", starter: "Real-time", pro: "Real-time", premium: "Real-time", team: "Real-time" },
-  { name: "Top movers dashboard", free: "Top 12", starter: "Top 50", pro: "Unlimited", premium: "Unlimited", team: "Unlimited" },
-  { name: "Daily market summary", free: true, starter: true, pro: true, premium: true, team: true },
-  { name: "Community access", free: true, starter: true, pro: true, premium: true, team: true },
-  { name: "Basic price alerts", free: false, starter: "5 max", pro: "Unlimited", premium: "Unlimited", team: "Unlimited" },
-  { name: "7-day price history", free: false, starter: true, pro: true, premium: true, team: true },
-  { name: "Graded card ticker", free: false, starter: false, pro: true, premium: true, team: true },
-  { name: "Sealed product ticker", free: false, starter: false, pro: true, premium: true, team: true },
-  { name: "Full card board (500+)", free: false, starter: false, pro: true, premium: true, team: true },
-  { name: "Historical price charts", free: false, starter: false, pro: true, premium: true, team: true },
-  { name: "AI signal analysis", free: false, starter: false, pro: true, premium: true, team: true },
-  { name: "Portfolio tracking & P&L", free: false, starter: false, pro: true, premium: true, team: true },
-  { name: "API access", free: false, starter: false, pro: false, premium: true, team: true },
-  { name: "Arbitrage scanner", free: false, starter: false, pro: false, premium: true, team: true },
-  { name: "Bulk export (CSV/JSON)", free: false, starter: false, pro: false, premium: true, team: true },
-  { name: "SimTrader™ unlimited trades", free: false, starter: false, pro: false, premium: true, team: true },
-  { name: "Limit & stop-loss orders", free: false, starter: false, pro: false, premium: true, team: true },
-  { name: "Trading contests", free: false, starter: false, pro: false, premium: true, team: true },
-  { name: "Capital gains tax reports", free: false, starter: false, pro: false, premium: true, team: true },
-  { name: "AI market intelligence", free: false, starter: false, pro: false, premium: true, team: true },
-  { name: "Priority support", free: false, starter: false, pro: false, premium: true, team: true },
-  { name: "Multi-seat access (3 seats)", free: false, starter: false, pro: false, premium: false, team: true },
+  { name: "Raw card market ticker", free: "Delayed 15 min", arena: "Delayed 15 min", starter: "Real-time", pro: "Real-time", premium: "Real-time", team: "Real-time", whale: "Real-time" },
+  { name: "Top movers dashboard", free: "Top 12", arena: "Top 12", starter: "Top 50", pro: "Unlimited", premium: "Unlimited", team: "Unlimited", whale: "Unlimited" },
+  { name: "Daily market summary", free: true, arena: true, starter: true, pro: true, premium: true, team: true, whale: true },
+  { name: "Community access", free: true, arena: true, starter: true, pro: true, premium: true, team: true, whale: true },
+  { name: "Arena betting & PokéCoins", free: false, arena: true, starter: true, pro: true, premium: true, team: true, whale: true },
+  { name: "Basic price alerts", free: false, arena: false, starter: "5 max", pro: "Unlimited", premium: "Unlimited", team: "Unlimited", whale: "Unlimited" },
+  { name: "7-day price history", free: false, arena: false, starter: true, pro: true, premium: true, team: true, whale: true },
+  { name: "Graded card ticker", free: false, arena: false, starter: false, pro: true, premium: true, team: true, whale: true },
+  { name: "Sealed product ticker", free: false, arena: false, starter: false, pro: true, premium: true, team: true, whale: true },
+  { name: "Full card board (500+)", free: false, arena: false, starter: false, pro: true, premium: true, team: true, whale: true },
+  { name: "Historical price charts", free: false, arena: false, starter: false, pro: true, premium: true, team: true, whale: true },
+  { name: "AI signal analysis", free: false, arena: false, starter: false, pro: true, premium: true, team: true, whale: true },
+  { name: "Portfolio tracking & P&L", free: false, arena: false, starter: false, pro: true, premium: true, team: true, whale: true },
+  { name: "API access", free: false, arena: false, starter: false, pro: false, premium: true, team: true, whale: true },
+  { name: "Arbitrage scanner", free: false, arena: false, starter: false, pro: false, premium: true, team: true, whale: true },
+  { name: "Bulk export (CSV/JSON)", free: false, arena: false, starter: false, pro: false, premium: true, team: true, whale: true },
+  { name: "SimTrader™ unlimited trades", free: false, arena: false, starter: false, pro: false, premium: true, team: true, whale: true },
+  { name: "Limit & stop-loss orders", free: false, arena: false, starter: false, pro: false, premium: true, team: true, whale: true },
+  { name: "Trading contests", free: false, arena: false, starter: false, pro: false, premium: true, team: true, whale: true },
+  { name: "Capital gains tax reports", free: false, arena: false, starter: false, pro: false, premium: true, team: true, whale: true },
+  { name: "AI market intelligence", free: false, arena: false, starter: false, pro: false, premium: true, team: true, whale: true },
+  { name: "Priority support", free: false, arena: false, starter: false, pro: false, premium: true, team: true, whale: true },
+  { name: "Multi-seat access", free: false, arena: false, starter: false, pro: false, premium: false, team: "3 seats", whale: "5 seats" },
+  { name: "Dedicated account manager", free: false, arena: false, starter: false, pro: false, premium: false, team: false, whale: true },
+  { name: "Custom API rate limits", free: false, arena: false, starter: false, pro: false, premium: false, team: false, whale: true },
 ];
 
 type TierDef = { key: string; name: string; icon: React.ReactNode; description: string };
 
 const tiers: TierDef[] = [
   { key: "free", name: "FREE", icon: <Minus className="h-5 w-5" />, description: "Explore the market" },
+  { key: "arena", name: "ARENA", icon: <Crown className="h-5 w-5" />, description: "Arena access" },
   { key: "starter", name: "STARTER", icon: <Sparkles className="h-5 w-5" />, description: "For casual collectors" },
   { key: "pro", name: "PRO", icon: <Zap className="h-5 w-5" />, description: "For active collectors" },
   { key: "premium", name: "PREMIUM", icon: <Gem className="h-5 w-5" />, description: "For serious investors" },
   { key: "team", name: "TEAM", icon: <Store className="h-5 w-5" />, description: "For local game stores" },
+  { key: "whale", name: "WHALE", icon: <Anchor className="h-5 w-5" />, description: "Ultimate tier" },
 ];
 
 const Pricing = () => {
@@ -103,7 +108,7 @@ const Pricing = () => {
     <div className="min-h-screen bg-background">
       <TerminalHeader />
       <TickerBar />
-      <main className="max-w-5xl mx-auto px-4 lg:px-6 py-6 space-y-8">
+      <main className="max-w-7xl mx-auto px-4 lg:px-6 py-6 space-y-8">
         <button
           onClick={() => navigate("/")}
           className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground hover:text-foreground transition-colors"
@@ -154,13 +159,15 @@ const Pricing = () => {
         </div>
 
         {/* Tier Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
           {tiers.map((t) => {
             const current = isCurrent(t.key);
             const highlight = t.key === "pro";
             const isPremium = t.key === "premium";
             const isTeam = t.key === "team";
             const isStarter = t.key === "starter";
+            const isWhale = t.key === "whale";
+            const isArena = t.key === "arena";
             const stripeTier = t.key !== "free" ? (STRIPE_TIERS as any)[t.key] : null;
             const price = !stripeTier ? "$0" : annual ? stripeTier.annual.price : stripeTier.price;
             const period = !stripeTier ? "forever" : annual ? stripeTier.annual.period : stripeTier.period;
@@ -170,11 +177,13 @@ const Pricing = () => {
             return (
               <div
                 key={t.key}
-                className={`terminal-card p-5 flex flex-col relative transition-all duration-300 ${
+                className={`terminal-card p-4 flex flex-col relative transition-all duration-300 ${
                   highlight ? "border-t-2 border-t-primary shadow-[0_0_24px_hsl(var(--primary)/0.15)] hover:shadow-[0_0_32px_hsl(var(--primary)/0.25)] scale-[1.02]" : ""
                 } ${isPremium ? "border-t-2 border-t-purple-500 shadow-[0_0_16px_rgba(168,85,247,0.1)]" : ""
                 } ${isStarter ? "border-t-2 border-t-terminal-amber shadow-[0_0_16px_rgba(245,158,11,0.1)]" : ""
                 } ${isTeam ? "border-t-2 border-t-terminal-amber shadow-[0_0_16px_rgba(245,158,11,0.1)]" : ""
+                } ${isWhale ? "border-t-2 border-t-blue-500 shadow-[0_0_16px_rgba(59,130,246,0.1)]" : ""
+                } ${isArena ? "border-t-2 border-t-terminal-green shadow-[0_0_16px_rgba(34,197,94,0.1)]" : ""
                 } ${current ? "ring-1 ring-primary" : ""}`}
               >
                 {current && (
@@ -183,66 +192,71 @@ const Pricing = () => {
                   </span>
                 )}
                 {highlight && !current && (
-                  <span className="absolute -top-3 right-4 font-mono text-[10px] bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full font-bold animate-pulse shadow-[0_0_12px_hsl(var(--primary)/0.6)]">
+                  <span className="absolute -top-3 right-3 font-mono text-[9px] bg-primary text-primary-foreground px-2 py-0.5 rounded-full font-bold animate-pulse shadow-[0_0_12px_hsl(var(--primary)/0.6)]">
                     ⚡ MOST POPULAR
                   </span>
                 )}
                 {isPremium && !current && (
-                  <span className="absolute -top-3 right-4 font-mono text-[10px] bg-purple-500 text-white px-2.5 py-0.5 rounded-full font-bold">
+                  <span className="absolute -top-3 right-3 font-mono text-[9px] bg-purple-500 text-white px-2 py-0.5 rounded-full font-bold">
                     💎 BEST VALUE
+                  </span>
+                )}
+                {isWhale && !current && (
+                  <span className="absolute -top-3 right-3 font-mono text-[9px] bg-blue-500 text-white px-2 py-0.5 rounded-full font-bold">
+                    🐋 WHALE
                   </span>
                 )}
 
                 <div className="flex items-center gap-2 mb-1">
-                  <div className={`h-8 w-8 rounded flex items-center justify-center ${
-                    isPremium ? "bg-purple-500/10 text-purple-400" : isTeam ? "bg-terminal-amber/10 text-terminal-amber" : "bg-primary/10 text-primary"
+                  <div className={`h-7 w-7 rounded flex items-center justify-center ${
+                    isPremium ? "bg-purple-500/10 text-purple-400" : isTeam ? "bg-terminal-amber/10 text-terminal-amber" : isWhale ? "bg-blue-500/10 text-blue-400" : isArena ? "bg-terminal-green/10 text-terminal-green" : "bg-primary/10 text-primary"
                   }`}>
                     {t.icon}
                   </div>
-                  <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase font-semibold">
+                  <span className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase font-semibold">
                     {t.name}
                   </span>
                 </div>
 
-                <p className="font-mono text-[10px] text-muted-foreground mb-3">{t.description}</p>
+                <p className="font-mono text-[10px] text-muted-foreground mb-2">{t.description}</p>
 
                 <div className="mb-1 flex items-baseline gap-1">
-                  <span className="font-mono text-3xl font-bold text-foreground">{price}</span>
-                  <span className="font-mono text-sm text-muted-foreground">{period}</span>
+                  <span className="font-mono text-2xl font-bold text-foreground">{price}</span>
+                  <span className="font-mono text-xs text-muted-foreground">{period}</span>
                 </div>
 
-                {t.key === "starter" && !current && (
-                  <span className="inline-block font-mono text-[10px] text-terminal-amber font-bold bg-terminal-amber/10 border border-terminal-amber/20 px-2 py-0.5 rounded mb-2">
+                {isStarter && !current && (
+                  <span className="inline-block font-mono text-[9px] text-terminal-amber font-bold bg-terminal-amber/10 border border-terminal-amber/20 px-2 py-0.5 rounded mb-2">
                     ☕ LESS THAN A COFFEE
                   </span>
                 )}
-                {t.key === "pro" && !current && (
-                  <span className="inline-block font-mono text-[10px] text-terminal-green font-bold bg-terminal-green/10 border border-terminal-green/20 px-2 py-0.5 rounded mb-2">
+                {highlight && !current && (
+                  <span className="inline-block font-mono text-[9px] text-terminal-green font-bold bg-terminal-green/10 border border-terminal-green/20 px-2 py-0.5 rounded mb-2">
                     🎁 14-DAY FREE TRIAL
                   </span>
                 )}
                 {isTeam && (
-                  <span className="inline-block font-mono text-[10px] text-terminal-amber font-bold bg-terminal-amber/10 border border-terminal-amber/20 px-2 py-0.5 rounded mb-2">
+                  <span className="inline-block font-mono text-[9px] text-terminal-amber font-bold bg-terminal-amber/10 border border-terminal-amber/20 px-2 py-0.5 rounded mb-2">
                     🏪 3 SEATS INCLUDED
                   </span>
                 )}
-                {isPremium && !current && (
-                  <span className="inline-block font-mono text-[10px] text-purple-400 font-bold bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded mb-2">
-                    🎮 ALL FEATURES UNLOCKED
+                {isWhale && (
+                  <span className="inline-block font-mono text-[9px] text-blue-400 font-bold bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded mb-2">
+                    🐋 5 SEATS + VIP
                   </span>
                 )}
                 {savings && (
-                  <span className="inline-block font-mono text-[10px] text-primary font-bold bg-primary/10 border border-primary/20 px-2 py-0.5 rounded mb-3">
+                  <span className="inline-block font-mono text-[9px] text-primary font-bold bg-primary/10 border border-primary/20 px-2 py-0.5 rounded mb-2">
                     💰 {savings}
                   </span>
                 )}
-                {!savings && <div className="mb-3" />}
+                {!savings && <div className="mb-2" />}
 
                 <div className="mt-auto">
                   {current && subscribed ? (
                     <button
                       onClick={handleManage}
-                      className="w-full py-2.5 rounded font-mono text-sm font-semibold border border-border text-foreground hover:bg-muted transition-colors"
+                      className="w-full py-2 rounded font-mono text-[11px] font-semibold border border-border text-foreground hover:bg-muted transition-colors"
                     >
                       Manage Subscription
                     </button>
@@ -250,11 +264,13 @@ const Pricing = () => {
                     <button
                       onClick={() => handleSubscribe(priceId, t.key)}
                       disabled={loadingTier === t.key}
-                      className={`w-full py-2.5 rounded font-mono text-sm font-semibold transition-all disabled:opacity-50 ${
+                      className={`w-full py-2 rounded font-mono text-[11px] font-semibold transition-all disabled:opacity-50 ${
                         highlight
                           ? "bg-primary text-primary-foreground hover:opacity-90"
                           : isPremium
                           ? "bg-purple-500 text-white hover:bg-purple-600"
+                          : isWhale
+                          ? "bg-blue-500 text-white hover:bg-blue-600"
                           : "border border-border text-foreground hover:bg-muted"
                       }`}
                     >
@@ -267,7 +283,7 @@ const Pricing = () => {
                   ) : (
                     <button
                       disabled
-                      className="w-full py-2.5 rounded font-mono text-sm font-semibold border border-border text-muted-foreground"
+                      className="w-full py-2 rounded font-mono text-[11px] font-semibold border border-border text-muted-foreground"
                     >
                       Current Plan
                     </button>
@@ -290,13 +306,13 @@ const Pricing = () => {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border bg-muted/30">
-                  <th className="text-left font-mono text-[10px] uppercase tracking-widest text-muted-foreground p-3 w-2/5">
+                  <th className="text-left font-mono text-[10px] uppercase tracking-widest text-muted-foreground p-3 min-w-[180px]">
                     Feature
                   </th>
                   {tiers.map((t) => (
                     <th
                       key={t.key}
-                      className={`text-center font-mono text-[10px] uppercase tracking-widest p-3 ${
+                      className={`text-center font-mono text-[9px] uppercase tracking-widest p-2 min-w-[70px] ${
                         isCurrent(t.key) ? "text-primary font-bold" : "text-muted-foreground"
                       }`}
                     >
@@ -312,11 +328,13 @@ const Pricing = () => {
                     className={`border-b border-border/50 ${i % 2 === 0 ? "" : "bg-muted/10"}`}
                   >
                     <td className="font-mono text-xs text-foreground p-3">{f.name}</td>
-                    <td className="text-center p-3">{renderCell(f.free)}</td>
-                    <td className="text-center p-3">{renderCell((f as any).starter)}</td>
-                    <td className="text-center p-3">{renderCell(f.pro)}</td>
-                    <td className="text-center p-3">{renderCell(f.premium)}</td>
-                    <td className="text-center p-3">{renderCell(f.team)}</td>
+                    <td className="text-center p-2">{renderCell(f.free)}</td>
+                    <td className="text-center p-2">{renderCell((f as any).arena)}</td>
+                    <td className="text-center p-2">{renderCell((f as any).starter)}</td>
+                    <td className="text-center p-2">{renderCell(f.pro)}</td>
+                    <td className="text-center p-2">{renderCell(f.premium)}</td>
+                    <td className="text-center p-2">{renderCell(f.team)}</td>
+                    <td className="text-center p-2">{renderCell((f as any).whale)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -332,9 +350,11 @@ const Pricing = () => {
               { q: "Can I cancel anytime?", a: "Yes. Cancel from your subscription portal — no lock-in contracts." },
               { q: "Do I need a credit card for Free?", a: "No. The Free tier requires no payment information." },
               { q: "What's included in the 14-day trial?", a: "Full Pro access — real-time data, alerts, charts, and portfolio tracking. No card charged until day 15." },
-              { q: "What's the Starter plan?", a: "At just $4.99/mo — less than a coffee — you get real-time data, top 50 movers, and basic alerts. Perfect entry point." },
+              { q: "What's the Arena tier?", a: "At $0.99/mo you unlock Arena betting, PokéCoin wallet, and pack simulator. The cheapest way to play." },
+              { q: "What's the Starter plan?", a: "At $1.99/mo — less than a coffee — you get real-time data, top 50 movers, and basic alerts." },
               { q: "Can I upgrade or downgrade?", a: "Absolutely. Changes take effect on your next billing cycle." },
-              { q: "How does the Team plan work?", a: "3 seats with full Premium access. Perfect for LGS shops that need shared market data across staff." },
+              { q: "How does the Team plan work?", a: "3 seats with full Premium access at $19.99/mo. Perfect for LGS shops." },
+              { q: "What's the Whale tier?", a: "Our ultimate tier at $49.99/mo — 5 seats, dedicated account manager, custom API limits, and white-glove onboarding." },
               { q: "Is my payment secure?", a: "All payments are processed through Stripe with bank-level encryption." },
             ].map(({ q, a }) => (
               <div key={q}>
