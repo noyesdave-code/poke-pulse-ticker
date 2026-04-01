@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTraderGame } from "@/hooks/useTraderGame";
 import TerminalHeader from "@/components/TerminalHeader";
@@ -166,7 +166,7 @@ const HeroSplash = ({ onSignIn }: { onSignIn: () => void }) => (
         className="font-mono text-2xl md:text-4xl font-black text-foreground leading-tight"
       >
         Trade Cards.<br />
-        <span className="text-primary" style={{ textShadow: "0 0 30px hsl(160 84% 50% / 0.4)" }}>Beat the Bots.</span><br />
+        <span className="text-primary" style={{ textShadow: "0 0 30px hsl(160 84% 50% / 0.4)" }}>Beat Real Players & Bots.</span><br />
         Win Contests.
       </motion.h2>
 
@@ -177,7 +177,7 @@ const HeroSplash = ({ onSignIn }: { onSignIn: () => void }) => (
         className="font-mono text-xs text-muted-foreground max-w-md mx-auto leading-relaxed"
       >
         Start with $100,000 virtual cash. Trade based on live Pokémon card prices. 
-        Compete against 10 AI bots with unique strategies. No real money involved.
+        Compete against real players and 10 AI bots with unique strategies. No real money involved.
       </motion.p>
 
       <motion.div
@@ -208,7 +208,7 @@ const HeroSplash = ({ onSignIn }: { onSignIn: () => void }) => (
       >
         {[
           { icon: BarChart3, label: "Live Prices", desc: "Real market data" },
-          { icon: Bot, label: "10 AI Bots", desc: "Unique strategies" },
+          { icon: Bot, label: "PvP + Bots", desc: "Real & AI opponents" },
           { icon: Trophy, label: "Contests", desc: "Daily & weekend" },
           { icon: Shield, label: "Risk Free", desc: "Virtual currency" },
         ].map(({ icon: Icon, label, desc }, i) => (
@@ -654,9 +654,18 @@ const difficultyColor = (d: BotDifficulty) =>
 const difficultyBg = (d: BotDifficulty) =>
   d === "easy" ? "bg-green-500/10" : d === "medium" ? "bg-yellow-500/10" : "bg-red-500/10";
 
+interface LivePlayer {
+  user_id: string;
+  display_name: string | null;
+  total_portfolio_value: number;
+  starting_balance: number;
+}
+
 const ContestsPanel = ({ userTotalValue, userPnlPct }: { userTotalValue: number; userPnlPct: number }) => {
   const today = new Date().toISOString().slice(0, 10);
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
+  const [livePlayers, setLivePlayers] = useState<LivePlayer[]>([]);
+  const [liveLoading, setLiveLoading] = useState(false);
 
   const dailyLeaderboard = useMemo(() =>
     getContestLeaderboard(`daily_${today}`, 50000, Math.max(1, dayOfYear % 7), {
@@ -672,8 +681,78 @@ const ContestsPanel = ({ userTotalValue, userPnlPct }: { userTotalValue: number;
       pnlPct: userPnlPct,
     }), [today, userTotalValue, userPnlPct]);
 
-  const [activeContest, setActiveContest] = useState<"daily" | "weekend">("daily");
-  const leaderboard = activeContest === "daily" ? dailyLeaderboard : weekendLeaderboard;
+  const [activeContest, setActiveContest] = useState<"daily" | "weekend" | "pvp">("daily");
+
+  // Fetch live players for PvP
+  useEffect(() => {
+    if (activeContest !== "pvp") return;
+    setLiveLoading(true);
+    const fetchPlayers = async () => {
+      const { data: portfolios } = await supabase
+        .from("trader_portfolios")
+        .select("user_id, total_portfolio_value, starting_balance")
+        .eq("is_active", true)
+        .order("total_portfolio_value", { ascending: false })
+        .limit(50);
+
+      if (!portfolios || portfolios.length === 0) {
+        setLivePlayers([]);
+        setLiveLoading(false);
+        return;
+      }
+
+      const userIds = portfolios.map((p: any) => p.user_id);
+      const { data: profiles } = await supabase
+        .from("profiles")
+        .select("id, display_name")
+        .in("id", userIds);
+
+      const profileMap = new Map((profiles ?? []).map((p: any) => [p.id, p.display_name]));
+
+      setLivePlayers(portfolios.map((p: any) => ({
+        ...p,
+        display_name: profileMap.get(p.user_id) || null,
+      })));
+      setLiveLoading(false);
+    };
+    fetchPlayers();
+  }, [activeContest]);
+
+  // Build PvP leaderboard entries
+  const pvpLeaderboard: LeaderboardEntry[] = useMemo(() => {
+    const entries: LeaderboardEntry[] = livePlayers.map((p, _i) => {
+      const pnl = ((p.total_portfolio_value - p.starting_balance) / p.starting_balance) * 100;
+      return {
+        id: p.user_id,
+        name: p.display_name || `Trader ${p.user_id.slice(0, 6)}`,
+        avatar: "👤",
+        title: "Live Player",
+        isBot: false,
+        totalValue: p.total_portfolio_value,
+        pnlPct: pnl,
+        rank: 0,
+      };
+    });
+    // Add user if not already in list
+    const userInList = entries.some(e => e.name === "You");
+    if (!userInList) {
+      entries.push({
+        id: "user",
+        name: "You",
+        avatar: "⭐",
+        title: "You",
+        isBot: false,
+        totalValue: userTotalValue,
+        pnlPct: userPnlPct,
+        rank: 0,
+      });
+    }
+    entries.sort((a, b) => b.pnlPct - a.pnlPct);
+    entries.forEach((e, i) => (e.rank = i + 1));
+    return entries;
+  }, [livePlayers, userTotalValue, userPnlPct]);
+
+  const leaderboard = activeContest === "daily" ? dailyLeaderboard : activeContest === "weekend" ? weekendLeaderboard : pvpLeaderboard;
 
   return (
     <div className="space-y-4">
@@ -683,92 +762,119 @@ const ContestsPanel = ({ userTotalValue, userPnlPct }: { userTotalValue: number;
         </div>
         <div>
           <h3 className="font-mono text-sm font-bold text-foreground">Trading Contests</h3>
-          <p className="font-mono text-[9px] text-muted-foreground flex items-center gap-1"><Bot className="h-3 w-3" />10 AI opponents with unique strategies</p>
+          <p className="font-mono text-[9px] text-muted-foreground flex items-center gap-1"><Bot className="h-3 w-3" />Compete against real players & 10 AI bots</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-3 gap-3">
         {[
-          { key: "daily" as const, name: "DAILY BLITZ", status: "ACTIVE", statusColor: "bg-green-500/15 text-green-400", desc: "$50K balance · Best P&L wins", active: activeContest === "daily" },
-          { key: "weekend" as const, name: "WEEKEND WARRIOR", status: "UPCOMING", statusColor: "bg-yellow-500/15 text-yellow-400", desc: "$100K balance · 48hr marathon", active: activeContest === "weekend" },
+          { key: "daily" as const, name: "DAILY BLITZ", status: "ACTIVE", statusColor: "bg-green-500/15 text-green-400", desc: "$50K · vs AI Bots", active: activeContest === "daily" },
+          { key: "pvp" as const, name: "LIVE PVP", status: "LIVE", statusColor: "bg-primary/15 text-primary", desc: "Real players · Live", active: activeContest === "pvp" },
+          { key: "weekend" as const, name: "WEEKEND WAR", status: "UPCOMING", statusColor: "bg-yellow-500/15 text-yellow-400", desc: "$100K · 48hr", active: activeContest === "weekend" },
         ].map(c => (
           <button
             key={c.key}
             onClick={() => setActiveContest(c.key)}
-            className={`relative overflow-hidden rounded-xl border p-4 text-left transition-all ${c.active ? "border-primary/40" : "border-border hover:border-border/80"}`}
+            className={`relative overflow-hidden rounded-xl border p-3 text-left transition-all ${c.active ? "border-primary/40" : "border-border hover:border-border/80"}`}
             style={c.active ? { background: "linear-gradient(135deg, hsl(160 84% 50% / 0.05) 0%, hsl(225 20% 10%) 100%)", boxShadow: "0 0 20px hsl(160 84% 50% / 0.06)" } : { background: "linear-gradient(180deg, hsl(225 18% 11%) 0%, hsl(225 20% 9%) 100%)" }}
           >
-            <div className="flex items-center justify-between mb-1.5">
-              <span className={`font-mono text-[10px] font-bold ${c.active ? "text-primary" : "text-foreground"}`}>{c.name}</span>
-              <span className={`font-mono text-[8px] font-semibold px-2 py-0.5 rounded-full ${c.statusColor}`}>{c.status}</span>
+            <div className="flex items-center justify-between mb-1">
+              <span className={`font-mono text-[9px] font-bold ${c.active ? "text-primary" : "text-foreground"}`}>{c.name}</span>
+              <span className={`font-mono text-[7px] font-semibold px-1.5 py-0.5 rounded-full ${c.statusColor}`}>{c.status}</span>
             </div>
-            <p className="font-mono text-[8px] text-muted-foreground">{c.desc}</p>
+            <p className="font-mono text-[7px] text-muted-foreground">{c.desc}</p>
           </button>
         ))}
       </div>
 
-      {/* Leaderboard */}
-      <div className="rounded-xl border border-border overflow-hidden" style={{ background: "linear-gradient(180deg, hsl(225 18% 11%) 0%, hsl(225 20% 9%) 100%)" }}>
-        <div className="grid grid-cols-[30px_1fr_60px_70px] gap-2 px-4 py-3 border-b border-border font-mono text-[9px] text-muted-foreground tracking-widest uppercase">
-          <span>#</span><span>Trader</span><span className="text-right">P&L</span><span className="text-right">Value</span>
+      {/* Live PvP banner */}
+      {activeContest === "pvp" && (
+        <div className="rounded-lg border border-primary/30 p-3 flex items-center gap-3" style={{ background: "hsl(160 84% 50% / 0.04)" }}>
+          <div className="h-2 w-2 rounded-full bg-primary pulse-live flex-shrink-0" />
+          <p className="font-mono text-[10px] text-primary font-semibold">
+            Live PvP — Compete against real players trading with live market data. Rankings update in real-time.
+          </p>
         </div>
-        <div className="max-h-[400px] overflow-y-auto">
-          {leaderboard.map((entry) => (
-            <motion.div
-              key={entry.id}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: entry.rank * 0.03 }}
-              className={`grid grid-cols-[30px_1fr_60px_70px] gap-2 px-4 py-3 border-b border-border/30 items-center transition-all ${
-                !entry.isBot
-                  ? "ring-1 ring-primary/20"
-                  : "hover:bg-muted/30"
-              }`}
-              style={!entry.isBot ? { background: "linear-gradient(90deg, hsl(160 84% 50% / 0.06) 0%, transparent 100%)" } : undefined}
-            >
-              <span className="font-mono text-xs font-bold">
-                {entry.rank === 1 ? <Crown className="h-4 w-4 text-yellow-400" style={{ filter: "drop-shadow(0 0 4px hsl(38 92% 60% / 0.5))" }} /> :
-                 entry.rank === 2 ? <Medal className="h-4 w-4 text-gray-400" /> :
-                 entry.rank === 3 ? <Medal className="h-4 w-4 text-amber-600" /> :
-                 <span className="text-muted-foreground">{entry.rank}</span>}
-              </span>
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="text-base flex-shrink-0">{entry.avatar}</span>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    <p className={`font-mono text-[11px] font-semibold truncate ${!entry.isBot ? "text-primary" : "text-foreground"}`}>
-                      {entry.name}
-                    </p>
-                    {entry.isBot && (
-                      <span className={`font-mono text-[7px] font-bold px-1.5 py-0.5 rounded-full ${difficultyColor(entry.difficulty!)} ${difficultyBg(entry.difficulty!)}`}>
-                        {entry.difficulty === "easy" ? "EASY" : entry.difficulty === "medium" ? "MED" : "HARD"}
-                      </span>
-                    )}
-                    {!entry.isBot && (
-                      <span className="font-mono text-[7px] font-bold px-1.5 py-0.5 rounded-full bg-primary/15 text-primary">YOU</span>
-                    )}
-                  </div>
-                  <p className="font-mono text-[8px] text-muted-foreground truncate">
-                    {entry.isBot ? entry.title : "Human Player"}
-                  </p>
-                </div>
-              </div>
-              <span className={`font-mono text-[10px] text-right font-bold ${entry.pnlPct >= 0 ? "text-green-400" : "text-red-400"}`}>
-                {entry.pnlPct >= 0 ? "+" : ""}{entry.pnlPct.toFixed(2)}%
-              </span>
-              <span className="font-mono text-[10px] text-right text-foreground font-semibold">
-                {formatUSD(entry.totalValue)}
-              </span>
-            </motion.div>
+      )}
+
+      {/* Leaderboard */}
+      {liveLoading && activeContest === "pvp" ? (
+        <div className="space-y-2">
+          {[1, 2, 3, 4, 5].map(i => (
+            <div key={i} className="h-12 rounded-lg bg-muted/30 animate-pulse" />
           ))}
         </div>
-      </div>
+      ) : (
+        <div className="rounded-xl border border-border overflow-hidden" style={{ background: "linear-gradient(180deg, hsl(225 18% 11%) 0%, hsl(225 20% 9%) 100%)" }}>
+          <div className="grid grid-cols-[30px_1fr_60px_70px] gap-2 px-4 py-3 border-b border-border font-mono text-[9px] text-muted-foreground tracking-widest uppercase">
+            <span>#</span><span>Trader</span><span className="text-right">P&L</span><span className="text-right">Value</span>
+          </div>
+          <div className="max-h-[400px] overflow-y-auto">
+            {leaderboard.length === 0 ? (
+              <div className="p-8 text-center space-y-2">
+                <Trophy className="w-8 h-8 text-muted-foreground/50 mx-auto" />
+                <p className="font-mono text-xs text-muted-foreground">No players yet — be the first to trade!</p>
+              </div>
+            ) : leaderboard.map((entry) => (
+              <motion.div
+                key={entry.id}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: entry.rank * 0.03 }}
+                className={`grid grid-cols-[30px_1fr_60px_70px] gap-2 px-4 py-3 border-b border-border/30 items-center transition-all ${
+                  entry.name === "You"
+                    ? "ring-1 ring-primary/20"
+                    : "hover:bg-muted/30"
+                }`}
+                style={entry.name === "You" ? { background: "linear-gradient(90deg, hsl(160 84% 50% / 0.06) 0%, transparent 100%)" } : undefined}
+              >
+                <span className="font-mono text-xs font-bold">
+                  {entry.rank === 1 ? <Crown className="h-4 w-4 text-yellow-400" style={{ filter: "drop-shadow(0 0 4px hsl(38 92% 60% / 0.5))" }} /> :
+                   entry.rank === 2 ? <Medal className="h-4 w-4 text-gray-400" /> :
+                   entry.rank === 3 ? <Medal className="h-4 w-4 text-amber-600" /> :
+                   <span className="text-muted-foreground">{entry.rank}</span>}
+                </span>
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="text-base flex-shrink-0">{entry.avatar}</span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <p className={`font-mono text-[11px] font-semibold truncate ${entry.name === "You" ? "text-primary" : "text-foreground"}`}>
+                        {entry.name}
+                      </p>
+                      {entry.isBot && entry.difficulty && (
+                        <span className={`font-mono text-[7px] font-bold px-1.5 py-0.5 rounded-full ${difficultyColor(entry.difficulty)} ${difficultyBg(entry.difficulty)}`}>
+                          {entry.difficulty === "easy" ? "EASY" : entry.difficulty === "medium" ? "MED" : "HARD"}
+                        </span>
+                      )}
+                      {entry.name === "You" && (
+                        <span className="font-mono text-[7px] font-bold px-1.5 py-0.5 rounded-full bg-primary/15 text-primary">YOU</span>
+                      )}
+                      {!entry.isBot && entry.name !== "You" && (
+                        <span className="font-mono text-[7px] font-bold px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-400">LIVE</span>
+                      )}
+                    </div>
+                    <p className="font-mono text-[8px] text-muted-foreground truncate">
+                      {entry.isBot ? entry.title : entry.name === "You" ? "Your Portfolio" : "Live Player"}
+                    </p>
+                  </div>
+                </div>
+                <span className={`font-mono text-[10px] text-right font-bold ${entry.pnlPct >= 0 ? "text-green-400" : "text-red-400"}`}>
+                  {entry.pnlPct >= 0 ? "+" : ""}{entry.pnlPct.toFixed(2)}%
+                </span>
+                <span className="font-mono text-[10px] text-right text-foreground font-semibold">
+                  {formatUSD(entry.totalValue)}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="flex items-center justify-between px-1">
-        <span className="font-mono text-[9px] text-muted-foreground flex items-center gap-1"><Clock className="h-3 w-3" />Resets daily at midnight EST</span>
+        <span className="font-mono text-[9px] text-muted-foreground flex items-center gap-1"><Clock className="h-3 w-3" />{activeContest === "pvp" ? "Live rankings · Updates in real-time" : "Resets daily at midnight EST"}</span>
         <span className="font-mono text-[9px] text-primary font-bold flex items-center gap-1"><Star className="h-3 w-3" />Badge + 1 Month Extension</span>
       </div>
-      <p className="font-mono text-[8px] text-muted-foreground/60 text-center">Contest prizes are in-app rewards only. No real monetary value. AI bots simulate trading strategies for competitive gameplay.</p>
+      <p className="font-mono text-[8px] text-muted-foreground/60 text-center">Contest prizes are in-app rewards only. No real monetary value. {activeContest === "pvp" ? "Live PvP rankings based on actual trading performance." : "AI bots simulate trading strategies for competitive gameplay."}</p>
     </div>
   );
 };
