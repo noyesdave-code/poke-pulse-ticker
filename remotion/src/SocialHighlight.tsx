@@ -514,6 +514,7 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
