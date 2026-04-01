@@ -23,13 +23,13 @@ const AUDIT_CATEGORIES = [
 
 async function sendAuditEmail({
   supabaseUrl,
-  serviceKey,
+  gatewayKey,
   recipientEmail,
   auditId,
   templateData,
 }: {
   supabaseUrl: string;
-  serviceKey: string;
+  gatewayKey: string;
   recipientEmail: string;
   auditId: string;
   templateData: Record<string, unknown>;
@@ -37,8 +37,8 @@ async function sendAuditEmail({
   const response = await fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${serviceKey}`,
-      apikey: serviceKey,
+      Authorization: `Bearer ${gatewayKey}`,
+      apikey: gatewayKey,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
@@ -375,7 +375,7 @@ Return a JSON object with this exact structure:
       try {
         await sendAuditEmail({
           supabaseUrl,
-          serviceKey,
+          gatewayKey: supabaseKey,
           recipientEmail: email,
           auditId: audit.id,
           templateData: emailData,
