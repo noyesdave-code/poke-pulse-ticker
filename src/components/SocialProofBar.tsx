@@ -26,7 +26,7 @@ const SocialProofBar = ({ totalMarketValue = 0, isLive, lastUpdated, cardCount }
       transition={{ delay: 0.3, duration: 0.5 }}
       className="terminal-card overflow-hidden"
     >
-      <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-border">
+      <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-border/50">
         <div className="flex items-center gap-2 px-3 py-2.5 sm:px-4 sm:py-3 min-h-[48px]">
           <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
             <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />

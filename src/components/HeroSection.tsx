@@ -99,7 +99,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
         ))}
       </div>
 
-      <div className="relative px-5 py-6 sm:px-8 sm:py-10 border-b border-border">
+      <div className="relative px-5 py-7 sm:px-8 sm:py-10 border-b border-border/60">
         <div className="flex items-start justify-between gap-4">
            <div className="flex items-start gap-4">
               {/* Stacked logo — visible center-left on hero */}
@@ -155,9 +155,9 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
             >
               <button
                 onClick={() => navigate("/pricing")}
-                className="group relative inline-flex items-center gap-2 px-6 py-3 sm:py-2.5 rounded-lg font-mono text-sm font-bold bg-gradient-to-r from-primary to-[hsl(158_90%_42%)] text-primary-foreground hover:shadow-[0_0_30px_hsl(158_72%_46%/0.3)] transition-all duration-300 overflow-hidden min-h-[48px]"
+                className="group relative inline-flex items-center gap-2 px-7 py-3 sm:py-2.5 rounded-lg font-mono text-sm font-bold bg-gradient-to-r from-primary to-[hsl(158_90%_42%)] text-primary-foreground hover:shadow-[0_0_30px_hsl(158_72%_46%/0.3)] transition-all duration-300 overflow-hidden min-h-[48px] shadow-[0_2px_12px_hsl(158_72%_46%/0.15)]"
               >
-                <div className="absolute inset-0 shimmer-sweep opacity-50" />
+                <div className="absolute inset-0 shimmer-sweep opacity-40" />
                 <Zap className="relative w-4 h-4" />
                 <span className="relative">START FREE TRIAL</span>
                 <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -194,7 +194,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
         </div>
       </div>
 
-      <div className="relative grid grid-cols-2 sm:grid-cols-4 divide-x divide-border">
+      <div className="relative grid grid-cols-2 sm:grid-cols-4 divide-x divide-border/60">
         {actions.map((item, idx) => {
           const Icon = item.icon;
           return (

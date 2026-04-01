@@ -48,9 +48,10 @@
     /* Gradient & glow tokens */
     --primary-glow: 158 90% 60%;
     --gradient-hero: linear-gradient(145deg, hsl(228 22% 7%) 0%, hsl(228 24% 10%) 40%, hsl(224 28% 9%) 100%);
-    --shadow-card: 0 4px 20px -4px hsl(228 40% 3% / 0.7);
-    --shadow-glow: 0 0 24px hsl(158 72% 46% / 0.07);
+    --shadow-card: 0 2px 12px -2px hsl(228 40% 3% / 0.6), 0 0 0 1px hsl(228 14% 16% / 0.35);
+    --shadow-glow: 0 0 20px hsl(158 72% 46% / 0.06);
     --shadow-elevated: 0 8px 32px -8px hsl(228 40% 3% / 0.5), 0 0 0 1px hsl(228 14% 16% / 0.5);
+    --shadow-header: 0 1px 2px hsl(228 40% 3% / 0.4), 0 4px 16px hsl(228 40% 3% / 0.25);
 
     --sidebar-background: 228 22% 7%;
     --sidebar-foreground: 210 25% 95%;
@@ -261,15 +262,15 @@
     border-radius: var(--radius);
     background: linear-gradient(
       180deg,
-      hsl(228 20% 11%) 0%,
+      hsl(228 20% 10.5%) 0%,
       hsl(228 22% 8%) 100%
     );
     box-shadow: var(--shadow-card);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
   }
 
   .terminal-card:hover {
-    border-color: hsl(228 14% 22%);
+    border-color: hsl(228 14% 20%);
     box-shadow: var(--shadow-elevated);
     transform: translateY(-1px);
   }

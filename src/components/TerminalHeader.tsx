@@ -98,8 +98,8 @@ const TerminalHeader = () => {
 
   return (
     <>
-      <header data-demo-hide className="sticky top-0 z-50 border-b border-border/60 bg-terminal-header/98 backdrop-blur-xl shadow-[0_1px_3px_hsl(228_40%_3%/0.4),0_4px_20px_hsl(228_40%_3%/0.3)]">
-        <div className="flex items-center justify-between px-3 py-2.5 sm:px-4 sm:py-3 lg:px-4 xl:px-6">
+      <header data-demo-hide className="sticky top-0 z-50 border-b border-border/40 bg-terminal-header/98 backdrop-blur-xl" style={{ boxShadow: 'var(--shadow-header)' }}>
+        <div className="flex items-center justify-between px-3 py-2 sm:px-5 sm:py-2.5 lg:px-5 xl:px-8 max-w-[1400px] mx-auto">
           {/* Left: logo + hamburger */}
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             {/* Hamburger — mobile only */}
@@ -126,12 +126,12 @@ const TerminalHeader = () => {
             </div>
 
             {/* Desktop nav */}
-            <nav className="hidden sm:flex items-center gap-0 ml-2 lg:ml-3">
+            <nav className="hidden sm:flex items-center gap-0.5 ml-3 lg:ml-4">
               {primaryNav.map((item) => (
                 <button
                   key={item.path}
                   onClick={() => handleNav(item.path)}
-                  className={`relative text-[9px] xl:text-[10px] font-semibold uppercase tracking-wider px-1.5 xl:px-2.5 py-1.5 rounded-md transition-all duration-200 whitespace-nowrap flex-shrink-0 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:rounded-full after:bg-primary after:transition-all after:duration-300 ${
+                  className={`relative text-[9px] xl:text-[10px] font-semibold uppercase tracking-wider px-2 xl:px-3 py-1.5 rounded-md transition-all duration-200 whitespace-nowrap flex-shrink-0 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:rounded-full after:bg-primary after:transition-all after:duration-300 ${
                     location.pathname === item.path
                       ? "text-primary bg-primary/8 after:w-3/4"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/30 after:w-0 hover:after:w-1/2"
