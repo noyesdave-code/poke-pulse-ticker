@@ -218,6 +218,39 @@ export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]
     // best-effort
   }
 
+  // --- Query 5: Illustration Rares, Special Illustration Rares, Hyper Rares, etc. ---
+  const premiumRarities = [
+    "Illustration Rare",
+    "Special Art Rare",
+    "Hyper Rare",
+    "Rare MEGA",
+    "Rare Ultra",
+    "Rare Secret",
+    "Rare Rainbow",
+    "Rare Shiny GX",
+    "Rare ACE",
+    "Amazing Rare",
+    "Rare Holo Star",
+    "Rare Holo VMAX",
+    "Rare Holo VSTAR",
+    "Double Rare",
+    "Ultra Rare",
+  ];
+
+  for (const rarity of premiumRarities) {
+    try {
+      const data: APIResponse = await proxyFetch("/cards", {
+        q: `rarity:"${rarity}"`,
+        pageSize: String(PAGE_SIZE),
+        page: "1",
+        orderBy: "-tcgplayer.prices.holofoil.market",
+      });
+      allCards.push(...data.data);
+    } catch {
+      // best-effort
+    }
+  }
+
   // Deduplicate by card id
   const seen = new Set<string>();
   const unique = allCards.filter((c) => {
