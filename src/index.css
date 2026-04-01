@@ -257,19 +257,21 @@
   }
 
   .terminal-card {
-    @apply bg-card border border-border rounded-xl;
+    @apply bg-card border border-border;
+    border-radius: var(--radius);
     background: linear-gradient(
       180deg,
-      hsl(225 18% 12%) 0%,
-      hsl(225 20% 9%) 100%
+      hsl(228 20% 11%) 0%,
+      hsl(228 22% 8%) 100%
     );
     box-shadow: var(--shadow-card);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
   }
 
   .terminal-card:hover {
-    border-color: hsl(225 12% 24%);
-    box-shadow: var(--shadow-card), var(--shadow-glow);
+    border-color: hsl(228 14% 22%);
+    box-shadow: var(--shadow-elevated);
+    transform: translateY(-1px);
   }
 
   .hero-glow-border {
