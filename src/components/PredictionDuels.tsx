@@ -5,10 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Swords, TrendingUp, TrendingDown, Coins, Timer, Crown, Users, Zap, Shield, MessageCircle } from "lucide-react";
+import { Swords, TrendingUp, TrendingDown, Coins, Timer, Crown, Users, Zap, Shield, MessageCircle, Video } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import ArenaChat from "./ArenaChat";
+import DuelVideoChat from "./DuelVideoChat";
 
 interface TradableCard {
   name: string;
@@ -59,6 +60,7 @@ export default function PredictionDuels({ tradableCards, walletBalance, onBalanc
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [chatDuelId, setChatDuelId] = useState<string | null>(null);
+  const [videoDuelId, setVideoDuelId] = useState<string | null>(null);
 
   // Create form state
   const [selectedCard, setSelectedCard] = useState("");
@@ -314,20 +316,34 @@ export default function PredictionDuels({ tradableCards, walletBalance, onBalanc
                     </Badge>
                     <p className="text-[10px] text-muted-foreground">Pot: {(duel.wager * 2).toLocaleString()} PC</p>
                     {duel.status === "active" && (
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="text-[10px] gap-1 h-6"
-                        onClick={() => setChatDuelId(chatDuelId === duel.id ? null : duel.id)}
-                      >
-                        <MessageCircle className="w-3 h-3" />
-                        {chatDuelId === duel.id ? "Hide Chat" : "Chat"}
-                      </Button>
+                      <div className="flex gap-1">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-[10px] gap-1 h-6"
+                          onClick={() => setChatDuelId(chatDuelId === duel.id ? null : duel.id)}
+                        >
+                          <MessageCircle className="w-3 h-3" />
+                          {chatDuelId === duel.id ? "Hide" : "Chat"}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-[10px] gap-1 h-6"
+                          onClick={() => setVideoDuelId(videoDuelId === duel.id ? null : duel.id)}
+                        >
+                          <Video className="w-3 h-3" />
+                          {videoDuelId === duel.id ? "Hide" : "Video"}
+                        </Button>
+                      </div>
                     )}
                   </div>
                 </div>
                 {chatDuelId === duel.id && (
                   <ArenaChat channel={`duel-${duel.id}`} title="Duel Chat" />
+                )}
+                {videoDuelId === duel.id && (
+                  <DuelVideoChat duelId={duel.id} onClose={() => setVideoDuelId(null)} />
                 )}
               </div>
             ))}
