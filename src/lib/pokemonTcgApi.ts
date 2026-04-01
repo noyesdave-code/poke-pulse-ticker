@@ -156,9 +156,13 @@ export async function fetchCardById(id: string): Promise<PokemonTCGCard> {
 export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]> {
   const PAGE_SIZE = 250;
 
+  // Small delay between requests to respect rate limits
+  const delay = (ms: number) => new Promise(r => setTimeout(r, ms));
+
   const fetchPages = async (q: string, orderBy: string, pages: number): Promise<PokemonTCGCard[]> => {
     const results: PokemonTCGCard[] = [];
     for (let page = 1; page <= pages; page++) {
+      if (page > 1) await delay(1500);
       try {
         const data: APIResponse = await proxyFetch("/cards", {
           q,
@@ -175,13 +179,14 @@ export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]
     return results;
   };
 
-  // Consolidate into just 3 sequential queries instead of 19+ parallel ones
   // Query 1: Holofoil cards with market price (biggest dataset)
   const holoCards = await fetchPages(
     "tcgplayer.prices.holofoil.market:[1 TO *]",
     "-tcgplayer.prices.holofoil.market",
     2
   );
+
+  await delay(1500);
 
   // Query 2: Normal-priced cards worth $3+
   const normalCards = await fetchPages(
@@ -190,12 +195,13 @@ export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]
     1
   );
 
-  // Query 3: Premium rarities in one combined query
-  const premiumRarities = [
+  await delay(1500);
+
+  // Query 3: Premium rarities in one combined query using OR
+  const rarityQuery = [
     "Illustration Rare", "Special Art Rare", "Hyper Rare",
     "Rare Ultra", "Rare Secret", "Rare Rainbow", "Ultra Rare",
-  ];
-  const rarityQuery = premiumRarities.map(r => `rarity:"${r}"`).join(" OR ");
+  ].map(r => `rarity:"${r}"`).join(" OR ");
   const rarityCards = await fetchPages(
     `(${rarityQuery})`,
     "-tcgplayer.prices.holofoil.market",
