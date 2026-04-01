@@ -102,7 +102,7 @@ const Terms = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">9. Subscription & Payment Terms</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          Paid subscriptions (Starter, Pro, Premium, Team) are billed monthly or annually through our payment processor, Stripe. All payments are non-refundable except as required by applicable law. Free trials automatically convert to paid subscriptions unless canceled before the trial period ends. Team plans include the specified number of seats; additional seats require an upgrade. We reserve the right to modify pricing with 30 days' notice to existing subscribers.
+          Paid subscriptions (Arena $0.99/mo, Starter $1.99/mo, Pro $4.99/mo, Premium $9.99/mo, Team $19.99/mo, and Whale $49.99/mo) are billed monthly or annually through our payment processor, Stripe. Annual billing provides a discount. All payments are non-refundable except as required by applicable law. Free trials automatically convert to paid subscriptions unless canceled before the trial period ends. Team plans include the specified number of seats; additional seats require an upgrade. We reserve the right to modify pricing with 30 days' notice to existing subscribers.
         </p>
       </section>
 
