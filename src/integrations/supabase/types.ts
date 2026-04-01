@@ -86,6 +86,30 @@ export type Database = {
         }
         Relationships: []
       }
+      arena_chat_messages: {
+        Row: {
+          channel: string
+          created_at: string
+          id: string
+          message: string
+          sender_id: string
+        }
+        Insert: {
+          channel?: string
+          created_at?: string
+          id?: string
+          message: string
+          sender_id: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          id?: string
+          message?: string
+          sender_id?: string
+        }
+        Relationships: []
+      }
       arena_pack_opens: {
         Row: {
           cards_pulled: Json
@@ -801,7 +825,9 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          chat_age_verified: boolean
           created_at: string
+          date_of_birth: string | null
           display_name: string | null
           id: string
           is_public: boolean
@@ -809,7 +835,9 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          chat_age_verified?: boolean
           created_at?: string
+          date_of_birth?: string | null
           display_name?: string | null
           id: string
           is_public?: boolean
@@ -817,7 +845,9 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          chat_age_verified?: boolean
           created_at?: string
+          date_of_birth?: string | null
           display_name?: string | null
           id?: string
           is_public?: boolean
