@@ -10,7 +10,7 @@ const POKEMON_TCG_BASE = "https://api.pokemontcg.io/v2";
 
 // Simple in-memory rate limiter per IP
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 30; // requests per window
+const RATE_LIMIT = 100; // requests per window (increased for concurrent card queries)
 const RATE_WINDOW_MS = 60_000; // 1 minute
 
 function isRateLimited(ip: string): boolean {
@@ -91,18 +91,29 @@ serve(async (req) => {
       }
     }
 
-    // Forward to Pokémon TCG API with optional server-side API key
+    // Forward to Pokémon TCG API with optional server-side API key and retry
     const apiHeaders: Record<string, string> = {};
     const apiKey = Deno.env.get("POKEMON_TCG_API_KEY");
     if (apiKey) {
       apiHeaders["X-Api-Key"] = apiKey;
     }
 
-    const apiRes = await fetch(url.toString(), { headers: apiHeaders });
-    const data = await apiRes.json();
+    let apiRes: Response | null = null;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      apiRes = await fetch(url.toString(), { headers: apiHeaders });
+      if (apiRes.status === 429) {
+        // Rate limited — wait and retry
+        const retryAfter = Number(apiRes.headers.get("Retry-After") || "2");
+        await new Promise(r => setTimeout(r, retryAfter * 1000));
+        continue;
+      }
+      break;
+    }
+
+    const data = await apiRes!.json();
 
     return new Response(JSON.stringify(data), {
-      status: apiRes.status,
+      status: apiRes!.status,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {

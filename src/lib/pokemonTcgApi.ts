@@ -176,7 +176,30 @@ export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]
     return results;
   };
 
-  // Run ALL queries in parallel instead of sequentially
+  // Concurrency-limited runner to avoid overwhelming the API
+  async function runWithConcurrency<T>(
+    tasks: (() => Promise<T>)[],
+    maxConcurrent: number
+  ): Promise<PromiseSettledResult<T>[]> {
+    const results: PromiseSettledResult<T>[] = new Array(tasks.length);
+    let index = 0;
+
+    async function worker() {
+      while (index < tasks.length) {
+        const i = index++;
+        try {
+          results[i] = { status: "fulfilled", value: await tasks[i]() };
+        } catch (reason: any) {
+          results[i] = { status: "rejected", reason };
+        }
+      }
+    }
+
+    const workers = Array.from({ length: Math.min(maxConcurrent, tasks.length) }, () => worker());
+    await Promise.all(workers);
+    return results;
+  }
+
   const premiumRarities = [
     "Illustration Rare", "Special Art Rare", "Hyper Rare", "Rare MEGA",
     "Rare Ultra", "Rare Secret", "Rare Rainbow", "Rare Shiny GX",
@@ -184,19 +207,20 @@ export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]
     "Rare Holo VSTAR", "Double Rare", "Ultra Rare",
   ];
 
-  const queries: Promise<PokemonTCGCard[]>[] = [
+  const tasks: (() => Promise<PokemonTCGCard[]>)[] = [
     // Core pricing queries
-    fetchQuery("tcgplayer.prices.holofoil.market:[1 TO *]", "-tcgplayer.prices.holofoil.market", 4),
-    fetchQuery("tcgplayer.prices.normal.market:[3 TO *]", "-tcgplayer.prices.normal.market", 2),
-    fetchQuery("tcgplayer.prices.reverseHolofoil.market:[5 TO *]", "-tcgplayer.prices.reverseHolofoil.market", 1),
-    fetchQuery("tcgplayer.prices.1stEditionHolofoil.market:[1 TO *]", "-tcgplayer.prices.1stEditionHolofoil.market", 1),
-    // Rarity queries — all in parallel
+    () => fetchQuery("tcgplayer.prices.holofoil.market:[1 TO *]", "-tcgplayer.prices.holofoil.market", 4),
+    () => fetchQuery("tcgplayer.prices.normal.market:[3 TO *]", "-tcgplayer.prices.normal.market", 2),
+    () => fetchQuery("tcgplayer.prices.reverseHolofoil.market:[5 TO *]", "-tcgplayer.prices.reverseHolofoil.market", 1),
+    () => fetchQuery("tcgplayer.prices.1stEditionHolofoil.market:[1 TO *]", "-tcgplayer.prices.1stEditionHolofoil.market", 1),
+    // Rarity queries
     ...premiumRarities.map(r =>
-      fetchQuery(`rarity:"${r}"`, "-tcgplayer.prices.holofoil.market", 1)
+      () => fetchQuery(`rarity:"${r}"`, "-tcgplayer.prices.holofoil.market", 1)
     ),
   ];
 
-  const results = await Promise.allSettled(queries);
+  // Run max 4 concurrent requests to stay within API rate limits
+  const results = await runWithConcurrency(tasks, 4);
   const allCards = results.flatMap(r => r.status === "fulfilled" ? r.value : []);
 
   // Deduplicate by card id
