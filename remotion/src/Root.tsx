@@ -3,6 +3,7 @@ import { MainVideo } from "./MainVideo";
 import { InvestorPitch } from "./InvestorPitch";
 import { FeatureShowcase } from "./FeatureShowcase";
 import { GrandLaunch } from "./GrandLaunch";
+import { SocialHighlight } from "./SocialHighlight";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -66,6 +67,22 @@ export const RemotionRoot: React.FC = () => (
       id="grand-launch-yt"
       component={GrandLaunch}
       durationInFrames={2700}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="social-highlight"
+      component={SocialHighlight}
+      durationInFrames={3600}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+    <Composition
+      id="social-highlight-yt"
+      component={SocialHighlight}
+      durationInFrames={3600}
       fps={30}
       width={1920}
       height={1080}
