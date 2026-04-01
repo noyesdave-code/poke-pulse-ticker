@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Video, VideoOff, Mic, MicOff, PhoneOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { LocalVideoTrack, LocalAudioTrack, Room as TwilioRoom } from "twilio-video";
-import { useToast } from "@/hooks/use-toast";
 
 interface Props {
   duelId: string;
