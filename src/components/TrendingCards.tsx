@@ -94,14 +94,14 @@ const TrendingCards = ({ cards, isLoading }: TrendingCardsProps) => {
               )}
 
               {/* Token + Card info */}
-              <span className="font-mono text-[9px] text-primary/70 font-bold tracking-wider">
+              <span className="font-mono text-[10px] text-primary/80 font-bold tracking-wider">
                 {getCardToken(card)}
               </span>
-              <span className="font-mono text-[10px] text-muted-foreground truncate w-full">
+              <span className="font-mono text-[11px] text-muted-foreground truncate w-full">
                 {card.setCode && `(${card.setCode}) `}{card.set}
               </span>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="font-mono text-xs font-semibold text-foreground truncate">
+                <span className="font-mono text-sm font-bold text-foreground truncate">
                   {card.name}
                 </span>
                 <SignalBadge result={getCardSignal(card)} />
