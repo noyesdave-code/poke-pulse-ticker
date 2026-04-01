@@ -174,7 +174,7 @@ const PromoAssets = () => {
                 <p>
                   All video content, audio, graphics, animations, voiceover recordings, and associated materials
                   on this page are the <strong>exclusive intellectual property of PGVA Ventures, LLC</strong>,
-                  owned by David Noyes and the Noyes Family Trust.
+                  owned by PGVA Ventures, LLC.
                 </p>
                 <p>
                   <strong>SimTrader™</strong> is a trademark of PGVA Ventures, LLC. The website
