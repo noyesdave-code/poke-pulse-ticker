@@ -156,19 +156,26 @@ const Terms = () => (
       </section>
 
       <section className="space-y-3">
-        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">17. Severability</h2>
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">17. Family &amp; Trust Liability Shield</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          If any provision of these Terms is held invalid or unenforceable, the remaining provisions shall continue in full force and effect. The invalid provision shall be modified to the minimum extent necessary to make it valid and enforceable.
+          PGVA Ventures, LLC is wholly owned by the Noyes Family Trust. The corporate structure provides dual-layer liability protection: (a) the LLC's statutory limited liability separates Company obligations from Trust assets under Delaware law (6 Del. C. § 18-101 et seq.); and (b) the Trust's independent legal status separates Trust assets from personal liability of any individual beneficiary, trustee, or family member. NO member of the Noyes family, beneficiary of the Noyes Family Trust, or individual trustee shall bear personal liability for any debt, obligation, claim, or liability arising from the operation of this Service. This protection extends to all current and future family members, regardless of their involvement or non-involvement with the Company. Users expressly waive any right to pursue claims against individual family members, trustees, or beneficiaries of the Noyes Family Trust.
         </p>
       </section>
 
       <section className="space-y-3">
-        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">18. Contact</h2>
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">18. Severability</h2>
+        <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+          If any provision of these Terms is held invalid or unenforceable, the remaining provisions shall continue in full force and effect. The invalid provision shall be modified to the minimum extent necessary to make it valid and enforceable. The liability limitations, indemnification obligations, intellectual property protections, family/trust liability shield, and dispute resolution provisions shall survive any termination.
+        </p>
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">19. Contact</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
           For questions about these Terms, contact us at <a href="mailto:contact@poke-pulse-ticker.com" className="text-primary hover:underline">contact@poke-pulse-ticker.com</a>.
         </p>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          PGVA Ventures, LLC · Owned by the Noyes Family Trust · Managed by David Noyes
+          PGVA Ventures, LLC · A Noyes Family Trust Entity · Managed by David Noyes, Trustee · Delaware LLC · Patent Pending
         </p>
       </section>
       <FinancialDisclaimer compact />
