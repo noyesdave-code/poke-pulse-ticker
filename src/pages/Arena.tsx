@@ -206,26 +206,34 @@ const Arena = () => {
 
         {/* Game Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-          <TabsList className="grid w-full grid-cols-6 h-12">
-            <TabsTrigger value="predictions" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+          <TabsList className="grid w-full grid-cols-7 h-12">
+            <TabsTrigger value="predictions" className="flex items-center gap-1 text-[9px] sm:text-xs font-bold">
               <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" /> Bets
             </TabsTrigger>
-            <TabsTrigger value="duels" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+            <TabsTrigger value="duels" className="flex items-center gap-1 text-[9px] sm:text-xs font-bold">
               <Swords className="w-3 h-3 sm:w-4 sm:h-4" /> 1v1
             </TabsTrigger>
-            <TabsTrigger value="packs" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+            <TabsTrigger value="chat" className="flex items-center gap-1 text-[9px] sm:text-xs font-bold">
+              <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4" /> Chat
+            </TabsTrigger>
+            <TabsTrigger value="packs" className="flex items-center gap-1 text-[9px] sm:text-xs font-bold">
               <Package className="w-3 h-3 sm:w-4 sm:h-4" /> Packs
             </TabsTrigger>
-            <TabsTrigger value="shop" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+            <TabsTrigger value="shop" className="flex items-center gap-1 text-[9px] sm:text-xs font-bold">
               <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" /> Shop
             </TabsTrigger>
-            <TabsTrigger value="tournaments" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+            <TabsTrigger value="tournaments" className="flex items-center gap-1 text-[9px] sm:text-xs font-bold">
               <Trophy className="w-3 h-3 sm:w-4 sm:h-4" /> Tourneys
             </TabsTrigger>
-            <TabsTrigger value="leaderboard" className="flex items-center gap-1 text-[10px] sm:text-xs font-bold">
+            <TabsTrigger value="leaderboard" className="flex items-center gap-1 text-[9px] sm:text-xs font-bold">
               <Medal className="w-3 h-3 sm:w-4 sm:h-4" /> Ranks
             </TabsTrigger>
           </TabsList>
+
+          {/* ===== CHAT ===== */}
+          <TabsContent value="chat">
+            <ArenaChat channel="lobby" />
+          </TabsContent>
 
           {/* ===== 1v1 DUELS ===== */}
           <TabsContent value="duels">
