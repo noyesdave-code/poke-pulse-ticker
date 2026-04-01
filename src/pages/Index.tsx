@@ -49,6 +49,7 @@ import TeamPlanCTA from "@/components/TeamPlanCTA";
 import GradingArbitrage from "@/components/GradingArbitrage";
 import GradeRatioArbitrageBot from "@/components/GradeRatioArbitrageBot";
 import IndexDayChart from "@/components/IndexDayChart";
+import MarketClosedOverlay, { useMarketStatus } from "@/components/MarketClosedOverlay";
 import LaunchCountdown from "@/components/LaunchCountdown";
 import ValueUnlockPreview from "@/components/ValueUnlockPreview";
 import QuickValueCalculator from "@/components/QuickValueCalculator";
@@ -60,6 +61,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
+  const marketOpen = useMarketStatus();
   const searchRef = useRef<HTMLDivElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const { toast } = useToast();
@@ -154,20 +156,10 @@ const Index = () => {
 
         {/* Daily Index Charts — always visible, "Market Closed" overlay outside NYSE hours */}
         {(() => {
-          const now = new Date();
-          const et = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
-          const mins = et.getHours() * 60 + et.getMinutes();
-          const isNYSE = et.getDay() >= 1 && et.getDay() <= 5 && mins >= 570 && mins <= 990;
+          const isNYSE = marketOpen;
           return (
             <div className="relative">
-              {!isNYSE && (
-                <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/60 backdrop-blur-[2px] rounded-lg pointer-events-none">
-                  <div className="terminal-card px-4 py-2 border-primary/30">
-                    <span className="font-mono text-xs font-bold text-primary tracking-widest uppercase">Market Closed</span>
-                    <p className="font-mono text-[9px] text-muted-foreground mt-0.5">NYSE Hours: Mon–Fri 9:30 AM – 4:30 PM ET</p>
-                  </div>
-                </div>
-              )}
+              {!isNYSE && <MarketClosedOverlay />}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <IndexDayChart title="RAW 500 INDEX" indexValue={rawIndex} indexChange={rawChange} variant="green" />
                 <IndexDayChart title="GRADED 1000 INDEX" indexValue={gradedIndex} indexChange={gradedChange} variant="amber" />
