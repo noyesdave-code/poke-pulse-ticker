@@ -8,62 +8,64 @@ import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import HeroSection from "@/components/HeroSection";
 import SocialProofBar from "@/components/SocialProofBar";
-import MarketUpdateBanner from "@/components/MarketUpdateBanner";
 import MarketIndexCard from "@/components/MarketIndexCard";
 import TrendingCards from "@/components/TrendingCards";
-import TopMoversTable from "@/components/TopMoversTable";
-import CardSearch from "@/components/CardSearch";
-import PriceChart from "@/components/PriceChart";
-import MarketTabs from "@/components/MarketTabs";
-import MarketCapSummary from "@/components/MarketCapSummary";
-import SubscriptionTiers from "@/components/SubscriptionTiers";
-import InstallPrompt from "@/components/InstallPrompt";
-import SignalSummary from "@/components/SignalSummary";
-import FinancialDisclaimer from "@/components/FinancialDisclaimer";
-import TrustSignals from "@/components/TrustSignals";
-import ProGate from "@/components/ProGate";
-import Testimonials from "@/components/Testimonials";
-import AlphaSignals from "@/components/AlphaSignals";
-import { useAlphaSignals } from "@/hooks/useAlphaSignals";
-import { useTotalMarketValue } from "@/hooks/useIndexCache";
-import VerifiedLeaderboard from "@/components/VerifiedLeaderboard";
-import WhaleReport from "@/components/WhaleReport";
-import RecentNotableSales from "@/components/RecentNotableSales";
-import EraIndexCards from "@/components/EraIndexCards";
-import MarketTrendSummary from "@/components/MarketTrendSummary";
-// DataQualityBadge merged into SocialProofBar
-import FomoPopup from "@/components/FomoPopup";
-import ExitIntentPopup from "@/components/ExitIntentPopup";
-import MarketIntelWidget from "@/components/MarketIntelWidget";
-import ReferralCTA from "@/components/ReferralCTA";
-import SystemStatusIndicator from "@/components/SystemStatusIndicator";
-import SimTraderPromo from "@/components/SimTraderPromo";
-import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
-import StickyUpgradeBanner from "@/components/StickyUpgradeBanner";
-import AlphaAccuracy from "@/components/AlphaAccuracy";
-import UserGrowthChart from "@/components/UserGrowthChart";
-import ImportFromTCGPlayer from "@/components/ImportFromTCGPlayer";
-import DailySpotlight from "@/components/DailySpotlight";
-import LiveMarketPulse from "@/components/LiveMarketPulse";
-import PricePredictionGame from "@/components/PricePredictionGame";
-import TeamPlanCTA from "@/components/TeamPlanCTA";
-import GradingArbitrage from "@/components/GradingArbitrage";
-import GradeRatioArbitrageBot from "@/components/GradeRatioArbitrageBot";
-import IndexDayChart from "@/components/IndexDayChart";
-import MarketClosedOverlay, { useMarketStatus } from "@/components/MarketClosedOverlay";
 import LaunchCountdown from "@/components/LaunchCountdown";
-import ValueUnlockPreview from "@/components/ValueUnlockPreview";
 import QuickValueCalculator from "@/components/QuickValueCalculator";
 import InlineUpgradeNudge from "@/components/InlineUpgradeNudge";
-import ArbitrageFinder from "@/components/ArbitrageFinder";
-import DataHealthDashboard from "@/components/DataHealthDashboard";
-import JPtoENTracker from "@/components/JPtoENTracker";
-import WallOfLove from "@/components/WallOfLove";
+import StickyUpgradeBanner from "@/components/StickyUpgradeBanner";
+import IndexDayChart from "@/components/IndexDayChart";
+import MarketClosedOverlay, { useMarketStatus } from "@/components/MarketClosedOverlay";
+import LazySection from "@/components/LazySection";
+import ProGate from "@/components/ProGate";
+import { useAlphaSignals } from "@/hooks/useAlphaSignals";
+import { useTotalMarketValue } from "@/hooks/useIndexCache";
 import { usePrefetchCards } from "@/hooks/usePrefetch";
-import { SkeletonIndexCard, SkeletonTableRow, SkeletonTrendingCard } from "@/components/SkeletonCard";
+import { SkeletonIndexCard } from "@/components/SkeletonCard";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+
+// Lazy-loaded below-the-fold components
+import UserGrowthChart from "@/components/UserGrowthChart";
+import DailySpotlight from "@/components/DailySpotlight";
+import LiveMarketPulse from "@/components/LiveMarketPulse";
+import ValueUnlockPreview from "@/components/ValueUnlockPreview";
+import PricePredictionGame from "@/components/PricePredictionGame";
+import MarketUpdateBanner from "@/components/MarketUpdateBanner";
+import TopMoversTable from "@/components/TopMoversTable";
+import EraIndexCards from "@/components/EraIndexCards";
+import MarketTrendSummary from "@/components/MarketTrendSummary";
+import MarketIntelWidget from "@/components/MarketIntelWidget";
+import TrustSignals from "@/components/TrustSignals";
+import SystemStatusIndicator from "@/components/SystemStatusIndicator";
+import AlphaSignals from "@/components/AlphaSignals";
+import GradingArbitrage from "@/components/GradingArbitrage";
+import GradeRatioArbitrageBot from "@/components/GradeRatioArbitrageBot";
+import AlphaAccuracy from "@/components/AlphaAccuracy";
+import RecentNotableSales from "@/components/RecentNotableSales";
+import CardSearch from "@/components/CardSearch";
+import PriceChart from "@/components/PriceChart";
+import SignalSummary from "@/components/SignalSummary";
+import MarketTabs from "@/components/MarketTabs";
+import MarketCapSummary from "@/components/MarketCapSummary";
+import VerifiedLeaderboard from "@/components/VerifiedLeaderboard";
+import WhaleReport from "@/components/WhaleReport";
+import ArbitrageFinder from "@/components/ArbitrageFinder";
+import JPtoENTracker from "@/components/JPtoENTracker";
+import DataHealthDashboard from "@/components/DataHealthDashboard";
+import WallOfLove from "@/components/WallOfLove";
+import Testimonials from "@/components/Testimonials";
+import ImportFromTCGPlayer from "@/components/ImportFromTCGPlayer";
+import SubscriptionTiers from "@/components/SubscriptionTiers";
+import TeamPlanCTA from "@/components/TeamPlanCTA";
+import ReferralCTA from "@/components/ReferralCTA";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
+import InstallPrompt from "@/components/InstallPrompt";
+import FomoPopup from "@/components/FomoPopup";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
+import SimTraderPromo from "@/components/SimTraderPromo";
+import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
@@ -191,125 +193,161 @@ const Index = () => {
         {/* Inline upgrade nudge — after first value moment */}
         <InlineUpgradeNudge variant="savings" />
 
-        {/* Daily Card Spotlight — AI-analyzed pick drives daily return visits */}
-        <DailySpotlight cards={displayCards} />
+        {/* === LAZY-LOADED BELOW-THE-FOLD SECTIONS === */}
+        <LazySection minHeight="200px">
+          <DailySpotlight cards={displayCards} />
+        </LazySection>
 
-        {/* Live Market Pulse — real-time feed creates hourly engagement */}
-        <LiveMarketPulse cards={displayCards} />
+        <LazySection minHeight="200px">
+          <LiveMarketPulse cards={displayCards} />
+        </LazySection>
 
-        {/* Value Unlock Preview — show what Pro users see */}
-        <ValueUnlockPreview />
+        <LazySection minHeight="120px">
+          <ValueUnlockPreview />
+        </LazySection>
 
-        {/* Daily Price Predictions — gamified engagement loop */}
-        <PricePredictionGame cards={displayCards} />
+        <LazySection minHeight="200px">
+          <PricePredictionGame cards={displayCards} />
+        </LazySection>
 
-        {/* Trust nudge */}
         <InlineUpgradeNudge variant="trust" />
 
-        <MarketUpdateBanner cards={displayCards} />
+        <LazySection minHeight="80px">
+          <MarketUpdateBanner cards={displayCards} />
+        </LazySection>
 
-        {/* Top Movers with card thumbnails */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" isLoading={isLoading} />
-          <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" isLoading={isLoading} />
-        </div>
+        <LazySection minHeight="300px">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" isLoading={isLoading} />
+            <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" isLoading={isLoading} />
+          </div>
+        </LazySection>
 
-        {/* Era-Based Indexes */}
-        <EraIndexCards cards={displayCards} />
+        <LazySection minHeight="150px">
+          <EraIndexCards cards={displayCards} />
+        </LazySection>
 
-        {/* Market Trend Summary */}
-        <MarketTrendSummary cards={displayCards} />
+        <LazySection minHeight="150px">
+          <MarketTrendSummary cards={displayCards} />
+        </LazySection>
 
-        {/* Market Intelligence: Seasonality + Grade Spread + Adaptability */}
-        <MarketIntelWidget cards={displayCards} />
+        <LazySection minHeight="200px">
+          <MarketIntelWidget cards={displayCards} />
+        </LazySection>
 
-        <TrustSignals />
+        <LazySection minHeight="80px">
+          <TrustSignals />
+        </LazySection>
 
-        {/* System Status for Consumer Confidence */}
-        <SystemStatusIndicator />
+        <LazySection minHeight="60px">
+          <SystemStatusIndicator />
+        </LazySection>
 
-        {/* Alpha Signals — Predictive Divergence */}
-        <ProGate feature="Predictive Alpha Signals" blur>
-          <AlphaSignals signals={alphaSignals} />
-        </ProGate>
+        <LazySection minHeight="200px">
+          <ProGate feature="Predictive Alpha Signals" blur>
+            <AlphaSignals signals={alphaSignals} />
+          </ProGate>
+        </LazySection>
 
-        {/* Grading Arbitrage Scanner */}
-        <ProGate feature="Grading Arbitrage Scanner" blur>
-          <GradingArbitrage />
-        </ProGate>
+        <LazySection minHeight="200px">
+          <ProGate feature="Grading Arbitrage Scanner" blur>
+            <GradingArbitrage />
+          </ProGate>
+        </LazySection>
 
-        {/* Grade Ratio Arbitrage Bot */}
-        <ProGate feature="Grade Ratio Arbitrage Bot" blur>
-          <GradeRatioArbitrageBot />
-        </ProGate>
+        <LazySection minHeight="200px">
+          <ProGate feature="Grade Ratio Arbitrage Bot" blur>
+            <GradeRatioArbitrageBot />
+          </ProGate>
+        </LazySection>
 
-        {/* Alpha Algorithm Accuracy Metrics */}
-        <ProGate feature="Alpha Signal Accuracy Metrics" blur>
-          <AlphaAccuracy />
-        </ProGate>
+        <LazySection minHeight="200px">
+          <ProGate feature="Alpha Signal Accuracy Metrics" blur>
+            <AlphaAccuracy />
+          </ProGate>
+        </LazySection>
 
-        {/* Recent Notable Sales */}
-        <RecentNotableSales cards={displayCards} />
+        <LazySection minHeight="200px">
+          <RecentNotableSales cards={displayCards} />
+        </LazySection>
 
-        {/* Search */}
         <div ref={searchRef}>
-          <CardSearch />
+          <LazySection minHeight="100px">
+            <CardSearch />
+          </LazySection>
         </div>
 
-        {/* Price Chart — Pro */}
-        <ProGate feature="Historical price charts" blur>
-          <PriceChart cards={displayCards} />
-        </ProGate>
+        <LazySection minHeight="300px">
+          <ProGate feature="Historical price charts" blur>
+            <PriceChart cards={displayCards} />
+          </ProGate>
+        </LazySection>
 
-        {/* AI Signal Indicator — Pro */}
-        <ProGate feature="AI signal analysis" blur>
-          <SignalSummary cards={displayCards} />
-        </ProGate>
+        <LazySection minHeight="200px">
+          <ProGate feature="AI signal analysis" blur>
+            <SignalSummary cards={displayCards} />
+          </ProGate>
+        </LazySection>
 
-        {/* Tabbed Full Board — Pro */}
-        <ProGate feature="Full card board (500+ cards)" blur>
-          <MarketTabs liveCards={displayCards} liveGradedCards={displayGraded} liveSealedProducts={displaySealed} />
-        </ProGate>
+        <LazySection minHeight="400px">
+          <ProGate feature="Full card board (500+ cards)" blur>
+            <MarketTabs liveCards={displayCards} liveGradedCards={displayGraded} liveSealedProducts={displaySealed} />
+          </ProGate>
+        </LazySection>
 
-        <MarketCapSummary liveRawCards={displayCards} />
+        <LazySection minHeight="100px">
+          <MarketCapSummary liveRawCards={displayCards} />
+        </LazySection>
 
-        {/* Verified Portfolios Leaderboard */}
-        <VerifiedLeaderboard />
+        <LazySection minHeight="200px">
+          <VerifiedLeaderboard />
+        </LazySection>
 
-        {/* Whale-Exclusive AI Report */}
-        <WhaleReport cards={displayCards} />
+        <LazySection minHeight="200px">
+          <WhaleReport cards={displayCards} />
+        </LazySection>
 
-        {/* Arbitrage Finder — Competitive Edge */}
-        <ProGate feature="Real-Time Arbitrage Finder" blur>
-          <ArbitrageFinder />
-        </ProGate>
+        <LazySection minHeight="200px">
+          <ProGate feature="Real-Time Arbitrage Finder" blur>
+            <ArbitrageFinder />
+          </ProGate>
+        </LazySection>
 
-        {/* JP → EN Precursor Tracker — Market Adaptability */}
-        <ProGate feature="JP → EN Precursor Tracker" blur>
-          <JPtoENTracker />
-        </ProGate>
+        <LazySection minHeight="200px">
+          <ProGate feature="JP → EN Precursor Tracker" blur>
+            <JPtoENTracker />
+          </ProGate>
+        </LazySection>
 
-        {/* Data Health Dashboard — Reliability */}
-        <DataHealthDashboard />
+        <LazySection minHeight="150px">
+          <DataHealthDashboard />
+        </LazySection>
 
-        {/* Wall of Love — Consumer Confidence */}
-        <WallOfLove />
+        <LazySection minHeight="150px">
+          <WallOfLove />
+        </LazySection>
 
-        {/* Pro upgrade nudge before testimonials */}
         <InlineUpgradeNudge variant="default" />
 
-        <Testimonials />
+        <LazySection minHeight="150px">
+          <Testimonials />
+        </LazySection>
 
-        {/* Import from competitors */}
-        <ImportFromTCGPlayer />
+        <LazySection minHeight="80px">
+          <ImportFromTCGPlayer />
+        </LazySection>
 
-        <SubscriptionTiers />
+        <LazySection minHeight="300px">
+          <SubscriptionTiers />
+        </LazySection>
 
-        {/* Team/Shop Plan CTA */}
-        <TeamPlanCTA />
+        <LazySection minHeight="100px">
+          <TeamPlanCTA />
+        </LazySection>
 
-        {/* Referral Program */}
-        <ReferralCTA />
+        <LazySection minHeight="80px">
+          <ReferralCTA />
+        </LazySection>
 
         <FinancialDisclaimer />
 
