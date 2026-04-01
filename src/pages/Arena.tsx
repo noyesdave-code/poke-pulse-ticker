@@ -716,7 +716,7 @@ const Arena = () => {
             <strong>RESPONSIBLE GAMING:</strong> Poke-Pulse Arena™ is an entertainment feature using virtual currency (PokéCoins) with no real-world value. PokéCoins cannot be redeemed, transferred, or exchanged for real currency. All odds are transparent and provably fair. If you feel you have a gambling problem, please visit <a href="https://www.ncpgambling.org" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">ncpgambling.org</a> or call 1-800-522-4700.
           </p>
           <p className="text-[9px] text-muted-foreground">
-            © {new Date().getFullYear()} PGVA Ventures, LLC / Noyes Family Trust. Patent pending. All rights reserved.
+            © {new Date().getFullYear()} PGVA Ventures, LLC. Patent pending. All rights reserved.
           </p>
         </div>
       </main>

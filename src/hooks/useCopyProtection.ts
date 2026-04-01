@@ -39,7 +39,7 @@ export function useCopyProtection() {
       e.preventDefault();
       e.clipboardData?.setData(
         "text/plain",
-        "© 2026 PGVA Ventures, LLC (Noyes Family Trust). Content copying is prohibited. All rights reserved. Visit poke-pulse-ticker.com"
+        "© 2026 PGVA Ventures, LLC. Content copying is prohibited. All rights reserved. Visit poke-pulse-ticker.com"
       );
       return false;
     };
@@ -116,7 +116,7 @@ export function useCopyProtection() {
       warningStyle
     );
     console.log(
-      "%cAll content on this site is the exclusive property of PGVA Ventures, LLC (Noyes Family Trust). Unauthorized access, copying, reverse-engineering, scraping, or redistribution violates the DMCA (17 U.S.C. § 1201), CFAA (18 U.S.C. § 1030), and DTSA (18 U.S.C. § 1836). Violations will be prosecuted. Contact: contact@poke-pulse-ticker.com",
+      "%cAll content on this site is the exclusive property of PGVA Ventures, LLC. Unauthorized access, copying, reverse-engineering, scraping, or redistribution violates the DMCA (17 U.S.C. § 1201), CFAA (18 U.S.C. § 1030), and DTSA (18 U.S.C. § 1836). Violations will be prosecuted. Contact: contact@poke-pulse-ticker.com",
       legalStyle
     );
 
