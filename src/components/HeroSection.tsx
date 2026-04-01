@@ -99,7 +99,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
         ))}
       </div>
 
-      <div className="relative px-5 py-6 sm:px-8 sm:py-10 border-b border-border">
+      <div className="relative px-5 py-7 sm:px-8 sm:py-10 border-b border-border/60">
         <div className="flex items-start justify-between gap-4">
            <div className="flex items-start gap-4">
               {/* Stacked logo — visible center-left on hero */}
