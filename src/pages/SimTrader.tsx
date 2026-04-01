@@ -177,7 +177,7 @@ const HeroSplash = ({ onSignIn }: { onSignIn: () => void }) => (
         className="font-mono text-xs text-muted-foreground max-w-md mx-auto leading-relaxed"
       >
         Start with $100,000 virtual cash. Trade based on live Pokémon card prices. 
-        Compete against 10 AI bots with unique strategies. No real money involved.
+        Compete against real players and 10 AI bots with unique strategies. No real money involved.
       </motion.p>
 
       <motion.div
