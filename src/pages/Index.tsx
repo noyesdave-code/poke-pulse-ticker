@@ -33,7 +33,7 @@ import TournamentFomoBanner from "@/components/campaign/TournamentFomoBanner";
 import HighStakesArenaBanner from "@/components/campaign/HighStakesArenaBanner";
 
 // Lazy-loaded below-the-fold components
-import UserGrowthChart from "@/components/UserGrowthChart";
+
 import DailySpotlight from "@/components/DailySpotlight";
 import LiveMarketPulse from "@/components/LiveMarketPulse";
 import ValueUnlockPreview from "@/components/ValueUnlockPreview";
@@ -165,8 +165,6 @@ const Index = () => {
           cardCount={displayCards.length}
         />
 
-        {/* Community Growth Chart */}
-        <UserGrowthChart />
 
         {/* 3. Market Index Cards — show the money right away */}
         {isLoading ? (
