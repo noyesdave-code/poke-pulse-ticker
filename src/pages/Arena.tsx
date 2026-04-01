@@ -17,6 +17,8 @@ import ArenaLeaderboard from "@/components/ArenaLeaderboard";
 import PredictionDuels from "@/components/PredictionDuels";
 import ArenaChat from "@/components/ArenaChat";
 import { useToast } from "@/hooks/use-toast";
+import HighStakesArenaBanner from "@/components/campaign/HighStakesArenaBanner";
+import DoublePokeCoinBanner from "@/components/campaign/DoublePokeCoinBanner";
 
 // Admin emails allowed to see GO LIVE switch
 const ADMIN_EMAILS = ["david@poke-pulse-ticker.com", "demo@poke-pulse-ticker.com", "davidnoyes@me.com"];
