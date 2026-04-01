@@ -95,10 +95,14 @@ export const GrandLaunch: React.FC = () => {
 
   const bgHue = 200 + Math.sin(frame * 0.008) * 20;
 
+  const rootScale = isVertical ? 1 : 1.15;
+
   return (
     <AbsoluteFill>
       {/* BG */}
       <AbsoluteFill style={{ background: `radial-gradient(ellipse at 40% 30%, hsl(${bgHue}, 40%, 6%) 0%, transparent 50%), radial-gradient(ellipse at 60% 70%, hsl(${bgHue + 40}, 30%, 4%) 0%, transparent 50%), ${BG}` }} />
+      {/* Scaled content layer */}
+      <AbsoluteFill style={{ transform: `scale(${rootScale})`, transformOrigin: "center center" }}
       {/* Grid */}
       <AbsoluteFill style={{ opacity: 0.03 }}>
         {Array.from({ length: 14 }, (_, i) => <div key={`h${i}`} style={{ position: "absolute", top: i * (height / 14), left: 0, right: 0, height: 1, background: ACCENT }} />)}
