@@ -112,6 +112,10 @@ const Index = () => {
     return sorted[0] || null;
   }, [displayCards]);
 
+  // Prefetch trending + top mover cards for instant navigation
+  const prefetchIds = useMemo(() => displayCards.slice(0, 10).map((c) => c.id), [displayCards]);
+  usePrefetchCards(prefetchIds);
+
   const handleSearchFocus = () => {
     searchRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     setTimeout(() => {
