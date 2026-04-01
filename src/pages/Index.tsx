@@ -153,7 +153,7 @@ const Index = () => {
         )}
 
         {/* Daily Index Charts — always visible, "Market Closed" overlay outside NYSE hours */}
-        {!isLoading && (() => {
+        {(() => {
           const now = new Date();
           const et = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
           const mins = et.getHours() * 60 + et.getMinutes();
