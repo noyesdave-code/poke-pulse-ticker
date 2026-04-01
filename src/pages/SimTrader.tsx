@@ -250,7 +250,9 @@ const SimTraderPage = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <TerminalHeader />
-      <main className="max-w-7xl mx-auto px-4 py-6 pb-24">
+      <main className="max-w-7xl mx-auto px-4 py-6 pb-24 space-y-4">
+        <TournamentFomoBanner />
+        <CampaignProBanner />
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <motion.div
