@@ -15,7 +15,6 @@ const PURPLE = "#a855f7";
 const PINK = "#ec4899";
 const BG = "#040810";
 
-// Reusable components
 const Bold: React.FC<{ text: string; delay: number; size?: number; color?: string; weight?: number }> = ({
   text, delay, size = 64, color = "white", weight = 900,
 }) => {
@@ -60,7 +59,7 @@ const FadeIn: React.FC<{ dur?: number; children: React.ReactNode }> = ({ dur = 1
   return <AbsoluteFill style={{ opacity: op }}>{children}</AbsoluteFill>;
 };
 
-const FeatureCard: React.FC<{ title: string; desc: string; icon: string; delay: number; color: string; index: number }> = ({ title, desc, icon, delay, color, index }) => {
+const FeatureCard: React.FC<{ title: string; desc: string; icon: string; delay: number; color: string; index: number }> = ({ title, desc, icon, delay, color }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const s = spring({ frame: frame - delay, fps, config: { damping: 15, stiffness: 160 } });
@@ -89,23 +88,34 @@ const PulsingDot: React.FC<{ color: string }> = ({ color }) => {
   );
 };
 
-// 2min = 120s × 30fps = 3600 frames
-// 24 scenes averaging 150 frames each
+// VO-synced scene timing for SocialHighlight (2min = 3600 frames)
+// VO covers 0-81s (0-2430f), then extended scenes fill 81-120s (2430-3600f)
+// VO silence gaps at: 10.76s, 24.66s, 36.47s, 51.07s, 69.05s, 72.88s, 76.5s
+//
+// Seg1: 0-323f → S1 Hook + S2 Brand
+// Seg2: 339-740f → S3 Pricing + S4 RAW Index + S5 Graded/Sealed
+// Seg3: 760-1094f → S6 Portfolio + S7 SimTrader
+// Seg4: 1111-1532f → S8 Arena + S9 AI Signals + S10 Delta
+// Seg5: 1547-2072f → S11 Grading Arb + S12 Security + S13 Tiers + S14 Community
+// Seg6: 2088-2186f → S15 Feature Recap
+// Seg7: 2203-2295f → S16 Social Proof
+// Seg8: 2311-2430f → S17 PGVA Ventures
+// Post-VO: 2430-3600f → S18 Free Trial CTA + S19 Final CTA + S20 End Card
+
 export const SocialHighlight: React.FC = () => {
   const { width, height } = useVideoConfig();
   const isVertical = height > width;
   const sz = (v: number, h: number) => isVertical ? v : h;
-
-  // Scale up all visuals for horizontal/YouTube format
   const rootScale = isVertical ? 1 : 1.4;
 
   return (
     <AbsoluteFill style={{ background: BG }}>
       <AbsoluteFill style={{ transform: `scale(${rootScale})`, transformOrigin: "center center" }}>
 
-      {/* S1: 0-180 — HOOK / TITLE BLAST */}
-      <Sequence from={0} durationInFrames={180}>
-        <FadeOut start={155} dur={25}>
+      {/* ===== SEGMENT 1: 0-323f — Hook + Brand ===== */}
+      {/* S1: 0-165 — HOOK */}
+      <Sequence from={0} durationInFrames={170}>
+        <FadeOut start={145} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={600} opacity={0.15} />
             <Glow color={CYAN} size={400} x="30%" y="30%" opacity={0.1} />
@@ -121,10 +131,10 @@ export const SocialHighlight: React.FC = () => {
         </FadeOut>
       </Sequence>
 
-      {/* S2: 180-340 — BRAND REVEAL */}
-      <Sequence from={180} durationInFrames={160}>
+      {/* S2: 165-323 — BRAND REVEAL */}
+      <Sequence from={165} durationInFrames={163}>
         <FadeIn dur={15}>
-          <FadeOut start={135} dur={25}>
+          <FadeOut start={138} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
               <Glow color={ACCENT} size={500} opacity={0.12} />
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, zIndex: 2 }}>
@@ -143,10 +153,11 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S3: 340-490 — REAL-TIME PRICING */}
-      <Sequence from={340} durationInFrames={150}>
+      {/* ===== SEGMENT 2: 339-740f — Market Data ===== */}
+      {/* S3: 339-475 — REAL-TIME PRICING */}
+      <Sequence from={339} durationInFrames={140}>
         <FadeIn dur={12}>
-          <FadeOut start={125} dur={25}>
+          <FadeOut start={115} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", padding: sz(40, 80) }}>
               <Glow color={CYAN} size={500} opacity={0.12} />
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20, zIndex: 2 }}>
@@ -165,10 +176,10 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S4: 490-640 — RAW INDEX */}
-      <Sequence from={490} durationInFrames={150}>
+      {/* S4: 475-610 — RAW INDEX */}
+      <Sequence from={475} durationInFrames={140}>
         <FadeIn dur={12}>
-          <FadeOut start={125} dur={25}>
+          <FadeOut start={115} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
               <Glow color={ACCENT} size={500} opacity={0.15} />
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, zIndex: 2 }}>
@@ -181,10 +192,10 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S5: 640-790 — GRADED + SEALED */}
-      <Sequence from={640} durationInFrames={150}>
+      {/* S5: 610-740 — GRADED + SEALED */}
+      <Sequence from={610} durationInFrames={135}>
         <FadeIn dur={12}>
-          <FadeOut start={125} dur={25}>
+          <FadeOut start={110} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
               <Glow color={GOLD} size={500} opacity={0.12} />
               <Glow color={PURPLE} size={400} x="30%" y="60%" opacity={0.08} />
@@ -201,10 +212,11 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S6: 790-940 — PORTFOLIO TRACKING */}
-      <Sequence from={790} durationInFrames={150}>
+      {/* ===== SEGMENT 3: 760-1094f — Portfolio + SimTrader ===== */}
+      {/* S6: 760-930 — PORTFOLIO TRACKING */}
+      <Sequence from={760} durationInFrames={175}>
         <FadeIn dur={12}>
-          <FadeOut start={125} dur={25}>
+          <FadeOut start={150} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", padding: sz(40, 60) }}>
               <Glow color={CYAN} size={450} opacity={0.1} />
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, zIndex: 2, width: "100%" }}>
@@ -220,10 +232,10 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S7: 940-1100 — SIMTRADER WORLD */}
-      <Sequence from={940} durationInFrames={160}>
+      {/* S7: 930-1094 — SIMTRADER WORLD */}
+      <Sequence from={930} durationInFrames={170}>
         <FadeIn dur={12}>
-          <FadeOut start={135} dur={25}>
+          <FadeOut start={145} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
               <Glow color={ACCENT} size={600} opacity={0.15} />
               <Glow color={GOLD} size={400} x="70%" y="30%" opacity={0.1} />
@@ -243,10 +255,11 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S8: 1100-1250 — ARENA */}
-      <Sequence from={1100} durationInFrames={150}>
+      {/* ===== SEGMENT 4: 1111-1532f — Arena + AI + Delta ===== */}
+      {/* S8: 1111-1255 — ARENA */}
+      <Sequence from={1111} durationInFrames={148}>
         <FadeIn dur={12}>
-          <FadeOut start={125} dur={25}>
+          <FadeOut start={123} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
               <Glow color={CRIMSON} size={500} opacity={0.15} />
               <Glow color={PURPLE} size={400} x="30%" y="70%" opacity={0.1} />
@@ -265,10 +278,10 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S9: 1250-1400 — AI SIGNALS */}
-      <Sequence from={1250} durationInFrames={150}>
+      {/* S9: 1255-1395 — AI SIGNALS */}
+      <Sequence from={1255} durationInFrames={145}>
         <FadeIn dur={12}>
-          <FadeOut start={125} dur={25}>
+          <FadeOut start={120} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", padding: sz(40, 60) }}>
               <Glow color={PURPLE} size={500} opacity={0.15} />
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, zIndex: 2, width: "100%" }}>
@@ -284,10 +297,10 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S10: 1400-1550 — DELTA ALERTS */}
-      <Sequence from={1400} durationInFrames={150}>
+      {/* S10: 1395-1532 — DELTA ALERTS */}
+      <Sequence from={1395} durationInFrames={142}>
         <FadeIn dur={12}>
-          <FadeOut start={125} dur={25}>
+          <FadeOut start={117} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
               <Glow color={GOLD} size={500} opacity={0.12} />
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, zIndex: 2 }}>
@@ -302,10 +315,11 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S11: 1550-1700 — GRADING ARBITRAGE */}
-      <Sequence from={1550} durationInFrames={150}>
+      {/* ===== SEGMENT 5: 1547-2072f — Grading + Security + Tiers + Community ===== */}
+      {/* S11: 1547-1680 — GRADING ARBITRAGE */}
+      <Sequence from={1547} durationInFrames={138}>
         <FadeIn dur={12}>
-          <FadeOut start={125} dur={25}>
+          <FadeOut start={113} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
               <Glow color={ACCENT} size={500} opacity={0.12} />
               <Glow color={GOLD} size={350} x="70%" y="30%" opacity={0.08} />
@@ -324,10 +338,10 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S12: 1700-1850 — SECURITY */}
-      <Sequence from={1700} durationInFrames={150}>
+      {/* S12: 1680-1810 — SECURITY */}
+      <Sequence from={1680} durationInFrames={135}>
         <FadeIn dur={12}>
-          <FadeOut start={125} dur={25}>
+          <FadeOut start={110} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", padding: sz(40, 60) }}>
               <Glow color={CYAN} size={450} opacity={0.1} />
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, zIndex: 2, width: "100%" }}>
@@ -343,17 +357,17 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S13: 1850-2000 — 7 PRICING TIERS */}
-      <Sequence from={1850} durationInFrames={150}>
+      {/* S13: 1810-1940 — 7 PRICING TIERS */}
+      <Sequence from={1810} durationInFrames={135}>
         <FadeIn dur={12}>
-          <FadeOut start={125} dur={25}>
+          <FadeOut start={110} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
               <Glow color={GOLD} size={500} opacity={0.15} />
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, zIndex: 2 }}>
                 <Bold text="💳 7 Pricing Tiers" delay={5} size={sz(36, 48)} color={GOLD} />
                 {["Free", "Starter $4.99", "Pro $14.99", "Elite $29.99", "Ultra $49.99", "Master $79.99", "Diamond $149.99"].map((tier, i) => {
                   const colors = [ACCENT, CYAN, PURPLE, GOLD, CRIMSON, PINK, "#fff"];
-                  return <Bold key={tier} text={tier} delay={15 + i * 8} size={sz(18, 22)} color={colors[i]} weight={600} />;
+                  return <Bold key={tier} text={tier} delay={15 + i * 7} size={sz(18, 22)} color={colors[i]} weight={600} />;
                 })}
               </div>
             </AbsoluteFill>
@@ -361,10 +375,10 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S14: 2000-2150 — COMMUNITY */}
-      <Sequence from={2000} durationInFrames={150}>
+      {/* S14: 1940-2072 — COMMUNITY */}
+      <Sequence from={1940} durationInFrames={137}>
         <FadeIn dur={12}>
-          <FadeOut start={125} dur={25}>
+          <FadeOut start={112} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
               <Glow color={ACCENT} size={500} opacity={0.12} />
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, zIndex: 2 }}>
@@ -380,27 +394,25 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S15: 2150-2350 — FEATURE RECAP */}
-      <Sequence from={2150} durationInFrames={200}>
+      {/* ===== SEGMENT 6: 2088-2186f — Feature Recap ===== */}
+      {/* S15: 2088-2186 — FEATURE RECAP */}
+      <Sequence from={2088} durationInFrames={103}>
         <FadeIn dur={12}>
-          <FadeOut start={175} dur={25}>
+          <FadeOut start={78} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
               <Glow color={ACCENT} size={600} opacity={0.1} />
-              <Glow color={PURPLE} size={400} x="30%" y="70%" opacity={0.08} />
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, zIndex: 2 }}>
-                <Bold text="Everything You Need" delay={5} size={sz(32, 42)} color="white" />
-                <div style={{ height: 12 }} />
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, zIndex: 2 }}>
+                <Bold text="Everything You Need" delay={5} size={sz(30, 40)} color="white" />
+                <div style={{ height: 8 }} />
                 {[
-                  { t: "✅ 500+ Live Card Prices", d: 20 },
-                  { t: "✅ AI Market Signals", d: 28 },
-                  { t: "✅ SimTrader World™", d: 36 },
-                  { t: "✅ Poké-Pulse Arena™", d: 44 },
-                  { t: "✅ Portfolio Tracking", d: 52 },
-                  { t: "✅ Grading Arbitrage", d: 60 },
-                  { t: "✅ Delta Alerts", d: 68 },
-                  { t: "✅ Video Chat Duels", d: 76 },
+                  { t: "✅ 500+ Live Card Prices", d: 12 },
+                  { t: "✅ AI Market Signals", d: 18 },
+                  { t: "✅ SimTrader World™", d: 24 },
+                  { t: "✅ Poké-Pulse Arena™", d: 30 },
+                  { t: "✅ Portfolio Tracking", d: 36 },
+                  { t: "✅ Grading Arbitrage", d: 42 },
                 ].map(({ t, d }) => (
-                  <Bold key={t} text={t} delay={d} size={sz(18, 22)} color="rgba(255,255,255,0.8)" weight={600} />
+                  <Bold key={t} text={t} delay={d} size={sz(16, 20)} color="rgba(255,255,255,0.8)" weight={600} />
                 ))}
               </div>
             </AbsoluteFill>
@@ -408,10 +420,48 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S16: 2350-2550 — FREE TRIAL CTA */}
-      <Sequence from={2350} durationInFrames={200}>
+      {/* ===== SEGMENT 7: 2203-2295f — Social Proof ===== */}
+      {/* S16: 2203-2295 — SOCIAL PROOF */}
+      <Sequence from={2203} durationInFrames={97}>
         <FadeIn dur={12}>
-          <FadeOut start={175} dur={25}>
+          <FadeOut start={72} dur={25}>
+            <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+              <Glow color={GOLD} size={500} opacity={0.12} />
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, zIndex: 2 }}>
+                <Bold text="⭐ What Collectors Say" delay={5} size={sz(34, 44)} color={GOLD} />
+                <Bold text={'"Best TCG data tool on the market."'} delay={15} size={sz(18, 24)} color="white" weight={500} />
+                <Bold text="— @PokéInvestor" delay={25} size={sz(14, 16)} color="rgba(255,255,255,0.4)" weight={400} />
+              </div>
+            </AbsoluteFill>
+          </FadeOut>
+        </FadeIn>
+      </Sequence>
+
+      {/* ===== SEGMENT 8: 2311-2430f — PGVA Ventures ===== */}
+      {/* S17: 2311-2430 — PGVA VENTURES */}
+      <Sequence from={2311} durationInFrames={124}>
+        <FadeIn dur={12}>
+          <FadeOut start={99} dur={25}>
+            <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+              <Glow color={ACCENT} size={500} opacity={0.1} />
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, zIndex: 2 }}>
+                <Bold text="Built by" delay={5} size={sz(20, 26)} color="rgba(255,255,255,0.5)" weight={500} />
+                <Bold text="PGVA Ventures, LLC" delay={15} size={sz(38, 50)} color="white" />
+                <div style={{ height: 20 }} />
+                <Bold text="🔒 DMCA Protected" delay={35} size={sz(16, 20)} color={CYAN} weight={600} />
+                <Bold text="⚖️ DTSA Compliant" delay={42} size={sz(16, 20)} color={GOLD} weight={600} />
+                <Bold text="🛡️ Enterprise Security" delay={49} size={sz(16, 20)} color={ACCENT} weight={600} />
+              </div>
+            </AbsoluteFill>
+          </FadeOut>
+        </FadeIn>
+      </Sequence>
+
+      {/* ===== POST-VO: 2430-3600f — Extended CTA ===== */}
+      {/* S18: 2430-2700 — FREE TRIAL CTA */}
+      <Sequence from={2430} durationInFrames={275}>
+        <FadeIn dur={12}>
+          <FadeOut start={250} dur={25}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
               <Glow color={ACCENT} size={700} opacity={0.2} />
               <Glow color={CYAN} size={400} x="30%" y="30%" opacity={0.1} />
@@ -429,52 +479,10 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S17: 2550-2750 — SOCIAL PROOF */}
-      <Sequence from={2550} durationInFrames={200}>
-        <FadeIn dur={12}>
-          <FadeOut start={175} dur={25}>
-            <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
-              <Glow color={GOLD} size={500} opacity={0.12} />
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, zIndex: 2 }}>
-                <Bold text="⭐ What Collectors Say" delay={5} size={sz(34, 44)} color={GOLD} />
-                <div style={{ height: 8 }} />
-                <Bold text={'"Best TCG data tool on the market."'} delay={20} size={sz(20, 26)} color="white" weight={500} />
-                <Bold text="— @PokéInvestor" delay={35} size={sz(14, 16)} color="rgba(255,255,255,0.4)" weight={400} />
-                <div style={{ height: 16 }} />
-                <Bold text={'"SimTrader changed how I approach collecting."'} delay={50} size={sz(20, 26)} color="white" weight={500} />
-                <Bold text="— @GradedGems" delay={65} size={sz(14, 16)} color="rgba(255,255,255,0.4)" weight={400} />
-              </div>
-            </AbsoluteFill>
-          </FadeOut>
-        </FadeIn>
-      </Sequence>
-
-      {/* S18: 2750-2950 — PGVA VENTURES */}
-      <Sequence from={2750} durationInFrames={200}>
-        <FadeIn dur={12}>
-          <FadeOut start={175} dur={25}>
-            <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
-              <Glow color={ACCENT} size={500} opacity={0.1} />
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, zIndex: 2 }}>
-                <Bold text="Built by" delay={5} size={sz(20, 26)} color="rgba(255,255,255,0.5)" weight={500} />
-                <Bold text="PGVA Ventures, LLC" delay={15} size={sz(38, 50)} color="white" />
-                <div style={{ height: 20 }} />
-                <Bold text="🔒 DMCA Protected" delay={35} size={sz(16, 20)} color={CYAN} weight={600} />
-                <Bold text="⚖️ DTSA Compliant" delay={42} size={sz(16, 20)} color={GOLD} weight={600} />
-                <Bold text="🛡️ Enterprise Security" delay={49} size={sz(16, 20)} color={ACCENT} weight={600} />
-                <div style={{ height: 16 }} />
-                <Bold text="© 2026 PGVA Ventures, LLC" delay={65} size={sz(12, 14)} color="rgba(255,255,255,0.3)" weight={400} />
-                <Bold text="SimTrader™ is a trademark of PGVA Ventures" delay={72} size={sz(10, 12)} color="rgba(255,255,255,0.2)" weight={400} />
-              </div>
-            </AbsoluteFill>
-          </FadeOut>
-        </FadeIn>
-      </Sequence>
-
-      {/* S19: 2950-3200 — FINAL CTA */}
-      <Sequence from={2950} durationInFrames={250}>
+      {/* S19: 2700-3050 — FINAL CTA */}
+      <Sequence from={2700} durationInFrames={355}>
         <FadeIn dur={15}>
-          <FadeOut start={220} dur={30}>
+          <FadeOut start={325} dur={30}>
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
               <Glow color={ACCENT} size={800} opacity={0.2} />
               <Glow color={CYAN} size={500} x="20%" y="40%" opacity={0.12} />
@@ -493,8 +501,8 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
-      {/* S20: 3200-3600 — END CARD */}
-      <Sequence from={3200} durationInFrames={400}>
+      {/* S20: 3050-3600 — END CARD */}
+      <Sequence from={3050} durationInFrames={550}>
         <FadeIn dur={20}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={600} opacity={0.1} />
