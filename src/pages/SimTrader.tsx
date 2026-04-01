@@ -208,7 +208,7 @@ const HeroSplash = ({ onSignIn }: { onSignIn: () => void }) => (
       >
         {[
           { icon: BarChart3, label: "Live Prices", desc: "Real market data" },
-          { icon: Bot, label: "10 AI Bots", desc: "Unique strategies" },
+          { icon: Bot, label: "PvP + Bots", desc: "Real & AI opponents" },
           { icon: Trophy, label: "Contests", desc: "Daily & weekend" },
           { icon: Shield, label: "Risk Free", desc: "Virtual currency" },
         ].map(({ icon: Icon, label, desc }, i) => (
