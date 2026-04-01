@@ -129,7 +129,7 @@ const TerminalHeader = () => {
             </div>
 
             {/* Desktop nav */}
-            <nav className="hidden sm:flex items-center gap-0 ml-2 lg:ml-3 overflow-hidden">
+            <nav className="hidden sm:flex items-center gap-0 ml-2 lg:ml-3 overflow-x-clip overflow-y-visible">
               {primaryNav.map((item) => (
                 <button
                   key={item.path}
