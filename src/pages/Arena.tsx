@@ -15,6 +15,7 @@ import { Coins, TrendingUp, TrendingDown, Package, Trophy, Shield, AlertTriangle
 import { motion, AnimatePresence } from "framer-motion";
 import ArenaLeaderboard from "@/components/ArenaLeaderboard";
 import PredictionDuels from "@/components/PredictionDuels";
+import ArenaChat from "@/components/ArenaChat";
 import { useToast } from "@/hooks/use-toast";
 
 // Admin emails allowed to see GO LIVE switch
