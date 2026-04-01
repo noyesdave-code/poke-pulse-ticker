@@ -49,6 +49,7 @@ import TeamPlanCTA from "@/components/TeamPlanCTA";
 import GradingArbitrage from "@/components/GradingArbitrage";
 import GradeRatioArbitrageBot from "@/components/GradeRatioArbitrageBot";
 import IndexDayChart from "@/components/IndexDayChart";
+import MarketClosedOverlay, { useMarketStatus } from "@/components/MarketClosedOverlay";
 import LaunchCountdown from "@/components/LaunchCountdown";
 import ValueUnlockPreview from "@/components/ValueUnlockPreview";
 import QuickValueCalculator from "@/components/QuickValueCalculator";
