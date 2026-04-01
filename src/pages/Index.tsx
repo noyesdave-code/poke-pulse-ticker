@@ -364,44 +364,45 @@ const Index = () => {
         <FinancialDisclaimer />
 
         {/* Footer */}
-        <footer className="border-t border-border pt-10 pb-8">
-          <div className="flex flex-col items-center gap-5">
-            <div className="flex items-center gap-2.5">
+        <footer className="border-t border-border/50 pt-12 pb-10">
+          <div className="flex flex-col items-center gap-6">
+            <div className="flex items-center gap-3">
               <div className="flex flex-col leading-none select-none">
-                <span className="font-black text-[14px] tracking-tight text-foreground" style={{ textShadow: '0 0 8px hsl(210 20% 98% / 0.6)' }}>
+                <span className="font-display font-black text-[16px] tracking-tight text-foreground" style={{ textShadow: '0 0 10px hsl(210 20% 98% / 0.5)' }}>
                   Poke-Pulse-
                 </span>
-                <span className="font-extrabold text-[12px] tracking-[0.08em] text-primary uppercase" style={{ textShadow: '0 0 10px hsl(160 84% 50% / 0.4)' }}>
+                <span className="font-display font-extrabold text-[13px] tracking-[0.06em] text-primary uppercase" style={{ textShadow: '0 0 12px hsl(160 84% 50% / 0.35)' }}>
                   Market Terminal
                 </span>
               </div>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
-              <a href="https://poke-pulse-ticker.com" className="text-sm text-primary font-medium hover:underline">
+              <a href="https://poke-pulse-ticker.com" className="text-sm text-primary font-semibold hover:underline transition-colors">
                 poke-pulse-ticker.com
               </a>
-              <span className="text-border hidden sm:inline">|</span>
+              <span className="text-border/50 hidden sm:inline">|</span>
               <span className="text-xs text-muted-foreground tracking-wide">
                 Live Pokémon TCG Market Data
               </span>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
-              <a href="/arena" className="text-xs text-muted-foreground hover:text-primary transition-colors">Arena</a>
-              <span className="text-border">•</span>
-              <a href="/videos" className="text-xs text-muted-foreground hover:text-primary transition-colors">Video Library</a>
-              <span className="text-border">•</span>
-              <a href="/terms" className="text-xs text-muted-foreground hover:text-primary transition-colors">Terms of Service</a>
-              <span className="text-border">•</span>
-              <a href="/privacy" className="text-xs text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a>
-              <span className="text-border">•</span>
-              <a href="/methodology" className="text-xs text-muted-foreground hover:text-primary transition-colors">Methodology</a>
-              <span className="text-border">•</span>
-              <a href="mailto:contact@poke-pulse-ticker.com" className="text-xs text-muted-foreground hover:text-primary transition-colors">Contact</a>
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+              {[
+                { href: "/arena", label: "Arena" },
+                { href: "/videos", label: "Video Library" },
+                { href: "/terms", label: "Terms of Service" },
+                { href: "/privacy", label: "Privacy Policy" },
+                { href: "/methodology", label: "Methodology" },
+                { href: "mailto:contact@poke-pulse-ticker.com", label: "Contact" },
+              ].map((link, i) => (
+                <a key={link.href} href={link.href} className="text-xs text-muted-foreground hover:text-primary transition-colors duration-200">
+                  {link.label}
+                </a>
+              ))}
             </div>
-            <p className="text-[11px] text-muted-foreground text-center max-w-md leading-relaxed">
+            <p className="text-[11px] text-muted-foreground/70 text-center max-w-lg leading-relaxed">
               Pokémon is a trademark of Nintendo/Creatures Inc./GAME FREAK inc. Not affiliated with The Pokémon Company International. Data powered by pokemontcg.io. Not financial advice.
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground/60 font-mono">
               © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.
             </p>
           </div>

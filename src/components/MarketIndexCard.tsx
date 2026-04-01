@@ -29,14 +29,14 @@ const MarketIndexCard = ({ title, value, change, count, description, variant = "
       }}
       className={`terminal-card hero-glow-border p-5 ${glowClass} border-t-2 ${borderAccent} transition-shadow duration-300`}
     >
-      <div className="flex items-center justify-between mb-1">
+      <div className="flex items-center justify-between mb-1.5">
         <span className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">{title}</span>
-        <span className="font-mono text-[10px] text-muted-foreground">{count} tracked</span>
+        <span className="font-mono text-[10px] text-muted-foreground/70">{count} tracked</span>
       </div>
-      <div className="text-2xl lg:text-3xl font-extrabold text-foreground mb-1">
+      <div className="text-2xl lg:text-3xl font-extrabold text-foreground mb-1.5 font-display">
         ${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
       </div>
-      <p className="text-xs text-muted-foreground mb-2">{description}</p>
+      <p className="text-xs text-muted-foreground/80 mb-3">{description}</p>
       <div className="flex items-center justify-between">
         <span className={`font-mono text-sm font-semibold ${change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
           {change >= 0 ? "▲" : "▼"} {Math.abs(change).toFixed(2)}%
