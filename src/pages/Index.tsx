@@ -113,7 +113,7 @@ const Index = () => {
   }, [displayCards]);
 
   // Prefetch trending + top mover cards for instant navigation
-  const prefetchIds = useMemo(() => displayCards.slice(0, 10).map((c) => c.id), [displayCards]);
+  const prefetchIds = useMemo(() => displayCards.slice(0, 10).map((c) => c._apiId).filter(Boolean) as string[], [displayCards]);
   usePrefetchCards(prefetchIds);
 
   const handleSearchFocus = () => {
