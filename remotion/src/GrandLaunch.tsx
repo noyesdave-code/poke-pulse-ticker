@@ -30,13 +30,13 @@ const Bold: React.FC<{ text: string; delay: number; size?: number; color?: strin
   );
 };
 
-const Stat: React.FC<{ value: string; label: string; delay: number; color?: string }> = ({ value, label, delay, color = ACCENT }) => {
+const Stat: React.FC<{ value: string; label: string; delay: number; color?: string; size?: number }> = ({ value, label, delay, color = ACCENT, size = 56 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const pop = spring({ frame: frame - delay, fps, config: { damping: 10, stiffness: 200 } });
   return (
     <div style={{ textAlign: "center", transform: `scale(${pop})` }}>
-      <div style={{ fontFamily: "monospace", fontSize: 56, fontWeight: 900, color }}>{value}</div>
+      <div style={{ fontFamily: "monospace", fontSize: size, fontWeight: 900, color }}>{value}</div>
       <div style={{ fontFamily: "sans-serif", fontSize: 14, color: "rgba(255,255,255,0.45)", letterSpacing: 4, marginTop: 8 }}>{label}</div>
     </div>
   );
@@ -80,6 +80,8 @@ const FadeIn: React.FC<{ dur?: number; children: React.ReactNode }> = ({ dur = 1
 export const GrandLaunch: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
+  const isVertical = height > width;
+  const sz = (v: number, h: number) => isVertical ? v : h;
 
   const particles = Array.from({ length: 30 }, (_, i) => {
     const x = (i * 137.5) % width;
@@ -92,6 +94,7 @@ export const GrandLaunch: React.FC = () => {
   });
 
   const bgHue = 200 + Math.sin(frame * 0.008) * 20;
+  const rootScale = isVertical ? 1 : 1.15;
 
   return (
     <AbsoluteFill>
@@ -105,6 +108,8 @@ export const GrandLaunch: React.FC = () => {
       {/* Particles */}
       {particles.map((p, i) => <div key={i} style={{ position: "absolute", left: p.x, top: p.y, width: p.size, height: p.size, borderRadius: "50%", background: p.color, opacity: p.opacity }} />)}
 
+      <AbsoluteFill style={{ transform: `scale(${rootScale})`, transformOrigin: "center center" }}>
+
       {/* ===== SEGMENT 1: 0-323f (0-10.76s) — Title + Launch ===== */}
       {/* S1: POKE PULSE TICKER (0-160) */}
       <Sequence from={0} durationInFrames={165}>
@@ -112,10 +117,10 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={500} opacity={0.25} />
             <div style={{ textAlign: "center" }}>
-              <Bold text="POKE" delay={5} size={130} color={ACCENT} />
-              <Bold text="PULSE" delay={12} size={110} color="white" />
-              <Bold text="TICKER" delay={20} size={90} color={GOLD} />
-              <Sequence from={40}><Bold text="MARKET TERMINAL" delay={0} size={28} color="rgba(255,255,255,0.5)" weight={600} /></Sequence>
+              <Bold text="POKE" delay={5} size={sz(130, 88)} color={ACCENT} />
+              <Bold text="PULSE" delay={12} size={sz(110, 74)} color="white" />
+              <Bold text="TICKER" delay={20} size={sz(90, 60)} color={GOLD} />
+              <Sequence from={40}><Bold text="MARKET TERMINAL" delay={0} size={sz(28, 22)} color="rgba(255,255,255,0.5)" weight={600} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
@@ -127,10 +132,10 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={GOLD} size={600} opacity={0.2} />
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 60, marginBottom: 10 }}>🚀</div>
-              <Bold text="OFFICIAL" delay={5} size={80} color="white" />
-              <Bold text="MEGA LAUNCH" delay={15} size={70} color={GOLD} />
-              <Sequence from={35}><Bold text="THE WAIT IS OVER" delay={0} size={30} color="rgba(255,255,255,0.5)" weight={600} /></Sequence>
+              <div style={{ fontSize: sz(60, 44), marginBottom: 10 }}>🚀</div>
+              <Bold text="OFFICIAL" delay={5} size={sz(80, 56)} color="white" />
+              <Bold text="MEGA LAUNCH" delay={15} size={sz(70, 48)} color={GOLD} />
+              <Sequence from={35}><Bold text="THE WAIT IS OVER" delay={0} size={sz(30, 22)} color="rgba(255,255,255,0.5)" weight={600} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
@@ -143,15 +148,15 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={500} opacity={0.2} />
             <div style={{ textAlign: "center" }}>
-              <Bold text="RAW 500" delay={5} size={90} color={ACCENT} />
-              <Bold text="INDEX™" delay={15} size={60} color="white" />
+              <Bold text="RAW 500" delay={5} size={sz(90, 64)} color={ACCENT} />
+              <Bold text="INDEX™" delay={15} size={sz(60, 44)} color="white" />
               <Sequence from={30}>
-                <div style={{ marginTop: 40, display: "flex", gap: 50, justifyContent: "center" }}>
-                  <Stat value="500" label="PREMIUM CARDS" delay={35} />
-                  <Stat value="LIVE" label="REAL-TIME DATA" delay={45} color={GOLD} />
+                <div style={{ marginTop: sz(40, 30), display: "flex", gap: sz(50, 40), justifyContent: "center" }}>
+                  <Stat value="500" label="PREMIUM CARDS" delay={35} size={sz(56, 44)} />
+                  <Stat value="LIVE" label="REAL-TIME DATA" delay={45} color={GOLD} size={sz(56, 44)} />
                 </div>
               </Sequence>
-              <Sequence from={60}><Bold text="ILLUSTRATION RARES • SPECIAL ARTS • HYPER RARES" delay={0} size={18} color="rgba(255,255,255,0.4)" weight={500} /></Sequence>
+              <Sequence from={60}><Bold text="ILLUSTRATION RARES • SPECIAL ARTS • HYPER RARES" delay={0} size={sz(18, 15)} color="rgba(255,255,255,0.4)" weight={500} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
@@ -163,13 +168,13 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={CYAN} size={500} opacity={0.2} />
             <div style={{ textAlign: "center" }}>
-              <Bold text="GRADED" delay={5} size={80} color={CYAN} />
-              <Bold text="1000 INDEX™" delay={15} size={60} color="white" />
+              <Bold text="GRADED" delay={5} size={sz(80, 56)} color={CYAN} />
+              <Bold text="1000 INDEX™" delay={15} size={sz(60, 44)} color="white" />
               <Sequence from={30}>
-                <div style={{ marginTop: 40, display: "flex", gap: 50, justifyContent: "center" }}>
-                  <Stat value="PSA" label="GRADE 10" delay={35} color={CYAN} />
-                  <Stat value="CGC" label="PRISTINE" delay={45} color={CYAN} />
-                  <Stat value="BGS" label="BLACK LABEL" delay={55} color={GOLD} />
+                <div style={{ marginTop: sz(40, 30), display: "flex", gap: sz(50, 40), justifyContent: "center" }}>
+                  <Stat value="PSA" label="GRADE 10" delay={35} color={CYAN} size={sz(56, 40)} />
+                  <Stat value="CGC" label="PRISTINE" delay={45} color={CYAN} size={sz(56, 40)} />
+                  <Stat value="BGS" label="BLACK LABEL" delay={55} color={GOLD} size={sz(56, 40)} />
                 </div>
               </Sequence>
             </div>
@@ -183,12 +188,12 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={PURPLE} size={500} opacity={0.2} />
             <div style={{ textAlign: "center" }}>
-              <Bold text="SEALED" delay={5} size={80} color={PURPLE} />
-              <Bold text="1000 INDEX™" delay={15} size={60} color="white" />
+              <Bold text="SEALED" delay={5} size={sz(80, 56)} color={PURPLE} />
+              <Bold text="1000 INDEX™" delay={15} size={sz(60, 44)} color="white" />
               <Sequence from={30}>
-                <div style={{ marginTop: 40, display: "flex", gap: 50, justifyContent: "center" }}>
-                  <Stat value="ETBs" label="BOOSTER BOXES" delay={35} color={PURPLE} />
-                  <Stat value="ALL" label="ERAS COVERED" delay={45} color={GOLD} />
+                <div style={{ marginTop: sz(40, 30), display: "flex", gap: sz(50, 40), justifyContent: "center" }}>
+                  <Stat value="ETBs" label="BOOSTER BOXES" delay={35} color={PURPLE} size={sz(56, 40)} />
+                  <Stat value="ALL" label="ERAS COVERED" delay={45} color={GOLD} size={sz(56, 40)} />
                 </div>
               </Sequence>
             </div>
@@ -203,10 +208,10 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 50, marginBottom: 10 }}>📡</div>
-              <Bold text="LIVE MARKET" delay={5} size={70} color="white" />
-              <Bold text="PULSE" delay={15} size={80} color={ACCENT} />
-              <Sequence from={35}><Bold text="REAL-TIME PRICE FEEDS • HOURLY UPDATES" delay={0} size={20} color="rgba(255,255,255,0.45)" weight={500} /></Sequence>
+              <div style={{ fontSize: sz(50, 38), marginBottom: 10 }}>📡</div>
+              <Bold text="LIVE MARKET" delay={5} size={sz(70, 50)} color="white" />
+              <Bold text="PULSE" delay={15} size={sz(80, 56)} color={ACCENT} />
+              <Sequence from={35}><Bold text="REAL-TIME PRICE FEEDS • HOURLY UPDATES" delay={0} size={sz(20, 16)} color="rgba(255,255,255,0.45)" weight={500} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
@@ -218,13 +223,13 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={GOLD} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 50, marginBottom: 10 }}>💼</div>
-              <Bold text="PORTFOLIO" delay={5} size={70} color={GOLD} />
-              <Bold text="TRACKER" delay={15} size={70} color="white" />
+              <div style={{ fontSize: sz(50, 38), marginBottom: 10 }}>💼</div>
+              <Bold text="PORTFOLIO" delay={5} size={sz(70, 50)} color={GOLD} />
+              <Bold text="TRACKER" delay={15} size={sz(70, 50)} color="white" />
               <Sequence from={30}>
-                <div style={{ marginTop: 40, display: "flex", gap: 50, justifyContent: "center" }}>
-                  <Stat value="P&L" label="LIVE TRACKING" delay={35} color={ACCENT} />
-                  <Stat value="CSV" label="EXPORT DATA" delay={45} color={GOLD} />
+                <div style={{ marginTop: sz(40, 30), display: "flex", gap: sz(50, 40), justifyContent: "center" }}>
+                  <Stat value="P&L" label="LIVE TRACKING" delay={35} color={ACCENT} size={sz(56, 40)} />
+                  <Stat value="CSV" label="EXPORT DATA" delay={45} color={GOLD} size={sz(56, 40)} />
                 </div>
               </Sequence>
             </div>
@@ -239,11 +244,11 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={CRIMSON} size={500} opacity={0.2} />
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 50, marginBottom: 10 }}>🧠</div>
-              <Bold text="ALPHA" delay={5} size={80} color={CRIMSON} />
-              <Bold text="SIGNALS™" delay={15} size={70} color="white" />
-              <Sequence from={30}><Bold text="AI-POWERED BUY / SELL / HOLD" delay={0} size={24} color="rgba(255,255,255,0.5)" weight={600} /></Sequence>
-              <Sequence from={50}><Bold text="MARKET INTELLIGENCE AT YOUR FINGERTIPS" delay={0} size={18} color="rgba(255,255,255,0.35)" weight={500} /></Sequence>
+              <div style={{ fontSize: sz(50, 38), marginBottom: 10 }}>🧠</div>
+              <Bold text="ALPHA" delay={5} size={sz(80, 56)} color={CRIMSON} />
+              <Bold text="SIGNALS™" delay={15} size={sz(70, 50)} color="white" />
+              <Sequence from={30}><Bold text="AI-POWERED BUY / SELL / HOLD" delay={0} size={sz(24, 18)} color="rgba(255,255,255,0.5)" weight={600} /></Sequence>
+              <Sequence from={50}><Bold text="MARKET INTELLIGENCE AT YOUR FINGERTIPS" delay={0} size={sz(18, 14)} color="rgba(255,255,255,0.35)" weight={500} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
@@ -255,10 +260,10 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={GOLD} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 50, marginBottom: 10 }}>🔔</div>
-              <Bold text="DELTA" delay={5} size={80} color={GOLD} />
-              <Bold text="ALERTS™" delay={15} size={70} color="white" />
-              <Sequence from={30}><Bold text="INSTANT PRICE DEVIATION NOTIFICATIONS" delay={0} size={20} color="rgba(255,255,255,0.45)" weight={500} /></Sequence>
+              <div style={{ fontSize: sz(50, 38), marginBottom: 10 }}>🔔</div>
+              <Bold text="DELTA" delay={5} size={sz(80, 56)} color={GOLD} />
+              <Bold text="ALERTS™" delay={15} size={sz(70, 50)} color="white" />
+              <Sequence from={30}><Bold text="INSTANT PRICE DEVIATION NOTIFICATIONS" delay={0} size={sz(20, 16)} color="rgba(255,255,255,0.45)" weight={500} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
@@ -270,13 +275,13 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={600} opacity={0.25} />
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 50, marginBottom: 10 }}>🎮</div>
-              <Bold text="SIMTRADER" delay={5} size={80} color={ACCENT} />
-              <Bold text="WORLD™" delay={15} size={70} color="white" />
+              <div style={{ fontSize: sz(50, 38), marginBottom: 10 }}>🎮</div>
+              <Bold text="SIMTRADER" delay={5} size={sz(80, 56)} color={ACCENT} />
+              <Bold text="WORLD™" delay={15} size={sz(70, 50)} color="white" />
               <Sequence from={30}>
-                <div style={{ marginTop: 30, display: "flex", gap: 40, justifyContent: "center" }}>
-                  <Stat value="$10K" label="VIRTUAL CASH" delay={35} />
-                  <Stat value="500+" label="LIVE CARDS" delay={45} color={GOLD} />
+                <div style={{ marginTop: sz(30, 24), display: "flex", gap: sz(40, 30), justifyContent: "center" }}>
+                  <Stat value="$10K" label="VIRTUAL CASH" delay={35} size={sz(56, 40)} />
+                  <Stat value="500+" label="LIVE CARDS" delay={45} color={GOLD} size={sz(56, 40)} />
                 </div>
               </Sequence>
             </div>
@@ -291,10 +296,10 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={GOLD} size={500} opacity={0.2} />
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 60, marginBottom: 10 }}>🏆</div>
-              <Bold text="POKÉ-PULSE" delay={5} size={60} color={GOLD} />
-              <Bold text="ARENA™" delay={15} size={80} color="white" />
-              <Sequence from={30}><Bold text="TOURNAMENTS • PRIZES • LEADERBOARDS" delay={0} size={20} color="rgba(255,255,255,0.45)" weight={500} /></Sequence>
+              <div style={{ fontSize: sz(60, 44), marginBottom: 10 }}>🏆</div>
+              <Bold text="POKÉ-PULSE" delay={5} size={sz(60, 44)} color={GOLD} />
+              <Bold text="ARENA™" delay={15} size={sz(80, 56)} color="white" />
+              <Sequence from={30}><Bold text="TOURNAMENTS • PRIZES • LEADERBOARDS" delay={0} size={sz(20, 16)} color="rgba(255,255,255,0.45)" weight={500} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
@@ -306,15 +311,15 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
-              <Bold text="7 TIERS" delay={5} size={90} color={ACCENT} />
-              <Bold text="FOR EVERYONE" delay={15} size={50} color="white" />
+              <Bold text="7 TIERS" delay={5} size={sz(90, 64)} color={ACCENT} />
+              <Bold text="FOR EVERYONE" delay={15} size={sz(50, 36)} color="white" />
               <Sequence from={30}>
                 {(() => {
                   const tiers = ["FREE $0", "ARENA $0.99", "STARTER $1.99", "PRO $4.99", "PREMIUM $9.99", "TEAM $19.99", "WHALE $49.99"];
-                  return <div style={{ marginTop: 30 }}>
+                  return <div style={{ marginTop: sz(30, 20) }}>
                     {tiers.map((t, i) => {
                       const s2 = spring({ frame: frame - 1650 - 35 - i * 5, fps, config: { damping: 15 } });
-                      return <div key={i} style={{ transform: `scale(${s2})`, fontFamily: "monospace", fontSize: 20, fontWeight: 700, color: i === 3 ? GOLD : i === 6 ? ACCENT : "rgba(255,255,255,0.7)", marginBottom: 4 }}>{t}/MO</div>;
+                      return <div key={i} style={{ transform: `scale(${s2})`, fontFamily: "monospace", fontSize: sz(20, 16), fontWeight: 700, color: i === 3 ? GOLD : i === 6 ? ACCENT : "rgba(255,255,255,0.7)", marginBottom: sz(4, 2) }}>{t}/MO</div>;
                     })}
                   </div>;
                 })()}
@@ -330,10 +335,10 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={CYAN} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 60, marginBottom: 10 }}>🛡️</div>
-              <Bold text="ENTERPRISE" delay={5} size={60} color={CYAN} />
-              <Bold text="SECURITY" delay={15} size={70} color="white" />
-              <Sequence from={30}><Bold text="DRM • WATERMARKS • IP PROTECTION" delay={0} size={18} color="rgba(255,255,255,0.4)" weight={500} /></Sequence>
+              <div style={{ fontSize: sz(60, 44), marginBottom: 10 }}>🛡️</div>
+              <Bold text="ENTERPRISE" delay={5} size={sz(60, 44)} color={CYAN} />
+              <Bold text="SECURITY" delay={15} size={sz(70, 50)} color="white" />
+              <Sequence from={30}><Bold text="DRM • WATERMARKS • IP PROTECTION" delay={0} size={sz(18, 15)} color="rgba(255,255,255,0.4)" weight={500} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
@@ -345,9 +350,9 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
-              <Bold text="24/7" delay={5} size={120} color={ACCENT} />
-              <Bold text="LIVE DATA" delay={15} size={60} color="white" />
-              <Sequence from={30}><Bold text="MARKET OPEN INDICATOR • INTRADAY CHARTS" delay={0} size={18} color="rgba(255,255,255,0.4)" weight={500} /></Sequence>
+              <Bold text="24/7" delay={5} size={sz(120, 80)} color={ACCENT} />
+              <Bold text="LIVE DATA" delay={15} size={sz(60, 44)} color="white" />
+              <Sequence from={30}><Bold text="MARKET OPEN INDICATOR • INTRADAY CHARTS" delay={0} size={sz(18, 15)} color="rgba(255,255,255,0.4)" weight={500} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
@@ -359,10 +364,10 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={PURPLE} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 60, marginBottom: 10 }}>📱</div>
-              <Bold text="MOBILE" delay={5} size={80} color={PURPLE} />
-              <Bold text="READY" delay={15} size={70} color="white" />
-              <Sequence from={30}><Bold text="PWA • INSTALL ON ANY DEVICE" delay={0} size={20} color="rgba(255,255,255,0.45)" weight={500} /></Sequence>
+              <div style={{ fontSize: sz(60, 44), marginBottom: 10 }}>📱</div>
+              <Bold text="MOBILE" delay={5} size={sz(80, 56)} color={PURPLE} />
+              <Bold text="READY" delay={15} size={sz(70, 50)} color="white" />
+              <Sequence from={30}><Bold text="PWA • INSTALL ON ANY DEVICE" delay={0} size={sz(20, 16)} color="rgba(255,255,255,0.45)" weight={500} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
@@ -375,13 +380,13 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={GOLD} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 60, marginBottom: 10 }}>👥</div>
-              <Bold text="GROWING" delay={5} size={70} color={GOLD} />
-              <Bold text="COMMUNITY" delay={15} size={60} color="white" />
+              <div style={{ fontSize: sz(60, 44), marginBottom: 10 }}>👥</div>
+              <Bold text="GROWING" delay={5} size={sz(70, 50)} color={GOLD} />
+              <Bold text="COMMUNITY" delay={15} size={sz(60, 44)} color="white" />
               <Sequence from={30}>
-                <div style={{ marginTop: 30, display: "flex", gap: 50, justifyContent: "center" }}>
-                  <Stat value="2.4K+" label="USERS" delay={35} color={GOLD} />
-                  <Stat value="4.8★" label="RATING" delay={45} color={ACCENT} />
+                <div style={{ marginTop: sz(30, 24), display: "flex", gap: sz(50, 40), justifyContent: "center" }}>
+                  <Stat value="2.4K+" label="USERS" delay={35} color={GOLD} size={sz(56, 40)} />
+                  <Stat value="4.8★" label="RATING" delay={45} color={ACCENT} size={sz(56, 40)} />
                 </div>
               </Sequence>
             </div>
@@ -396,13 +401,13 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={400} opacity={0.1} />
             <div style={{ textAlign: "center", maxWidth: "85%" }}>
-              <Bold text="WHAT TRADERS SAY" delay={5} size={40} color="rgba(255,255,255,0.5)" weight={600} />
+              <Bold text="WHAT TRADERS SAY" delay={5} size={sz(40, 30)} color="rgba(255,255,255,0.5)" weight={600} />
               <Sequence from={20}>
-                <div style={{ marginTop: 30, padding: "24px 30px", background: "rgba(255,255,255,0.04)", borderRadius: 16, border: "1px solid rgba(255,255,255,0.08)" }}>
-                  <div style={{ fontFamily: "sans-serif", fontSize: 22, color: "rgba(255,255,255,0.8)", fontStyle: "italic", lineHeight: 1.5 }}>
+                <div style={{ marginTop: sz(30, 20), padding: sz(24, 18) + "px " + sz(30, 24) + "px", background: "rgba(255,255,255,0.04)", borderRadius: 16, border: "1px solid rgba(255,255,255,0.08)" }}>
+                  <div style={{ fontFamily: "sans-serif", fontSize: sz(22, 18), color: "rgba(255,255,255,0.8)", fontStyle: "italic", lineHeight: 1.5 }}>
                     "Finally a real-time Pokémon TCG market terminal. This changes everything."
                   </div>
-                  <div style={{ fontFamily: "monospace", fontSize: 14, color: ACCENT, marginTop: 12 }}>— @PokéCollector_Pro</div>
+                  <div style={{ fontFamily: "monospace", fontSize: sz(14, 12), color: ACCENT, marginTop: 12 }}>— @PokéCollector_Pro</div>
                 </div>
               </Sequence>
             </div>
@@ -418,11 +423,11 @@ export const GrandLaunch: React.FC = () => {
             <Glow color={CRIMSON} size={600} opacity={0.25} />
             <Glow color={GOLD} size={400} y="60%" opacity={0.15} />
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 60, marginBottom: 10 }}>🔥</div>
-              <Bold text="MEGA" delay={5} size={100} color={CRIMSON} />
-              <Bold text="LAUNCH" delay={12} size={90} color="white" />
-              <Bold text="SALE" delay={20} size={100} color={GOLD} />
-              <Sequence from={40}><Bold text="STARTING AT $0.99/MONTH" delay={0} size={28} color="rgba(255,255,255,0.6)" weight={700} /></Sequence>
+              <div style={{ fontSize: sz(60, 44), marginBottom: 10 }}>🔥</div>
+              <Bold text="MEGA" delay={5} size={sz(100, 68)} color={CRIMSON} />
+              <Bold text="LAUNCH" delay={12} size={sz(90, 62)} color="white" />
+              <Bold text="SALE" delay={20} size={sz(100, 68)} color={GOLD} />
+              <Sequence from={40}><Bold text="STARTING AT $0.99/MONTH" delay={0} size={sz(28, 20)} color="rgba(255,255,255,0.6)" weight={700} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
@@ -434,15 +439,15 @@ export const GrandLaunch: React.FC = () => {
         <FadeIn><FadeOut start={120} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <div style={{ textAlign: "center" }}>
-              <Bold text="EVERYTHING" delay={5} size={60} color="white" />
-              <Bold text="YOU NEED" delay={12} size={60} color={ACCENT} />
+              <Bold text="EVERYTHING" delay={5} size={sz(60, 44)} color="white" />
+              <Bold text="YOU NEED" delay={12} size={sz(60, 44)} color={ACCENT} />
               <Sequence from={25}>
                 {(() => {
                   const features = ["RAW 500 INDEX™", "GRADED 1000 INDEX™", "SEALED 1000 INDEX™", "ALPHA SIGNALS™", "DELTA ALERTS™", "SIMTRADER WORLD™", "POKÉ-PULSE ARENA™", "PORTFOLIO TRACKER", "CONSENSUS PRICING", "GRADING ARBITRAGE"];
-                  return <div style={{ marginTop: 25 }}>
+                  return <div style={{ marginTop: sz(25, 16) }}>
                     {features.map((f, i) => {
                       const fs = spring({ frame: frame - 2430 - 30 - i * 7, fps, config: { damping: 18 } });
-                      return <div key={i} style={{ transform: `translateX(${interpolate(fs, [0, 1], [-300, 0])}px)`, opacity: fs, fontFamily: "monospace", fontSize: 18, fontWeight: 700, color: i % 2 === 0 ? ACCENT : "rgba(255,255,255,0.7)", marginBottom: 4, letterSpacing: 2 }}>✓ {f}</div>;
+                      return <div key={i} style={{ transform: `translateX(${interpolate(fs, [0, 1], [-300, 0])}px)`, opacity: fs, fontFamily: "monospace", fontSize: sz(18, 14), fontWeight: 700, color: i % 2 === 0 ? ACCENT : "rgba(255,255,255,0.7)", marginBottom: sz(4, 2), letterSpacing: 2 }}>✓ {f}</div>;
                     })}
                   </div>;
                 })()}
@@ -466,12 +471,12 @@ export const GrandLaunch: React.FC = () => {
             <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp }}>
               <div style={{ position: "absolute", width: 600, height: 600, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,210,106,${glowPulse}) 0%, transparent 70%)`, filter: "blur(80px)" }} />
               <div style={{ textAlign: "center", transform: `scale(${ctaS})`, position: "relative" }}>
-                <Bold text="JOIN NOW" delay={5} size={80} color="white" />
-                <Bold text="FREE FOREVER" delay={15} size={60} color={ACCENT} />
-                <div style={{ transform: `scale(${urlS})`, marginTop: 30, fontFamily: "monospace", fontSize: 22, color: ACCENT, background: "rgba(0,210,106,0.1)", border: "2px solid rgba(0,210,106,0.4)", padding: "16px 40px", borderRadius: 16, letterSpacing: 1 }}>
+                <Bold text="JOIN NOW" delay={5} size={sz(80, 56)} color="white" />
+                <Bold text="FREE FOREVER" delay={15} size={sz(60, 44)} color={ACCENT} />
+                <div style={{ transform: `scale(${urlS})`, marginTop: sz(30, 20), fontFamily: "monospace", fontSize: sz(22, 18), color: ACCENT, background: "rgba(0,210,106,0.1)", border: "2px solid rgba(0,210,106,0.4)", padding: sz(16, 12) + "px " + sz(40, 30) + "px", borderRadius: 16, letterSpacing: 1 }}>
                   poke-pulse-ticker.lovable.app
                 </div>
-                <div style={{ transform: `scale(${contactS})`, marginTop: 20, fontFamily: "monospace", fontSize: 14, color: "rgba(255,255,255,0.4)" }}>
+                <div style={{ transform: `scale(${contactS})`, marginTop: sz(20, 14), fontFamily: "monospace", fontSize: sz(14, 12), color: "rgba(255,255,255,0.4)" }}>
                   contact@poke-pulse-ticker.com
                 </div>
               </div>
@@ -479,6 +484,8 @@ export const GrandLaunch: React.FC = () => {
           );
         })()}
       </Sequence>
+
+      </AbsoluteFill>
 
       {/* Branding */}
       <div style={{ position: "absolute", bottom: 25, left: 0, right: 0, textAlign: "center", fontFamily: "monospace", fontSize: 10, color: "rgba(255,255,255,0.12)", letterSpacing: 3 }}>

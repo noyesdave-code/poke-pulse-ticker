@@ -106,7 +106,7 @@ export const SocialHighlight: React.FC = () => {
   const { width, height } = useVideoConfig();
   const isVertical = height > width;
   const sz = (v: number, h: number) => isVertical ? v : h;
-  const rootScale = isVertical ? 1 : 1.4;
+  const rootScale = isVertical ? 1 : 1.15;
 
   return (
     <AbsoluteFill style={{ background: BG }}>
