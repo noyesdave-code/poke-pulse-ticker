@@ -151,13 +151,12 @@ export async function fetchCardById(id: string): Promise<PokemonTCGCard> {
 
 /**
  * Fetch high-value cards with pricing data.
- * Supports fetching large sets by paginating automatically (API max 250/page).
+ * Uses minimal API calls to stay within pokemontcg.io rate limits (no API key = ~20 req/min).
  */
 export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]> {
   const PAGE_SIZE = 250;
 
-  // Helper: fetch one query, returns cards array
-  const fetchQuery = async (q: string, orderBy: string, pages = 1): Promise<PokemonTCGCard[]> => {
+  const fetchPages = async (q: string, orderBy: string, pages: number): Promise<PokemonTCGCard[]> => {
     const results: PokemonTCGCard[] = [];
     for (let page = 1; page <= pages; page++) {
       try {
@@ -176,54 +175,35 @@ export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]
     return results;
   };
 
-  // Concurrency-limited runner to avoid overwhelming the API
-  async function runWithConcurrency<T>(
-    tasks: (() => Promise<T>)[],
-    maxConcurrent: number
-  ): Promise<PromiseSettledResult<T>[]> {
-    const results: PromiseSettledResult<T>[] = new Array(tasks.length);
-    let index = 0;
+  // Consolidate into just 3 sequential queries instead of 19+ parallel ones
+  // Query 1: Holofoil cards with market price (biggest dataset)
+  const holoCards = await fetchPages(
+    "tcgplayer.prices.holofoil.market:[1 TO *]",
+    "-tcgplayer.prices.holofoil.market",
+    2
+  );
 
-    async function worker() {
-      while (index < tasks.length) {
-        const i = index++;
-        try {
-          results[i] = { status: "fulfilled", value: await tasks[i]() };
-        } catch (reason: any) {
-          results[i] = { status: "rejected", reason };
-        }
-      }
-    }
+  // Query 2: Normal-priced cards worth $3+
+  const normalCards = await fetchPages(
+    "tcgplayer.prices.normal.market:[3 TO *]",
+    "-tcgplayer.prices.normal.market",
+    1
+  );
 
-    const workers = Array.from({ length: Math.min(maxConcurrent, tasks.length) }, () => worker());
-    await Promise.all(workers);
-    return results;
-  }
-
+  // Query 3: Premium rarities in one combined query
   const premiumRarities = [
-    "Illustration Rare", "Special Art Rare", "Hyper Rare", "Rare MEGA",
-    "Rare Ultra", "Rare Secret", "Rare Rainbow", "Rare Shiny GX",
-    "Rare ACE", "Amazing Rare", "Rare Holo Star", "Rare Holo VMAX",
-    "Rare Holo VSTAR", "Double Rare", "Ultra Rare",
+    "Illustration Rare", "Special Art Rare", "Hyper Rare",
+    "Rare Ultra", "Rare Secret", "Rare Rainbow", "Ultra Rare",
   ];
-
-  const tasks: (() => Promise<PokemonTCGCard[]>)[] = [
-    // Core pricing queries
-    () => fetchQuery("tcgplayer.prices.holofoil.market:[1 TO *]", "-tcgplayer.prices.holofoil.market", 4),
-    () => fetchQuery("tcgplayer.prices.normal.market:[3 TO *]", "-tcgplayer.prices.normal.market", 2),
-    () => fetchQuery("tcgplayer.prices.reverseHolofoil.market:[5 TO *]", "-tcgplayer.prices.reverseHolofoil.market", 1),
-    () => fetchQuery("tcgplayer.prices.1stEditionHolofoil.market:[1 TO *]", "-tcgplayer.prices.1stEditionHolofoil.market", 1),
-    // Rarity queries
-    ...premiumRarities.map(r =>
-      () => fetchQuery(`rarity:"${r}"`, "-tcgplayer.prices.holofoil.market", 1)
-    ),
-  ];
-
-  // Run max 4 concurrent requests to stay within API rate limits
-  const results = await runWithConcurrency(tasks, 4);
-  const allCards = results.flatMap(r => r.status === "fulfilled" ? r.value : []);
+  const rarityQuery = premiumRarities.map(r => `rarity:"${r}"`).join(" OR ");
+  const rarityCards = await fetchPages(
+    `(${rarityQuery})`,
+    "-tcgplayer.prices.holofoil.market",
+    1
+  );
 
   // Deduplicate by card id
+  const allCards = [...holoCards, ...normalCards, ...rarityCards];
   const seen = new Set<string>();
   const unique = allCards.filter((c) => {
     if (seen.has(c.id)) return false;
