@@ -4,14 +4,14 @@ import { Calculator, DollarSign, TrendingUp, ArrowRight, Sparkles } from "lucide
 import { useNavigate } from "react-router-dom";
 
 const POPULAR_CARDS = [
-  { name: "Charizard ex (OBF)", price: 42.50 },
-  { name: "Pikachu VMAX (VV)", price: 28.75 },
-  { name: "Mew ex (151)", price: 19.80 },
-  { name: "Umbreon VMAX Alt (ES)", price: 185.00 },
-  { name: "Lugia V Alt (SIT)", price: 78.50 },
-  { name: "Giratina V Alt (LOR)", price: 62.30 },
-  { name: "Moonbreon (EVS)", price: 220.00 },
-  { name: "Charizard UPC (promo)", price: 95.00 },
+  { name: "Charizard ex (OBF)", price: 42.50, image: "https://images.pokemontcg.io/sv3/223_hires.png" },
+  { name: "Pikachu VMAX (VV)", price: 28.75, image: "https://images.pokemontcg.io/swsh4/188_hires.png" },
+  { name: "Mew ex (151)", price: 19.80, image: "https://images.pokemontcg.io/sv3pt5/151_hires.png" },
+  { name: "Umbreon VMAX Alt (ES)", price: 185.00, image: "https://images.pokemontcg.io/swsh7/215_hires.png" },
+  { name: "Lugia V Alt (SIT)", price: 78.50, image: "https://images.pokemontcg.io/swsh12pt5/186_hires.png" },
+  { name: "Giratina V Alt (LOR)", price: 62.30, image: "https://images.pokemontcg.io/swsh11/186_hires.png" },
+  { name: "Moonbreon (EVS)", price: 220.00, image: "https://images.pokemontcg.io/swsh7/214_hires.png" },
+  { name: "Charizard UPC (promo)", price: 95.00, image: "https://images.pokemontcg.io/swsh12pt5gg/GG70_hires.png" },
 ];
 
 const QuickValueCalculator = () => {
