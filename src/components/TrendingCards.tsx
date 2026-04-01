@@ -78,17 +78,18 @@ const TrendingCards = ({ cards, isLoading }: TrendingCardsProps) => {
 
               {/* Card image */}
               {card._image ? (
-                <div className="w-full aspect-[2.5/3.5] rounded-md overflow-hidden mb-2 bg-muted ring-1 ring-border group-hover:ring-primary/30 transition-all duration-300">
+                <div className="w-full aspect-[2.5/3.5] rounded-lg overflow-hidden mb-2 bg-muted ring-2 ring-border group-hover:ring-primary/40 transition-all duration-300 shadow-md">
                   <img
                     src={card._image}
                     alt={card.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     loading="lazy"
+                    style={{ imageRendering: 'auto', filter: 'contrast(1.05) saturate(1.08)' }}
                   />
                 </div>
               ) : (
-                <div className="w-full aspect-[2.5/3.5] rounded-md bg-muted flex items-center justify-center mb-2 ring-1 ring-border">
-                  <span className="font-mono text-[9px] text-muted-foreground">No Image</span>
+                <div className="w-full aspect-[2.5/3.5] rounded-lg bg-muted flex items-center justify-center mb-2 ring-2 ring-border">
+                  <span className="font-mono text-xs text-muted-foreground font-semibold">No Image</span>
                 </div>
               )}
 
