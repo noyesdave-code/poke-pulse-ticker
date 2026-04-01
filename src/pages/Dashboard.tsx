@@ -14,6 +14,8 @@ import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { ArrowLeft, Loader2, TrendingUp, TrendingDown, Activity, BarChart3, PieChart as PieIcon } from "lucide-react";
+import ValueUnlockPreview from "@/components/ValueUnlockPreview";
+import CampaignProBanner from "@/components/campaign/CampaignProBanner";
 
 const COLORS = [
   "hsl(145, 100%, 41%)", "hsl(40, 100%, 50%)", "hsl(210, 100%, 56%)",
