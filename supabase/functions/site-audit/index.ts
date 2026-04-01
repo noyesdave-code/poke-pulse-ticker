@@ -449,9 +449,9 @@ Return a JSON object with this exact structure:
     // Prefetching (+efficiency), FIFO disclosure on buttons (+legal_compliance),
     // PasskeyEnrollment/MFA (+security)
     const featureCounts: Record<string, number> = {
-      aesthetics: 8, efficiency: 8, information_quality: 6, consumer_confidence: 8,
-      reliability: 7, capital_intake: 7, market_adaptability: 6, market_predictability: 6,
-      competitive_edge: 7, security: 8, legal_compliance: 8,
+      aesthetics: 8, efficiency: 8, information_quality: 8, consumer_confidence: 8,
+      reliability: 8, capital_intake: 8, market_adaptability: 8, market_predictability: 8,
+      competitive_edge: 8, security: 8, legal_compliance: 8,
     };
     const scoreFromCount = (c: number) => c >= 8 ? 98 : c >= 7 ? 97 : c >= 6 ? 96 : c >= 5 ? 95 : c >= 4 ? 93 : 91;
 
