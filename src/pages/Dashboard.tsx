@@ -185,6 +185,8 @@ const Dashboard = () => {
       <TickerBar />
 
       <main className="max-w-7xl mx-auto px-4 lg:px-6 py-6 space-y-6">
+        <CampaignProBanner />
+        <ValueUnlockPreview />
         <button onClick={() => navigate("/portfolio")} className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="w-3.5 h-3.5" /> Back to Portfolio
         </button>
