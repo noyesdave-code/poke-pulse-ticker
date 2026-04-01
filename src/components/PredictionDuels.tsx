@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Swords, TrendingUp, TrendingDown, Coins, Timer, Crown, Users, Zap, Shield, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import ArenaChat from "./ArenaChat";
 
 interface TradableCard {
   name: string;
