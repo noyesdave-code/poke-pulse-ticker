@@ -54,7 +54,7 @@ const videos = [
 
 const COPYRIGHT_NOTICE = `© ${new Date().getFullYear()} PGVA Ventures, LLC. All Rights Reserved.
 SimTrader™ is a registered trademark of PGVA Ventures, LLC.
-Property of David Noyes / Noyes Family Trust.
+Property of PGVA Ventures, LLC.
 Unauthorized reproduction, distribution, or modification is strictly prohibited.`;
 
 const PromoAssets = () => {
