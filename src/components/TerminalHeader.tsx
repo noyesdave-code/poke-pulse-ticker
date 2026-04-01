@@ -98,8 +98,8 @@ const TerminalHeader = () => {
 
   return (
     <>
-      <header data-demo-hide className="sticky top-0 z-50 border-b border-border/60 bg-terminal-header/98 backdrop-blur-xl shadow-[0_1px_3px_hsl(228_40%_3%/0.4),0_4px_20px_hsl(228_40%_3%/0.3)]">
-        <div className="flex items-center justify-between px-3 py-2.5 sm:px-4 sm:py-3 lg:px-4 xl:px-6">
+      <header data-demo-hide className="sticky top-0 z-50 border-b border-border/40 bg-terminal-header/98 backdrop-blur-xl" style={{ boxShadow: 'var(--shadow-header)' }}>
+        <div className="flex items-center justify-between px-3 py-2 sm:px-5 sm:py-2.5 lg:px-5 xl:px-8 max-w-[1400px] mx-auto">
           {/* Left: logo + hamburger */}
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             {/* Hamburger — mobile only */}
