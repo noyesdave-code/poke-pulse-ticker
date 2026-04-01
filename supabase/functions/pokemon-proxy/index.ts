@@ -10,7 +10,7 @@ const POKEMON_TCG_BASE = "https://api.pokemontcg.io/v2";
 
 // Simple in-memory rate limiter per IP
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 30; // requests per window
+const RATE_LIMIT = 100; // requests per window (increased for concurrent card queries)
 const RATE_WINDOW_MS = 60_000; // 1 minute
 
 function isRateLimited(ip: string): boolean {
