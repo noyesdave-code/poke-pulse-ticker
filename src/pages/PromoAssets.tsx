@@ -359,7 +359,7 @@ const PromoAssets = () => {
                   <p>
                     All content on this page — including but not limited to video files, audio recordings,
                     voiceover narration, motion graphics, and promotional materials — is the exclusive property
-                    of <strong>PGVA Ventures, LLC</strong>, registered to David Noyes and the Noyes Family Trust.
+                    of <strong>PGVA Ventures, LLC</strong>.
                   </p>
                   <p>
                     SimTrader™ is a trademark of PGVA Ventures, LLC. poke-pulse-ticker.com is the official
