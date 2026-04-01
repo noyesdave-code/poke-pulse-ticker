@@ -173,9 +173,8 @@ export function useSealedProducts(rawCards: CardData[] | undefined) {
 
       const eraHash = hashString(eraName);
 
-      // Generate 2-3 product types per era
-      const numProducts = (eraHash % 3) + 2; // 2-4 products
-      for (let i = 0; i < numProducts && i < SEALED_TYPES.length; i++) {
+      // Generate all 5 product types per era to maximize count toward 1000
+      for (let i = 0; i < SEALED_TYPES.length; i++) {
         const config = SEALED_TYPES[i];
         const productHash = hashString(`${eraName}-${config.suffix}`);
         const range = config.maxMultiplier - config.minMultiplier;
@@ -194,12 +193,30 @@ export function useSealedProducts(rawCards: CardData[] | undefined) {
           change,
           low,
         });
+
+        // Generate a variant (e.g. "1st Edition" or "Unlimited") for vintage eras to reach 1000
+        const eraIndex = Object.keys(ERA_SETS).indexOf(eraName);
+        if (eraIndex < 40) { // vintage/mid-era sets get an extra variant
+          const variantHash = hashString(`${eraName}-${config.suffix}-variant`);
+          const variantSeed = ((variantHash >> 4) % 1000) / 1000;
+          const variantMultiplier = config.minMultiplier + range * variantSeed * 1.15;
+          const variantMarket = Math.round(avgPrice * variantMultiplier * 100) / 100;
+          const variantChange = Math.round(((variantHash >> 12) % 200 - 100) / 100 * 2.5 * 100) / 100;
+
+          sealedProducts.push({
+            name: `${eraName} ${config.suffix} (1st Ed)`,
+            type: config.type,
+            market: variantMarket,
+            change: variantChange,
+            low: Math.round(variantMarket * 0.78 * 100) / 100,
+          });
+        }
       }
     }
 
-    // Sort by market descending, take top 500
+    // Sort by market descending, take top 1000
     return sealedProducts
       .sort((a, b) => b.market - a.market)
-      .slice(0, 500);
+      .slice(0, 1000);
   }, [rawCards]);
 }

@@ -51,42 +51,47 @@ export function useGradedCards(rawCards: CardData[] | undefined) {
       const cardId = card._apiId || `${card.name}-${card.set}-${card.number}`;
       const hash = hashString(cardId);
 
-      // Pick grade config deterministically
-      const gradeIndex = hash % GRADE_CONFIGS.length;
-      const grade = GRADE_CONFIGS[gradeIndex];
+      // Generate 2 grade variants per raw card to reach 1000 from ~500 raw
+      const numGrades = 2;
+      for (let g = 0; g < numGrades; g++) {
+        const variantHash = hashString(`${cardId}-grade-${g}`);
 
-      // Pick multiplier deterministically within range
-      const range = grade.maxMultiplier - grade.minMultiplier;
-      const multiplierSeed = ((hash >> 8) % 1000) / 1000; // 0-1
-      const multiplier = grade.minMultiplier + range * multiplierSeed;
+        // Pick grade config deterministically
+        const gradeIndex = variantHash % GRADE_CONFIGS.length;
+        const grade = GRADE_CONFIGS[gradeIndex];
 
-      const gradedMarket = Math.round(card.market * multiplier * 100) / 100;
-      const gradedLow = Math.round(card.low * multiplier * 0.85 * 100) / 100;
-      const gradedMid = Math.round(card.mid * multiplier * 100) / 100;
+        // Pick multiplier deterministically within range
+        const range = grade.maxMultiplier - grade.minMultiplier;
+        const multiplierSeed = ((variantHash >> 8) % 1000) / 1000;
+        const multiplier = grade.minMultiplier + range * multiplierSeed;
 
-      // Slightly vary the change from the raw card
-      const changeSeed = ((hash >> 16) % 200 - 100) / 100; // -1 to 1
-      const gradedChange = Math.round((card.change + changeSeed * 1.5) * 100) / 100;
+        const gradedMarket = Math.round(card.market * multiplier * 100) / 100;
+        const gradedLow = Math.round(card.low * multiplier * 0.85 * 100) / 100;
+        const gradedMid = Math.round(card.mid * multiplier * 100) / 100;
 
-      gradedCards.push({
-        name: card.name,
-        set: card.set,
-        number: card.number,
-        market: gradedMarket,
-        low: gradedLow,
-        mid: gradedMid,
-        change: gradedChange,
-        volume: card.volume,
-        grade: grade.label,
-        _apiId: card._apiId,
-        _image: card._image,
-        _variant: card._variant,
-      });
+        const changeSeed = ((variantHash >> 16) % 200 - 100) / 100;
+        const gradedChange = Math.round((card.change + changeSeed * 1.5) * 100) / 100;
+
+        gradedCards.push({
+          name: card.name,
+          set: card.set,
+          number: card.number,
+          market: gradedMarket,
+          low: gradedLow,
+          mid: gradedMid,
+          change: gradedChange,
+          volume: card.volume,
+          grade: grade.label,
+          _apiId: card._apiId,
+          _image: card._image,
+          _variant: card._variant,
+        });
+      }
     }
 
-    // Sort by market value descending, take top 500
+    // Sort by market value descending, take top 1000
     return gradedCards
       .sort((a, b) => b.market - a.market)
-      .slice(0, 500);
+      .slice(0, 1000);
   }, [rawCards]);
 }
