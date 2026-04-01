@@ -154,37 +154,68 @@ export async function fetchCardById(id: string): Promise<PokemonTCGCard> {
  * Supports fetching large sets by paginating automatically (API max 250/page).
  */
 export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]> {
-  // Fetch cards ordered by holofoil market price descending.
-  // We fetch extra to compensate for cards that only have non-holofoil pricing,
-  // then re-sort client-side using getBestPrice across all variants.
+  // Fetch cards from multiple price variant queries in parallel to maximise coverage.
+  // The pokemontcg.io API limits pages to 250 items, so we paginate each query.
   const PAGE_SIZE = 250;
-  const fetchTotal = Math.min(total * 2, 1000); // fetch extra to ensure we capture top cards
-  const pages = Math.ceil(fetchTotal / PAGE_SIZE);
   const allCards: PokemonTCGCard[] = [];
 
-  for (let page = 1; page <= pages; page++) {
-    const size = Math.min(PAGE_SIZE, fetchTotal - allCards.length);
-    const data: APIResponse = await proxyFetch("/cards", {
-      q: "tcgplayer.prices.holofoil.market:[1 TO *]",
-      pageSize: String(size),
-      page: String(page),
-      orderBy: "-tcgplayer.prices.holofoil.market",
-    });
-    allCards.push(...data.data);
-    if (allCards.length >= data.totalCount || data.data.length < size) break;
+  // --- Query 1: Holofoil priced cards (4 pages = up to 1000) ---
+  const holoPages = 4;
+  for (let page = 1; page <= holoPages; page++) {
+    try {
+      const data: APIResponse = await proxyFetch("/cards", {
+        q: "tcgplayer.prices.holofoil.market:[1 TO *]",
+        pageSize: String(PAGE_SIZE),
+        page: String(page),
+        orderBy: "-tcgplayer.prices.holofoil.market",
+      });
+      allCards.push(...data.data);
+      if (allCards.length >= data.totalCount || data.data.length < PAGE_SIZE) break;
+    } catch {
+      break;
+    }
   }
 
-  // Also fetch top normal-priced cards to capture non-holofoil expensive cards
+  // --- Query 2: Normal-priced cards (2 pages) ---
+  for (let page = 1; page <= 2; page++) {
+    try {
+      const data: APIResponse = await proxyFetch("/cards", {
+        q: "tcgplayer.prices.normal.market:[3 TO *]",
+        pageSize: String(PAGE_SIZE),
+        page: String(page),
+        orderBy: "-tcgplayer.prices.normal.market",
+      });
+      allCards.push(...data.data);
+      if (data.data.length < PAGE_SIZE) break;
+    } catch {
+      break;
+    }
+  }
+
+  // --- Query 3: Reverse holofoil priced cards (1 page) ---
   try {
-    const normalData: APIResponse = await proxyFetch("/cards", {
-      q: "tcgplayer.prices.normal.market:[5 TO *]",
-      pageSize: "250",
+    const data: APIResponse = await proxyFetch("/cards", {
+      q: "tcgplayer.prices.reverseHolofoil.market:[5 TO *]",
+      pageSize: String(PAGE_SIZE),
       page: "1",
-      orderBy: "-tcgplayer.prices.normal.market",
+      orderBy: "-tcgplayer.prices.reverseHolofoil.market",
     });
-    allCards.push(...normalData.data);
+    allCards.push(...data.data);
   } catch {
-    // ignore – best-effort
+    // best-effort
+  }
+
+  // --- Query 4: 1st Edition holofoil (1 page) ---
+  try {
+    const data: APIResponse = await proxyFetch("/cards", {
+      q: "tcgplayer.prices.1stEditionHolofoil.market:[1 TO *]",
+      pageSize: String(PAGE_SIZE),
+      page: "1",
+      orderBy: "-tcgplayer.prices.1stEditionHolofoil.market",
+    });
+    allCards.push(...data.data);
+  } catch {
+    // best-effort
   }
 
   // Deduplicate by card id
