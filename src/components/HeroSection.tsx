@@ -121,10 +121,10 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-xl sm:text-3xl font-extrabold tracking-tight text-foreground"
+              className="font-display text-xl sm:text-3xl font-extrabold tracking-tight text-foreground"
             >
               Pokémon TCG{" "}
-              <span className="text-primary">Live Data</span>
+              <span className="text-primary bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">Live Data</span>
             </motion.h1>
 
             {/* Dynamic urgency hook */}
