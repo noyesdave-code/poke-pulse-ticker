@@ -19,7 +19,39 @@ interface VideoEntry {
   views: number;
 }
 
+const SOCIAL_HIGHLIGHT_DESC = `The wait is finally over. PGVA Ventures, LLC officially presents the Poke-Pulse-Ticker Market Terminal—the most sophisticated data engine ever built for the Pokémon TCG ecosystem. Stop guessing and start dominating with the professional-grade tools used by the world's top high-velocity collectors.
+
+This isn't just a tracker; it's a command center. Gain a competitive edge with real-time live pricing for 500+ high-liquidity cards, updated every second. Our proprietary AI-powered market signals alert you to breakouts before they hit social media, while our advanced grading arbitrage tools identify the exact spreads between raw and slabbed assets to maximize your ROI.
+
+Ready to test your instincts without the risk? Enter SimTrader World™, our immersive virtual trading game, or step into the Poké-Pulse Arena™, the ultimate destination for competitive market betting. Whether you are managing a six-figure warehouse or starting your first binder, our 7-tier subscription model offers tailored features for every level of investor—from casual enthusiasts to institutional-grade whales.
+
+Track your entire collection with our precision Portfolio Tracking suite and watch your net worth move in real-time. The market never sleeps, and now, you'll never miss a beat.
+
+🚀 JOIN THE REVOLUTION: Sign up today and claim your 14-day FREE TRIAL to experience the full power of the Terminal. The era of the "uninformed collector" is over. Welcome to the future of Poké-Economics.`;
+
 const videoLibrary: VideoEntry[] = [
+  {
+    id: "social-highlight-yt",
+    title: "Social Highlight — Official Platform Overview (YouTube)",
+    description: SOCIAL_HIGHLIGHT_DESC,
+    file: "/videos/social-highlight-youtube-90s.mp4",
+    aspect: "16:9",
+    duration: "1:30",
+    category: "Launch",
+    date: "2026-04-01",
+    views: 0,
+  },
+  {
+    id: "social-highlight-vertical",
+    title: "Social Highlight — Official Platform Overview (Vertical)",
+    description: SOCIAL_HIGHLIGHT_DESC,
+    file: "/videos/social-highlight-90s.mp4",
+    aspect: "9:16",
+    duration: "1:30",
+    category: "Launch",
+    date: "2026-04-01",
+    views: 0,
+  },
   {
     id: "grand-launch-social",
     title: "Grand Launch — Official Mega Final Launch Sale (Vertical)",
