@@ -68,8 +68,8 @@ const TopMoversTable = ({ cards, title, isLoading }: TopMoversTableProps) => {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="terminal-card overflow-hidden"
     >
-      <div className="border-b border-border px-4 py-3">
-        <h2 className="text-sm font-bold tracking-wide text-secondary uppercase">{title}</h2>
+      <div className="border-b border-border/60 px-5 py-3.5">
+        <h2 className="text-sm font-bold tracking-wide text-secondary uppercase font-display">{title}</h2>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full">
