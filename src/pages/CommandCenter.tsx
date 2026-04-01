@@ -340,11 +340,12 @@ const CommandCenter = () => {
 
         {latestAudit?.status === "completed" && (
           <Tabs defaultValue="categories" className="w-full">
-            <TabsList className="grid grid-cols-4 w-full font-mono">
+            <TabsList className="grid grid-cols-5 w-full font-mono">
               <TabsTrigger value="categories" className="text-xs">Categories</TabsTrigger>
-              <TabsTrigger value="competitive" className="text-xs">Competitive Intel</TabsTrigger>
+              <TabsTrigger value="competitive" className="text-xs">Competitive</TabsTrigger>
               <TabsTrigger value="legal" className="text-xs">Legal</TabsTrigger>
               <TabsTrigger value="priorities" className="text-xs">Priorities</TabsTrigger>
+              <TabsTrigger value="affiliates" className="text-xs">Affiliates</TabsTrigger>
             </TabsList>
 
             {/* Categories Tab */}
