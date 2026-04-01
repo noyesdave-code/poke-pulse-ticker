@@ -94,6 +94,9 @@ const DailyAuditReportEmail = ({
               <Section key={i} style={priorityRow}>
                 <Text style={priorityTitle}>{i + 1}. {p.title}</Text>
                 <Text style={priorityDesc}>{p.description}</Text>
+                <Button style={fixLink} href={`https://poke-pulse-ticker.lovable.app/command-center?fix=${encodeURIComponent(p.category || p.title)}`}>
+                  Fix This →
+                </Button>
               </Section>
             ))}
           </Section>
@@ -171,6 +174,11 @@ const ctaButton = {
   display: 'inline-block', backgroundColor: '#16a34a', color: '#ffffff',
   fontSize: '14px', fontWeight: 'bold', padding: '12px 24px', borderRadius: '6px',
   textDecoration: 'none', textAlign: 'center' as const, margin: '8px 0 24px',
+}
+const fixLink = {
+  display: 'inline-block', backgroundColor: '#0f172a', color: '#ffffff',
+  fontSize: '11px', fontWeight: 'bold', padding: '6px 14px', borderRadius: '4px',
+  textDecoration: 'none', marginTop: '4px',
 }
 const divider = { borderColor: '#e2e8f0', margin: '16px 0' }
 const disclaimer = { fontSize: '11px', color: '#94a3b8', lineHeight: '1.5', margin: '0 0 8px' }
