@@ -60,7 +60,7 @@ export default function DuelVideoChat({ duelId, onClose }: Props) {
       localTracksRef.current = localTracks;
 
       // Attach local video
-      const localVideoTrack = localTracks.find((t) => t.kind === "video") as TwilioVideo.LocalVideoTrack | undefined;
+      const localVideoTrack = localTracks.find((t) => t.kind === "video") as LocalVideoTrack | undefined;
       if (localVideoTrack && localVideoRef.current) {
         localVideoRef.current.innerHTML = "";
         const el = localVideoTrack.attach();
