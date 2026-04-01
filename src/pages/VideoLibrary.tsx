@@ -36,7 +36,7 @@ const videoLibrary: VideoEntry[] = [
     description: "The definitive 3-minute cinematic presentation combining the Grand Launch and Social Highlight promos. Features VO-synced transitions, sidechain-ducked audio, and transition SFX. The complete story of Poke-Pulse-Ticker in one video.",
     file: "/videos/combined-gl-sh-3min.mp4",
     aspect: "16:9",
-    duration: "3:00",
+    duration: "3:28",
     category: "Launch",
     date: "2026-04-01",
     views: 0,
