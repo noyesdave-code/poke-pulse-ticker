@@ -21,6 +21,28 @@ interface VideoEntry {
 
 const videoLibrary: VideoEntry[] = [
   {
+    id: "grand-launch-social",
+    title: "Grand Launch — Official Mega Final Launch Sale (Vertical)",
+    description: "90-second grand launch promo with 20 cinematic scenes, Laura AI voiceover & electronic music. Covers all 7 tiers, Alpha Signals, SimTrader World™, Arena, and more.",
+    file: "/videos/grand-launch-social-final.mp4",
+    aspect: "9:16",
+    duration: "1:30",
+    category: "Launch",
+    date: "2026-04-01",
+    views: 0,
+  },
+  {
+    id: "grand-launch-youtube",
+    title: "Grand Launch — Official Mega Final Launch Sale (YouTube)",
+    description: "90-second horizontal grand launch promo with 20 scenes, Laura voiceover & background music. Optimized for YouTube, Facebook, and desktop viewing.",
+    file: "/videos/grand-launch-youtube-final.mp4",
+    aspect: "16:9",
+    duration: "1:30",
+    category: "Launch",
+    date: "2026-04-01",
+    views: 0,
+  },
+  {
     id: "feature-showcase-v5",
     title: "Feature Showcase v5 — Full Platform Tour",
     description: "84-second cinematic deep dive with Laura voiceover & electronic music. 15 scenes covering Market Pulse, SimTrader World™, Arena, AI Signals, and Pro Tools.",
