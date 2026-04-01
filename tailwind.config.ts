@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
+        display: ['Space Grotesk', 'Plus Jakarta Sans', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

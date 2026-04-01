@@ -109,10 +109,10 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
                 transition={{ delay: 0.15, duration: 0.5 }}
                 className="hidden sm:flex flex-col leading-none select-none shrink-0 mt-1"
               >
-                <span className="font-black text-[22px] md:text-[28px] tracking-tight text-foreground" style={{ textShadow: '0 0 10px hsl(210 20% 98% / 0.7), 0 0 25px hsl(210 20% 98% / 0.4)' }}>
+                <span className="font-display font-black text-[22px] md:text-[28px] tracking-tight text-foreground" style={{ textShadow: '0 0 10px hsl(210 25% 97% / 0.5)' }}>
                   Poke-Pulse-
                 </span>
-                <span className="font-extrabold text-[18px] md:text-[22px] tracking-[0.06em] text-primary uppercase" style={{ textShadow: '0 0 12px hsl(160 84% 50% / 0.5), 0 0 30px hsl(160 84% 50% / 0.25)' }}>
+                <span className="font-display font-extrabold text-[18px] md:text-[22px] tracking-[0.04em] text-primary uppercase" style={{ textShadow: '0 0 12px hsl(158 72% 46% / 0.4)' }}>
                   Market Terminal
                 </span>
               </motion.div>
@@ -121,10 +121,10 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-xl sm:text-3xl font-extrabold tracking-tight text-foreground"
+              className="font-display text-xl sm:text-3xl font-extrabold tracking-tight text-foreground"
             >
               Pokémon TCG{" "}
-              <span className="text-primary">Live Data</span>
+              <span className="text-primary bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">Live Data</span>
             </motion.h1>
 
             {/* Dynamic urgency hook */}
@@ -155,9 +155,9 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
             >
               <button
                 onClick={() => navigate("/pricing")}
-                className="group relative inline-flex items-center gap-2 px-5 py-3 sm:py-2.5 rounded-lg font-mono text-sm font-bold bg-primary text-primary-foreground hover:shadow-[0_0_30px_hsl(160_84%_50%/0.35)] transition-all duration-300 overflow-hidden min-h-[48px]"
+                className="group relative inline-flex items-center gap-2 px-6 py-3 sm:py-2.5 rounded-lg font-mono text-sm font-bold bg-gradient-to-r from-primary to-[hsl(158_90%_42%)] text-primary-foreground hover:shadow-[0_0_30px_hsl(158_72%_46%/0.3)] transition-all duration-300 overflow-hidden min-h-[48px]"
               >
-                <div className="absolute inset-0 shimmer-sweep opacity-60" />
+                <div className="absolute inset-0 shimmer-sweep opacity-50" />
                 <Zap className="relative w-4 h-4" />
                 <span className="relative">START FREE TRIAL</span>
                 <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
