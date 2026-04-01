@@ -140,6 +140,9 @@ const Index = () => {
           cardCount={displayCards.length}
         />
 
+        {/* Community Growth Chart */}
+        <UserGrowthChart />
+
         {/* 3. Market Index Cards — show the money right away */}
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
