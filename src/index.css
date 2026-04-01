@@ -202,6 +202,7 @@
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.005em;
   }
 
   .font-mono {
@@ -209,18 +210,23 @@
     letter-spacing: 0.01em;
   }
 
+  .font-display {
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
   h1, h2, h3 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
     font-weight: 700;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
 
   h1 {
-    text-shadow: 0 0 40px hsl(var(--primary) / 0.12), 0 0 80px hsl(var(--primary) / 0.06);
+    text-shadow: 0 0 40px hsl(var(--primary) / 0.10), 0 0 80px hsl(var(--primary) / 0.05);
   }
 
   h2, h3 {
-    text-shadow: 0 0 20px hsl(var(--primary) / 0.08);
+    text-shadow: 0 0 20px hsl(var(--primary) / 0.06);
   }
 }
 
