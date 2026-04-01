@@ -80,6 +80,8 @@ const FadeIn: React.FC<{ dur?: number; children: React.ReactNode }> = ({ dur = 1
 export const GrandLaunch: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
+  const isVertical = height > width;
+  const sz = (v: number, h: number) => isVertical ? v : h;
 
   const particles = Array.from({ length: 30 }, (_, i) => {
     const x = (i * 137.5) % width;
