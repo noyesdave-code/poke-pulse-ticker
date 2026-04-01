@@ -279,6 +279,22 @@ const Index = () => {
         {/* Whale-Exclusive AI Report */}
         <WhaleReport cards={displayCards} />
 
+        {/* Arbitrage Finder — Competitive Edge */}
+        <ProGate feature="Real-Time Arbitrage Finder" blur>
+          <ArbitrageFinder />
+        </ProGate>
+
+        {/* JP → EN Precursor Tracker — Market Adaptability */}
+        <ProGate feature="JP → EN Precursor Tracker" blur>
+          <JPtoENTracker />
+        </ProGate>
+
+        {/* Data Health Dashboard — Reliability */}
+        <DataHealthDashboard />
+
+        {/* Wall of Love — Consumer Confidence */}
+        <WallOfLove />
+
         {/* Pro upgrade nudge before testimonials */}
         <InlineUpgradeNudge variant="default" />
 
