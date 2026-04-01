@@ -696,6 +696,11 @@ const CommandCenter = () => {
                 })}
               </div>
             </TabsContent>
+
+            {/* Affiliates Tab */}
+            <TabsContent value="affiliates" className="space-y-4">
+              <AffiliateAnalytics />
+            </TabsContent>
           </Tabs>
         )}
 
