@@ -1,5 +1,4 @@
 import { ExternalLink } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 
 interface AffiliateLinksProps {
   cardName: string;
@@ -16,26 +15,42 @@ const links = [
     partner: "tcgplayer",
     base: "https://www.tcgplayer.com/search/pokemon/product?q=",
     color: "text-terminal-blue hover:bg-terminal-blue/10 border-terminal-blue/20",
-    cpc: 0.08,
   },
   {
     name: "eBay",
     partner: "ebay",
     base: "https://www.ebay.com/sch/i.html?_nkw=pokemon+",
     color: "text-terminal-amber hover:bg-terminal-amber/10 border-terminal-amber/20",
-    cpc: 0.12,
   },
 ];
 
-const trackClick = async (partner: string, cardName: string, setName?: string) => {
+const trackClick = (partner: string, cardName: string, setName?: string) => {
   try {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase.from("affiliate_clicks" as any).insert({
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+    if (!supabaseUrl || !supabaseKey) return;
+
+    // Use sendBeacon so the request survives navigation to external site
+    const payload = JSON.stringify({
       partner,
       card_name: cardName,
       card_set: setName || null,
-      user_id: user?.id || null,
-    } as any);
+    });
+
+    const blob = new Blob([payload], { type: 'application/json' });
+    
+    // sendBeacon doesn't support custom headers, so use fetch with keepalive instead
+    fetch(`${supabaseUrl}/rest/v1/affiliate_clicks`, {
+      method: 'POST',
+      headers: {
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal',
+      },
+      body: payload,
+      keepalive: true,
+    }).catch(() => {});
   } catch {
     // fire-and-forget
   }
