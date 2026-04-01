@@ -55,24 +55,7 @@ serve(async (req) => {
 
     const adminClient = createClient(supabaseUrl, serviceKey);
 
-    // For scheduled audits, skip if latest score is already 95+
-    if (triggerType === "scheduled") {
-      const { data: latest } = await adminClient
-        .from("site_audits")
-        .select("overall_score")
-        .eq("status", "completed")
-        .order("created_at", { ascending: false })
-        .limit(1)
-        .single();
-
-      if (latest && latest.overall_score !== null && latest.overall_score >= 95) {
-        console.log(`Score already ${latest.overall_score}/100 — skipping scheduled audit.`);
-        return new Response(
-          JSON.stringify({ skipped: true, reason: `Score already ${latest.overall_score}/100 (≥95 target)` }),
-          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
-      }
-    }
+    // Always run the audit — even at 95+, we want the daily email report
 
     // Create audit record
     const { data: audit, error: insertError } = await adminClient
