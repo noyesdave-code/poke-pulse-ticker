@@ -96,8 +96,12 @@ export const SocialHighlight: React.FC = () => {
   const isVertical = height > width;
   const sz = (v: number, h: number) => isVertical ? v : h;
 
+  // Scale up all visuals for horizontal/YouTube format
+  const rootScale = isVertical ? 1 : 1.4;
+
   return (
     <AbsoluteFill style={{ background: BG }}>
+      <AbsoluteFill style={{ transform: `scale(${rootScale})`, transformOrigin: "center center" }}>
 
       {/* S1: 0-180 — HOOK / TITLE BLAST */}
       <Sequence from={0} durationInFrames={180}>
@@ -510,6 +514,7 @@ export const SocialHighlight: React.FC = () => {
         </FadeIn>
       </Sequence>
 
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
