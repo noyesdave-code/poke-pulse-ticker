@@ -25,35 +25,32 @@ const links = [
   },
 ];
 
-const trackClick = async (partner: string, cardName: string, setName?: string) => {
+const trackClick = (partner: string, cardName: string, setName?: string) => {
   try {
-    // Use REST API directly since affiliate_clicks isn't in generated types
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
     const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
     if (!supabaseUrl || !supabaseKey) return;
 
-    const { data: { session } } = await supabase.auth.getSession();
+    // Use sendBeacon so the request survives navigation to external site
+    const payload = JSON.stringify({
+      partner,
+      card_name: cardName,
+      card_set: setName || null,
+    });
 
-    const headers: Record<string, string> = {
-      'apikey': supabaseKey,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=minimal',
-    };
-    if (session?.access_token) {
-      headers['Authorization'] = `Bearer ${session.access_token}`;
-    } else {
-      headers['Authorization'] = `Bearer ${supabaseKey}`;
-    }
-
+    const blob = new Blob([payload], { type: 'application/json' });
+    
+    // sendBeacon doesn't support custom headers, so use fetch with keepalive instead
     fetch(`${supabaseUrl}/rest/v1/affiliate_clicks`, {
       method: 'POST',
-      headers,
-      body: JSON.stringify({
-        partner,
-        card_name: cardName,
-        card_set: setName || null,
-        user_id: session?.user?.id || null,
-      }),
+      headers: {
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal',
+      },
+      body: payload,
+      keepalive: true,
     }).catch(() => {});
   } catch {
     // fire-and-forget
