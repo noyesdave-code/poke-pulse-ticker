@@ -41,6 +41,7 @@ import SimTraderPromo from "@/components/SimTraderPromo";
 import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
 import StickyUpgradeBanner from "@/components/StickyUpgradeBanner";
 import AlphaAccuracy from "@/components/AlphaAccuracy";
+import UserGrowthChart from "@/components/UserGrowthChart";
 import ImportFromTCGPlayer from "@/components/ImportFromTCGPlayer";
 import DailySpotlight from "@/components/DailySpotlight";
 import LiveMarketPulse from "@/components/LiveMarketPulse";
@@ -138,6 +139,9 @@ const Index = () => {
           lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined}
           cardCount={displayCards.length}
         />
+
+        {/* Community Growth Chart */}
+        <UserGrowthChart />
 
         {/* 3. Market Index Cards — show the money right away */}
         {isLoading ? (
