@@ -547,12 +547,7 @@ Return a JSON object with this exact structure:
 
         // Affiliate revenue — estimated from tracked clicks × avg CPC
         const CPC_RATES: Record<string, number> = { tcgplayer: 0.08, ebay: 0.12 };
-        const { data: clickRows } = await adminClient.rpc('read_email_batch', { queue_name: '__dummy__', batch_size: 0, vt: 0 }).maybeSingle(); // no-op, just need the client
-        // Query affiliate_clicks for last 30 days grouped by partner
         const thirtyDaysAgoISO = new Date(Date.now() - 30 * 86400 * 1000).toISOString();
-        const { data: tcgClicks } = await adminClient.from('affiliate_clicks' as any).select('id', { count: 'exact', head: true }).eq('partner', 'tcgplayer').gte('clicked_at', thirtyDaysAgoISO);
-        const { data: ebayClicks } = await adminClient.from('affiliate_clicks' as any).select('id', { count: 'exact', head: true }).eq('partner', 'ebay').gte('clicked_at', thirtyDaysAgoISO);
-        // Use count from headers
         const { count: tcgCount } = await adminClient.from('affiliate_clicks' as any).select('id', { count: 'exact', head: true }).eq('partner', 'tcgplayer').gte('clicked_at', thirtyDaysAgoISO);
         const { count: ebayCount } = await adminClient.from('affiliate_clicks' as any).select('id', { count: 'exact', head: true }).eq('partner', 'ebay').gte('clicked_at', thirtyDaysAgoISO);
         const tcgClickCount = tcgCount || 0;
