@@ -316,29 +316,34 @@ Return a JSON object with this exact structure:
       .eq("id", audit.id);
 
     // Send daily audit report email
-    try {
-      await adminClient.functions.invoke('send-transactional-email', {
-        body: {
-          templateName: 'daily-audit-report',
-          recipientEmail: 'noyes.dave@gmail.com',
-          idempotencyKey: `daily-audit-${audit.id}`,
-          templateData: {
-            overallScore: auditResult.overall_score,
-            summary: auditResult.summary,
-            auditDate: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
-            categories: (auditResult.categories || []).map((c: any) => ({
-              name: c.name,
-              score: c.score,
-              status: c.status,
-              recommendations: c.recommendations?.slice(0, 1) || [],
-            })),
-            topPriorities: (auditResult.top_priorities || []).slice(0, 3),
+    const emailData = {
+      overallScore: auditResult.overall_score,
+      summary: auditResult.summary,
+      auditDate: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+      categories: (auditResult.categories || []).map((c: any) => ({
+        name: c.name,
+        score: c.score,
+        status: c.status,
+        recommendations: c.recommendations?.slice(0, 1) || [],
+      })),
+      topPriorities: (auditResult.top_priorities || []).slice(0, 3),
+    };
+
+    const recipients = ['noyes.dave@gmail.com', 'contact@poke-pulse-ticker.com'];
+    for (const email of recipients) {
+      try {
+        await adminClient.functions.invoke('send-transactional-email', {
+          body: {
+            templateName: 'daily-audit-report',
+            recipientEmail: email,
+            idempotencyKey: `daily-audit-${audit.id}-${email}`,
+            templateData: emailData,
           },
-        },
-      });
-      console.log('Audit report email sent to noyes.dave@gmail.com');
-    } catch (emailErr) {
-      console.error('Failed to send audit report email:', emailErr);
+        });
+        console.log(`Audit report email sent to ${email}`);
+      } catch (emailErr) {
+        console.error(`Failed to send audit report email to ${email}:`, emailErr);
+      }
     }
 
     return new Response(
