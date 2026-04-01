@@ -11,6 +11,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { CardData } from "@/data/marketData";
 import { getContestLeaderboard, type LeaderboardEntry, type BotDifficulty } from "@/data/tradingBots";
 import BotActivityFeed from "@/components/BotActivityFeed";
+import TournamentFomoBanner from "@/components/campaign/TournamentFomoBanner";
+import CampaignProBanner from "@/components/campaign/CampaignProBanner";
 
 const FREE_DAILY_TRADES = 3;
 
@@ -248,7 +250,9 @@ const SimTraderPage = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <TerminalHeader />
-      <main className="max-w-7xl mx-auto px-4 py-6 pb-24">
+      <main className="max-w-7xl mx-auto px-4 py-6 pb-24 space-y-4">
+        <TournamentFomoBanner />
+        <CampaignProBanner />
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <motion.div

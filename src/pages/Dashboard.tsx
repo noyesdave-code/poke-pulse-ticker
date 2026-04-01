@@ -14,6 +14,8 @@ import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { ArrowLeft, Loader2, TrendingUp, TrendingDown, Activity, BarChart3, PieChart as PieIcon } from "lucide-react";
+import ValueUnlockPreview from "@/components/ValueUnlockPreview";
+import CampaignProBanner from "@/components/campaign/CampaignProBanner";
 
 const COLORS = [
   "hsl(145, 100%, 41%)", "hsl(40, 100%, 50%)", "hsl(210, 100%, 56%)",
@@ -183,6 +185,8 @@ const Dashboard = () => {
       <TickerBar />
 
       <main className="max-w-7xl mx-auto px-4 lg:px-6 py-6 space-y-6">
+        <CampaignProBanner />
+        <ValueUnlockPreview />
         <button onClick={() => navigate("/portfolio")} className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="w-3.5 h-3.5" /> Back to Portfolio
         </button>

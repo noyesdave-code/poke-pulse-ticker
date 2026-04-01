@@ -17,6 +17,8 @@ import ArenaLeaderboard from "@/components/ArenaLeaderboard";
 import PredictionDuels from "@/components/PredictionDuels";
 import ArenaChat from "@/components/ArenaChat";
 import { useToast } from "@/hooks/use-toast";
+import HighStakesArenaBanner from "@/components/campaign/HighStakesArenaBanner";
+import DoublePokeCoinBanner from "@/components/campaign/DoublePokeCoinBanner";
 
 // Admin emails allowed to see GO LIVE switch
 const ADMIN_EMAILS = ["david@poke-pulse-ticker.com", "demo@poke-pulse-ticker.com", "davidnoyes@me.com"];
@@ -133,6 +135,8 @@ const Arena = () => {
     <div className="min-h-screen bg-background">
       <TerminalHeader />
       <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+        <HighStakesArenaBanner />
+        <DoublePokeCoinBanner />
         {/* Header + Wallet */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
