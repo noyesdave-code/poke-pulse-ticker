@@ -152,14 +152,20 @@ const Index = () => {
           </div>
         )}
 
-        {/* Daily Index Charts — hidden on mobile by default */}
-        {!isLoading && (
-          <div className="hidden md:grid grid-cols-3 gap-3">
-            <IndexDayChart title="RAW 500 INDEX" indexValue={rawIndex} indexChange={rawChange} variant="green" />
-            <IndexDayChart title="GRADED 1000 INDEX" indexValue={gradedIndex} indexChange={gradedChange} variant="amber" />
-            <IndexDayChart title="SEALED 1000 INDEX" indexValue={sealedIndex} indexChange={sealedChange} variant="blue" />
-          </div>
-        )}
+        {/* Daily Index Charts — visible during NYSE hours (9:30 AM – 4:30 PM ET) */}
+        {!isLoading && (() => {
+          const now = new Date();
+          const et = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
+          const mins = et.getHours() * 60 + et.getMinutes();
+          const isNYSE = et.getDay() >= 1 && et.getDay() <= 5 && mins >= 570 && mins <= 990; // 9:30=570, 16:30=990
+          return isNYSE ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <IndexDayChart title="RAW 500 INDEX" indexValue={rawIndex} indexChange={rawChange} variant="green" />
+              <IndexDayChart title="GRADED 1000 INDEX" indexValue={gradedIndex} indexChange={gradedChange} variant="amber" />
+              <IndexDayChart title="SEALED 1000 INDEX" indexValue={sealedIndex} indexChange={sealedChange} variant="blue" />
+            </div>
+          ) : null;
+        })()}
 
         {/* 4. Trending Cards with images — above the fold dopamine hit */}
         <TrendingCards cards={displayCards} isLoading={isLoading} />
