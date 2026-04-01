@@ -461,8 +461,8 @@ Return a JSON object with this exact structure:
         const count = featureCounts[key];
         if (count !== undefined) {
           const base = scoreFromCount(count);
-          // Only allow AI to adjust +1/-1 from the programmatic base
-          cat.score = base + Math.max(-1, Math.min(1, (cat.score || base) - base));
+          // Floor at base, allow up to +1
+          cat.score = base + Math.max(0, Math.min(1, (cat.score || base) - base));
         }
       }
       const scores = auditResult.categories.map((c: any) => c.score || 0);
