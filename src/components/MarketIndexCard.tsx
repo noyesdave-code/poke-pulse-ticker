@@ -27,7 +27,7 @@ const MarketIndexCard = ({ title, value, change, count, description, variant = "
         scale: 1.02,
         boxShadow: `0 8px 30px ${glowColor}`,
       }}
-      className={`terminal-card hero-glow-border p-4 ${glowClass} border-t-2 ${borderAccent} transition-shadow duration-300`}
+      className={`terminal-card hero-glow-border p-5 ${glowClass} border-t-2 ${borderAccent} transition-shadow duration-300`}
     >
       <div className="flex items-center justify-between mb-1">
         <span className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">{title}</span>
