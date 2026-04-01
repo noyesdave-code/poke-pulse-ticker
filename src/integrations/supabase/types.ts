@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      affiliate_clicks: {
+        Row: {
+          card_name: string | null
+          card_set: string | null
+          clicked_at: string
+          id: string
+          partner: string
+          user_id: string | null
+        }
+        Insert: {
+          card_name?: string | null
+          card_set?: string | null
+          clicked_at?: string
+          id?: string
+          partner: string
+          user_id?: string | null
+        }
+        Update: {
+          card_name?: string | null
+          card_set?: string | null
+          clicked_at?: string
+          id?: string
+          partner?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       alpha_signals: {
         Row: {
           card_api_id: string
