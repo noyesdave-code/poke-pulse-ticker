@@ -154,102 +154,50 @@ export async function fetchCardById(id: string): Promise<PokemonTCGCard> {
  * Supports fetching large sets by paginating automatically (API max 250/page).
  */
 export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]> {
-  // Fetch cards from multiple price variant queries in parallel to maximise coverage.
-  // The pokemontcg.io API limits pages to 250 items, so we paginate each query.
   const PAGE_SIZE = 250;
-  const allCards: PokemonTCGCard[] = [];
 
-  // --- Query 1: Holofoil priced cards (4 pages = up to 1000) ---
-  const holoPages = 4;
-  for (let page = 1; page <= holoPages; page++) {
-    try {
-      const data: APIResponse = await proxyFetch("/cards", {
-        q: "tcgplayer.prices.holofoil.market:[1 TO *]",
-        pageSize: String(PAGE_SIZE),
-        page: String(page),
-        orderBy: "-tcgplayer.prices.holofoil.market",
-      });
-      allCards.push(...data.data);
-      if (allCards.length >= data.totalCount || data.data.length < PAGE_SIZE) break;
-    } catch {
-      break;
+  // Helper: fetch one query, returns cards array
+  const fetchQuery = async (q: string, orderBy: string, pages = 1): Promise<PokemonTCGCard[]> => {
+    const results: PokemonTCGCard[] = [];
+    for (let page = 1; page <= pages; page++) {
+      try {
+        const data: APIResponse = await proxyFetch("/cards", {
+          q,
+          pageSize: String(PAGE_SIZE),
+          page: String(page),
+          orderBy,
+        });
+        results.push(...data.data);
+        if (data.data.length < PAGE_SIZE) break;
+      } catch {
+        break;
+      }
     }
-  }
+    return results;
+  };
 
-  // --- Query 2: Normal-priced cards (2 pages) ---
-  for (let page = 1; page <= 2; page++) {
-    try {
-      const data: APIResponse = await proxyFetch("/cards", {
-        q: "tcgplayer.prices.normal.market:[3 TO *]",
-        pageSize: String(PAGE_SIZE),
-        page: String(page),
-        orderBy: "-tcgplayer.prices.normal.market",
-      });
-      allCards.push(...data.data);
-      if (data.data.length < PAGE_SIZE) break;
-    } catch {
-      break;
-    }
-  }
-
-  // --- Query 3: Reverse holofoil priced cards (1 page) ---
-  try {
-    const data: APIResponse = await proxyFetch("/cards", {
-      q: "tcgplayer.prices.reverseHolofoil.market:[5 TO *]",
-      pageSize: String(PAGE_SIZE),
-      page: "1",
-      orderBy: "-tcgplayer.prices.reverseHolofoil.market",
-    });
-    allCards.push(...data.data);
-  } catch {
-    // best-effort
-  }
-
-  // --- Query 4: 1st Edition holofoil (1 page) ---
-  try {
-    const data: APIResponse = await proxyFetch("/cards", {
-      q: "tcgplayer.prices.1stEditionHolofoil.market:[1 TO *]",
-      pageSize: String(PAGE_SIZE),
-      page: "1",
-      orderBy: "-tcgplayer.prices.1stEditionHolofoil.market",
-    });
-    allCards.push(...data.data);
-  } catch {
-    // best-effort
-  }
-
-  // --- Query 5: Illustration Rares, Special Illustration Rares, Hyper Rares, etc. ---
+  // Run ALL queries in parallel instead of sequentially
   const premiumRarities = [
-    "Illustration Rare",
-    "Special Art Rare",
-    "Hyper Rare",
-    "Rare MEGA",
-    "Rare Ultra",
-    "Rare Secret",
-    "Rare Rainbow",
-    "Rare Shiny GX",
-    "Rare ACE",
-    "Amazing Rare",
-    "Rare Holo Star",
-    "Rare Holo VMAX",
-    "Rare Holo VSTAR",
-    "Double Rare",
-    "Ultra Rare",
+    "Illustration Rare", "Special Art Rare", "Hyper Rare", "Rare MEGA",
+    "Rare Ultra", "Rare Secret", "Rare Rainbow", "Rare Shiny GX",
+    "Rare ACE", "Amazing Rare", "Rare Holo Star", "Rare Holo VMAX",
+    "Rare Holo VSTAR", "Double Rare", "Ultra Rare",
   ];
 
-  for (const rarity of premiumRarities) {
-    try {
-      const data: APIResponse = await proxyFetch("/cards", {
-        q: `rarity:"${rarity}"`,
-        pageSize: String(PAGE_SIZE),
-        page: "1",
-        orderBy: "-tcgplayer.prices.holofoil.market",
-      });
-      allCards.push(...data.data);
-    } catch {
-      // best-effort
-    }
-  }
+  const queries: Promise<PokemonTCGCard[]>[] = [
+    // Core pricing queries
+    fetchQuery("tcgplayer.prices.holofoil.market:[1 TO *]", "-tcgplayer.prices.holofoil.market", 4),
+    fetchQuery("tcgplayer.prices.normal.market:[3 TO *]", "-tcgplayer.prices.normal.market", 2),
+    fetchQuery("tcgplayer.prices.reverseHolofoil.market:[5 TO *]", "-tcgplayer.prices.reverseHolofoil.market", 1),
+    fetchQuery("tcgplayer.prices.1stEditionHolofoil.market:[1 TO *]", "-tcgplayer.prices.1stEditionHolofoil.market", 1),
+    // Rarity queries — all in parallel
+    ...premiumRarities.map(r =>
+      fetchQuery(`rarity:"${r}"`, "-tcgplayer.prices.holofoil.market", 1)
+    ),
+  ];
+
+  const results = await Promise.allSettled(queries);
+  const allCards = results.flatMap(r => r.status === "fulfilled" ? r.value : []);
 
   // Deduplicate by card id
   const seen = new Set<string>();
