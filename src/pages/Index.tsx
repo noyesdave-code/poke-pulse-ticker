@@ -317,12 +317,14 @@ const Index = () => {
         <footer className="border-t border-border pt-10 pb-8">
           <div className="flex flex-col items-center gap-5">
             <div className="flex items-center gap-2.5">
-              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center shadow-[0_0_20px_hsl(160_84%_50%/0.2)]">
-                <span className="font-mono text-xs font-bold text-primary-foreground">PG</span>
+              <div className="flex flex-col leading-none select-none">
+                <span className="font-black text-[14px] tracking-tight text-foreground" style={{ textShadow: '0 0 8px hsl(210 20% 98% / 0.6)' }}>
+                  Poke-Pulse-
+                </span>
+                <span className="font-extrabold text-[12px] tracking-[0.08em] text-primary uppercase" style={{ textShadow: '0 0 10px hsl(160 84% 50% / 0.4)' }}>
+                  Market Terminal
+                </span>
               </div>
-              <span className="text-base font-bold tracking-wide text-foreground">
-                POKE-PULSE-TICKER
-              </span>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
               <a href="https://poke-pulse-ticker.com" className="text-sm text-primary font-medium hover:underline">

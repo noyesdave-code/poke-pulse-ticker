@@ -47,8 +47,9 @@ const DailySpotlight = ({ cards }: { cards: CardData[] }) => {
             <img
               src={card._image}
               alt={card.name}
-              className="w-36 h-auto rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
+              className="w-44 h-auto rounded-xl shadow-xl hover:scale-105 transition-transform duration-300 ring-2 ring-border"
               loading="lazy"
+              style={{ filter: 'contrast(1.05) saturate(1.08)' }}
             />
           ) : (
             <div className="w-36 h-48 rounded-lg bg-muted flex items-center justify-center">

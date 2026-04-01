@@ -101,15 +101,30 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
 
       <div className="relative px-5 py-6 sm:px-8 sm:py-10 border-b border-border">
         <div className="flex items-start justify-between gap-4">
-          <div className="space-y-3">
+           <div className="flex items-start gap-4">
+              {/* Stacked logo — visible center-left on hero */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.15, duration: 0.5 }}
+                className="hidden sm:flex flex-col leading-none select-none shrink-0 mt-1"
+              >
+                <span className="font-black text-[22px] md:text-[28px] tracking-tight text-foreground" style={{ textShadow: '0 0 10px hsl(210 20% 98% / 0.7), 0 0 25px hsl(210 20% 98% / 0.4)' }}>
+                  Poke-Pulse-
+                </span>
+                <span className="font-extrabold text-[18px] md:text-[22px] tracking-[0.06em] text-primary uppercase" style={{ textShadow: '0 0 12px hsl(160 84% 50% / 0.5), 0 0 30px hsl(160 84% 50% / 0.25)' }}>
+                  Market Terminal
+                </span>
+              </motion.div>
+              <div className="space-y-3 flex-1">
             <motion.h1
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
               className="text-xl sm:text-3xl font-extrabold tracking-tight text-foreground"
             >
-              <span className="glow-p">P</span>okémon TCG{" "}
-              <span className="text-primary">Market Terminal</span>
+              Pokémon TCG{" "}
+              <span className="text-primary">Live Data</span>
             </motion.h1>
 
             {/* Dynamic urgency hook */}
@@ -165,6 +180,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
             >
               ✓ 14-day free trial &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ No credit card to browse
             </motion.p>
+          </div>
           </div>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}

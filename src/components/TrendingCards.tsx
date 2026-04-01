@@ -78,29 +78,30 @@ const TrendingCards = ({ cards, isLoading }: TrendingCardsProps) => {
 
               {/* Card image */}
               {card._image ? (
-                <div className="w-full aspect-[2.5/3.5] rounded-md overflow-hidden mb-2 bg-muted ring-1 ring-border group-hover:ring-primary/30 transition-all duration-300">
+                <div className="w-full aspect-[2.5/3.5] rounded-lg overflow-hidden mb-2 bg-muted ring-2 ring-border group-hover:ring-primary/40 transition-all duration-300 shadow-md">
                   <img
                     src={card._image}
                     alt={card.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     loading="lazy"
+                    style={{ imageRendering: 'auto', filter: 'contrast(1.05) saturate(1.08)' }}
                   />
                 </div>
               ) : (
-                <div className="w-full aspect-[2.5/3.5] rounded-md bg-muted flex items-center justify-center mb-2 ring-1 ring-border">
-                  <span className="font-mono text-[9px] text-muted-foreground">No Image</span>
+                <div className="w-full aspect-[2.5/3.5] rounded-lg bg-muted flex items-center justify-center mb-2 ring-2 ring-border">
+                  <span className="font-mono text-xs text-muted-foreground font-semibold">No Image</span>
                 </div>
               )}
 
               {/* Token + Card info */}
-              <span className="font-mono text-[9px] text-primary/70 font-bold tracking-wider">
+              <span className="font-mono text-[10px] text-primary/80 font-bold tracking-wider">
                 {getCardToken(card)}
               </span>
-              <span className="font-mono text-[10px] text-muted-foreground truncate w-full">
+              <span className="font-mono text-[11px] text-muted-foreground truncate w-full">
                 {card.setCode && `(${card.setCode}) `}{card.set}
               </span>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="font-mono text-xs font-semibold text-foreground truncate">
+                <span className="font-mono text-sm font-bold text-foreground truncate">
                   {card.name}
                 </span>
                 <SignalBadge result={getCardSignal(card)} />
@@ -108,7 +109,7 @@ const TrendingCards = ({ cards, isLoading }: TrendingCardsProps) => {
 
               {/* Price */}
               <div className="flex items-center justify-between w-full mt-1.5">
-                <span className="font-mono text-sm font-bold text-foreground">
+                <span className="font-mono text-base font-bold text-foreground">
                   ${card.market.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
                 <span

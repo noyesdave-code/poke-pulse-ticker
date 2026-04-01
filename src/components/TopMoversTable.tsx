@@ -97,17 +97,18 @@ const TopMoversTable = ({ cards, title, isLoading }: TopMoversTableProps) => {
                 {/* Card thumbnail */}
                 <td className="px-3 py-2">
                   {card._image ? (
-                    <div className="w-8 h-11 rounded overflow-hidden bg-muted ring-1 ring-border flex-shrink-0">
+                    <div className="w-10 h-14 rounded-md overflow-hidden bg-muted ring-2 ring-border flex-shrink-0 shadow-sm">
                       <img
                         src={card._image}
                         alt={card.name}
                         className="w-full h-full object-cover"
                         loading="lazy"
+                        style={{ filter: 'contrast(1.05) saturate(1.08)' }}
                       />
                     </div>
                   ) : (
-                    <div className="w-8 h-11 rounded bg-muted ring-1 ring-border flex items-center justify-center flex-shrink-0">
-                      <span className="font-mono text-[7px] text-muted-foreground">IMG</span>
+                    <div className="w-10 h-14 rounded-md bg-muted ring-2 ring-border flex items-center justify-center flex-shrink-0">
+                      <span className="font-mono text-[8px] text-muted-foreground">IMG</span>
                     </div>
                   )}
                 </td>
