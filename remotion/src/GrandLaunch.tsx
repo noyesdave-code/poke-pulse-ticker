@@ -133,10 +133,10 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={GOLD} size={600} opacity={0.2} />
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 60, marginBottom: 10 }}>🚀</div>
-              <Bold text="OFFICIAL" delay={5} size={80} color="white" />
-              <Bold text="MEGA LAUNCH" delay={15} size={70} color={GOLD} />
-              <Sequence from={35}><Bold text="THE WAIT IS OVER" delay={0} size={30} color="rgba(255,255,255,0.5)" weight={600} /></Sequence>
+              <div style={{ fontSize: sz(60, 44), marginBottom: 10 }}>🚀</div>
+              <Bold text="OFFICIAL" delay={5} size={sz(80, 56)} color="white" />
+              <Bold text="MEGA LAUNCH" delay={15} size={sz(70, 50)} color={GOLD} />
+              <Sequence from={35}><Bold text="THE WAIT IS OVER" delay={0} size={sz(30, 22)} color="rgba(255,255,255,0.5)" weight={600} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
