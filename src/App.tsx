@@ -42,6 +42,7 @@ import SimTrader from "./pages/SimTrader.tsx";
 import PromoAssets from "./pages/PromoAssets.tsx";
 import VideoLibrary from "./pages/VideoLibrary.tsx";
 import Arena from "./pages/Arena.tsx";
+import CapitalCampaign from "./pages/CapitalCampaign.tsx";
 
 const queryClient = new QueryClient();
 
