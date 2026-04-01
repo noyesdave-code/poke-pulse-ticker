@@ -152,19 +152,29 @@ const Index = () => {
           </div>
         )}
 
-        {/* Daily Index Charts — visible during NYSE hours (9:30 AM – 4:30 PM ET) */}
+        {/* Daily Index Charts — always visible, "Market Closed" overlay outside NYSE hours */}
         {!isLoading && (() => {
           const now = new Date();
           const et = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
           const mins = et.getHours() * 60 + et.getMinutes();
-          const isNYSE = et.getDay() >= 1 && et.getDay() <= 5 && mins >= 570 && mins <= 990; // 9:30=570, 16:30=990
-          return isNYSE ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <IndexDayChart title="RAW 500 INDEX" indexValue={rawIndex} indexChange={rawChange} variant="green" />
-              <IndexDayChart title="GRADED 1000 INDEX" indexValue={gradedIndex} indexChange={gradedChange} variant="amber" />
-              <IndexDayChart title="SEALED 1000 INDEX" indexValue={sealedIndex} indexChange={sealedChange} variant="blue" />
+          const isNYSE = et.getDay() >= 1 && et.getDay() <= 5 && mins >= 570 && mins <= 990;
+          return (
+            <div className="relative">
+              {!isNYSE && (
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/60 backdrop-blur-[2px] rounded-lg pointer-events-none">
+                  <div className="terminal-card px-4 py-2 border-primary/30">
+                    <span className="font-mono text-xs font-bold text-primary tracking-widest uppercase">Market Closed</span>
+                    <p className="font-mono text-[9px] text-muted-foreground mt-0.5">NYSE Hours: Mon–Fri 9:30 AM – 4:30 PM ET</p>
+                  </div>
+                </div>
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <IndexDayChart title="RAW 500 INDEX" indexValue={rawIndex} indexChange={rawChange} variant="green" />
+                <IndexDayChart title="GRADED 1000 INDEX" indexValue={gradedIndex} indexChange={gradedChange} variant="amber" />
+                <IndexDayChart title="SEALED 1000 INDEX" indexValue={sealedIndex} indexChange={sealedChange} variant="blue" />
+              </div>
             </div>
-          ) : null;
+          );
         })()}
 
         {/* 4. Trending Cards with images — above the fold dopamine hit */}
