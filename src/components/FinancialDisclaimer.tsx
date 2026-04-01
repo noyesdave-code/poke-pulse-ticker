@@ -43,7 +43,10 @@ const FinancialDisclaimer = ({ compact = false }: FinancialDisclaimerProps) => {
             Nintendo, Creatures Inc., and GAME FREAK inc. This site is not affiliated with, endorsed,
             sponsored, or specifically approved by Nintendo, Creatures Inc., GAME FREAK inc., or The
             Pokémon Company International. Card prices are sourced from public market data and may
-            not reflect actual sale prices. © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.
+            not reflect actual sale prices. © {new Date().getFullYear()} PGVA Ventures, LLC — A Noyes Family Trust Entity. 
+            All rights reserved. Patent pending. Protected under U.S. copyright, trademark, trade secret, and patent laws.
+            The Noyes Family Trust, its trustees, beneficiaries, and family members bear no personal liability 
+            for platform operations. See Terms of Service for complete liability limitations.
           </p>
         </div>
       </div>
