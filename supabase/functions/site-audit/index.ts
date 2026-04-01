@@ -1,5 +1,8 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import * as React from 'npm:react@18.3.1'
+import { renderAsync } from 'npm:@react-email/components@0.0.22'
+import { TEMPLATES } from '../_shared/transactional-email-templates/registry.ts'
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -21,6 +24,159 @@ const AUDIT_CATEGORIES = [
   "legal_compliance",
 ];
 
+const SITE_NAME = "poke-pulse-ticker"
+const SENDER_DOMAIN = "notify.poke-pulse-ticker.com"
+const FROM_DOMAIN = "notify.poke-pulse-ticker.com"
+
+function generateToken(): string {
+  const bytes = new Uint8Array(32)
+  crypto.getRandomValues(bytes)
+  return Array.from(bytes)
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('')
+}
+
+async function enqueueAuditEmail({
+  adminClient,
+  recipientEmail,
+  auditId,
+  templateData,
+}: {
+  adminClient: ReturnType<typeof createClient>;
+  recipientEmail: string;
+  auditId: string;
+  templateData: Record<string, unknown>;
+}) {
+  const templateName = 'daily-audit-report'
+  const template = TEMPLATES[templateName]
+
+  if (!template) {
+    throw new Error(`Template '${templateName}' not found`)
+  }
+
+  const effectiveRecipient = template.to || recipientEmail
+  const normalizedEmail = effectiveRecipient.toLowerCase()
+  const messageId = crypto.randomUUID()
+  const idempotencyKey = `daily-audit-${auditId}-${normalizedEmail}`
+
+  const { data: suppressed, error: suppressionError } = await adminClient
+    .from('suppressed_emails')
+    .select('id')
+    .eq('email', normalizedEmail)
+    .maybeSingle()
+
+  if (suppressionError) {
+    throw new Error(`Suppression check failed for ${effectiveRecipient}`)
+  }
+
+  if (suppressed) {
+    await adminClient.from('email_send_log').insert({
+      message_id: messageId,
+      template_name: templateName,
+      recipient_email: effectiveRecipient,
+      status: 'suppressed',
+    })
+    return { suppressed: true }
+  }
+
+  let unsubscribeToken: string
+  const { data: existingToken, error: tokenLookupError } = await adminClient
+    .from('email_unsubscribe_tokens')
+    .select('token, used_at')
+    .eq('email', normalizedEmail)
+    .maybeSingle()
+
+  if (tokenLookupError) {
+    throw new Error(`Token lookup failed for ${effectiveRecipient}`)
+  }
+
+  if (existingToken && !existingToken.used_at) {
+    unsubscribeToken = existingToken.token
+  } else if (!existingToken) {
+    unsubscribeToken = generateToken()
+    const { error: tokenError } = await adminClient
+      .from('email_unsubscribe_tokens')
+      .upsert(
+        { token: unsubscribeToken, email: normalizedEmail },
+        { onConflict: 'email', ignoreDuplicates: true }
+      )
+
+    if (tokenError) {
+      throw new Error(`Failed to create unsubscribe token for ${effectiveRecipient}`)
+    }
+
+    const { data: storedToken, error: reReadError } = await adminClient
+      .from('email_unsubscribe_tokens')
+      .select('token')
+      .eq('email', normalizedEmail)
+      .maybeSingle()
+
+    if (reReadError || !storedToken) {
+      throw new Error(`Failed to confirm unsubscribe token for ${effectiveRecipient}`)
+    }
+
+    unsubscribeToken = storedToken.token
+  } else {
+    await adminClient.from('email_send_log').insert({
+      message_id: messageId,
+      template_name: templateName,
+      recipient_email: effectiveRecipient,
+      status: 'suppressed',
+      error_message: 'Unsubscribe token used but email missing from suppressed list',
+    })
+    return { suppressed: true }
+  }
+
+  const html = await renderAsync(React.createElement(template.component, templateData))
+  const plainText = await renderAsync(
+    React.createElement(template.component, templateData),
+    { plainText: true }
+  )
+
+  const resolvedSubject =
+    typeof template.subject === 'function'
+      ? template.subject(templateData as Record<string, any>)
+      : template.subject
+
+  await adminClient.from('email_send_log').insert({
+    message_id: messageId,
+    template_name: templateName,
+    recipient_email: effectiveRecipient,
+    status: 'pending',
+  })
+
+  const { error: enqueueError } = await adminClient.rpc('enqueue_email', {
+    queue_name: 'transactional_emails',
+    payload: {
+      message_id: messageId,
+      to: effectiveRecipient,
+      from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+      sender_domain: SENDER_DOMAIN,
+      subject: resolvedSubject,
+      html,
+      text: plainText,
+      purpose: 'transactional',
+      label: templateName,
+      idempotency_key: idempotencyKey,
+      unsubscribe_token: unsubscribeToken,
+      queued_at: new Date().toISOString(),
+    },
+  })
+
+  if (enqueueError) {
+    await adminClient.from('email_send_log').insert({
+      message_id: messageId,
+      template_name: templateName,
+      recipient_email: effectiveRecipient,
+      status: 'failed',
+      error_message: 'Failed to enqueue audit email',
+    })
+    throw new Error(`Failed to enqueue audit email for ${effectiveRecipient}`)
+  }
+
+  return { queued: true }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -29,7 +185,7 @@ serve(async (req) => {
   try {
     const authHeader = req.headers.get("authorization");
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+    const supabaseKey = Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? Deno.env.get("SUPABASE_ANON_KEY") ?? "";
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
 
@@ -330,24 +486,33 @@ Return a JSON object with this exact structure:
     };
 
     const recipients = ['noyes.dave@gmail.com', 'contact@poke-pulse-ticker.com'];
+    const emailFailures: Array<{ recipient: string; error: string }> = [];
+
     for (const email of recipients) {
       try {
-        await adminClient.functions.invoke('send-transactional-email', {
-          body: {
-            templateName: 'daily-audit-report',
-            recipientEmail: email,
-            idempotencyKey: `daily-audit-${audit.id}-${email}`,
-            templateData: emailData,
-          },
+        await enqueueAuditEmail({
+          adminClient,
+          recipientEmail: email,
+          auditId: audit.id,
+          templateData: emailData,
         });
         console.log(`Audit report email sent to ${email}`);
       } catch (emailErr) {
         console.error(`Failed to send audit report email to ${email}:`, emailErr);
+        emailFailures.push({
+          recipient: email,
+          error: emailErr instanceof Error ? emailErr.message : String(emailErr),
+        });
       }
     }
 
     return new Response(
-      JSON.stringify({ success: true, audit_id: audit.id, result: auditResult }),
+      JSON.stringify({
+        success: emailFailures.length === 0,
+        audit_id: audit.id,
+        result: auditResult,
+        email_failures: emailFailures,
+      }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (e) {
