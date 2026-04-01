@@ -14,12 +14,32 @@ interface CategoryResult {
   recommendations?: string[]
 }
 
+interface BalanceSheetLine {
+  label: string
+  amount: number
+  detail?: string
+}
+
 interface DailyAuditReportProps {
   overallScore?: number
   summary?: string
   categories?: CategoryResult[]
   auditDate?: string
   topPriorities?: Array<{ title: string; category: string; impact: string; description: string }>
+  balanceSheet?: {
+    subscriptionRevenue?: BalanceSheetLine[]
+    productRevenue?: BalanceSheetLine[]
+    affiliateRevenue?: BalanceSheetLine[]
+    totalMRR?: number
+    totalARR?: number
+    activeSubscribers?: number
+    trialUsers?: number
+    arenaEconomy?: {
+      totalPokecoinsCirculating?: number
+      totalWagered?: number
+      totalWon?: number
+    }
+  }
 }
 
 const statusColor = (status: string) => {
@@ -32,12 +52,18 @@ const statusColor = (status: string) => {
   }
 }
 
+const formatCurrency = (amount: number) =>
+  `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+
+const formatNumber = (n: number) => n.toLocaleString('en-US')
+
 const DailyAuditReportEmail = ({
   overallScore = 0,
   summary = '',
   categories = [],
   auditDate,
   topPriorities = [],
+  balanceSheet,
 }: DailyAuditReportProps) => (
   <Html lang="en" dir="ltr">
     <Head />
@@ -60,6 +86,103 @@ const DailyAuditReportEmail = ({
 
         {summary && (
           <Text style={summaryText}>{summary}</Text>
+        )}
+
+        {/* ── BALANCE SHEET ── */}
+        {balanceSheet && (
+          <Section style={balanceSheetSection}>
+            <Text style={sectionTitle}>POKE-PULSE PRODUCT BALANCE SHEET</Text>
+
+            {/* KPI row */}
+            <Section style={kpiRow}>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>MRR</span>{'\n'}
+                <span style={kpiValue}>{formatCurrency(balanceSheet.totalMRR ?? 0)}</span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>ARR</span>{'\n'}
+                <span style={kpiValue}>{formatCurrency(balanceSheet.totalARR ?? 0)}</span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>Active Subs</span>{'\n'}
+                <span style={kpiValue}>{balanceSheet.activeSubscribers ?? 0}</span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>Trial Users</span>{'\n'}
+                <span style={kpiValue}>{balanceSheet.trialUsers ?? 0}</span>
+              </Text>
+            </Section>
+
+            {/* Subscription Revenue */}
+            {balanceSheet.subscriptionRevenue && balanceSheet.subscriptionRevenue.length > 0 && (
+              <Section style={bsGroup}>
+                <Text style={bsGroupTitle}>SUBSCRIPTION REVENUE</Text>
+                {balanceSheet.subscriptionRevenue.map((line, i) => (
+                  <Section key={i} style={bsLineRow}>
+                    <Text style={bsLineLabel}>{line.label}{line.detail ? ` (${line.detail})` : ''}</Text>
+                    <Text style={bsLineAmount}>{formatCurrency(line.amount)}</Text>
+                  </Section>
+                ))}
+              </Section>
+            )}
+
+            {/* Product Revenue */}
+            {balanceSheet.productRevenue && balanceSheet.productRevenue.length > 0 && (
+              <Section style={bsGroup}>
+                <Text style={bsGroupTitle}>PRODUCT REVENUE (PokéCoin Store)</Text>
+                {balanceSheet.productRevenue.map((line, i) => (
+                  <Section key={i} style={bsLineRow}>
+                    <Text style={bsLineLabel}>{line.label}{line.detail ? ` (${line.detail})` : ''}</Text>
+                    <Text style={bsLineAmount}>{formatCurrency(line.amount)}</Text>
+                  </Section>
+                ))}
+              </Section>
+            )}
+
+            {/* Affiliate Revenue */}
+            {balanceSheet.affiliateRevenue && balanceSheet.affiliateRevenue.length > 0 && (
+              <Section style={bsGroup}>
+                <Text style={bsGroupTitle}>AFFILIATE REVENUE</Text>
+                {balanceSheet.affiliateRevenue.map((line, i) => (
+                  <Section key={i} style={bsLineRow}>
+                    <Text style={bsLineLabel}>{line.label}{line.detail ? ` (${line.detail})` : ''}</Text>
+                    <Text style={bsLineAmount}>{formatCurrency(line.amount)}</Text>
+                  </Section>
+                ))}
+              </Section>
+            )}
+
+            {/* Arena Economy */}
+            {balanceSheet.arenaEconomy && (
+              <Section style={bsGroup}>
+                <Text style={bsGroupTitle}>ARENA ECONOMY</Text>
+                <Section style={bsLineRow}>
+                  <Text style={bsLineLabel}>PokéCoins Circulating</Text>
+                  <Text style={bsLineAmount}>{formatNumber(balanceSheet.arenaEconomy.totalPokecoinsCirculating ?? 0)} PC</Text>
+                </Section>
+                <Section style={bsLineRow}>
+                  <Text style={bsLineLabel}>Total Wagered (Lifetime)</Text>
+                  <Text style={bsLineAmount}>{formatNumber(balanceSheet.arenaEconomy.totalWagered ?? 0)} PC</Text>
+                </Section>
+                <Section style={bsLineRow}>
+                  <Text style={bsLineLabel}>Total Won (Lifetime)</Text>
+                  <Text style={bsLineAmount}>{formatNumber(balanceSheet.arenaEconomy.totalWon ?? 0)} PC</Text>
+                </Section>
+              </Section>
+            )}
+
+            <Hr style={bsDivider} />
+            <Section style={bsLineRow}>
+              <Text style={{ ...bsLineLabel, fontWeight: 'bold', fontSize: '14px' }}>TOTAL GROSS REVENUE</Text>
+              <Text style={{ ...bsLineAmount, fontWeight: 'bold', fontSize: '14px', color: '#16a34a' }}>
+                {formatCurrency(
+                  (balanceSheet.subscriptionRevenue?.reduce((s, l) => s + l.amount, 0) ?? 0) +
+                  (balanceSheet.productRevenue?.reduce((s, l) => s + l.amount, 0) ?? 0) +
+                  (balanceSheet.affiliateRevenue?.reduce((s, l) => s + l.amount, 0) ?? 0)
+                )}
+              </Text>
+            </Section>
+          </Section>
         )}
 
         {categories.length > 0 && (
@@ -110,7 +233,7 @@ const DailyAuditReportEmail = ({
 
         <Text style={disclaimer}>
           Automated daily audit by {SITE_NAME} AI. Scores are based on implemented feature
-          counts and AI quality assessment. Not a substitute for professional review.
+          counts and AI quality assessment. Balance sheet data sourced from Stripe. Not a substitute for professional review.
         </Text>
 
         <Text style={footer}>
@@ -124,20 +247,42 @@ const DailyAuditReportEmail = ({
 export const template = {
   component: DailyAuditReportEmail,
   subject: (data: Record<string, any>) =>
-    `Daily Audit: ${data.overallScore || 0}/100 — ${SITE_NAME}`,
-  displayName: 'Daily audit report',
+    `Daily Audit: ${data.overallScore || 0}/100 + Balance Sheet — ${SITE_NAME}`,
+  displayName: 'Daily audit report + balance sheet',
   previewData: {
-    overallScore: 95,
-    summary: 'Platform maintains strong performance across all 11 categories with a 95/100 overall score.',
-    auditDate: 'Monday, March 31, 2026',
+    overallScore: 98,
+    summary: 'Platform maintains strong performance across all 11 categories with a 98/100 overall score.',
+    auditDate: 'Tuesday, April 1, 2026',
     categories: [
-      { name: 'aesthetics', score: 96, status: 'strong', recommendations: ['Consider micro-animations on hover states'] },
-      { name: 'efficiency', score: 95, status: 'strong', recommendations: [] },
-      { name: 'security', score: 95, status: 'strong', recommendations: ['Add CSP report-uri endpoint'] },
+      { name: 'aesthetics', score: 98, status: 'strong', recommendations: ['Consider micro-animations on hover states'] },
+      { name: 'efficiency', score: 98, status: 'strong', recommendations: [] },
+      { name: 'security', score: 98, status: 'strong', recommendations: ['Add CSP report-uri endpoint'] },
     ],
     topPriorities: [
       { title: 'Add PSA grading API integration', category: 'competitive_edge', impact: 'high', description: 'Direct PSA population data would strengthen grading arbitrage signals.' },
     ],
+    balanceSheet: {
+      totalMRR: 249.50,
+      totalARR: 2994.00,
+      activeSubscribers: 12,
+      trialUsers: 5,
+      subscriptionRevenue: [
+        { label: 'Pro ($4.99/mo)', amount: 49.90, detail: '10 subscribers' },
+        { label: 'Premium ($9.99/mo)', amount: 19.98, detail: '2 subscribers' },
+      ],
+      productRevenue: [
+        { label: 'PokéCoin Bundles', amount: 14.97, detail: '3 purchases' },
+      ],
+      affiliateRevenue: [
+        { label: 'TCGPlayer Affiliate', amount: 32.40, detail: 'est. clicks' },
+        { label: 'eBay Partner Network', amount: 18.60, detail: 'est. clicks' },
+      ],
+      arenaEconomy: {
+        totalPokecoinsCirculating: 150000,
+        totalWagered: 45000,
+        totalWon: 38500,
+      },
+    },
   },
 } satisfies TemplateEntry
 
@@ -159,6 +304,23 @@ const scoreBox = {
 const scoreLabel = { fontSize: '10px', color: '#64748b', letterSpacing: '0.1em', margin: '0 0 4px', fontWeight: 'bold' }
 const scoreValue = { fontSize: '36px', fontWeight: 'bold', margin: '0' }
 const summaryText = { fontSize: '14px', color: '#475569', lineHeight: '1.6', margin: '0 0 20px' }
+
+// Balance Sheet styles
+const balanceSheetSection = {
+  backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px',
+  padding: '16px', marginBottom: '24px',
+}
+const kpiRow = { display: 'flex' as const, marginBottom: '12px' }
+const kpiItem = { flex: '1' as const, textAlign: 'center' as const, margin: '0 4px' }
+const kpiLabel = { fontSize: '9px', color: '#94a3b8', letterSpacing: '0.08em', fontWeight: 'bold', display: 'block' as const }
+const kpiValue = { fontSize: '16px', fontWeight: 'bold', color: '#0f172a', display: 'block' as const, marginTop: '2px' }
+const bsGroup = { marginBottom: '10px' }
+const bsGroupTitle = { fontSize: '10px', color: '#64748b', letterSpacing: '0.08em', fontWeight: 'bold', margin: '8px 0 4px', borderBottom: '1px solid #e2e8f0', paddingBottom: '4px' }
+const bsLineRow = { display: 'flex' as const, justifyContent: 'space-between' as const, padding: '2px 0' }
+const bsLineLabel = { fontSize: '12px', color: '#475569', margin: '0' }
+const bsLineAmount = { fontSize: '12px', color: '#0f172a', fontWeight: '600', margin: '0', textAlign: 'right' as const }
+const bsDivider = { borderColor: '#cbd5e1', margin: '8px 0' }
+
 const categoriesSection = { marginBottom: '24px' }
 const sectionTitle = { fontSize: '10px', color: '#64748b', letterSpacing: '0.1em', fontWeight: 'bold', margin: '0 0 12px' }
 const categoryRow = { marginBottom: '12px', borderBottom: '1px solid #f1f5f9', paddingBottom: '10px' }

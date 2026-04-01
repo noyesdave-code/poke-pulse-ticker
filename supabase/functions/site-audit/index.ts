@@ -484,6 +484,88 @@ Return a JSON object with this exact structure:
       })
       .eq("id", audit.id);
 
+    // ── Fetch balance sheet data from Stripe + DB ──
+    let balanceSheet: Record<string, any> = {};
+    try {
+      const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
+      if (stripeKey) {
+        const { default: Stripe } = await import("https://esm.sh/stripe@18.5.0");
+        const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
+
+        // Active subscriptions
+        const activeSubs = await stripe.subscriptions.list({ status: 'active', limit: 100 });
+        const subscriptionLines: Array<{ label: string; amount: number; detail: string }> = [];
+        const tierCounts: Record<string, { count: number; revenue: number }> = {};
+
+        for (const sub of activeSubs.data) {
+          for (const item of sub.items.data) {
+            const prodId = typeof item.price.product === 'string' ? item.price.product : (item.price.product as any)?.id || 'unknown';
+            const unitAmount = (item.price.unit_amount || 0) / 100;
+            const nickname = item.price.nickname || prodId;
+            if (!tierCounts[nickname]) tierCounts[nickname] = { count: 0, revenue: 0 };
+            tierCounts[nickname].count += 1;
+            tierCounts[nickname].revenue += unitAmount;
+          }
+        }
+
+        for (const [label, data] of Object.entries(tierCounts)) {
+          subscriptionLines.push({ label, amount: data.revenue, detail: `${data.count} subscriber${data.count > 1 ? 's' : ''}` });
+        }
+
+        const totalMRR = subscriptionLines.reduce((s, l) => s + l.amount, 0);
+
+        // One-time product payments (PokéCoin bundles) in last 30 days
+        const thirtyDaysAgo = Math.floor(Date.now() / 1000) - 30 * 86400;
+        const charges = await stripe.charges.list({ limit: 100, created: { gte: thirtyDaysAgo } });
+        let pokecoinRevenue = 0;
+        let pokecoinCount = 0;
+        for (const charge of charges.data) {
+          if (charge.paid && !charge.refunded && charge.description?.toLowerCase().includes('pokecoin')) {
+            pokecoinRevenue += (charge.amount || 0) / 100;
+            pokecoinCount++;
+          }
+        }
+
+        const productRevenue = pokecoinRevenue > 0
+          ? [{ label: 'PokéCoin Bundles (30d)', amount: pokecoinRevenue, detail: `${pokecoinCount} purchase${pokecoinCount > 1 ? 's' : ''}` }]
+          : [];
+
+        // Arena economy from DB
+        const { data: wallets } = await adminClient.from('arena_wallets').select('balance, lifetime_wagered, lifetime_won');
+        const arenaEconomy = {
+          totalPokecoinsCirculating: (wallets || []).reduce((s: number, w: any) => s + (w.balance || 0), 0),
+          totalWagered: (wallets || []).reduce((s: number, w: any) => s + (w.lifetime_wagered || 0), 0),
+          totalWon: (wallets || []).reduce((s: number, w: any) => s + (w.lifetime_won || 0), 0),
+        };
+
+        // Trial users
+        const { count: trialCount } = await adminClient
+          .from('user_trials')
+          .select('id', { count: 'exact', head: true })
+          .eq('is_active', true)
+          .gte('ends_at', new Date().toISOString());
+
+        // Affiliate revenue (estimated from affiliate links — placeholder since we don't have real tracking)
+        const affiliateRevenue = [
+          { label: 'TCGPlayer Affiliate', amount: 0, detail: 'pending integration' },
+          { label: 'eBay Partner Network', amount: 0, detail: 'pending integration' },
+        ];
+
+        balanceSheet = {
+          totalMRR: totalMRR,
+          totalARR: totalMRR * 12,
+          activeSubscribers: activeSubs.data.length,
+          trialUsers: trialCount || 0,
+          subscriptionRevenue: subscriptionLines,
+          productRevenue,
+          affiliateRevenue,
+          arenaEconomy,
+        };
+      }
+    } catch (bsErr) {
+      console.error("Balance sheet fetch error:", bsErr);
+    }
+
     // Send daily audit report email
     const emailData = {
       overallScore: auditResult.overall_score,
@@ -496,6 +578,7 @@ Return a JSON object with this exact structure:
         recommendations: c.recommendations?.slice(0, 1) || [],
       })),
       topPriorities: (auditResult.top_priorities || []).slice(0, 3),
+      balanceSheet: Object.keys(balanceSheet).length > 0 ? balanceSheet : undefined,
     };
 
     const recipients = ['noyes.dave@gmail.com', 'contact@poke-pulse-ticker.com'];
