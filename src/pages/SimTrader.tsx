@@ -166,7 +166,7 @@ const HeroSplash = ({ onSignIn }: { onSignIn: () => void }) => (
         className="font-mono text-2xl md:text-4xl font-black text-foreground leading-tight"
       >
         Trade Cards.<br />
-        <span className="text-primary" style={{ textShadow: "0 0 30px hsl(160 84% 50% / 0.4)" }}>Beat the Bots.</span><br />
+        <span className="text-primary" style={{ textShadow: "0 0 30px hsl(160 84% 50% / 0.4)" }}>Beat Real Players & Bots.</span><br />
         Win Contests.
       </motion.h2>
 
