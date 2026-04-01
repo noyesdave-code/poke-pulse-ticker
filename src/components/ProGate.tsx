@@ -18,7 +18,7 @@ const ProGate = ({ children, feature = "This feature", blur = false }: ProGatePr
   const [loading, setLoading] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
 
-  const isPro = subscribed && (tier === "pro" || tier === "premium" || tier === "team");
+  const isPro = subscribed && (tier === "pro" || tier === "premium" || tier === "team" || tier === "whale");
 
   if (isPro) return <>{children}</>;
 
