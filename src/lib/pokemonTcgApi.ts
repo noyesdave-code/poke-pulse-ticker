@@ -68,7 +68,6 @@ async function proxyFetch(path: string, params?: Record<string, string>): Promis
   const { data: sessionData } = await supabase.auth.getSession();
   const token = sessionData?.session?.access_token;
 
-  // Generate request timestamp for integrity validation
   const timestamp = Date.now().toString();
 
   const headers: Record<string, string> = {
@@ -80,17 +79,31 @@ async function proxyFetch(path: string, params?: Record<string, string>): Promis
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  const res = await fetch(PROXY_URL, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ path, params }),
-  });
+  // Retry up to 2 times with exponential backoff
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const res = await fetch(PROXY_URL, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ path, params }),
+      });
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-    throw new Error(err.error || `Proxy error: ${res.status}`);
+      if (res.status === 429) {
+        // Rate limited — wait and retry
+        await new Promise(r => setTimeout(r, (attempt + 1) * 3000));
+        continue;
+      }
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+        throw new Error(err.error || `Proxy error: ${res.status}`);
+      }
+      return res.json();
+    } catch (e) {
+      if (attempt === 2) throw e;
+      await new Promise(r => setTimeout(r, (attempt + 1) * 2000));
+    }
   }
-  return res.json();
 }
 
 /**
