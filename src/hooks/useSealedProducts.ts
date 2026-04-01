@@ -171,7 +171,7 @@ export function useSealedProducts(rawCards: CardData[] | undefined) {
 
       if (!matched) continue;
 
-      const eraHash = hashString(eraName);
+      
 
       // Generate all 5 product types per era to maximize count toward 1000
       for (let i = 0; i < SEALED_TYPES.length; i++) {
