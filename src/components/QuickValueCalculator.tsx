@@ -58,16 +58,24 @@ const QuickValueCalculator = () => {
             <button
               key={card.name}
               onClick={() => toggle(idx)}
-              className={`text-left px-3 py-2.5 rounded-lg border font-mono text-xs transition-all min-h-[48px] ${
+              className={`flex items-center gap-2.5 text-left px-2.5 py-2 rounded-lg border font-mono text-xs transition-all min-h-[56px] ${
                 selected.has(idx)
                   ? "border-primary/50 bg-primary/10 text-foreground"
                   : "border-border bg-muted/20 text-muted-foreground hover:border-muted-foreground/30"
               }`}
             >
-              <span className="block font-medium truncate">{card.name}</span>
-              <span className={`block text-[10px] mt-0.5 ${selected.has(idx) ? "text-primary" : ""}`}>
-                ${card.price.toFixed(2)}
-              </span>
+              <img
+                src={card.image}
+                alt={card.name}
+                loading="lazy"
+                className="w-9 h-12 object-contain rounded flex-shrink-0"
+              />
+              <div className="min-w-0">
+                <span className="block font-medium truncate text-[11px]">{card.name}</span>
+                <span className={`block text-[10px] mt-0.5 ${selected.has(idx) ? "text-primary" : ""}`}>
+                  ${card.price.toFixed(2)}
+                </span>
+              </div>
             </button>
           ))}
         </div>
