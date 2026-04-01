@@ -26,6 +26,12 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
+// Campaign Day 1 banners
+import CampaignProBanner from "@/components/campaign/CampaignProBanner";
+import DoublePokeCoinBanner from "@/components/campaign/DoublePokeCoinBanner";
+import TournamentFomoBanner from "@/components/campaign/TournamentFomoBanner";
+import HighStakesArenaBanner from "@/components/campaign/HighStakesArenaBanner";
+
 // Lazy-loaded below-the-fold components
 import UserGrowthChart from "@/components/UserGrowthChart";
 import DailySpotlight from "@/components/DailySpotlight";
