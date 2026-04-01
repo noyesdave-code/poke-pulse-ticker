@@ -118,10 +118,10 @@ export const GrandLaunch: React.FC = () => {
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={500} opacity={0.25} />
             <div style={{ textAlign: "center" }}>
-              <Bold text="POKE" delay={5} size={130} color={ACCENT} />
-              <Bold text="PULSE" delay={12} size={110} color="white" />
-              <Bold text="TICKER" delay={20} size={90} color={GOLD} />
-              <Sequence from={40}><Bold text="MARKET TERMINAL" delay={0} size={28} color="rgba(255,255,255,0.5)" weight={600} /></Sequence>
+              <Bold text="POKE" delay={5} size={sz(130, 90)} color={ACCENT} />
+              <Bold text="PULSE" delay={12} size={sz(110, 76)} color="white" />
+              <Bold text="TICKER" delay={20} size={sz(90, 62)} color={GOLD} />
+              <Sequence from={40}><Bold text="MARKET TERMINAL" delay={0} size={sz(28, 22)} color="rgba(255,255,255,0.5)" weight={600} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
