@@ -17,6 +17,7 @@ import {
   Circle, CheckCircle2, ListTodo, Trash2
 } from "lucide-react";
 import AuthModal from "@/components/AuthModal";
+import AffiliateAnalytics from "@/components/AffiliateAnalytics";
 
 interface AuditCategory {
   name: string;
