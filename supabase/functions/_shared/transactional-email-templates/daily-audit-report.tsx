@@ -94,6 +94,9 @@ const DailyAuditReportEmail = ({
               <Section key={i} style={priorityRow}>
                 <Text style={priorityTitle}>{i + 1}. {p.title}</Text>
                 <Text style={priorityDesc}>{p.description}</Text>
+                <Button style={fixLink} href={`https://poke-pulse-ticker.lovable.app/command-center?fix=${encodeURIComponent(p.category || p.title)}`}>
+                  Fix This →
+                </Button>
               </Section>
             ))}
           </Section>
