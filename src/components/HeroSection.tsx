@@ -109,10 +109,10 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
                 transition={{ delay: 0.15, duration: 0.5 }}
                 className="hidden sm:flex flex-col leading-none select-none shrink-0 mt-1"
               >
-                <span className="font-black text-[22px] md:text-[28px] tracking-tight text-foreground" style={{ textShadow: '0 0 10px hsl(210 20% 98% / 0.7), 0 0 25px hsl(210 20% 98% / 0.4)' }}>
+                <span className="font-display font-black text-[22px] md:text-[28px] tracking-tight text-foreground" style={{ textShadow: '0 0 10px hsl(210 25% 97% / 0.5)' }}>
                   Poke-Pulse-
                 </span>
-                <span className="font-extrabold text-[18px] md:text-[22px] tracking-[0.06em] text-primary uppercase" style={{ textShadow: '0 0 12px hsl(160 84% 50% / 0.5), 0 0 30px hsl(160 84% 50% / 0.25)' }}>
+                <span className="font-display font-extrabold text-[18px] md:text-[22px] tracking-[0.04em] text-primary uppercase" style={{ textShadow: '0 0 12px hsl(158 72% 46% / 0.4)' }}>
                   Market Terminal
                 </span>
               </motion.div>
