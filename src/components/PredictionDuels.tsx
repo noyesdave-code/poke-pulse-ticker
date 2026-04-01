@@ -316,20 +316,34 @@ export default function PredictionDuels({ tradableCards, walletBalance, onBalanc
                     </Badge>
                     <p className="text-[10px] text-muted-foreground">Pot: {(duel.wager * 2).toLocaleString()} PC</p>
                     {duel.status === "active" && (
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="text-[10px] gap-1 h-6"
-                        onClick={() => setChatDuelId(chatDuelId === duel.id ? null : duel.id)}
-                      >
-                        <MessageCircle className="w-3 h-3" />
-                        {chatDuelId === duel.id ? "Hide Chat" : "Chat"}
-                      </Button>
+                      <div className="flex gap-1">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-[10px] gap-1 h-6"
+                          onClick={() => setChatDuelId(chatDuelId === duel.id ? null : duel.id)}
+                        >
+                          <MessageCircle className="w-3 h-3" />
+                          {chatDuelId === duel.id ? "Hide" : "Chat"}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-[10px] gap-1 h-6"
+                          onClick={() => setVideoDuelId(videoDuelId === duel.id ? null : duel.id)}
+                        >
+                          <Video className="w-3 h-3" />
+                          {videoDuelId === duel.id ? "Hide" : "Video"}
+                        </Button>
+                      </div>
                     )}
                   </div>
                 </div>
                 {chatDuelId === duel.id && (
                   <ArenaChat channel={`duel-${duel.id}`} title="Duel Chat" />
+                )}
+                {videoDuelId === duel.id && (
+                  <DuelVideoChat duelId={duel.id} onClose={() => setVideoDuelId(null)} />
                 )}
               </div>
             ))}
