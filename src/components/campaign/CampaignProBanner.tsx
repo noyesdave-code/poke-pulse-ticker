@@ -73,7 +73,7 @@ const CampaignProBanner = () => {
           </Button>
         </div>
       </motion.div>
-      <AuthModal open={showAuth} onOpenChange={setShowAuth} />
+      {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </>
   );
 };
