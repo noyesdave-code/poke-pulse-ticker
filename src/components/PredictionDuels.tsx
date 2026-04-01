@@ -58,6 +58,7 @@ export default function PredictionDuels({ tradableCards, walletBalance, onBalanc
   const [duels, setDuels] = useState<Duel[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
+  const [chatDuelId, setChatDuelId] = useState<string | null>(null);
 
   // Create form state
   const [selectedCard, setSelectedCard] = useState("");
