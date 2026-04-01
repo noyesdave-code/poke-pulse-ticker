@@ -21,6 +21,45 @@ const AUDIT_CATEGORIES = [
   "legal_compliance",
 ];
 
+async function sendAuditEmail({
+  supabaseUrl,
+  serviceKey,
+  recipientEmail,
+  auditId,
+  templateData,
+}: {
+  supabaseUrl: string;
+  serviceKey: string;
+  recipientEmail: string;
+  auditId: string;
+  templateData: Record<string, unknown>;
+}) {
+  const response = await fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${serviceKey}`,
+      apikey: serviceKey,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      templateName: "daily-audit-report",
+      recipientEmail,
+      idempotencyKey: `daily-audit-${auditId}-${recipientEmail}`,
+      templateData,
+    }),
+  });
+
+  const responseText = await response.text();
+
+  if (!response.ok) {
+    throw new Error(
+      `Audit email request failed for ${recipientEmail}: ${response.status} ${responseText}`
+    );
+  }
+
+  return responseText;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -330,24 +369,34 @@ Return a JSON object with this exact structure:
     };
 
     const recipients = ['noyes.dave@gmail.com', 'contact@poke-pulse-ticker.com'];
+    const emailFailures: Array<{ recipient: string; error: string }> = [];
+
     for (const email of recipients) {
       try {
-        await adminClient.functions.invoke('send-transactional-email', {
-          body: {
-            templateName: 'daily-audit-report',
-            recipientEmail: email,
-            idempotencyKey: `daily-audit-${audit.id}-${email}`,
-            templateData: emailData,
-          },
+        await sendAuditEmail({
+          supabaseUrl,
+          serviceKey,
+          recipientEmail: email,
+          auditId: audit.id,
+          templateData: emailData,
         });
         console.log(`Audit report email sent to ${email}`);
       } catch (emailErr) {
         console.error(`Failed to send audit report email to ${email}:`, emailErr);
+        emailFailures.push({
+          recipient: email,
+          error: emailErr instanceof Error ? emailErr.message : String(emailErr),
+        });
       }
     }
 
     return new Response(
-      JSON.stringify({ success: true, audit_id: audit.id, result: auditResult }),
+      JSON.stringify({
+        success: emailFailures.length === 0,
+        audit_id: audit.id,
+        result: auditResult,
+        email_failures: emailFailures,
+      }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (e) {

@@ -125,7 +125,6 @@ export const template = {
   component: DailyAuditReportEmail,
   subject: (data: Record<string, any>) =>
     `Daily Audit: ${data.overallScore || 0}/100 — ${SITE_NAME}`,
-  to: 'noyes.dave@gmail.com',
   displayName: 'Daily audit report',
   previewData: {
     overallScore: 95,
