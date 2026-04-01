@@ -109,7 +109,7 @@ const TrendingCards = ({ cards, isLoading }: TrendingCardsProps) => {
 
               {/* Price */}
               <div className="flex items-center justify-between w-full mt-1.5">
-                <span className="font-mono text-sm font-bold text-foreground">
+                <span className="font-mono text-base font-bold text-foreground">
                   ${card.market.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
                 <span

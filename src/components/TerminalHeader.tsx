@@ -115,16 +115,13 @@ const TerminalHeader = () => {
               className="flex items-center gap-2 sm:gap-3 cursor-pointer group"
               onClick={() => handleNav("/")}
             >
-              <div className="relative flex items-center justify-center" style={{ height: '32px', width: '26px' }}>
-                <span className="font-black text-[32px] sm:text-[36px] leading-none text-foreground select-none transition-all duration-300 group-hover:scale-110 group-hover:brightness-150" style={{ textShadow: '0 0 8px hsl(210 20% 98% / 0.7), 0 0 20px hsl(210 20% 98% / 0.4), 0 0 40px hsl(210 20% 98% / 0.2)' }}>P</span>
-              </div>
-              <div className="hidden min-[400px]:block">
-                <h1 className="text-[12px] sm:text-[13px] font-extrabold tracking-tight leading-none text-primary">
-                  Poke Pulse
-                </h1>
-                <p className="text-[8px] sm:text-[9px] font-semibold tracking-[0.15em] text-secondary uppercase mt-0.5">
+              <div className="flex flex-col leading-none select-none">
+                <span className="font-black text-[13px] sm:text-[15px] tracking-tight text-foreground transition-all duration-300 group-hover:brightness-150" style={{ textShadow: '0 0 8px hsl(210 20% 98% / 0.7), 0 0 20px hsl(210 20% 98% / 0.4)' }}>
+                  Poke-Pulse-
+                </span>
+                <span className="font-extrabold text-[11px] sm:text-[13px] tracking-[0.08em] text-primary uppercase" style={{ textShadow: '0 0 10px hsl(160 84% 50% / 0.5), 0 0 25px hsl(160 84% 50% / 0.25)' }}>
                   Market Terminal
-                </p>
+                </span>
               </div>
             </div>
 
