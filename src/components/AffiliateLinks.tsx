@@ -1,4 +1,5 @@
 import { ExternalLink } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface AffiliateLinksProps {
   cardName: string;
@@ -12,18 +13,40 @@ const buildSearchUrl = (base: string, query: string) =>
 const links = [
   {
     name: "TCGPlayer",
+    partner: "tcgplayer",
     base: "https://www.tcgplayer.com/search/pokemon/product?q=",
     color: "text-terminal-blue hover:bg-terminal-blue/10 border-terminal-blue/20",
+    cpc: 0.08,
   },
   {
     name: "eBay",
+    partner: "ebay",
     base: "https://www.ebay.com/sch/i.html?_nkw=pokemon+",
     color: "text-terminal-amber hover:bg-terminal-amber/10 border-terminal-amber/20",
+    cpc: 0.12,
   },
 ];
 
+const trackClick = async (partner: string, cardName: string, setName?: string) => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    await supabase.from("affiliate_clicks" as any).insert({
+      partner,
+      card_name: cardName,
+      card_set: setName || null,
+      user_id: user?.id || null,
+    } as any);
+  } catch {
+    // fire-and-forget
+  }
+};
+
 const AffiliateLinks = ({ cardName, setName, compact = false }: AffiliateLinksProps) => {
   const query = setName ? `${cardName} ${setName}` : cardName;
+
+  const handleClick = (partner: string) => {
+    trackClick(partner, cardName, setName);
+  };
 
   if (compact) {
     return (
@@ -34,6 +57,7 @@ const AffiliateLinks = ({ cardName, setName, compact = false }: AffiliateLinksPr
             href={buildSearchUrl(l.base, query)}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => handleClick(l.partner)}
             className={`inline-flex items-center gap-1 font-mono text-[9px] font-semibold px-1.5 py-0.5 rounded border transition-colors ${l.color}`}
           >
             {l.name}
@@ -53,6 +77,7 @@ const AffiliateLinks = ({ cardName, setName, compact = false }: AffiliateLinksPr
           href={buildSearchUrl(l.base, query)}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => handleClick(l.partner)}
           className={`inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold px-2.5 py-1 rounded border transition-colors ${l.color}`}
         >
           {l.name}

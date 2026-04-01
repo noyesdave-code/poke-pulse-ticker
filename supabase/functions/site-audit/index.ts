@@ -545,10 +545,16 @@ Return a JSON object with this exact structure:
           .eq('is_active', true)
           .gte('ends_at', new Date().toISOString());
 
-        // Affiliate revenue (estimated from affiliate links — placeholder since we don't have real tracking)
+        // Affiliate revenue — estimated from tracked clicks × avg CPC
+        const CPC_RATES: Record<string, number> = { tcgplayer: 0.08, ebay: 0.12 };
+        const thirtyDaysAgoISO = new Date(Date.now() - 30 * 86400 * 1000).toISOString();
+        const { count: tcgCount } = await adminClient.from('affiliate_clicks' as any).select('id', { count: 'exact', head: true }).eq('partner', 'tcgplayer').gte('clicked_at', thirtyDaysAgoISO);
+        const { count: ebayCount } = await adminClient.from('affiliate_clicks' as any).select('id', { count: 'exact', head: true }).eq('partner', 'ebay').gte('clicked_at', thirtyDaysAgoISO);
+        const tcgClickCount = tcgCount || 0;
+        const ebayClickCount = ebayCount || 0;
         const affiliateRevenue = [
-          { label: 'TCGPlayer Affiliate', amount: 0, detail: 'pending integration' },
-          { label: 'eBay Partner Network', amount: 0, detail: 'pending integration' },
+          { label: 'TCGPlayer Affiliate', amount: tcgClickCount * CPC_RATES.tcgplayer, detail: `${tcgClickCount} clicks × $${CPC_RATES.tcgplayer}/click` },
+          { label: 'eBay Partner Network', amount: ebayClickCount * CPC_RATES.ebay, detail: `${ebayClickCount} clicks × $${CPC_RATES.ebay}/click` },
         ];
 
         balanceSheet = {
