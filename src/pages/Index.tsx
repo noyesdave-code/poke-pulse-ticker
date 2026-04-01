@@ -61,6 +61,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
+  const marketOpen = useMarketStatus();
   const searchRef = useRef<HTMLDivElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const { toast } = useToast();
