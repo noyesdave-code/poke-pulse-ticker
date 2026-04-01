@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Coins, TrendingUp, TrendingDown, Package, Trophy, Shield, AlertTriangle, Sparkles, Zap, Crown, Timer, Medal, ShoppingCart, CreditCard, Swords } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ArenaLeaderboard from "@/components/ArenaLeaderboard";
+import PredictionDuels from "@/components/PredictionDuels";
 import { useToast } from "@/hooks/use-toast";
 
 // Admin emails allowed to see GO LIVE switch
