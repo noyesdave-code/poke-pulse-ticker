@@ -58,27 +58,24 @@ const FadeIn: React.FC<{ dur?: number; children: React.ReactNode }> = ({ dur = 1
   return <AbsoluteFill style={{ opacity: op }}>{children}</AbsoluteFill>;
 };
 
-// 90s × 30fps = 2700 frames, 20 scenes (~135 frames each avg)
-// S1: 0-135 Title blast
-// S2: 135-270 "OFFICIAL LAUNCH"
-// S3: 270-400 RAW 500 INDEX
-// S4: 400-530 GRADED 1000 INDEX
-// S5: 530-660 SEALED 1000 INDEX
-// S6: 660-790 Live Market Pulse
-// S7: 790-920 Portfolio Tracker
-// S8: 920-1050 Alpha Signals AI
-// S9: 1050-1170 Delta Alerts
-// S10: 1170-1290 SimTrader World
-// S11: 1290-1410 Arena
-// S12: 1410-1520 7 Pricing Tiers
-// S13: 1520-1630 Security Shield
-// S14: 1630-1740 24/7 Live Data
-// S15: 1740-1850 Mobile Ready
-// S16: 1850-1960 Community Growth
-// S17: 1960-2080 Testimonials
-// S18: 2080-2200 Mega Launch Sale
-// S19: 2200-2400 Feature Recap
-// S20: 2400-2700 CTA
+// VO-synced scene timing (30fps)
+// VO speech segments with silence gaps:
+//   Seg1: 0–10.76s (0–323f)     → S1 Title + S2 Launch
+//   Gap:  10.76–11.3s (323–339f) → transition
+//   Seg2: 11.3–24.66s (339–740f) → S3 RAW + S4 Graded + S5 Sealed
+//   Gap:  24.66–25.34s (740–760f) → transition
+//   Seg3: 25.34–36.47s (760–1094f) → S6 Market Pulse + S7 Portfolio
+//   Gap:  36.47–37.01s (1094–1111f) → transition
+//   Seg4: 37.01–51.07s (1111–1532f) → S8 Alpha + S9 Delta + S10 SimTrader
+//   Gap:  51.07–51.58s (1532–1547f) → transition
+//   Seg5: 51.58–69.05s (1547–2072f) → S11 Arena + S12 Tiers + S13 Security + S14 24/7 + S15 Mobile
+//   Gap:  69.05–69.6s (2072–2088f) → transition
+//   Seg6: 69.6–72.88s (2088–2186f) → S16 Community
+//   Gap:  72.88–73.43s (2186–2203f) → transition
+//   Seg7: 73.43–76.5s (2203–2295f) → S17 Testimonials
+//   Gap:  76.5–77.02s (2295–2311f) → transition
+//   Seg8: 77.02–81s (2311–2430f) → S18 Mega Launch
+//   Post-VO: 81–90s (2430–2700f) → S19 Recap + S20 CTA
 
 export const GrandLaunch: React.FC = () => {
   const frame = useCurrentFrame();
@@ -108,9 +105,10 @@ export const GrandLaunch: React.FC = () => {
       {/* Particles */}
       {particles.map((p, i) => <div key={i} style={{ position: "absolute", left: p.x, top: p.y, width: p.size, height: p.size, borderRadius: "50%", background: p.color, opacity: p.opacity }} />)}
 
-      {/* S1: POKE PULSE TICKER (0-135) */}
-      <Sequence from={0} durationInFrames={145}>
-        <FadeIn><FadeOut start={120} dur={25}>
+      {/* ===== SEGMENT 1: 0-323f (0-10.76s) — Title + Launch ===== */}
+      {/* S1: POKE PULSE TICKER (0-160) */}
+      <Sequence from={0} durationInFrames={165}>
+        <FadeIn><FadeOut start={140} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={500} opacity={0.25} />
             <div style={{ textAlign: "center" }}>
@@ -123,9 +121,9 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S2: OFFICIAL LAUNCH (135-270) */}
-      <Sequence from={135} durationInFrames={145}>
-        <FadeIn><FadeOut start={120} dur={25}>
+      {/* S2: OFFICIAL LAUNCH (160-323) */}
+      <Sequence from={160} durationInFrames={168}>
+        <FadeIn><FadeOut start={143} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={GOLD} size={600} opacity={0.2} />
             <div style={{ textAlign: "center" }}>
@@ -138,8 +136,9 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S3: RAW 500 (270-400) */}
-      <Sequence from={270} durationInFrames={140}>
+      {/* ===== SEGMENT 2: 339-740f (11.3-24.66s) — Indices ===== */}
+      {/* S3: RAW 500 (339-475) */}
+      <Sequence from={339} durationInFrames={140}>
         <FadeIn><FadeOut start={115} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={500} opacity={0.2} />
@@ -158,8 +157,8 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S4: GRADED 1000 (400-530) */}
-      <Sequence from={400} durationInFrames={140}>
+      {/* S4: GRADED 1000 (475-610) */}
+      <Sequence from={475} durationInFrames={140}>
         <FadeIn><FadeOut start={115} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={CYAN} size={500} opacity={0.2} />
@@ -178,9 +177,9 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S5: SEALED 1000 (530-660) */}
-      <Sequence from={530} durationInFrames={140}>
-        <FadeIn><FadeOut start={115} dur={25}>
+      {/* S5: SEALED 1000 (610-740) */}
+      <Sequence from={610} durationInFrames={135}>
+        <FadeIn><FadeOut start={110} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={PURPLE} size={500} opacity={0.2} />
             <div style={{ textAlign: "center" }}>
@@ -197,9 +196,10 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S6: LIVE MARKET PULSE (660-790) */}
-      <Sequence from={660} durationInFrames={140}>
-        <FadeIn><FadeOut start={115} dur={25}>
+      {/* ===== SEGMENT 3: 760-1094f (25.34-36.47s) — Market + Portfolio ===== */}
+      {/* S6: LIVE MARKET PULSE (760-930) */}
+      <Sequence from={760} durationInFrames={175}>
+        <FadeIn><FadeOut start={150} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
@@ -212,9 +212,9 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S7: PORTFOLIO TRACKER (790-920) */}
-      <Sequence from={790} durationInFrames={140}>
-        <FadeIn><FadeOut start={115} dur={25}>
+      {/* S7: PORTFOLIO TRACKER (930-1094) */}
+      <Sequence from={930} durationInFrames={170}>
+        <FadeIn><FadeOut start={145} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={GOLD} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
@@ -232,9 +232,10 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S8: ALPHA SIGNALS AI (920-1050) */}
-      <Sequence from={920} durationInFrames={140}>
-        <FadeIn><FadeOut start={115} dur={25}>
+      {/* ===== SEGMENT 4: 1111-1532f (37.01-51.07s) — AI + Delta + SimTrader ===== */}
+      {/* S8: ALPHA SIGNALS AI (1111-1255) */}
+      <Sequence from={1111} durationInFrames={148}>
+        <FadeIn><FadeOut start={123} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={CRIMSON} size={500} opacity={0.2} />
             <div style={{ textAlign: "center" }}>
@@ -248,9 +249,9 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S9: DELTA ALERTS (1050-1170) */}
-      <Sequence from={1050} durationInFrames={130}>
-        <FadeIn><FadeOut start={105} dur={25}>
+      {/* S9: DELTA ALERTS (1255-1395) */}
+      <Sequence from={1255} durationInFrames={145}>
+        <FadeIn><FadeOut start={120} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={GOLD} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
@@ -263,9 +264,9 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S10: SIMTRADER WORLD (1170-1290) */}
-      <Sequence from={1170} durationInFrames={130}>
-        <FadeIn><FadeOut start={105} dur={25}>
+      {/* S10: SIMTRADER WORLD (1395-1532) */}
+      <Sequence from={1395} durationInFrames={142}>
+        <FadeIn><FadeOut start={117} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={600} opacity={0.25} />
             <div style={{ textAlign: "center" }}>
@@ -283,9 +284,10 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S11: ARENA (1290-1410) */}
-      <Sequence from={1290} durationInFrames={130}>
-        <FadeIn><FadeOut start={105} dur={25}>
+      {/* ===== SEGMENT 5: 1547-2072f (51.58-69.05s) — Arena thru Mobile ===== */}
+      {/* S11: ARENA (1547-1650) */}
+      <Sequence from={1547} durationInFrames={108}>
+        <FadeIn><FadeOut start={83} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={GOLD} size={500} opacity={0.2} />
             <div style={{ textAlign: "center" }}>
@@ -298,9 +300,9 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S12: 7 PRICING TIERS (1410-1520) */}
-      <Sequence from={1410} durationInFrames={120}>
-        <FadeIn><FadeOut start={95} dur={25}>
+      {/* S12: 7 PRICING TIERS (1650-1760) */}
+      <Sequence from={1650} durationInFrames={115}>
+        <FadeIn><FadeOut start={90} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
@@ -311,7 +313,7 @@ export const GrandLaunch: React.FC = () => {
                   const tiers = ["FREE $0", "ARENA $0.99", "STARTER $1.99", "PRO $4.99", "PREMIUM $9.99", "TEAM $19.99", "WHALE $49.99"];
                   return <div style={{ marginTop: 30 }}>
                     {tiers.map((t, i) => {
-                      const s2 = spring({ frame: frame - 1410 - 35 - i * 6, fps, config: { damping: 15 } });
+                      const s2 = spring({ frame: frame - 1650 - 35 - i * 5, fps, config: { damping: 15 } });
                       return <div key={i} style={{ transform: `scale(${s2})`, fontFamily: "monospace", fontSize: 20, fontWeight: 700, color: i === 3 ? GOLD : i === 6 ? ACCENT : "rgba(255,255,255,0.7)", marginBottom: 4 }}>{t}/MO</div>;
                     })}
                   </div>;
@@ -322,9 +324,9 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S13: SECURITY (1520-1630) */}
-      <Sequence from={1520} durationInFrames={120}>
-        <FadeIn><FadeOut start={95} dur={25}>
+      {/* S13: SECURITY (1760-1860) */}
+      <Sequence from={1760} durationInFrames={105}>
+        <FadeIn><FadeOut start={80} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={CYAN} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
@@ -332,15 +334,14 @@ export const GrandLaunch: React.FC = () => {
               <Bold text="ENTERPRISE" delay={5} size={60} color={CYAN} />
               <Bold text="SECURITY" delay={15} size={70} color="white" />
               <Sequence from={30}><Bold text="DRM • WATERMARKS • IP PROTECTION" delay={0} size={18} color="rgba(255,255,255,0.4)" weight={500} /></Sequence>
-              <Sequence from={45}><Bold text="PGVA VENTURES, LLC" delay={0} size={16} color="rgba(255,255,255,0.3)" weight={600} /></Sequence>
             </div>
           </AbsoluteFill>
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S14: 24/7 LIVE DATA (1630-1740) */}
-      <Sequence from={1630} durationInFrames={120}>
-        <FadeIn><FadeOut start={95} dur={25}>
+      {/* S14: 24/7 LIVE DATA (1860-1965) */}
+      <Sequence from={1860} durationInFrames={110}>
+        <FadeIn><FadeOut start={85} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
@@ -352,9 +353,9 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S15: MOBILE READY (1740-1850) */}
-      <Sequence from={1740} durationInFrames={120}>
-        <FadeIn><FadeOut start={95} dur={25}>
+      {/* S15: MOBILE READY (1965-2072) */}
+      <Sequence from={1965} durationInFrames={112}>
+        <FadeIn><FadeOut start={87} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={PURPLE} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
@@ -367,9 +368,10 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S16: COMMUNITY (1850-1960) */}
-      <Sequence from={1850} durationInFrames={120}>
-        <FadeIn><FadeOut start={95} dur={25}>
+      {/* ===== SEGMENT 6: 2088-2186f (69.6-72.88s) ===== */}
+      {/* S16: COMMUNITY (2088-2186) */}
+      <Sequence from={2088} durationInFrames={103}>
+        <FadeIn><FadeOut start={78} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={GOLD} size={400} opacity={0.15} />
             <div style={{ textAlign: "center" }}>
@@ -387,9 +389,10 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S17: TESTIMONIALS (1960-2080) */}
-      <Sequence from={1960} durationInFrames={130}>
-        <FadeIn><FadeOut start={105} dur={25}>
+      {/* ===== SEGMENT 7: 2203-2295f (73.43-76.5s) ===== */}
+      {/* S17: TESTIMONIALS (2203-2295) */}
+      <Sequence from={2203} durationInFrames={97}>
+        <FadeIn><FadeOut start={72} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={ACCENT} size={400} opacity={0.1} />
             <div style={{ textAlign: "center", maxWidth: "85%" }}>
@@ -397,7 +400,7 @@ export const GrandLaunch: React.FC = () => {
               <Sequence from={20}>
                 <div style={{ marginTop: 30, padding: "24px 30px", background: "rgba(255,255,255,0.04)", borderRadius: 16, border: "1px solid rgba(255,255,255,0.08)" }}>
                   <div style={{ fontFamily: "sans-serif", fontSize: 22, color: "rgba(255,255,255,0.8)", fontStyle: "italic", lineHeight: 1.5 }}>
-                    "Finally a real-time Pokémon TCG market terminal. This changes everything for serious collectors."
+                    "Finally a real-time Pokémon TCG market terminal. This changes everything."
                   </div>
                   <div style={{ fontFamily: "monospace", fontSize: 14, color: ACCENT, marginTop: 12 }}>— @PokéCollector_Pro</div>
                 </div>
@@ -407,9 +410,10 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S18: MEGA LAUNCH SALE (2080-2200) */}
-      <Sequence from={2080} durationInFrames={130}>
-        <FadeIn><FadeOut start={105} dur={25}>
+      {/* ===== SEGMENT 8: 2311-2430f (77.02-81s) ===== */}
+      {/* S18: MEGA LAUNCH SALE (2311-2430) */}
+      <Sequence from={2311} durationInFrames={124}>
+        <FadeIn><FadeOut start={99} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <Glow color={CRIMSON} size={600} opacity={0.25} />
             <Glow color={GOLD} size={400} y="60%" opacity={0.15} />
@@ -424,9 +428,10 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S19: FEATURE RECAP (2200-2400) */}
-      <Sequence from={2200} durationInFrames={210}>
-        <FadeIn><FadeOut start={185} dur={25}>
+      {/* ===== POST-VO: 2430-2700f (81-90s) — Recap + CTA ===== */}
+      {/* S19: FEATURE RECAP (2430-2570) */}
+      <Sequence from={2430} durationInFrames={145}>
+        <FadeIn><FadeOut start={120} dur={25}>
           <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
             <div style={{ textAlign: "center" }}>
               <Bold text="EVERYTHING" delay={5} size={60} color="white" />
@@ -436,7 +441,7 @@ export const GrandLaunch: React.FC = () => {
                   const features = ["RAW 500 INDEX™", "GRADED 1000 INDEX™", "SEALED 1000 INDEX™", "ALPHA SIGNALS™", "DELTA ALERTS™", "SIMTRADER WORLD™", "POKÉ-PULSE ARENA™", "PORTFOLIO TRACKER", "CONSENSUS PRICING", "GRADING ARBITRAGE"];
                   return <div style={{ marginTop: 25 }}>
                     {features.map((f, i) => {
-                      const fs = spring({ frame: frame - 2200 - 30 - i * 8, fps, config: { damping: 18 } });
+                      const fs = spring({ frame: frame - 2430 - 30 - i * 7, fps, config: { damping: 18 } });
                       return <div key={i} style={{ transform: `translateX(${interpolate(fs, [0, 1], [-300, 0])}px)`, opacity: fs, fontFamily: "monospace", fontSize: 18, fontWeight: 700, color: i % 2 === 0 ? ACCENT : "rgba(255,255,255,0.7)", marginBottom: 4, letterSpacing: 2 }}>✓ {f}</div>;
                     })}
                   </div>;
@@ -447,10 +452,10 @@ export const GrandLaunch: React.FC = () => {
         </FadeOut></FadeIn>
       </Sequence>
 
-      {/* S20: CTA (2400-2700) */}
-      <Sequence from={2400}>
+      {/* S20: CTA (2570-2700) */}
+      <Sequence from={2570}>
         {(() => {
-          const lf = frame - 2400;
+          const lf = frame - 2570;
           const enterOp = interpolate(lf, [0, 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
           const ctaS = spring({ frame: lf - 10, fps, config: { damping: 12, stiffness: 100 } });
           const urlS = spring({ frame: lf - 40, fps, config: { damping: 15 } });
