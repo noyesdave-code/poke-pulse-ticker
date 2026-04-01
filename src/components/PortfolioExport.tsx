@@ -133,7 +133,7 @@ const PortfolioExport = ({ portfolio, livePrices }: PortfolioExportProps) => {
           className="flex-1 flex items-center justify-center gap-2 font-mono text-xs font-semibold bg-terminal-amber/10 text-terminal-amber border border-terminal-amber/30 rounded px-3 py-2.5 hover:bg-terminal-amber/20 transition-colors disabled:opacity-50"
         >
           <Receipt className="w-3.5 h-3.5" />
-          {exporting === "tax" ? "Downloading…" : "Capital Gains Tax Report"}
+          {exporting === "tax" ? "Downloading…" : "Capital Gains Tax Report (FIFO)"}
         </button>
       </div>
       <p className="font-mono text-[9px] text-muted-foreground mt-2">

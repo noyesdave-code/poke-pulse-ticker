@@ -55,6 +55,11 @@ import LaunchCountdown from "@/components/LaunchCountdown";
 import ValueUnlockPreview from "@/components/ValueUnlockPreview";
 import QuickValueCalculator from "@/components/QuickValueCalculator";
 import InlineUpgradeNudge from "@/components/InlineUpgradeNudge";
+import ArbitrageFinder from "@/components/ArbitrageFinder";
+import DataHealthDashboard from "@/components/DataHealthDashboard";
+import JPtoENTracker from "@/components/JPtoENTracker";
+import WallOfLove from "@/components/WallOfLove";
+import { usePrefetchCards } from "@/hooks/usePrefetch";
 import { SkeletonIndexCard, SkeletonTableRow, SkeletonTrendingCard } from "@/components/SkeletonCard";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
@@ -106,6 +111,10 @@ const Index = () => {
     const sorted = [...displayCards].sort((a, b) => Math.abs(b.change) - Math.abs(a.change));
     return sorted[0] || null;
   }, [displayCards]);
+
+  // Prefetch trending + top mover cards for instant navigation
+  const prefetchIds = useMemo(() => displayCards.slice(0, 10).map((c) => c._apiId).filter(Boolean) as string[], [displayCards]);
+  usePrefetchCards(prefetchIds);
 
   const handleSearchFocus = () => {
     searchRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -269,6 +278,22 @@ const Index = () => {
 
         {/* Whale-Exclusive AI Report */}
         <WhaleReport cards={displayCards} />
+
+        {/* Arbitrage Finder — Competitive Edge */}
+        <ProGate feature="Real-Time Arbitrage Finder" blur>
+          <ArbitrageFinder />
+        </ProGate>
+
+        {/* JP → EN Precursor Tracker — Market Adaptability */}
+        <ProGate feature="JP → EN Precursor Tracker" blur>
+          <JPtoENTracker />
+        </ProGate>
+
+        {/* Data Health Dashboard — Reliability */}
+        <DataHealthDashboard />
+
+        {/* Wall of Love — Consumer Confidence */}
+        <WallOfLove />
 
         {/* Pro upgrade nudge before testimonials */}
         <InlineUpgradeNudge variant="default" />
