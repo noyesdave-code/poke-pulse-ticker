@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Coins, TrendingUp, TrendingDown, Package, Trophy, Shield, AlertTriangle, Sparkles, Zap, Crown, Timer, Medal, ShoppingCart, CreditCard, Swords } from "lucide-react";
+import { Coins, TrendingUp, TrendingDown, Package, Trophy, Shield, AlertTriangle, Sparkles, Zap, Crown, Timer, Medal, ShoppingCart, CreditCard, Swords, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ArenaLeaderboard from "@/components/ArenaLeaderboard";
 import PredictionDuels from "@/components/PredictionDuels";
