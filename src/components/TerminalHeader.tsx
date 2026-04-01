@@ -101,7 +101,7 @@ const TerminalHeader = () => {
       <header data-demo-hide className="sticky top-0 z-50 border-b border-border bg-terminal-header/95 backdrop-blur-md shadow-[0_4px_24px_-4px_hsl(225_40%_4%/0.7),0_0_20px_hsl(160_84%_50%/0.04)]">
         <div className="flex items-center justify-between px-3 py-2.5 sm:px-4 sm:py-3 lg:px-4 xl:px-6">
           {/* Left: logo + hamburger */}
-          <div className="flex items-center gap-2 sm:gap-3 min-w-0 overflow-hidden">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             {/* Hamburger — mobile only */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -129,7 +129,7 @@ const TerminalHeader = () => {
             </div>
 
             {/* Desktop nav */}
-            <nav className="hidden sm:flex items-center gap-0 ml-2 lg:ml-3 overflow-x-clip overflow-y-visible">
+            <nav className="hidden sm:flex items-center gap-0 ml-2 lg:ml-3">
               {primaryNav.map((item) => (
                 <button
                   key={item.path}
