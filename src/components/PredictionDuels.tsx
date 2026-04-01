@@ -294,25 +294,41 @@ export default function PredictionDuels({ tradableCards, walletBalance, onBalanc
           </CardHeader>
           <CardContent className="space-y-2">
             {activeDuels.map(duel => (
-              <div key={duel.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/30 border border-primary/20">
-                <div className="flex items-center gap-3">
-                  {duel.card_image && <img src={duel.card_image} alt="" className="w-8 h-11 rounded object-cover" />}
-                  <div>
-                    <p className="text-xs font-bold">{duel.card_name}</p>
-                    <p className="text-[10px] text-muted-foreground">
-                      {duel.challenger_id === user?.id ? "You" : "Opponent"}: {duel.challenger_prediction === "up" ? "📈 UP" : "📉 DOWN"}
-                      {" • "}{duel.wager.toLocaleString()} PC each
-                    </p>
+              <div key={duel.id} className="space-y-2">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30 border border-primary/20">
+                  <div className="flex items-center gap-3">
+                    {duel.card_image && <img src={duel.card_image} alt="" className="w-8 h-11 rounded object-cover" />}
+                    <div>
+                      <p className="text-xs font-bold">{duel.card_name}</p>
+                      <p className="text-[10px] text-muted-foreground">
+                        {duel.challenger_id === user?.id ? "You" : "Opponent"}: {duel.challenger_prediction === "up" ? "📈 UP" : "📉 DOWN"}
+                        {" • "}{duel.wager.toLocaleString()} PC each
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right space-y-1">
+                    <Badge variant={duel.status === "open" ? "secondary" : "outline"} className="text-[10px]">
+                      {duel.status === "open" ? "⏳ Waiting" : (
+                        <><Timer className="w-3 h-3 mr-1 inline" />{new Date(duel.resolves_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</>
+                      )}
+                    </Badge>
+                    <p className="text-[10px] text-muted-foreground">Pot: {(duel.wager * 2).toLocaleString()} PC</p>
+                    {duel.status === "active" && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="text-[10px] gap-1 h-6"
+                        onClick={() => setChatDuelId(chatDuelId === duel.id ? null : duel.id)}
+                      >
+                        <MessageCircle className="w-3 h-3" />
+                        {chatDuelId === duel.id ? "Hide Chat" : "Chat"}
+                      </Button>
+                    )}
                   </div>
                 </div>
-                <div className="text-right">
-                  <Badge variant={duel.status === "open" ? "secondary" : "outline"} className="text-[10px]">
-                    {duel.status === "open" ? "⏳ Waiting" : (
-                      <><Timer className="w-3 h-3 mr-1 inline" />{new Date(duel.resolves_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</>
-                    )}
-                  </Badge>
-                  <p className="text-[10px] text-muted-foreground mt-1">Pot: {(duel.wager * 2).toLocaleString()} PC</p>
-                </div>
+                {chatDuelId === duel.id && (
+                  <ArenaChat channel={`duel-${duel.id}`} title="Duel Chat" />
+                )}
               </div>
             ))}
           </CardContent>
