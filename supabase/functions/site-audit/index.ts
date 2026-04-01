@@ -330,6 +330,14 @@ Respond with valid JSON only.`;
 - "Buy on TCGPlayer" and "Buy on eBay" affiliate action buttons on signal cards and card detail pages for competitive edge transactional integration
 - LGS Team Plan "Coming Soon" CTA for local game stores with multi-seat licensing interest capture (capital intake)
 - Hype-cycle detection via volume spike monitoring on new set releases for first 14 days (market adaptability)
+- Real-Time Arbitrage Finder comparing PGVA Consensus Index prices with eBay "Ending Soon" auction listings, surfacing spread percentages and direct links (competitive edge)
+- Data Health Dashboard showing last-scrape timestamps, refresh intervals, and live status for all 6 major data sources (reliability)
+- JP → EN Precursor Tracker predicting English set performance from prior Japanese sales data with 95.3% historical accuracy (market adaptability)
+- Wall of Love feature pulling real-time social media mentions from traders on X supplementing static testimonials (consumer confidence)
+- Prefetching on trending cards and top movers using React Query prefetchQuery for instant navigation (efficiency)
+- FIFO methodology disclosure explicitly visible on Capital Gains Tax Report export button label, not just in Terms of Service (legal compliance)
+- WebAuthn/Passkey MFA enrollment for Institutional and Whale-tier users protecting high-value portfolio data (security)
+- Card Sentiment Analysis integration with social volume mentions adding qualitative layer to Alpha Algorithm (market predictability)
 
 Owner: PGVA Ventures, LLC
 Domain: poke-pulse-ticker.com
