@@ -89,9 +89,9 @@ export function useGradedCards(rawCards: CardData[] | undefined) {
       }
     }
 
-    // Sort by market value descending, take top 1000
+    // Sort by market value descending, take top 750
     return gradedCards
       .sort((a, b) => b.market - a.market)
-      .slice(0, 1000);
+      .slice(0, 750);
   }, [rawCards]);
 }

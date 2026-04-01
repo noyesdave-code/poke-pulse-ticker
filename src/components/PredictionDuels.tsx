@@ -275,7 +275,11 @@ export default function PredictionDuels({ tradableCards, walletBalance, onBalanc
         </CardHeader>
         <CardContent>
           {openDuels.length === 0 ? (
-            <p className="text-xs text-muted-foreground text-center py-4">No open duels — create one above!</p>
+            <div className="text-center py-6 space-y-2">
+              <Swords className="w-8 h-8 text-primary/40 mx-auto" />
+              <p className="text-xs text-muted-foreground">No open duels yet — be the first to throw down a challenge!</p>
+              <p className="text-[10px] text-primary font-bold">Create a duel above and wait for an opponent to accept ⚡</p>
+            </div>
           ) : (
             <div className="space-y-2 max-h-64 overflow-y-auto">
               <AnimatePresence>

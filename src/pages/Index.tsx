@@ -165,8 +165,6 @@ const Index = () => {
           cardCount={displayCards.length}
         />
 
-        {/* Community Growth Chart */}
-        <UserGrowthChart />
 
         {/* 3. Market Index Cards — show the money right away */}
         {isLoading ? (
