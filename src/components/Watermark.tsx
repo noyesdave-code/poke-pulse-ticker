@@ -7,7 +7,7 @@ const Watermark = () => {
         className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden select-none"
         aria-hidden="true"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250'%3E%3Ctext x='50%25' y='30%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='10' fill='rgba(255,255,255,0.015)' transform='rotate(-30 200 125)'%3E© 2026 PGVA Ventures LLC · Noyes Family Trust%3C/text%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='8' fill='rgba(255,255,255,0.012)' transform='rotate(-30 200 125)'%3Epoke-pulse-ticker.com · All Rights Reserved · Patent Pending%3C/text%3E%3Ctext x='50%25' y='78%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='7' fill='rgba(255,255,255,0.008)' transform='rotate(-30 200 125)'%3ENoyes Family Protected · No Personal Liability%3C/text%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250'%3E%3Ctext x='50%25' y='30%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='10' fill='rgba(255,255,255,0.015)' transform='rotate(-30 200 125)'%3E© 2026 PGVA Ventures LLC%3C/text%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='8' fill='rgba(255,255,255,0.012)' transform='rotate(-30 200 125)'%3Epoke-pulse-ticker.com · All Rights Reserved · Patent Pending%3C/text%3E%3C/svg%3E")`,
           backgroundRepeat: "repeat",
         }}
       />

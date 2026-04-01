@@ -7,7 +7,7 @@ const CopyrightBanner = () => {
         <div className="flex items-center justify-center gap-2">
           <Shield className="w-3 h-3 text-primary flex-shrink-0" />
           <p className="font-mono text-[9px] text-muted-foreground tracking-wide text-center">
-            © {new Date().getFullYear()} PGVA Ventures, LLC — A Noyes Family Trust Entity. All rights reserved. Patent pending. Unauthorized reproduction strictly prohibited.
+            © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved. Patent pending. Unauthorized reproduction strictly prohibited.
           </p>
         </div>
         <div className="flex items-center justify-center gap-1.5 flex-wrap">
