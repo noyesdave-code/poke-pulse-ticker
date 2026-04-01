@@ -194,7 +194,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
         </div>
       </div>
 
-      <div className="relative grid grid-cols-2 sm:grid-cols-4 divide-x divide-border">
+      <div className="relative grid grid-cols-2 sm:grid-cols-4 divide-x divide-border/60">
         {actions.map((item, idx) => {
           const Icon = item.icon;
           return (
