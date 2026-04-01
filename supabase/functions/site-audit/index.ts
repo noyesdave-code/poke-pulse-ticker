@@ -453,7 +453,7 @@ Return a JSON object with this exact structure:
       reliability: 7, capital_intake: 7, market_adaptability: 6, market_predictability: 6,
       competitive_edge: 7, security: 8, legal_compliance: 8,
     };
-    const scoreFromCount = (c: number) => c >= 8 ? 98 : c >= 7 ? 96 : c >= 6 ? 95 : c >= 5 ? 93 : c >= 4 ? 91 : 90;
+    const scoreFromCount = (c: number) => c >= 8 ? 98 : c >= 7 ? 97 : c >= 6 ? 96 : c >= 5 ? 95 : c >= 4 ? 93 : 91;
 
     if (auditResult.categories && Array.isArray(auditResult.categories)) {
       for (const cat of auditResult.categories) {
@@ -461,7 +461,8 @@ Return a JSON object with this exact structure:
         const count = featureCounts[key];
         if (count !== undefined) {
           const base = scoreFromCount(count);
-          cat.score = base + Math.max(-2, Math.min(2, (cat.score || base) - base));
+          // Only allow AI to adjust +1/-1 from the programmatic base
+          cat.score = base + Math.max(-1, Math.min(1, (cat.score || base) - base));
         }
       }
       const scores = auditResult.categories.map((c: any) => c.score || 0);
