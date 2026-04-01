@@ -1,5 +1,5 @@
-// Stripe product/price mapping — 6 tiers for maximum conversion
-// Free → Arena ($0.99) → Starter ($4.99) → Pro ($9) → Premium ($39) → Team ($99)
+// Stripe product/price mapping — 7 tiers for maximum conversion
+// Free ($0) → Arena ($0.99) → Starter ($1.99) → Pro ($4.99) → Premium ($9.99) → Team ($19.99) → Whale ($49.99)
 export const STRIPE_TIERS = {
   arena: {
     product_id: "prod_UFeyXfI3gOan3o",
@@ -16,76 +16,101 @@ export const STRIPE_TIERS = {
     },
   },
   starter: {
-    product_id: "prod_UFbILYIMFAhdbd",
-    price_id: "price_1TH65uPRXT5iryzG4IbTPZbm",
+    product_id: "prod_UFnurafBZwXWY4",
+    price_id: "price_1THIIOPRXT5iryzGbKG7blvW",
     name: "STARTER",
-    price: "$4.99",
+    price: "$1.99",
     period: "/month",
     annual: {
-      product_id: "prod_UFbIN8K7i1sjCg",
-      price_id: "price_1TH66GPRXT5iryzGaxOeXQ6H",
-      price: "$49",
+      product_id: "prod_UFnvsSe0zB6EAD",
+      price_id: "price_1THIJaPRXT5iryzGgxXCmJ40",
+      price: "$19.90",
       period: "/year",
-      savings: "Save $10.88",
+      savings: "Save $3.98",
     },
   },
   pro: {
-    product_id: "prod_UFLCtrgrLTQwAK",
-    price_id: "price_1TGqW6PRXT5iryzGS5kcM8bp",
+    product_id: "prod_UFnw73TGPp6Ec3",
+    price_id: "price_1THIK9PRXT5iryzGmnfehGmM",
     name: "PRO",
-    price: "$9",
+    price: "$4.99",
     period: "/month",
     annual: {
-      product_id: "prod_UFLChD4HzflIqE",
-      price_id: "price_1TGqWRPRXT5iryzGwKXzBJSY",
-      price: "$90",
+      product_id: "prod_UFnw30XbsD15vP",
+      price_id: "price_1THIKWPRXT5iryzGYGSuppZa",
+      price: "$49.90",
       period: "/year",
-      savings: "Save $18",
+      savings: "Save $9.98",
     },
   },
   premium: {
-    product_id: "prod_UFLDpPeSbjJBbQ",
-    price_id: "price_1TGqWyPRXT5iryzGpyOM63Gr",
+    product_id: "prod_UFnwATMOXq8b6B",
+    price_id: "price_1THIKrPRXT5iryzGUTW8e4TB",
     name: "PREMIUM",
-    price: "$39",
+    price: "$9.99",
     period: "/month",
     annual: {
-      product_id: "prod_UFLD0mCfO3ckXM",
-      price_id: "price_1TGqXUPRXT5iryzG4fcjK3MG",
-      price: "$390",
+      product_id: "prod_UFnxyuQ8fGNYWc",
+      price_id: "price_1THILnPRXT5iryzG4li223Cq",
+      price: "$99.90",
       period: "/year",
-      savings: "Save $78",
+      savings: "Save $19.98",
     },
   },
   team: {
-    product_id: "prod_UFLEYH02tl3Kso",
-    price_id: "price_1TGqY0PRXT5iryzGzAFma0Wq",
+    product_id: "prod_UFnyviY7wZBvQQ",
+    price_id: "price_1THIM5PRXT5iryzGTz4mcRWk",
     name: "TEAM",
-    price: "$99",
+    price: "$19.99",
     period: "/month",
     seats: 3,
     annual: {
-      product_id: "prod_UFLFdTLL0Xk2qG",
-      price_id: "price_1TGqYWPRXT5iryzG6ed5bYvN",
-      price: "$990",
+      product_id: "prod_UFny79PBQg6d7F",
+      price_id: "price_1THIMYPRXT5iryzGkWNIerLW",
+      price: "$199.90",
       period: "/year",
-      savings: "Save $198",
+      savings: "Save $39.98",
+    },
+  },
+  whale: {
+    product_id: "prod_UFnyxhOFHIQO5k",
+    price_id: "price_1THIMwPRXT5iryzGQ1FlyMje",
+    name: "WHALE",
+    price: "$49.99",
+    period: "/month",
+    seats: 5,
+    annual: {
+      product_id: "prod_UFnzWxAELA55Fs",
+      price_id: "price_1THINXPRXT5iryzGWVKBxbe4",
+      price: "$499.90",
+      period: "/year",
+      savings: "Save $99.98",
     },
   },
 } as const;
 
 // Legacy product IDs for existing subscribers — map to new tier names
 const LEGACY_PRODUCT_MAP: Record<string, TierKey> = {
-  // Old Pro $19/mo
+  // Old Starter $4.99/mo → now Starter
+  "prod_UFbILYIMFAhdbd": "starter",
+  "prod_UFbIN8K7i1sjCg": "starter",
+  // Old Pro $9/mo → now Pro
+  "prod_UFLCtrgrLTQwAK": "pro",
   "prod_UF3Knh8WvKsjHJ": "pro",
   "prod_UF4CTA2M0ETK0a": "pro",
+  "prod_UFLChD4HzflIqE": "pro",
+  // Old Premium $39/mo → now Premium
+  "prod_UFLDpPeSbjJBbQ": "premium",
+  "prod_UFLD0mCfO3ckXM": "premium",
   // Old Institutional $99/mo → now Premium
   "prod_UF3QB0Bneb91tt": "premium",
   "prod_UF4C2aEY1dOB0J": "premium",
   // Old Trader $99/mo → now Premium
   "prod_UFFxtUeqMcBaWL": "premium",
   "prod_UFFxn9sXi6ag1V": "premium",
-  // Old Team $149/mo → now Team
+  // Old Team $99-149/mo → now Team
+  "prod_UFLEYH02tl3Kso": "team",
+  "prod_UFLFdTLL0Xk2qG": "team",
   "prod_UFL2cezPipeaUs": "team",
   "prod_UFL2LEJfzon17Q": "team",
 };

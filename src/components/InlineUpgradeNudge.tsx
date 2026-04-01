@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 const InlineUpgradeNudge = ({ variant = "default" }: { variant?: "default" | "savings" | "trust" }) => {
   const navigate = useNavigate();
   const { subscribed, tier } = useAuth();
-  const isPro = subscribed && (tier === "pro" || tier === "premium" || tier === "team");
+  const isPro = subscribed && (tier === "pro" || tier === "premium" || tier === "team" || tier === "whale");
 
   if (isPro) return null;
 

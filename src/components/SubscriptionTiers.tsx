@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { STRIPE_TIERS } from "@/lib/stripe";
 import { useToast } from "@/hooks/use-toast";
-import { Sparkles, Zap, Gem, Store } from "lucide-react";
+import { Sparkles, Zap, Gem, Store, Crown, Anchor } from "lucide-react";
 
 const tierDefs = [
   {
@@ -22,12 +22,29 @@ const tierDefs = [
     color: "muted-foreground",
   },
   {
+    key: "arena" as const,
+    name: "ARENA",
+    description: "Entry-level arena access",
+    icon: <Crown className="w-4 h-4" />,
+    features: [
+      "Everything in Free",
+      "Arena betting access",
+      "PokéCoin wallet",
+      "Pack simulator",
+    ],
+    cta: "Get Arena",
+    highlight: false,
+    badge: "🎮 ARENA ACCESS",
+    badgeColor: "text-terminal-green bg-terminal-green/10 border-terminal-green/20",
+    color: "terminal-green",
+  },
+  {
     key: "starter" as const,
     name: "STARTER",
     description: "Essential tools for casual collectors",
     icon: <Sparkles className="w-4 h-4" />,
     features: [
-      "Everything in Free",
+      "Everything in Arena",
       "Real-time raw card ticker",
       "Top 50 movers dashboard",
       "Basic price alerts (5 max)",
@@ -95,6 +112,24 @@ const tierDefs = [
     badge: "🏪 3 SEATS",
     badgeColor: "text-terminal-amber bg-terminal-amber/10 border-terminal-amber/20",
     color: "terminal-amber",
+  },
+  {
+    key: "whale" as const,
+    name: "WHALE",
+    description: "Ultimate tier — unlimited everything",
+    icon: <Anchor className="w-4 h-4" />,
+    features: [
+      "Everything in Team",
+      "5 seats included",
+      "Dedicated account manager",
+      "Custom API rate limits",
+      "White-glove onboarding",
+    ],
+    cta: "Get Whale",
+    highlight: false,
+    badge: "🐋 WHALE TIER",
+    badgeColor: "text-blue-400 bg-blue-500/10 border-blue-500/20",
+    color: "blue-400",
   },
 ];
 
@@ -173,7 +208,7 @@ const SubscriptionTiers = () => {
         )}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4 max-w-7xl mx-auto">
         {tierDefs.map((t) => {
           const isCurrent = isCurrentTier(t.key);
           const stripeTier = t.key !== "free" ? (STRIPE_TIERS as any)[t.key] : null;
@@ -189,6 +224,7 @@ const SubscriptionTiers = () => {
                 t.highlight ? "border-t-2 border-t-primary shadow-[0_0_24px_hsl(var(--primary)/0.15)] scale-[1.01]" : ""
               } ${t.key === "premium" ? "border-t-2 border-t-purple-500" : ""}
               ${t.key === "starter" ? "border-t-2 border-t-terminal-amber" : ""}
+              ${t.key === "whale" ? "border-t-2 border-t-blue-500" : ""}
               ${isCurrent ? "ring-1 ring-primary" : ""}`}
             >
               {isCurrent && (
@@ -238,6 +274,8 @@ const SubscriptionTiers = () => {
                       ? "bg-primary text-primary-foreground hover:opacity-90"
                       : t.key === "premium"
                       ? "bg-purple-500 text-white hover:bg-purple-600"
+                      : t.key === "whale"
+                      ? "bg-blue-500 text-white hover:bg-blue-600"
                       : "border border-border text-foreground hover:bg-muted"
                   } disabled:opacity-50`}
                 >

@@ -57,7 +57,7 @@ const TeamPlanCTA = () => {
                 </span>
               </p>
               <p className="font-mono text-[10px] text-muted-foreground">
-                {tier.seats} seats — price your inventory with live Poke-Pulse data across your team.
+                3 seats — price your inventory with live Poke-Pulse data across your team.
               </p>
             </div>
           </div>
