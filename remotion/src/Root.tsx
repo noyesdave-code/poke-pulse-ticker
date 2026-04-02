@@ -8,6 +8,7 @@ import { PlatformHighlight } from "./PlatformHighlight";
 import { GameHighlight } from "./GameHighlight";
 import { FranchisePitch } from "./FranchisePitch";
 import { RevenueAssessment } from "./RevenueAssessment";
+import { ExtendedInvestorPitch } from "./ExtendedInvestorPitch";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -136,6 +137,14 @@ export const RemotionRoot: React.FC = () => (
       id="revenue-assessment"
       component={RevenueAssessment}
       durationInFrames={690}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="extended-investor-pitch"
+      component={ExtendedInvestorPitch}
+      durationInFrames={1770}
       fps={30}
       width={1920}
       height={1080}
