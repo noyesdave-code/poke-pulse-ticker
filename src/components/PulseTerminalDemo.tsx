@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { ArrowUp, ArrowDown, TrendingUp, BarChart3, Activity, Shield, Star, Trophy, Zap, Users, ChevronRight, ExternalLink } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowUp, ArrowDown, TrendingUp, BarChart3, Activity, Shield, Star, Trophy, Zap, Users, ChevronRight, ExternalLink, Lock, AlertTriangle, Scale } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 
 export interface MarketItem {
   name: string;
