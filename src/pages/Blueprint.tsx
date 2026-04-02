@@ -113,7 +113,7 @@ const TerminalSimulator = () => {
         <div className="flex items-center gap-3 mb-4">
           <span className="text-3xl">{t.emoji}</span>
           <div>
-            <p className="font-bold text-sm">{t.name} Pulse Market Terminal</p>
+            <p className="font-bold text-sm">{t.name} Pulse Market Terminal Ticker</p>
             <p className="text-[10px] text-muted-foreground font-mono">TAM: ${t.tam}B · Status: {t.status.toUpperCase()}</p>
           </div>
           <div className="ml-auto text-right">
@@ -501,7 +501,7 @@ const Blueprint = () => {
             <p className="font-mono text-[7px] text-muted-foreground/60 max-w-2xl mx-auto">
               © {new Date().getFullYear()} PGVA Ventures, LLC & Noyes Family Trust. All rights reserved. Patent pending.
               Protected under U.S. copyright, trademark, trade secret, and patent laws (DMCA, CFAA, DTSA).
-              Pulse Market Terminal™, SimTrader World™, PokéArena™, and Alpha Signals™ are trademarks of PGVA Ventures, LLC.
+              Pulse Market Terminal Ticker™, SimTrader World™, PokéArena™, and Alpha Signals™ are trademarks of PGVA Ventures, LLC.
               This document is confidential and intended solely for the named recipient. Unauthorized distribution is strictly prohibited.
             </p>
           </div>
