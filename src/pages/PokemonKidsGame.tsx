@@ -276,6 +276,7 @@ const PokemonKidsGame = () => {
   const [dailyRewardClaimed, setDailyRewardClaimed] = useState(false);
   const [pvpChallenges, setPvpChallenges] = useState<any[]>([]);
   const [pvpWins, setPvpWins] = useState(0);
+  const [pvpLeaderboard, setPvpLeaderboard] = useState<any[]>([]);
 
   // Purchase callback
   useEffect(() => {
@@ -340,12 +341,38 @@ const PokemonKidsGame = () => {
 
   useEffect(() => { loadPlayerData(); }, [loadPlayerData]);
 
-  // Realtime PvP subscription
+  // Load PvP leaderboard
+  const loadPvpLeaderboard = useCallback(async () => {
+    const { data } = await supabase
+      .from("game_players")
+      .select("id, display_name, starter_pokemon, starter_pokemon_image, level, total_wins, total_losses")
+      .order("total_wins", { ascending: false })
+      .limit(20);
+    setPvpLeaderboard(data || []);
+  }, []);
+
+  useEffect(() => { loadPvpLeaderboard(); }, [loadPvpLeaderboard]);
+
+  // Realtime PvP subscription with notifications
   useEffect(() => {
     if (!playerData?.id) return;
     const channel = supabase
       .channel("pvp-challenges")
-      .on("postgres_changes", { event: "*", schema: "public", table: "game_pvp_challenges" }, () => {
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "game_pvp_challenges" }, (payload: any) => {
+        const updated = payload.new;
+        // Notify challenger when their challenge is accepted
+        if (updated.status === "resolved" && updated.challenger_id === playerData.id) {
+          const won = updated.winner_id === playerData.id;
+          toast({
+            title: won ? "⚔️ PvP Result: Victory!" : updated.winner_id ? "⚔️ PvP Result: Defeat" : "⚔️ PvP Result: Draw",
+            description: `${updated.opponent_pokemon || "Someone"} accepted your challenge!`,
+          });
+          loadPlayerData();
+        }
+        loadPvpChallenges(playerData.id);
+        loadPvpLeaderboard();
+      })
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "game_pvp_challenges" }, () => {
         loadPvpChallenges(playerData.id);
       })
       .subscribe();
@@ -785,6 +812,43 @@ const PokemonKidsGame = () => {
                       </Badge>
                     </div>
                   ))}
+                </div>
+
+                {/* PvP Leaderboard */}
+                <div className="space-y-2">
+                  <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                    <Trophy className="w-4 h-4 text-yellow-400" /> Global Leaderboard
+                  </h4>
+                  {pvpLeaderboard.length === 0 ? (
+                    <p className="text-xs text-muted-foreground text-center py-4">No trainers yet. Be the first!</p>
+                  ) : (
+                    <div className="space-y-1">
+                      {pvpLeaderboard.map((player, idx) => (
+                        <div key={player.id} className={`terminal-card p-2 flex items-center gap-3 ${
+                          player.id === playerData?.id ? "ring-1 ring-primary bg-primary/5" : ""
+                        }`}>
+                          <span className={`font-black text-lg w-8 text-center ${
+                            idx === 0 ? "text-yellow-400" : idx === 1 ? "text-gray-400" : idx === 2 ? "text-orange-400" : "text-muted-foreground"
+                          }`}>
+                            {idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `#${idx + 1}`}
+                          </span>
+                          {player.starter_pokemon_image && (
+                            <img src={player.starter_pokemon_image} alt="" className="w-8 h-8 object-contain" />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-foreground truncate">
+                              {player.display_name || "Trainer"} {player.id === playerData?.id && <span className="text-primary">(You)</span>}
+                            </p>
+                            <p className="text-[10px] text-muted-foreground">Lv.{player.level} · {player.starter_pokemon}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-sm font-bold text-primary">{player.total_wins}W</p>
+                            <p className="text-[10px] text-muted-foreground">{player.total_losses}L</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </TabsContent>

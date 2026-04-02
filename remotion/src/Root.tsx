@@ -5,6 +5,7 @@ import { FeatureShowcase } from "./FeatureShowcase";
 import { GrandLaunch } from "./GrandLaunch";
 import { SocialHighlight } from "./SocialHighlight";
 import { PlatformHighlight } from "./PlatformHighlight";
+import { GameHighlight } from "./GameHighlight";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -100,6 +101,22 @@ export const RemotionRoot: React.FC = () => (
       id="platform-highlight-yt"
       component={PlatformHighlight}
       durationInFrames={3600}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="game-highlight"
+      component={GameHighlight}
+      durationInFrames={3390}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+    <Composition
+      id="game-highlight-yt"
+      component={GameHighlight}
+      durationInFrames={3390}
       fps={30}
       width={1920}
       height={1080}
