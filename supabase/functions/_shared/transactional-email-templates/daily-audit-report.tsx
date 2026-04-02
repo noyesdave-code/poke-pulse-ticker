@@ -25,6 +25,7 @@ interface DailyAuditReportProps {
   summary?: string
   categories?: CategoryResult[]
   auditDate?: string
+  auditTime?: string
   topPriorities?: Array<{ title: string; category: string; impact: string; description: string }>
   balanceSheet?: {
     subscriptionRevenue?: BalanceSheetLine[]
@@ -44,11 +45,36 @@ interface DailyAuditReportProps {
     annualTarget?: number
     dayOfYear?: number
     dailyTarget?: number
+    hourlyTarget?: number
     dailyOperatingCosts?: number
     dailyNetTarget?: number
     ytdTarget?: number
-    streams?: Array<{ name: string; annualTarget: number; dailyTarget: number }>
+    streams?: Array<{ name: string; annualTarget: number; dailyTarget: number; hourlyTarget: number }>
     gapCloserHighlights?: string[]
+  }
+  dailyRevenueSheet?: {
+    businessDay?: number
+    actualRevenue?: {
+      subscriptions?: number
+      affiliates?: number
+      pokecoinStore?: number
+      simTrader?: number
+      arena?: number
+      dataApi?: number
+    }
+    targetRevenue?: {
+      subscriptions?: number
+      affiliates?: number
+      pokecoinStore?: number
+      simTrader?: number
+      arena?: number
+      dataApi?: number
+    }
+    totalActual?: number
+    totalTarget?: number
+    netCapital?: number
+    ytdActual?: number
+    ytdTarget?: number
   }
 }
 
