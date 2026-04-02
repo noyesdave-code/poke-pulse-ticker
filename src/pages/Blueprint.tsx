@@ -515,7 +515,7 @@ const Blueprint = () => {
         </div>
       </section>
 
-      <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} />
+      {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} />}
 
       {/* ═══ INVESTMENT CTA ═══ */}
       <section className="py-16 px-4 bg-muted/20 border-t border-border/40">
