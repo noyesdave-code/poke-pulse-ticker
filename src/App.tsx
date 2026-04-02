@@ -46,6 +46,16 @@ import CapitalCampaign from "./pages/CapitalCampaign.tsx";
 import CapitalDreamIntake from "./pages/CapitalDreamIntake.tsx";
 import PokemonKidsGame from "./pages/PokemonKidsGame.tsx";
 import Franchise from "./pages/Franchise.tsx";
+import MLBDemo from "./pages/demos/MLBDemo.tsx";
+import NFLDemo from "./pages/demos/NFLDemo.tsx";
+import NBADemo from "./pages/demos/NBADemo.tsx";
+import NHLDemo from "./pages/demos/NHLDemo.tsx";
+import FIFADemo from "./pages/demos/FIFADemo.tsx";
+import MTGDemo from "./pages/demos/MTGDemo.tsx";
+import YuGiOhDemo from "./pages/demos/YuGiOhDemo.tsx";
+import DBZDemo from "./pages/demos/DBZDemo.tsx";
+import LorcanaDemo from "./pages/demos/LorcanaDemo.tsx";
+import StarWarsDemo from "./pages/demos/StarWarsDemo.tsx";
 
 const queryClient = new QueryClient();
 
