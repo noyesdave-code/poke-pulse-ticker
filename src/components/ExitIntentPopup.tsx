@@ -67,20 +67,41 @@ const ExitIntentPopup = () => {
               <TrendingUp className="w-5 h-5" />
               <span className="font-mono text-xs font-bold tracking-widest uppercase">🚨 Before You Go</span>
             </div>
-            <h3 className="font-mono text-lg font-bold text-foreground">
-              Unlock Pro — <span className="text-primary">50% off</span> your first month
-            </h3>
-            <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-              Real-time signals, AI analysis, portfolio tracking — all for just $4.50/mo for your first month. Plus a {trialDays}-day free trial. No credit card charged during trial.
-            </p>
-            <button
-              onClick={() => { setVisible(false); navigate("/pricing"); }}
-              className="w-full py-3 rounded-lg font-mono text-sm font-bold bg-primary text-primary-foreground hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-            >
-              <Zap className="w-4 h-4" />
-              Start {trialDays}-Day Free Trial
-            </button>
-            <p className="font-mono text-[9px] text-muted-foreground text-center">Cancel anytime. No obligations. {trialDays === 14 ? "Extended trial — limited time." : ""}</p>
+            {exitVariant === "whale" ? (
+              <>
+                <h3 className="font-mono text-lg font-bold text-foreground">
+                  🐋 <span className="text-primary">48-Hour Whale Tier</span> Pass — Free
+                </h3>
+                <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+                  Unlock <span className="text-foreground font-semibold">Institutional-grade</span> features for 48 hours: Grade Spread signals, Correlation Matrix, Pulse Scores, and full Alpha access. No credit card required.
+                </p>
+                <button
+                  onClick={() => { setVisible(false); navigate("/pricing"); }}
+                  className="w-full py-3 rounded-lg font-mono text-sm font-bold bg-primary text-primary-foreground hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                >
+                  <Zap className="w-4 h-4" />
+                  Activate 48-Hour Whale Pass
+                </button>
+                <p className="font-mono text-[9px] text-muted-foreground text-center">Expires in 48 hours. No obligation. Experience the full terminal.</p>
+              </>
+            ) : (
+              <>
+                <h3 className="font-mono text-lg font-bold text-foreground">
+                  Unlock Pro — <span className="text-primary">50% off</span> your first month
+                </h3>
+                <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+                  Real-time signals, AI analysis, portfolio tracking — all for just $4.50/mo for your first month. Plus a {trialDays}-day free trial. No credit card charged during trial.
+                </p>
+                <button
+                  onClick={() => { setVisible(false); navigate("/pricing"); }}
+                  className="w-full py-3 rounded-lg font-mono text-sm font-bold bg-primary text-primary-foreground hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                >
+                  <Zap className="w-4 h-4" />
+                  Start {trialDays}-Day Free Trial
+                </button>
+                <p className="font-mono text-[9px] text-muted-foreground text-center">Cancel anytime. No obligations. {trialDays === 14 ? "Extended trial — limited time." : ""}</p>
+              </>
+            )}
           </motion.div>
         </motion.div>
       )}

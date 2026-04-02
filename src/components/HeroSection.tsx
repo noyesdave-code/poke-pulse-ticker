@@ -56,9 +56,9 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
+      animate={isMobile ? { opacity: 1 } : { opacity: 1, y: 0 }}
+      transition={isMobile ? { duration: 0 } : { duration: 0.6, ease: "easeOut" }}
       className="terminal-card hero-glow-border overflow-hidden relative"
     >
       {/* Ambient glow background — parallax on desktop, static on mobile */}
