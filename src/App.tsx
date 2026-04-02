@@ -44,6 +44,7 @@ import VideoLibrary from "./pages/VideoLibrary.tsx";
 import Arena from "./pages/Arena.tsx";
 import CapitalCampaign from "./pages/CapitalCampaign.tsx";
 import CapitalDreamIntake from "./pages/CapitalDreamIntake.tsx";
+import PokemonKidsGame from "./pages/PokemonKidsGame.tsx";
 
 const queryClient = new QueryClient();
 
