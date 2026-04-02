@@ -94,6 +94,7 @@ const AnimatedRoutes = () => {
           <Route path="/capital-campaign" element={<CapitalCampaign />} />
           <Route path="/capital-dream" element={<CapitalDreamIntake />} />
           <Route path="/pokemon-kids" element={<PokemonKidsGame />} />
+          <Route path="/franchise" element={<Franchise />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>
