@@ -162,6 +162,17 @@ const videoLibrary: VideoEntry[] = [
     date: "2026-03-30",
     views: 0,
   },
+  {
+    id: "franchise-umbrella",
+    title: "Pulse Market Terminal™ — 12-Vertical Franchise Pitch",
+    description: "27-second investor pitch showcasing the Pulse Market Terminal expansion across 12 collectible and sports card verticals — Pokémon, MLB, NFL, NBA, NHL, FIFA, MTG, Yu-Gi-Oh!, Dragon Ball Z, Lorcana, and Star Wars. $103B+ combined TAM under PGVA Ventures, LLC.",
+    file: "/videos/franchise-pitch-2026.mp4",
+    aspect: "16:9",
+    duration: "0:27",
+    category: "Franchise",
+    date: "2026-04-02",
+    views: 0,
+  },
 ];
 
 const categories = ["All", ...Array.from(new Set(videoLibrary.map(v => v.category)))];

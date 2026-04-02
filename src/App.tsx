@@ -46,6 +46,16 @@ import CapitalCampaign from "./pages/CapitalCampaign.tsx";
 import CapitalDreamIntake from "./pages/CapitalDreamIntake.tsx";
 import PokemonKidsGame from "./pages/PokemonKidsGame.tsx";
 import Franchise from "./pages/Franchise.tsx";
+import MLBDemo from "./pages/demos/MLBDemo.tsx";
+import NFLDemo from "./pages/demos/NFLDemo.tsx";
+import NBADemo from "./pages/demos/NBADemo.tsx";
+import NHLDemo from "./pages/demos/NHLDemo.tsx";
+import FIFADemo from "./pages/demos/FIFADemo.tsx";
+import MTGDemo from "./pages/demos/MTGDemo.tsx";
+import YuGiOhDemo from "./pages/demos/YuGiOhDemo.tsx";
+import DBZDemo from "./pages/demos/DBZDemo.tsx";
+import LorcanaDemo from "./pages/demos/LorcanaDemo.tsx";
+import StarWarsDemo from "./pages/demos/StarWarsDemo.tsx";
 
 const queryClient = new QueryClient();
 
@@ -95,6 +105,16 @@ const AnimatedRoutes = () => {
           <Route path="/capital-dream" element={<CapitalDreamIntake />} />
           <Route path="/pokemon-kids" element={<PokemonKidsGame />} />
           <Route path="/franchise" element={<Franchise />} />
+          <Route path="/demo/mlb" element={<MLBDemo />} />
+          <Route path="/demo/nfl" element={<NFLDemo />} />
+          <Route path="/demo/nba" element={<NBADemo />} />
+          <Route path="/demo/nhl" element={<NHLDemo />} />
+          <Route path="/demo/fifa" element={<FIFADemo />} />
+          <Route path="/demo/mtg" element={<MTGDemo />} />
+          <Route path="/demo/yugioh" element={<YuGiOhDemo />} />
+          <Route path="/demo/dbz" element={<DBZDemo />} />
+          <Route path="/demo/lorcana" element={<LorcanaDemo />} />
+          <Route path="/demo/starwars" element={<StarWarsDemo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>
