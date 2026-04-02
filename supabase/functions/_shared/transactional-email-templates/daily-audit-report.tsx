@@ -40,6 +40,16 @@ interface DailyAuditReportProps {
       totalWon?: number
     }
   }
+  capitalDream?: {
+    annualTarget?: number
+    dayOfYear?: number
+    dailyTarget?: number
+    dailyOperatingCosts?: number
+    dailyNetTarget?: number
+    ytdTarget?: number
+    streams?: Array<{ name: string; annualTarget: number; dailyTarget: number }>
+    gapCloserHighlights?: string[]
+  }
 }
 
 const statusColor = (status: string) => {
