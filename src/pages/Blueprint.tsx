@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import AuthModal from "@/components/AuthModal";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -173,6 +175,8 @@ const AnimCounter = ({ target, prefix = "", suffix = "", duration = 2000 }: { ta
 /* ─── Main Blueprint Page ─── */
 const Blueprint = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const [selectedVertical, setSelectedVertical] = useState<number | null>(null);
 
   // Copy protection
@@ -466,35 +470,52 @@ const Blueprint = () => {
             </Badge>
             <h2 className="text-2xl md:text-3xl font-bold">Due Diligence Package</h2>
             <p className="text-muted-foreground text-sm mt-2 max-w-xl mx-auto">
-              Downloadable reports, legal documents, and financial projections for investor review.
+              {user
+                ? "Downloadable reports, legal documents, and financial projections for investor review."
+                : "Sign in to access confidential investor documents."}
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { title: "Investor Report 2026", desc: "Revenue projections, 5-year plan, ARR/user growth charts, use-of-funds", file: "/PGVA_Investor_Report_2026.pdf", icon: BarChart3, color: "text-primary" },
-              { title: "Security & Legal IP", desc: "Patent, trademark, copyright, trade secret protections & compliance", file: "/PGVA_Security_Legal_IP_Protection.pdf", icon: Shield, color: "text-destructive" },
-              { title: "Financial Projections", desc: "2026–2029 ARR forecasts, unit economics, break-even analysis", file: "/PGVA_Financial_Projections_2026_2029.pdf", icon: TrendingUp, color: "text-green-500" },
-              { title: "LLC Operating Agreement", desc: "PGVA Ventures, LLC corporate governance & member rights", file: "/PGVA_Ventures_LLC_Operating_Agreement.pdf", icon: Layers, color: "text-blue-500" },
-              { title: "Trust Documentation", desc: "Noyes Family Trust structure & liability shield framework", file: "/Noyes_Family_Trust_Documentation.pdf", icon: Lock, color: "text-amber-500" },
-              { title: "IP Assignment Agreement", desc: "Intellectual property assignment & protection terms", file: "/PGVA_IP_Assignment_Protection_Agreement.pdf", icon: Star, color: "text-purple-500" },
-              { title: "Franchise Blueprint", desc: "12-vertical expansion strategy & market opportunity overview", file: "/Pulse_Market_Terminal_Franchise_Blueprint.pdf", icon: Globe, color: "text-cyan-500" },
-            ].map(doc => (
-              <Card key={doc.title} className="bg-card border-border/40 hover:border-primary/40 transition-all group">
-                <CardContent className="pt-5 pb-4 space-y-3">
-                  <doc.icon className={`w-5 h-5 ${doc.color}`} />
-                  <h3 className="text-sm font-semibold">{doc.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{doc.desc}</p>
-                  <a href={doc.file} download className="inline-block">
-                    <Button size="sm" variant="outline" className="text-xs gap-1.5 group-hover:border-primary/60">
-                      <ArrowRight className="w-3 h-3" /> Download PDF
-                    </Button>
-                  </a>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+
+          {!user ? (
+            <div className="text-center py-12 space-y-4">
+              <Lock className="w-12 h-12 text-muted-foreground/40 mx-auto" />
+              <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                These documents are restricted to verified investors. Please sign in or create an account to access the Due Diligence Package.
+              </p>
+              <Button onClick={() => setShowAuthModal(true)} size="lg" className="gap-2">
+                <Shield className="w-4 h-4" /> Sign In to Access Documents
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                { title: "Investor Report 2026", desc: "Revenue projections, 5-year plan, ARR/user growth charts, use-of-funds", file: "/PGVA_Investor_Report_2026.pdf", icon: BarChart3, color: "text-primary" },
+                { title: "Security & Legal IP", desc: "Patent, trademark, copyright, trade secret protections & compliance", file: "/PGVA_Security_Legal_IP_Protection.pdf", icon: Shield, color: "text-destructive" },
+                { title: "Financial Projections", desc: "2026–2029 ARR forecasts, unit economics, break-even analysis", file: "/PGVA_Financial_Projections_2026_2029.pdf", icon: TrendingUp, color: "text-green-500" },
+                { title: "LLC Operating Agreement", desc: "PGVA Ventures, LLC corporate governance & member rights", file: "/PGVA_Ventures_LLC_Operating_Agreement.pdf", icon: Layers, color: "text-blue-500" },
+                { title: "Trust Documentation", desc: "Noyes Family Trust structure & liability shield framework", file: "/Noyes_Family_Trust_Documentation.pdf", icon: Lock, color: "text-amber-500" },
+                { title: "IP Assignment Agreement", desc: "Intellectual property assignment & protection terms", file: "/PGVA_IP_Assignment_Protection_Agreement.pdf", icon: Star, color: "text-purple-500" },
+                { title: "Franchise Blueprint", desc: "12-vertical expansion strategy & market opportunity overview", file: "/Pulse_Market_Terminal_Franchise_Blueprint.pdf", icon: Globe, color: "text-cyan-500" },
+              ].map(doc => (
+                <Card key={doc.title} className="bg-card border-border/40 hover:border-primary/40 transition-all group">
+                  <CardContent className="pt-5 pb-4 space-y-3">
+                    <doc.icon className={`w-5 h-5 ${doc.color}`} />
+                    <h3 className="text-sm font-semibold">{doc.title}</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{doc.desc}</p>
+                    <a href={doc.file} download className="inline-block">
+                      <Button size="sm" variant="outline" className="text-xs gap-1.5 group-hover:border-primary/60">
+                        <ArrowRight className="w-3 h-3" /> Download PDF
+                      </Button>
+                    </a>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </section>
+
+      {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} />}
 
       {/* ═══ INVESTMENT CTA ═══ */}
       <section className="py-16 px-4 bg-muted/20 border-t border-border/40">
