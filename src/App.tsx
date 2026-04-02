@@ -106,6 +106,7 @@ const AnimatedRoutes = () => {
           <Route path="/capital-dream" element={<CapitalDreamIntake />} />
           <Route path="/pokemon-kids" element={<PokemonKidsGame />} />
           <Route path="/franchise" element={<Franchise />} />
+          <Route path="/blueprint" element={<Blueprint />} />
           <Route path="/demo/mlb" element={<MLBDemo />} />
           <Route path="/demo/nfl" element={<NFLDemo />} />
           <Route path="/demo/nba" element={<NBADemo />} />
