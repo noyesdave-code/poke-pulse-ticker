@@ -7,6 +7,7 @@ import { SocialHighlight } from "./SocialHighlight";
 import { PlatformHighlight } from "./PlatformHighlight";
 import { GameHighlight } from "./GameHighlight";
 import { FranchisePitch } from "./FranchisePitch";
+import { RevenueAssessment } from "./RevenueAssessment";
 
 export const RemotionRoot: React.FC = () => (
   <>
