@@ -660,9 +660,11 @@ const PokemonKidsGame = () => {
                 totalPokemon={ALL_POKEMON.length}
                 level={playerData?.level || 1}
                 onBattle={startBattle}
-                onExplore={handleExplore}
+                onExploreZone={handleExploreZone}
                 hasPaid={playerData?.has_paid}
                 freeBattles={playerData?.free_battles_remaining || 0}
+                activeZone={activeZone}
+                onSelectZone={setActiveZone}
               />
             </TabsContent>
 
