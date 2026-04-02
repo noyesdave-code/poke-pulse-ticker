@@ -46,6 +46,7 @@ import CapitalCampaign from "./pages/CapitalCampaign.tsx";
 import CapitalDreamIntake from "./pages/CapitalDreamIntake.tsx";
 import PokemonKidsGame from "./pages/PokemonKidsGame.tsx";
 import Franchise from "./pages/Franchise.tsx";
+import Blueprint from "./pages/Blueprint.tsx";
 import MLBDemo from "./pages/demos/MLBDemo.tsx";
 import NFLDemo from "./pages/demos/NFLDemo.tsx";
 import NBADemo from "./pages/demos/NBADemo.tsx";
@@ -105,6 +106,7 @@ const AnimatedRoutes = () => {
           <Route path="/capital-dream" element={<CapitalDreamIntake />} />
           <Route path="/pokemon-kids" element={<PokemonKidsGame />} />
           <Route path="/franchise" element={<Franchise />} />
+          <Route path="/blueprint" element={<Blueprint />} />
           <Route path="/demo/mlb" element={<MLBDemo />} />
           <Route path="/demo/nfl" element={<NFLDemo />} />
           <Route path="/demo/nba" element={<NBADemo />} />
