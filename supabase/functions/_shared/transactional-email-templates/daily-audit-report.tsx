@@ -314,8 +314,8 @@ const DailyAuditReportEmail = ({
 export const template = {
   component: DailyAuditReportEmail,
   subject: (data: Record<string, any>) =>
-    `Daily Audit: ${data.overallScore || 0}/100 + Balance Sheet — ${SITE_NAME}`,
-  displayName: 'Daily audit report + balance sheet',
+    `Daily Audit: ${data.overallScore || 0}/100 + Capital Dream + Balance Sheet — ${SITE_NAME}`,
+  displayName: 'Daily audit report + capital dream + balance sheet',
   previewData: {
     overallScore: 98,
     summary: 'Platform maintains strong performance across all 11 categories with a 98/100 overall score.',
