@@ -13,7 +13,7 @@ function computePulseScore(card: CardData): number {
   const liquidity = Math.max(0, 40 - absChange * 4);
 
   // Grade spread proxy: cards with higher price have more grading upside, capped 30pts
-  const gradeSpread = Math.min(30, (card.price / 200) * 30);
+  const gradeSpread = Math.min(30, (card.market / 200) * 30);
 
   // Alpha potential: bigger positive change = more alpha, capped 30pts
   const alpha = card.change > 0 ? Math.min(30, card.change * 3) : Math.max(0, 15 + card.change * 1.5);
