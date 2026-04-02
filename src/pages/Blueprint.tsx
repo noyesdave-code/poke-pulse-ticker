@@ -175,6 +175,8 @@ const AnimCounter = ({ target, prefix = "", suffix = "", duration = 2000 }: { ta
 /* ─── Main Blueprint Page ─── */
 const Blueprint = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const [selectedVertical, setSelectedVertical] = useState<number | null>(null);
 
   // Copy protection
