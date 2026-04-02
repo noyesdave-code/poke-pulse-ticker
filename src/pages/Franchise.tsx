@@ -131,9 +131,9 @@ const Franchise = () => {
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-2xl">{t.emoji}</span>
-                      <Badge variant={t.status === "live" ? "default" : t.status === "development" ? "secondary" : "outline"}
+                      <Badge variant={t.status === "live" ? "default" : "secondary"}
                         className="text-[10px] font-mono">
-                        {t.status === "live" ? "🟢 LIVE" : t.status === "development" ? "🟡 IN DEV" : "📋 PLANNED"}
+                        {t.status === "live" ? "🟢 LIVE" : "🟣 DEMO"}
                       </Badge>
                     </div>
                     <p className="font-bold text-sm">{t.name}</p>
