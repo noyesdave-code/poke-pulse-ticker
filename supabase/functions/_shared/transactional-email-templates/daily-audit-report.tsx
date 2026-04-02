@@ -98,9 +98,11 @@ const DailyAuditReportEmail = ({
   summary = '',
   categories = [],
   auditDate,
+  auditTime,
   topPriorities = [],
   balanceSheet,
   capitalDream,
+  dailyRevenueSheet,
 }: DailyAuditReportProps) => (
   <Html lang="en" dir="ltr">
     <Head />
