@@ -7,6 +7,7 @@ import { SocialHighlight } from "./SocialHighlight";
 import { PlatformHighlight } from "./PlatformHighlight";
 import { GameHighlight } from "./GameHighlight";
 import { FranchisePitch } from "./FranchisePitch";
+import { RevenueAssessment } from "./RevenueAssessment";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -127,6 +128,14 @@ export const RemotionRoot: React.FC = () => (
       id="franchise-pitch"
       component={FranchisePitch}
       durationInFrames={810}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="revenue-assessment"
+      component={RevenueAssessment}
+      durationInFrames={690}
       fps={30}
       width={1920}
       height={1080}
