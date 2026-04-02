@@ -350,6 +350,27 @@ export const template = {
         totalWon: 38500,
       },
     },
+    capitalDream: {
+      annualTarget: 25000000,
+      dayOfYear: 92,
+      dailyTarget: 68493,
+      dailyOperatingCosts: 933,
+      dailyNetTarget: 67560,
+      ytdTarget: 6301356,
+      streams: [
+        { name: 'Subscriptions', annualTarget: 12000000, dailyTarget: 32877 },
+        { name: 'Affiliate Revenue', annualTarget: 5000000, dailyTarget: 13699 },
+        { name: 'PokéCoin Store', annualTarget: 3000000, dailyTarget: 8219 },
+        { name: 'SimTrader & Contests', annualTarget: 2500000, dailyTarget: 6849 },
+        { name: 'Arena Economy', annualTarget: 1500000, dailyTarget: 4110 },
+        { name: 'Data Licensing & API', annualTarget: 1000000, dailyTarget: 2740 },
+      ],
+      gapCloserHighlights: [
+        'Dunning: 3-touch failed payment recovery sequence',
+        'Annual prepay lock-in with 20% discount',
+        'Cancel-save flow: 50% off for 3 months before cancel',
+      ],
+    },
   },
 } satisfies TemplateEntry
 
