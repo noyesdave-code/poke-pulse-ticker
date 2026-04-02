@@ -594,6 +594,226 @@ export type Database = {
         }
         Relationships: []
       }
+      game_battles: {
+        Row: {
+          card_score: number
+          cards_wagered: number
+          cards_won: number
+          created_at: string
+          id: string
+          knowledge_score: number
+          matchup_score: number
+          opponent_id: string | null
+          opponent_pokemon: string
+          opponent_type: string
+          player_id: string
+          player_pokemon: string
+          result: string
+          xp_earned: number
+        }
+        Insert: {
+          card_score?: number
+          cards_wagered?: number
+          cards_won?: number
+          created_at?: string
+          id?: string
+          knowledge_score?: number
+          matchup_score?: number
+          opponent_id?: string | null
+          opponent_pokemon: string
+          opponent_type?: string
+          player_id: string
+          player_pokemon: string
+          result: string
+          xp_earned?: number
+        }
+        Update: {
+          card_score?: number
+          cards_wagered?: number
+          cards_won?: number
+          created_at?: string
+          id?: string
+          knowledge_score?: number
+          matchup_score?: number
+          opponent_id?: string | null
+          opponent_pokemon?: string
+          opponent_type?: string
+          player_id?: string
+          player_pokemon?: string
+          result?: string
+          xp_earned?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_battles_opponent_id_fkey"
+            columns: ["opponent_id"]
+            isOneToOne: false
+            referencedRelation: "game_players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_battles_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "game_players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      game_collected_cards: {
+        Row: {
+          card_api_id: string
+          card_image: string | null
+          card_name: string
+          card_rarity: string | null
+          card_set: string | null
+          collected_at: string
+          id: string
+          player_id: string
+          pokemon_name: string
+        }
+        Insert: {
+          card_api_id: string
+          card_image?: string | null
+          card_name: string
+          card_rarity?: string | null
+          card_set?: string | null
+          collected_at?: string
+          id?: string
+          player_id: string
+          pokemon_name: string
+        }
+        Update: {
+          card_api_id?: string
+          card_image?: string | null
+          card_name?: string
+          card_rarity?: string | null
+          card_set?: string | null
+          collected_at?: string
+          id?: string
+          player_id?: string
+          pokemon_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_collected_cards_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "game_players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      game_collected_pokemon: {
+        Row: {
+          collected_at: string
+          id: string
+          player_id: string
+          pokemon_image: string | null
+          pokemon_name: string
+          pokemon_type: string | null
+        }
+        Insert: {
+          collected_at?: string
+          id?: string
+          player_id: string
+          pokemon_image?: string | null
+          pokemon_name: string
+          pokemon_type?: string | null
+        }
+        Update: {
+          collected_at?: string
+          id?: string
+          player_id?: string
+          pokemon_image?: string | null
+          pokemon_name?: string
+          pokemon_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_collected_pokemon_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "game_players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      game_players: {
+        Row: {
+          coins_balance: number
+          created_at: string
+          display_name: string | null
+          free_battles_remaining: number
+          has_paid: boolean
+          id: string
+          level: number
+          starter_pokemon: string
+          starter_pokemon_image: string | null
+          updated_at: string
+          user_id: string
+          xp: number
+        }
+        Insert: {
+          coins_balance?: number
+          created_at?: string
+          display_name?: string | null
+          free_battles_remaining?: number
+          has_paid?: boolean
+          id?: string
+          level?: number
+          starter_pokemon: string
+          starter_pokemon_image?: string | null
+          updated_at?: string
+          user_id: string
+          xp?: number
+        }
+        Update: {
+          coins_balance?: number
+          created_at?: string
+          display_name?: string | null
+          free_battles_remaining?: number
+          has_paid?: boolean
+          id?: string
+          level?: number
+          starter_pokemon?: string
+          starter_pokemon_image?: string | null
+          updated_at?: string
+          user_id?: string
+          xp?: number
+        }
+        Relationships: []
+      }
+      game_purchases: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          id: string
+          product_type: string
+          status: string
+          stripe_session_id: string | null
+          user_id: string
+        }
+        Insert: {
+          amount_cents?: number
+          created_at?: string
+          id?: string
+          product_type?: string
+          status?: string
+          stripe_session_id?: string | null
+          user_id: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          id?: string
+          product_type?: string
+          status?: string
+          stripe_session_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       index_cache: {
         Row: {
           cache_key: string
