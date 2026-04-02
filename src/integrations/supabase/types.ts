@@ -621,6 +621,13 @@ export type Database = {
             referencedRelation: "game_players"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "game_achievements_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "game_pvp_leaderboard"
+            referencedColumns: ["player_id"]
+          },
         ]
       }
       game_battles: {
@@ -681,11 +688,25 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "game_battles_opponent_id_fkey"
+            columns: ["opponent_id"]
+            isOneToOne: false
+            referencedRelation: "game_pvp_leaderboard"
+            referencedColumns: ["player_id"]
+          },
+          {
             foreignKeyName: "game_battles_player_id_fkey"
             columns: ["player_id"]
             isOneToOne: false
             referencedRelation: "game_players"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_battles_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "game_pvp_leaderboard"
+            referencedColumns: ["player_id"]
           },
         ]
       }
@@ -731,6 +752,13 @@ export type Database = {
             referencedRelation: "game_players"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "game_collected_cards_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "game_pvp_leaderboard"
+            referencedColumns: ["player_id"]
+          },
         ]
       }
       game_collected_pokemon: {
@@ -765,6 +793,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "game_players"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_collected_pokemon_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "game_pvp_leaderboard"
+            referencedColumns: ["player_id"]
           },
         ]
       }
@@ -913,8 +948,29 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "game_pvp_challenges_challenger_id_fkey"
+            columns: ["challenger_id"]
+            isOneToOne: false
+            referencedRelation: "game_pvp_leaderboard"
+            referencedColumns: ["player_id"]
+          },
+          {
             foreignKeyName: "game_pvp_challenges_opponent_id_fkey"
             columns: ["opponent_id"]
+            isOneToOne: false
+            referencedRelation: "game_players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_pvp_challenges_opponent_id_fkey"
+            columns: ["opponent_id"]
+            isOneToOne: false
+            referencedRelation: "game_pvp_leaderboard"
+            referencedColumns: ["player_id"]
+          },
+          {
+            foreignKeyName: "game_pvp_challenges_winner_id_fkey"
+            columns: ["winner_id"]
             isOneToOne: false
             referencedRelation: "game_players"
             referencedColumns: ["id"]
@@ -923,8 +979,8 @@ export type Database = {
             foreignKeyName: "game_pvp_challenges_winner_id_fkey"
             columns: ["winner_id"]
             isOneToOne: false
-            referencedRelation: "game_players"
-            referencedColumns: ["id"]
+            referencedRelation: "game_pvp_leaderboard"
+            referencedColumns: ["player_id"]
           },
         ]
       }
@@ -1579,6 +1635,20 @@ export type Database = {
           display_name: string | null
           lifetime_wagered: number | null
           lifetime_won: number | null
+          user_id: string | null
+        }
+        Relationships: []
+      }
+      game_pvp_leaderboard: {
+        Row: {
+          avatar_url: string | null
+          display_name: string | null
+          level: number | null
+          player_id: string | null
+          starter_pokemon: string | null
+          starter_pokemon_image: string | null
+          total_losses: number | null
+          total_wins: number | null
           user_id: string | null
         }
         Relationships: []
