@@ -594,6 +594,35 @@ export type Database = {
         }
         Relationships: []
       }
+      game_achievements: {
+        Row: {
+          achievement_id: string
+          id: string
+          player_id: string
+          unlocked_at: string
+        }
+        Insert: {
+          achievement_id: string
+          id?: string
+          player_id: string
+          unlocked_at?: string
+        }
+        Update: {
+          achievement_id?: string
+          id?: string
+          player_id?: string
+          unlocked_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_achievements_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "game_players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       game_battles: {
         Row: {
           card_score: number
@@ -747,9 +776,13 @@ export type Database = {
           free_battles_remaining: number
           has_paid: boolean
           id: string
+          last_login_date: string | null
           level: number
+          login_streak: number
           starter_pokemon: string
           starter_pokemon_image: string | null
+          total_losses: number
+          total_wins: number
           updated_at: string
           user_id: string
           xp: number
@@ -761,9 +794,13 @@ export type Database = {
           free_battles_remaining?: number
           has_paid?: boolean
           id?: string
+          last_login_date?: string | null
           level?: number
+          login_streak?: number
           starter_pokemon: string
           starter_pokemon_image?: string | null
+          total_losses?: number
+          total_wins?: number
           updated_at?: string
           user_id: string
           xp?: number
@@ -775,9 +812,13 @@ export type Database = {
           free_battles_remaining?: number
           has_paid?: boolean
           id?: string
+          last_login_date?: string | null
           level?: number
+          login_streak?: number
           starter_pokemon?: string
           starter_pokemon_image?: string | null
+          total_losses?: number
+          total_wins?: number
           updated_at?: string
           user_id?: string
           xp?: number
@@ -813,6 +854,79 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      game_pvp_challenges: {
+        Row: {
+          challenger_answer: number | null
+          challenger_id: string
+          challenger_pokemon: string
+          created_at: string
+          id: string
+          opponent_answer: number | null
+          opponent_id: string | null
+          opponent_pokemon: string | null
+          quiz_correct_index: number | null
+          quiz_question: string | null
+          resolved_at: string | null
+          status: string
+          wager: number
+          winner_id: string | null
+        }
+        Insert: {
+          challenger_answer?: number | null
+          challenger_id: string
+          challenger_pokemon: string
+          created_at?: string
+          id?: string
+          opponent_answer?: number | null
+          opponent_id?: string | null
+          opponent_pokemon?: string | null
+          quiz_correct_index?: number | null
+          quiz_question?: string | null
+          resolved_at?: string | null
+          status?: string
+          wager?: number
+          winner_id?: string | null
+        }
+        Update: {
+          challenger_answer?: number | null
+          challenger_id?: string
+          challenger_pokemon?: string
+          created_at?: string
+          id?: string
+          opponent_answer?: number | null
+          opponent_id?: string | null
+          opponent_pokemon?: string | null
+          quiz_correct_index?: number | null
+          quiz_question?: string | null
+          resolved_at?: string | null
+          status?: string
+          wager?: number
+          winner_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_pvp_challenges_challenger_id_fkey"
+            columns: ["challenger_id"]
+            isOneToOne: false
+            referencedRelation: "game_players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_pvp_challenges_opponent_id_fkey"
+            columns: ["opponent_id"]
+            isOneToOne: false
+            referencedRelation: "game_players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_pvp_challenges_winner_id_fkey"
+            columns: ["winner_id"]
+            isOneToOne: false
+            referencedRelation: "game_players"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       index_cache: {
         Row: {

@@ -526,3 +526,60 @@ export const BOT_OPPONENTS: BotOpponent[] = [
   { name: "Elite Four Bruno", pokemon: "Machamp", pokemonType: "Fighting", pokemonId: 68, difficulty: "hard", knowledgeLevel: 83 },
   { name: "Champion Blue", pokemon: "Blastoise", pokemonType: "Water", pokemonId: 9, difficulty: "hard", knowledgeLevel: 92 },
 ];
+
+// Achievement Badges
+export interface AchievementDef {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  check: (stats: AchievementStats) => boolean;
+}
+
+export interface AchievementStats {
+  totalWins: number;
+  totalLosses: number;
+  collectedPokemon: number;
+  collectedCards: number;
+  level: number;
+  loginStreak: number;
+  totalBattles: number;
+  coinsEarned: number;
+  zonesUnlocked: number;
+  pvpWins: number;
+}
+
+export const ACHIEVEMENTS: AchievementDef[] = [
+  { id: "first_win", name: "First Victory", description: "Win your first battle", icon: "⚔️", check: s => s.totalWins >= 1 },
+  { id: "5_wins", name: "Battle Veteran", description: "Win 5 battles", icon: "🎖️", check: s => s.totalWins >= 5 },
+  { id: "25_wins", name: "Battle Master", description: "Win 25 battles", icon: "🏅", check: s => s.totalWins >= 25 },
+  { id: "100_wins", name: "Legendary Warrior", description: "Win 100 battles", icon: "👑", check: s => s.totalWins >= 100 },
+  { id: "5_pokemon", name: "Pokémon Collector", description: "Collect 5 Pokémon", icon: "📦", check: s => s.collectedPokemon >= 5 },
+  { id: "25_pokemon", name: "Pokédex Explorer", description: "Collect 25 Pokémon", icon: "📚", check: s => s.collectedPokemon >= 25 },
+  { id: "50_pokemon", name: "Pokédex Scholar", description: "Collect 50 Pokémon", icon: "🔬", check: s => s.collectedPokemon >= 50 },
+  { id: "all_pokemon", name: "Pokémon Master", description: "Collect all Pokémon", icon: "🏆", check: s => s.collectedPokemon >= ALL_POKEMON.length },
+  { id: "level_5", name: "Rising Trainer", description: "Reach level 5", icon: "⭐", check: s => s.level >= 5 },
+  { id: "level_10", name: "Skilled Trainer", description: "Reach level 10", icon: "🌟", check: s => s.level >= 10 },
+  { id: "level_20", name: "Elite Trainer", description: "Reach level 20", icon: "💫", check: s => s.level >= 20 },
+  { id: "level_30", name: "Champion Tier", description: "Reach level 30", icon: "🔥", check: s => s.level >= 30 },
+  { id: "streak_3", name: "Dedicated Trainer", description: "3-day login streak", icon: "📅", check: s => s.loginStreak >= 3 },
+  { id: "streak_7", name: "Weekly Warrior", description: "7-day login streak", icon: "🗓️", check: s => s.loginStreak >= 7 },
+  { id: "streak_30", name: "Monthly Master", description: "30-day login streak", icon: "🎯", check: s => s.loginStreak >= 30 },
+  { id: "first_pvp", name: "PvP Debut", description: "Win your first PvP battle", icon: "🤺", check: s => s.pvpWins >= 1 },
+  { id: "pvp_10", name: "PvP Champion", description: "Win 10 PvP battles", icon: "🥊", check: s => s.pvpWins >= 10 },
+  { id: "10_cards", name: "Card Starter", description: "Collect 10 cards", icon: "🃏", check: s => s.collectedCards >= 10 },
+  { id: "50_cards", name: "Card Hoarder", description: "Collect 50 cards", icon: "🗃️", check: s => s.collectedCards >= 50 },
+  { id: "zones_5", name: "Adventurer", description: "Unlock 5 zones", icon: "🗺️", check: s => s.zonesUnlocked >= 5 },
+  { id: "zones_all", name: "World Explorer", description: "Unlock all zones", icon: "🌍", check: s => s.zonesUnlocked >= ADVENTURE_ZONES.length },
+];
+
+// Daily login reward tiers
+export const DAILY_REWARDS = [
+  { day: 1, coins: 50, xp: 10, label: "Day 1" },
+  { day: 2, coins: 75, xp: 15, label: "Day 2" },
+  { day: 3, coins: 100, xp: 25, label: "Day 3" },
+  { day: 4, coins: 125, xp: 30, label: "Day 4" },
+  { day: 5, coins: 200, xp: 50, label: "Day 5" },
+  { day: 6, coins: 250, xp: 60, label: "Day 6" },
+  { day: 7, coins: 500, xp: 100, label: "Day 7 🎉" },
+];
