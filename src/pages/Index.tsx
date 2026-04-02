@@ -74,6 +74,7 @@ import SimTraderPromo from "@/components/SimTraderPromo";
 import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
 import PulseScore from "@/components/PulseScore";
 import CorrelationMatrix from "@/components/CorrelationMatrix";
+import PopReportDelta from "@/components/PopReportDelta";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
@@ -272,6 +273,12 @@ const Index = () => {
         <LazySection minHeight="200px">
           <ProGate feature="Grade Ratio Arbitrage Bot" blur>
             <GradeRatioArbitrageBot />
+          </ProGate>
+        </LazySection>
+
+        <LazySection minHeight="250px">
+          <ProGate feature="Pop Report Δ — Supply Pressure" blur>
+            <PopReportDelta cards={displayCards} />
           </ProGate>
         </LazySection>
 
