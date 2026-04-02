@@ -276,6 +276,7 @@ const PokemonKidsGame = () => {
   const [dailyRewardClaimed, setDailyRewardClaimed] = useState(false);
   const [pvpChallenges, setPvpChallenges] = useState<any[]>([]);
   const [pvpWins, setPvpWins] = useState(0);
+  const [pvpLeaderboard, setPvpLeaderboard] = useState<any[]>([]);
 
   // Purchase callback
   useEffect(() => {
