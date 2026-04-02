@@ -196,6 +196,62 @@ const DailyAuditReportEmail = ({
           </Section>
         )}
 
+        {/* ── CAPITAL DREAM INTAKE ── */}
+        {capitalDream && (
+          <Section style={capitalDreamSection}>
+            <Text style={sectionTitle}>2026 CAPITAL DREAM INTAKE PROJECT</Text>
+            <Text style={{ fontSize: '11px', color: '#475569', margin: '0 0 8px' }}>
+              Target: ${formatNumber(capitalDream.annualTarget ?? 25000000)} annual revenue — Day {capitalDream.dayOfYear ?? 0} of 365
+            </Text>
+
+            <Section style={kpiRow}>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>Daily Target</span>{'\n'}
+                <span style={{ ...kpiValue, color: '#16a34a' }}>{formatCurrency(capitalDream.dailyTarget ?? 0)}</span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>Operating Costs</span>{'\n'}
+                <span style={{ ...kpiValue, color: '#dc2626' }}>-{formatCurrency(capitalDream.dailyOperatingCosts ?? 0)}</span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>Net Daily</span>{'\n'}
+                <span style={{ ...kpiValue, color: '#16a34a' }}>{formatCurrency(capitalDream.dailyNetTarget ?? 0)}</span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>YTD Target</span>{'\n'}
+                <span style={kpiValue}>{formatCurrency(capitalDream.ytdTarget ?? 0)}</span>
+              </Text>
+            </Section>
+
+            {capitalDream.streams && capitalDream.streams.length > 0 && (
+              <Section style={bsGroup}>
+                <Text style={bsGroupTitle}>REVENUE STREAM BREAKDOWN</Text>
+                {capitalDream.streams.map((s, i) => (
+                  <Section key={i} style={bsLineRow}>
+                    <Text style={bsLineLabel}>{s.name}</Text>
+                    <Text style={bsLineAmount}>
+                      {formatCurrency(s.annualTarget)}/yr • {formatCurrency(s.dailyTarget)}/day
+                    </Text>
+                  </Section>
+                ))}
+              </Section>
+            )}
+
+            {capitalDream.gapCloserHighlights && capitalDream.gapCloserHighlights.length > 0 && (
+              <Section style={bsGroup}>
+                <Text style={bsGroupTitle}>TODAY'S GAP CLOSER FOCUS</Text>
+                {capitalDream.gapCloserHighlights.map((g, i) => (
+                  <Text key={i} style={{ fontSize: '11px', color: '#dc2626', margin: '2px 0' }}>🔒 {g}</Text>
+                ))}
+              </Section>
+            )}
+
+            <Button style={ctaButton} href="https://poke-pulse-ticker.lovable.app/capital-dream">
+              View Full Capital Dream Plan →
+            </Button>
+          </Section>
+        )}
+
         {categories.length > 0 && (
           <Section style={categoriesSection}>
             <Text style={sectionTitle}>CATEGORY BREAKDOWN</Text>
