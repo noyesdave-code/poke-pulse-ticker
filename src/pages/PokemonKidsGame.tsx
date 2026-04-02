@@ -12,11 +12,12 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   STARTER_POKEMON, ALL_POKEMON, getPokemonImage, TYPE_ADVANTAGES,
-  QUIZ_QUESTIONS, BOT_OPPONENTS, type StarterPokemon, type BotOpponent, type QuizQuestion
+  QUIZ_QUESTIONS, BOT_OPPONENTS, ADVENTURE_ZONES,
+  type StarterPokemon, type BotOpponent, type QuizQuestion, type AdventureZone
 } from "@/lib/pokemonKidsData";
 import {
   Sword, Shield, Heart, Zap, Trophy, Coins, Map, Swords,
-  Star, Lock, Unlock, Crown, Sparkles, BookOpen, Target, Users, ShoppingCart
+  Star, Lock, Unlock, Crown, Sparkles, BookOpen, Target, Users, ShoppingCart, MapPin, ChevronRight
 } from "lucide-react";
 
 // --- Game sub-components ---
@@ -69,62 +70,112 @@ const CharacterSelect = ({ onSelect }: { onSelect: (p: StarterPokemon) => void }
 };
 
 const AdventureMap = ({
-  collectedCount, totalPokemon, level, onBattle, onExplore, hasPaid, freeBattles
+  collectedCount, totalPokemon, level, onBattle, onExploreZone, hasPaid, freeBattles, activeZone, onSelectZone
 }: {
   collectedCount: number; totalPokemon: number; level: number;
-  onBattle: () => void; onExplore: () => void; hasPaid: boolean; freeBattles: number;
+  onBattle: (zone?: AdventureZone) => void; onExploreZone: (zone: AdventureZone) => void;
+  hasPaid: boolean; freeBattles: number; activeZone: AdventureZone | null;
+  onSelectZone: (zone: AdventureZone | null) => void;
 }) => {
-  const zones = [
-    { name: "Pallet Town", minLevel: 1, icon: "🏠", color: "bg-green-500/20 border-green-500/30" },
-    { name: "Viridian Forest", minLevel: 2, icon: "🌲", color: "bg-emerald-500/20 border-emerald-500/30" },
-    { name: "Pewter Gym", minLevel: 3, icon: "🏛️", color: "bg-stone-500/20 border-stone-500/30" },
-    { name: "Mt. Moon", minLevel: 5, icon: "🌙", color: "bg-purple-500/20 border-purple-500/30" },
-    { name: "Cerulean City", minLevel: 7, icon: "💧", color: "bg-blue-500/20 border-blue-500/30" },
-    { name: "S.S. Anne", minLevel: 10, icon: "🚢", color: "bg-cyan-500/20 border-cyan-500/30" },
-    { name: "Pokémon Tower", minLevel: 13, icon: "👻", color: "bg-violet-500/20 border-violet-500/30" },
-    { name: "Silph Co.", minLevel: 16, icon: "🏢", color: "bg-slate-500/20 border-slate-500/30" },
-    { name: "Indigo Plateau", minLevel: 20, icon: "🏆", color: "bg-amber-500/20 border-amber-500/30" },
-  ];
+  if (activeZone) {
+    const locked = level < activeZone.minLevel;
+    return (
+      <div className="space-y-4 animate-in fade-in slide-in-from-right-4">
+        <button onClick={() => onSelectZone(null)} className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
+          ← Back to World Map
+        </button>
+        <div className={`terminal-card p-5 ${activeZone.color} border`}>
+          <div className="flex items-start gap-3 mb-3">
+            <span className="text-4xl">{activeZone.icon}</span>
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-foreground">{activeZone.name}</h3>
+              <p className="text-sm text-muted-foreground">{activeZone.description}</p>
+              <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
+                <span>Lv. {activeZone.minLevel}+</span>
+                <span>+{activeZone.xpReward} XP</span>
+                <span>+{activeZone.coinReward} 🪙</span>
+                <span>{Math.round(activeZone.encounterRate * 100)}% encounter</span>
+              </div>
+            </div>
+          </div>
+          {activeZone.bossBot && (
+            <div className="terminal-card p-3 mb-3 border-destructive/30 bg-destructive/5">
+              <div className="flex items-center gap-2">
+                <img src={getPokemonImage(activeZone.bossBot.pokemonId)} alt={activeZone.bossBot.pokemon} className="w-10 h-10 object-contain" />
+                <div>
+                  <p className="text-sm font-bold text-foreground flex items-center gap-1">
+                    <Crown className="w-3 h-3 text-amber-400" /> {activeZone.bossBot.name}
+                  </p>
+                  <p className="text-[10px] text-muted-foreground">{activeZone.bossBot.difficulty.toUpperCase()} · {activeZone.bossBot.pokemon}</p>
+                </div>
+                <Button size="sm" variant="destructive" className="ml-auto" disabled={locked} onClick={() => onBattle(activeZone)}>
+                  Challenge Boss
+                </Button>
+              </div>
+            </div>
+          )}
+          <div className="mb-3">
+            <p className="text-xs font-semibold text-foreground mb-2">Pokémon in this zone:</p>
+            <div className="flex flex-wrap gap-1">
+              {activeZone.pokemonPool.slice(0, 8).map(id => {
+                const mon = ALL_POKEMON.find(p => p.id === id);
+                return (
+                  <div key={id} className="terminal-card p-1 flex items-center gap-1">
+                    <img src={getPokemonImage(id)} alt={mon?.name} className="w-6 h-6 object-contain" loading="lazy" />
+                    <span className="text-[9px] text-foreground">{mon?.name}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <Button onClick={() => onExploreZone(activeZone)} className="flex-1" disabled={locked}>
+              <Map className="w-4 h-4 mr-2" /> Explore Zone
+            </Button>
+            <Button onClick={() => onBattle(activeZone)} variant="default" className="flex-1" disabled={locked}>
+              <Swords className="w-4 h-4 mr-2" /> Battle Here
+              {!hasPaid && <span className="ml-1 text-[10px]">({freeBattles})</span>}
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="font-bold text-lg text-foreground flex items-center gap-2">
-          <Map className="w-5 h-5 text-primary" /> Adventure Map
+          <Map className="w-5 h-5 text-primary" /> World Map
         </h3>
         <div className="text-xs text-muted-foreground">
-          {collectedCount} / {totalPokemon} Pokémon collected
+          {collectedCount} / {totalPokemon} Pokémon · {ADVENTURE_ZONES.filter(z => level >= z.minLevel).length}/{ADVENTURE_ZONES.length} zones unlocked
         </div>
       </div>
       <Progress value={(collectedCount / totalPokemon) * 100} className="h-3" />
-      <div className="grid grid-cols-3 gap-3">
-        {zones.map((zone) => {
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        {ADVENTURE_ZONES.map((zone) => {
           const locked = level < zone.minLevel;
           return (
             <button
               key={zone.name}
               disabled={locked}
-              onClick={onExplore}
-              className={`terminal-card p-3 text-center transition-all ${zone.color} ${
-                locked ? "opacity-40 cursor-not-allowed" : "hover:scale-[1.03] cursor-pointer"
+              onClick={() => onSelectZone(zone)}
+              className={`terminal-card p-3 text-left transition-all ${zone.color} border ${
+                locked ? "opacity-40 cursor-not-allowed" : "hover:scale-[1.02] cursor-pointer hover:shadow-lg"
               }`}
             >
-              <span className="text-2xl">{zone.icon}</span>
+              <div className="flex items-center justify-between">
+                <span className="text-2xl">{zone.icon}</span>
+                {zone.bossBot && !locked && <Crown className="w-3 h-3 text-amber-400" />}
+              </div>
               <p className="text-xs font-semibold text-foreground mt-1">{zone.name}</p>
-              <p className="text-[10px] text-muted-foreground">
-                {locked ? <><Lock className="w-3 h-3 inline" /> Lv. {zone.minLevel}</> : "Explore!"}
+              <p className="text-[10px] text-muted-foreground line-clamp-1">
+                {locked ? <><Lock className="w-3 h-3 inline" /> Lv. {zone.minLevel}</> : zone.description}
               </p>
             </button>
           );
         })}
-      </div>
-      <div className="flex gap-3">
-        <Button onClick={onBattle} className="flex-1" variant="default">
-          <Swords className="w-4 h-4 mr-2" /> Battle!
-          {!hasPaid && <span className="ml-1 text-[10px]">({freeBattles} free left)</span>}
-        </Button>
-        <Button onClick={onExplore} variant="outline" className="flex-1">
-          <Map className="w-4 h-4 mr-2" /> Explore
-        </Button>
       </div>
     </div>
   );
@@ -248,6 +299,7 @@ const PokemonKidsGame = () => {
   const [collectedPokemon, setCollectedPokemon] = useState<string[]>([]);
   const [collectedCards, setCollectedCards] = useState<any[]>([]);
   const [tab, setTab] = useState("adventure");
+  const [activeZone, setActiveZone] = useState<AdventureZone | null>(null);
 
   // Battle state
   const [inBattle, setInBattle] = useState(false);
@@ -352,7 +404,7 @@ const PokemonKidsGame = () => {
     }
   };
 
-  const startBattle = () => {
+  const startBattle = (zone?: AdventureZone) => {
     if (!playerData) return;
     if (!playerData.has_paid && playerData.free_battles_remaining <= 0) {
       toast({
@@ -362,14 +414,17 @@ const PokemonKidsGame = () => {
       });
       return;
     }
-    // Pick opponent based on level
-    const eligible = BOT_OPPONENTS.filter(b => {
-      if (playerData.level <= 3) return b.difficulty === "easy";
-      if (playerData.level <= 8) return b.difficulty !== "hard";
-      return true;
-    });
-    const opp = eligible[Math.floor(Math.random() * eligible.length)];
-    setCurrentOpponent(opp);
+    if (zone?.bossBot) {
+      setCurrentOpponent(zone.bossBot);
+    } else {
+      const eligible = BOT_OPPONENTS.filter(b => {
+        if (playerData.level <= 3) return b.difficulty === "easy";
+        if (playerData.level <= 8) return b.difficulty !== "hard";
+        return true;
+      });
+      const opp = eligible[Math.floor(Math.random() * eligible.length)];
+      setCurrentOpponent(opp);
+    }
     setWager(1);
     setBattlePhase("wager");
     setInBattle(true);
@@ -379,17 +434,28 @@ const PokemonKidsGame = () => {
     setCardScore(0);
   };
 
-  const handleExplore = async () => {
+  const handleExploreZone = async (zone: AdventureZone) => {
     if (!playerData) return;
-    // Find a random uncollected Pokémon
-    const uncollected = ALL_POKEMON.filter(p => !collectedPokemon.includes(p.name));
-    if (uncollected.length === 0) {
-      toast({ title: "🏆 All Pokémon collected!", description: "You've caught them all!" });
+    const zonePool = zone.pokemonPool
+      .map(id => ALL_POKEMON.find(p => p.id === id))
+      .filter((p): p is typeof ALL_POKEMON[number] => !!p && !collectedPokemon.includes(p.name));
+
+    if (zonePool.length === 0) {
+      const allUncollected = ALL_POKEMON.filter(p => !collectedPokemon.includes(p.name));
+      if (allUncollected.length === 0) {
+        toast({ title: "🏆 All Pokémon collected!", description: "You've caught them all!" });
+        return;
+      }
+      const coinBonus = Math.round(zone.coinReward * 0.5);
+      const newCoins = (playerData.coins_balance || 0) + coinBonus;
+      await supabase.from("game_players").update({ coins_balance: newCoins }).eq("id", playerData.id);
+      setPlayerData((p: any) => ({ ...p, coins_balance: newCoins }));
+      toast({ title: `${zone.name} fully explored!`, description: `All zone Pokémon collected. +${coinBonus} 🪙` });
       return;
     }
-    // 40% chance to find a Pokémon
-    if (Math.random() < 0.4) {
-      const found = uncollected[Math.floor(Math.random() * uncollected.length)];
+
+    if (Math.random() < zone.encounterRate) {
+      const found = zonePool[Math.floor(Math.random() * zonePool.length)];
       await supabase.from("game_collected_pokemon").insert({
         player_id: playerData.id,
         pokemon_name: found.name,
@@ -397,14 +463,18 @@ const PokemonKidsGame = () => {
         pokemon_type: found.type,
       });
       setCollectedPokemon(prev => [...prev, found.name]);
-      // Award XP
-      const newXp = (playerData.xp || 0) + 15;
+      const newXp = (playerData.xp || 0) + zone.xpReward;
       const newLevel = Math.floor(newXp / 100) + 1;
-      await supabase.from("game_players").update({ xp: newXp, level: newLevel }).eq("id", playerData.id);
-      setPlayerData((p: any) => ({ ...p, xp: newXp, level: newLevel }));
-      toast({ title: `Wild ${found.name} appeared!`, description: `${found.name} (${found.type}) joined your collection! +15 XP` });
+      const newCoins = (playerData.coins_balance || 0) + zone.coinReward;
+      await supabase.from("game_players").update({ xp: newXp, level: newLevel, coins_balance: newCoins }).eq("id", playerData.id);
+      setPlayerData((p: any) => ({ ...p, xp: newXp, level: newLevel, coins_balance: newCoins }));
+      toast({ title: `Wild ${found.name} in ${zone.name}!`, description: `${found.name} (${found.type}) joined your collection! +${zone.xpReward} XP, +${zone.coinReward} 🪙` });
     } else {
-      toast({ title: "Nothing found...", description: "Keep exploring! Try again." });
+      const coinBonus = Math.round(zone.coinReward * 0.3);
+      const newCoins = (playerData.coins_balance || 0) + coinBonus;
+      await supabase.from("game_players").update({ coins_balance: newCoins }).eq("id", playerData.id);
+      setPlayerData((p: any) => ({ ...p, coins_balance: newCoins }));
+      toast({ title: `${zone.name} is quiet...`, description: `No wild Pokémon. Keep exploring! +${coinBonus} 🪙` });
     }
   };
 
@@ -590,9 +660,11 @@ const PokemonKidsGame = () => {
                 totalPokemon={ALL_POKEMON.length}
                 level={playerData?.level || 1}
                 onBattle={startBattle}
-                onExplore={handleExplore}
+                onExploreZone={handleExploreZone}
                 hasPaid={playerData?.has_paid}
                 freeBattles={playerData?.free_battles_remaining || 0}
+                activeZone={activeZone}
+                onSelectZone={setActiveZone}
               />
             </TabsContent>
 
