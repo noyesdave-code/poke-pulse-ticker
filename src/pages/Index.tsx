@@ -206,6 +206,9 @@ const Index = () => {
         {/* Quick Collection Value Calculator — instant engagement hook */}
         <QuickValueCalculator />
 
+        {/* PokémonKids Adventure Game Promo */}
+        <GamePromo />
+
         {/* Inline upgrade nudge — after first value moment */}
         <InlineUpgradeNudge variant="savings" />
 
