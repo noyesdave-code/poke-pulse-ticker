@@ -111,7 +111,7 @@ const DailyAuditReportEmail = ({
       <Container style={container}>
         <Section style={headerSection}>
           <Text style={logo}>PG</Text>
-          <Heading style={h1}>Daily Site Audit Report</Heading>
+          <Heading style={h1}>{auditTime ? `${auditTime} ` : ''}Site Audit + Capital Report</Heading>
           <Text style={dateText}>{auditDate || new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
         </Section>
 
