@@ -184,6 +184,17 @@ const videoLibrary: VideoEntry[] = [
     date: "2026-04-02",
     views: 0,
   },
+  {
+    id: "investor-12-engines",
+    title: "12 Revenue Engines — Investor Social Pitch",
+    description: "59-second polished investor pitch highlighting all 12 revenue-generating market engines: Live Indexes, Growth Charts, SimTrader World™, Poké-Pulse Arena™, PokémonKids Adventure, Alpha Signals, Grading Arbitrage, Portfolio Tracking, Whale Reports, Data API, Franchise Blueprint, and Subscription Tiers. Female voiceover, upbeat background music, large-frame imagery. Optimized for social media. Contact: contact@poke-pulse-ticker.com. © PGVA Ventures, LLC. All rights reserved. Protected under U.S. Patent, Trademark & Copyright law.",
+    file: "/videos/PGVA_Investor_Pitch_59s_2026.mp4",
+    aspect: "16:9",
+    duration: "0:59",
+    category: "Investor",
+    date: "2026-04-02",
+    views: 0,
+  },
 ];
 
 const categories = ["All", ...Array.from(new Set(videoLibrary.map(v => v.category)))];
