@@ -404,7 +404,7 @@ const PokemonKidsGame = () => {
     }
   };
 
-  const startBattle = () => {
+  const startBattle = (zone?: AdventureZone) => {
     if (!playerData) return;
     if (!playerData.has_paid && playerData.free_battles_remaining <= 0) {
       toast({
@@ -414,14 +414,17 @@ const PokemonKidsGame = () => {
       });
       return;
     }
-    // Pick opponent based on level
-    const eligible = BOT_OPPONENTS.filter(b => {
-      if (playerData.level <= 3) return b.difficulty === "easy";
-      if (playerData.level <= 8) return b.difficulty !== "hard";
-      return true;
-    });
-    const opp = eligible[Math.floor(Math.random() * eligible.length)];
-    setCurrentOpponent(opp);
+    if (zone?.bossBot) {
+      setCurrentOpponent(zone.bossBot);
+    } else {
+      const eligible = BOT_OPPONENTS.filter(b => {
+        if (playerData.level <= 3) return b.difficulty === "easy";
+        if (playerData.level <= 8) return b.difficulty !== "hard";
+        return true;
+      });
+      const opp = eligible[Math.floor(Math.random() * eligible.length)];
+      setCurrentOpponent(opp);
+    }
     setWager(1);
     setBattlePhase("wager");
     setInBattle(true);
@@ -431,17 +434,28 @@ const PokemonKidsGame = () => {
     setCardScore(0);
   };
 
-  const handleExplore = async () => {
+  const handleExploreZone = async (zone: AdventureZone) => {
     if (!playerData) return;
-    // Find a random uncollected Pokémon
-    const uncollected = ALL_POKEMON.filter(p => !collectedPokemon.includes(p.name));
-    if (uncollected.length === 0) {
-      toast({ title: "🏆 All Pokémon collected!", description: "You've caught them all!" });
+    const zonePool = zone.pokemonPool
+      .map(id => ALL_POKEMON.find(p => p.id === id))
+      .filter((p): p is typeof ALL_POKEMON[number] => !!p && !collectedPokemon.includes(p.name));
+
+    if (zonePool.length === 0) {
+      const allUncollected = ALL_POKEMON.filter(p => !collectedPokemon.includes(p.name));
+      if (allUncollected.length === 0) {
+        toast({ title: "🏆 All Pokémon collected!", description: "You've caught them all!" });
+        return;
+      }
+      const coinBonus = Math.round(zone.coinReward * 0.5);
+      const newCoins = (playerData.coins_balance || 0) + coinBonus;
+      await supabase.from("game_players").update({ coins_balance: newCoins }).eq("id", playerData.id);
+      setPlayerData((p: any) => ({ ...p, coins_balance: newCoins }));
+      toast({ title: `${zone.name} fully explored!`, description: `All zone Pokémon collected. +${coinBonus} 🪙` });
       return;
     }
-    // 40% chance to find a Pokémon
-    if (Math.random() < 0.4) {
-      const found = uncollected[Math.floor(Math.random() * uncollected.length)];
+
+    if (Math.random() < zone.encounterRate) {
+      const found = zonePool[Math.floor(Math.random() * zonePool.length)];
       await supabase.from("game_collected_pokemon").insert({
         player_id: playerData.id,
         pokemon_name: found.name,
@@ -449,14 +463,18 @@ const PokemonKidsGame = () => {
         pokemon_type: found.type,
       });
       setCollectedPokemon(prev => [...prev, found.name]);
-      // Award XP
-      const newXp = (playerData.xp || 0) + 15;
+      const newXp = (playerData.xp || 0) + zone.xpReward;
       const newLevel = Math.floor(newXp / 100) + 1;
-      await supabase.from("game_players").update({ xp: newXp, level: newLevel }).eq("id", playerData.id);
-      setPlayerData((p: any) => ({ ...p, xp: newXp, level: newLevel }));
-      toast({ title: `Wild ${found.name} appeared!`, description: `${found.name} (${found.type}) joined your collection! +15 XP` });
+      const newCoins = (playerData.coins_balance || 0) + zone.coinReward;
+      await supabase.from("game_players").update({ xp: newXp, level: newLevel, coins_balance: newCoins }).eq("id", playerData.id);
+      setPlayerData((p: any) => ({ ...p, xp: newXp, level: newLevel, coins_balance: newCoins }));
+      toast({ title: `Wild ${found.name} in ${zone.name}!`, description: `${found.name} (${found.type}) joined your collection! +${zone.xpReward} XP, +${zone.coinReward} 🪙` });
     } else {
-      toast({ title: "Nothing found...", description: "Keep exploring! Try again." });
+      const coinBonus = Math.round(zone.coinReward * 0.3);
+      const newCoins = (playerData.coins_balance || 0) + coinBonus;
+      await supabase.from("game_players").update({ coins_balance: newCoins }).eq("id", playerData.id);
+      setPlayerData((p: any) => ({ ...p, coins_balance: newCoins }));
+      toast({ title: `${zone.name} is quiet...`, description: `No wild Pokémon. Keep exploring! +${coinBonus} 🪙` });
     }
   };
 
