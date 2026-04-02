@@ -127,6 +127,65 @@ const DailyAuditReportEmail = ({
           <Text style={summaryText}>{summary}</Text>
         )}
 
+        {/* ── DAILY CAPITAL REVENUE SHEET ── */}
+        {dailyRevenueSheet && (
+          <Section style={revenueSheetSection}>
+            <Text style={sectionTitle}>📊 DAILY CAPITAL REVENUE SHEET — Business Day #{dailyRevenueSheet.businessDay ?? 0}</Text>
+            
+            <Section style={kpiRow}>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>ACTUAL TODAY</span>{'\n'}
+                <span style={{ ...kpiValue, color: '#16a34a' }}>{formatCurrency(dailyRevenueSheet.totalActual ?? 0)}</span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>TARGET TODAY</span>{'\n'}
+                <span style={kpiValue}>{formatCurrency(dailyRevenueSheet.totalTarget ?? 0)}</span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>NET CAPITAL</span>{'\n'}
+                <span style={{ ...kpiValue, color: (dailyRevenueSheet.netCapital ?? 0) >= 0 ? '#16a34a' : '#dc2626' }}>
+                  {formatCurrency(dailyRevenueSheet.netCapital ?? 0)}
+                </span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>VS TARGET</span>{'\n'}
+                <span style={{ ...kpiValue, color: (dailyRevenueSheet.totalActual ?? 0) >= (dailyRevenueSheet.totalTarget ?? 1) ? '#16a34a' : '#dc2626' }}>
+                  {(((dailyRevenueSheet.totalActual ?? 0) / (dailyRevenueSheet.totalTarget ?? 1)) * 100).toFixed(1)}%
+                </span>
+              </Text>
+            </Section>
+
+            <Section style={bsGroup}>
+              <Text style={bsGroupTitle}>REVENUE BY STREAM (ACTUAL vs TARGET)</Text>
+              {[
+                { name: 'Subscriptions', actual: dailyRevenueSheet.actualRevenue?.subscriptions ?? 0, target: dailyRevenueSheet.targetRevenue?.subscriptions ?? 0 },
+                { name: 'Affiliates', actual: dailyRevenueSheet.actualRevenue?.affiliates ?? 0, target: dailyRevenueSheet.targetRevenue?.affiliates ?? 0 },
+                { name: 'PokéCoin Store', actual: dailyRevenueSheet.actualRevenue?.pokecoinStore ?? 0, target: dailyRevenueSheet.targetRevenue?.pokecoinStore ?? 0 },
+                { name: 'SimTrader & Contests', actual: dailyRevenueSheet.actualRevenue?.simTrader ?? 0, target: dailyRevenueSheet.targetRevenue?.simTrader ?? 0 },
+                { name: 'Arena Economy', actual: dailyRevenueSheet.actualRevenue?.arena ?? 0, target: dailyRevenueSheet.targetRevenue?.arena ?? 0 },
+                { name: 'Data Licensing & API', actual: dailyRevenueSheet.actualRevenue?.dataApi ?? 0, target: dailyRevenueSheet.targetRevenue?.dataApi ?? 0 },
+              ].map((s, i) => (
+                <Section key={i} style={bsLineRow}>
+                  <Text style={bsLineLabel}>
+                    {s.actual >= s.target ? '✅' : '🔴'} {s.name}
+                  </Text>
+                  <Text style={{ ...bsLineAmount, color: s.actual >= s.target ? '#16a34a' : '#dc2626' }}>
+                    {formatCurrency(s.actual)} / {formatCurrency(s.target)}
+                  </Text>
+                </Section>
+              ))}
+            </Section>
+
+            <Hr style={bsDivider} />
+            <Section style={bsLineRow}>
+              <Text style={{ ...bsLineLabel, fontWeight: 'bold', fontSize: '14px' }}>YTD ACTUAL vs TARGET</Text>
+              <Text style={{ ...bsLineAmount, fontWeight: 'bold', fontSize: '14px' }}>
+                {formatCurrency(dailyRevenueSheet.ytdActual ?? 0)} / {formatCurrency(dailyRevenueSheet.ytdTarget ?? 0)}
+              </Text>
+            </Section>
+          </Section>
+        )}
+
         {/* ── BALANCE SHEET ── */}
         {balanceSheet && (
           <Section style={balanceSheetSection}>
