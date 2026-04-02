@@ -105,6 +105,16 @@ const AnimatedRoutes = () => {
           <Route path="/capital-dream" element={<CapitalDreamIntake />} />
           <Route path="/pokemon-kids" element={<PokemonKidsGame />} />
           <Route path="/franchise" element={<Franchise />} />
+          <Route path="/demo/mlb" element={<MLBDemo />} />
+          <Route path="/demo/nfl" element={<NFLDemo />} />
+          <Route path="/demo/nba" element={<NBADemo />} />
+          <Route path="/demo/nhl" element={<NHLDemo />} />
+          <Route path="/demo/fifa" element={<FIFADemo />} />
+          <Route path="/demo/mtg" element={<MTGDemo />} />
+          <Route path="/demo/yugioh" element={<YuGiOhDemo />} />
+          <Route path="/demo/dbz" element={<DBZDemo />} />
+          <Route path="/demo/lorcana" element={<LorcanaDemo />} />
+          <Route path="/demo/starwars" element={<StarWarsDemo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>
