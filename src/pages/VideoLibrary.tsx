@@ -173,6 +173,17 @@ const videoLibrary: VideoEntry[] = [
     date: "2026-04-02",
     views: 0,
   },
+  {
+    id: "investor-pitch-59s",
+    title: "Investor Pitch — 59s Extended Franchise Overview",
+    description: "59-second cinematic investor pitch covering audit scores, 7 subscription tiers, market performance, SimTrader World™, competitive advantages, franchise verticals ($103B+ TAM), 5-year revenue projections ($157.8M ARR), top 10 strategic investors, and final call to action. © PGVA Ventures, LLC.",
+    file: "/videos/investor-pitch-59s-2026.mp4",
+    aspect: "16:9",
+    duration: "0:59",
+    category: "Investor",
+    date: "2026-04-02",
+    views: 0,
+  },
 ];
 
 const categories = ["All", ...Array.from(new Set(videoLibrary.map(v => v.category)))];
