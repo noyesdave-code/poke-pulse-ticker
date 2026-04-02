@@ -45,7 +45,8 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
   const glowY = useTransform(scrollYProgress, [0, 1], isMobile ? ["0%", "0%"] : ["-30%", "30%"]);
   const glowScale = useTransform(scrollYProgress, [0, 0.5, 1], isMobile ? [1, 1, 1] : [0.9, 1.1, 0.95]);
 
-  const particleCount = isMobile ? 4 : 12;
+  // Disable particles entirely on mobile for INP
+  const particleCount = isMobile ? 0 : 12;
 
   // Dynamic headline based on real top mover
   const hookLine = topMoverName && topMoverChange
@@ -55,9 +56,9 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
+      animate={isMobile ? { opacity: 1 } : { opacity: 1, y: 0 }}
+      transition={isMobile ? { duration: 0 } : { duration: 0.6, ease: "easeOut" }}
       className="terminal-card hero-glow-border overflow-hidden relative"
     >
       {/* Ambient glow background — parallax on desktop, static on mobile */}

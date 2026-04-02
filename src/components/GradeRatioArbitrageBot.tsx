@@ -128,9 +128,9 @@ const GradeRatioArbitrageBot = () => {
             <Shield className="w-3 h-3" />
             Monitors PSA 10/9 spread vs. historic norms. Not financial advice.
           </p>
-          <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary font-bold">
+          <a href="/methodology" className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary font-bold hover:bg-primary/20 transition-colors">
             ✓ VERIFIED BY PGVA
-          </span>
+          </a>
         </div>
 
         {/* Column Headers */}

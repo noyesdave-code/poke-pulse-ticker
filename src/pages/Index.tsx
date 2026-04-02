@@ -72,6 +72,8 @@ import FomoPopup from "@/components/FomoPopup";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import SimTraderPromo from "@/components/SimTraderPromo";
 import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
+import PulseScore from "@/components/PulseScore";
+import CorrelationMatrix from "@/components/CorrelationMatrix";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
@@ -281,6 +283,18 @@ const Index = () => {
 
         <LazySection minHeight="200px">
           <RecentNotableSales cards={displayCards} />
+        </LazySection>
+
+        <LazySection minHeight="250px">
+          <ProGate feature="Pulse Score™ Analysis" blur>
+            <PulseScore cards={displayCards} />
+          </ProGate>
+        </LazySection>
+
+        <LazySection minHeight="250px">
+          <ProGate feature="Correlation Matrix" blur>
+            <CorrelationMatrix cards={displayCards} />
+          </ProGate>
         </LazySection>
 
         <div ref={searchRef}>

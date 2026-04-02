@@ -20,9 +20,9 @@ const AlphaAccuracy = () => {
         <h3 className="text-sm font-bold tracking-wide text-secondary uppercase flex items-center gap-2">
           <Target className="w-3.5 h-3.5" /> Alpha Algorithm — Historic Accuracy
         </h3>
-        <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary font-bold tracking-wider">
+        <a href="/methodology" className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary font-bold tracking-wider hover:bg-primary/20 transition-colors">
           ✓ VERIFIED BY PGVA
-        </span>
+        </a>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-border">
         {metrics.map((m, idx) => {
