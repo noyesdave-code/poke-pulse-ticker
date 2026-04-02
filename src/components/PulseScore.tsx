@@ -75,7 +75,7 @@ const PulseScore = ({ cards }: PulseScoreProps) => {
           return (
             <div key={card.name + i} className="flex items-center gap-3 px-3 py-2 rounded bg-muted/30 hover:bg-muted/50 transition-colors">
               <span className="font-mono text-[10px] text-muted-foreground w-4">{i + 1}</span>
-              {card.image && <img src={card.image} alt="" className="w-6 h-8 object-contain rounded-sm" />}
+              {card._image && <img src={card._image} alt="" className="w-6 h-8 object-contain rounded-sm" />}
               <div className="flex-1 min-w-0">
                 <p className="font-mono text-xs text-foreground truncate">{card.name}</p>
                 <p className="font-mono text-[9px] text-muted-foreground">{card.set}</p>
