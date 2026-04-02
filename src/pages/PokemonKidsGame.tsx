@@ -12,11 +12,12 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   STARTER_POKEMON, ALL_POKEMON, getPokemonImage, TYPE_ADVANTAGES,
-  QUIZ_QUESTIONS, BOT_OPPONENTS, type StarterPokemon, type BotOpponent, type QuizQuestion
+  QUIZ_QUESTIONS, BOT_OPPONENTS, ADVENTURE_ZONES,
+  type StarterPokemon, type BotOpponent, type QuizQuestion, type AdventureZone
 } from "@/lib/pokemonKidsData";
 import {
   Sword, Shield, Heart, Zap, Trophy, Coins, Map, Swords,
-  Star, Lock, Unlock, Crown, Sparkles, BookOpen, Target, Users, ShoppingCart
+  Star, Lock, Unlock, Crown, Sparkles, BookOpen, Target, Users, ShoppingCart, MapPin, ChevronRight
 } from "lucide-react";
 
 // --- Game sub-components ---
