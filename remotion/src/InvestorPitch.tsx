@@ -5,6 +5,8 @@ import {
   interpolate,
   spring,
   Sequence,
+  Img,
+  staticFile,
 } from "remotion";
 
 const ACCENT = "#00d26a";
@@ -49,21 +51,35 @@ const Stat: React.FC<{ value: string; label: string; delay: number; color?: stri
   );
 };
 
+/** Background image layer with animated reveal */
+const SceneBG: React.FC<{ src: string; opacity?: number }> = ({ src, opacity: maxOp = 0.35 }) => {
+  const frame = useCurrentFrame();
+  const op = interpolate(frame, [0, 20], [0, maxOp], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return (
+    <AbsoluteFill style={{ opacity: op }}>
+      <Img src={staticFile(src)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+    </AbsoluteFill>
+  );
+};
+
 // ─── Scene 1: Hero Title (0-145) ───
 const SceneHero: React.FC = () => {
   const frame = useCurrentFrame();
   const exitOp = interpolate(frame, [120, 145], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
-      <Glow color={ACCENT} size={900} x="50%" y="45%" opacity={0.2} />
-      <div style={{ textAlign: "center" }}>
-        <Text text="PULSE MARKET" delay={5} size={110} color={ACCENT} weight={900} spacing={8} />
-        <Text text="TERMINAL TICKER™" delay={15} size={80} color="white" weight={900} spacing={6} />
-        <div style={{ height: 32 }} />
-        <Text text="12 Revenue Engines. One Platform." delay={30} size={34} color="rgba(255,255,255,0.5)" weight={500} spacing={4} />
-        <div style={{ height: 16 }} />
-        <Text text="PGVA Ventures, LLC" delay={42} size={24} color="rgba(255,255,255,0.3)" weight={400} spacing={6} />
-      </div>
+    <AbsoluteFill style={{ opacity: exitOp }}>
+      <SceneBG src="images/hero-terminal.jpg" opacity={0.3} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+        <Glow color={ACCENT} size={900} x="50%" y="45%" opacity={0.2} />
+        <div style={{ textAlign: "center", position: "relative" }}>
+          <Text text="PULSE MARKET" delay={5} size={110} color={ACCENT} weight={900} spacing={8} />
+          <Text text="TERMINAL TICKER™" delay={15} size={80} color="white" weight={900} spacing={6} />
+          <div style={{ height: 32 }} />
+          <Text text="12 Revenue Engines. One Platform." delay={30} size={34} color="rgba(255,255,255,0.5)" weight={500} spacing={4} />
+          <div style={{ height: 16 }} />
+          <Text text="PGVA Ventures, LLC" delay={42} size={24} color="rgba(255,255,255,0.3)" weight={400} spacing={6} />
+        </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -88,28 +104,31 @@ const SceneVerticals: React.FC = () => {
     { name: "Blueprint™", icon: "📐", tam: "Master", color: "white" },
   ];
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
-      <Glow color={GOLD} size={700} x="30%" y="30%" opacity={0.12} />
-      <Glow color={PURPLE} size={600} x="70%" y="70%" opacity={0.1} />
-      <div style={{ textAlign: "center", width: "92%" }}>
-        <Text text="12 MARKET VERTICALS" delay={3} size={64} color={ACCENT} weight={900} />
-        <Text text="$103B+ Combined TAM" delay={12} size={36} color={GOLD} weight={700} />
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center", marginTop: 50 }}>
-          {verticals.map((v, i) => {
-            const s = spring({ frame: frame - 22 - i * 4, fps, config: { damping: 14 } });
-            return (
-              <div key={i} style={{
-                width: 220, padding: "22px 16px", borderRadius: 18, background: "rgba(255,255,255,0.04)",
-                border: `2px solid ${v.color}50`, transform: `scale(${s})`, opacity: s, textAlign: "center",
-              }}>
-                <div style={{ fontSize: 36 }}>{v.icon}</div>
-                <div style={{ fontFamily: "sans-serif", fontSize: 18, fontWeight: 700, color: v.color, marginTop: 8 }}>{v.name}</div>
-                <div style={{ fontFamily: "monospace", fontSize: 16, color: "rgba(255,255,255,0.45)", marginTop: 4 }}>{v.tam}</div>
-              </div>
-            );
-          })}
+    <AbsoluteFill style={{ opacity: exitOp }}>
+      <SceneBG src="images/verticals-grid.jpg" opacity={0.25} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+        <Glow color={GOLD} size={700} x="30%" y="30%" opacity={0.12} />
+        <Glow color={PURPLE} size={600} x="70%" y="70%" opacity={0.1} />
+        <div style={{ textAlign: "center", width: "92%", position: "relative" }}>
+          <Text text="12 MARKET VERTICALS" delay={3} size={64} color={ACCENT} weight={900} />
+          <Text text="$103B+ Combined TAM" delay={12} size={36} color={GOLD} weight={700} />
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center", marginTop: 50 }}>
+            {verticals.map((v, i) => {
+              const s = spring({ frame: frame - 22 - i * 4, fps, config: { damping: 14 } });
+              return (
+                <div key={i} style={{
+                  width: 220, padding: "22px 16px", borderRadius: 18, background: "rgba(0,0,0,0.65)",
+                  border: `2px solid ${v.color}50`, transform: `scale(${s})`, opacity: s, textAlign: "center",
+                }}>
+                  <div style={{ fontSize: 36 }}>{v.icon}</div>
+                  <div style={{ fontFamily: "sans-serif", fontSize: 18, fontWeight: 700, color: v.color, marginTop: 8 }}>{v.name}</div>
+                  <div style={{ fontFamily: "monospace", fontSize: 16, color: "rgba(255,255,255,0.6)", marginTop: 4 }}>{v.tam}</div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -143,38 +162,41 @@ const SceneIndexes: React.FC = () => {
   ];
 
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
-      <Glow color={ACCENT} size={600} x="40%" y="30%" opacity={0.12} />
-      <div style={{ textAlign: "center" }}>
-        <Text text="📊 REAL-TIME MARKET INDEXES" delay={3} size={56} color={ACCENT} />
-        <Text text="Live Price Tracking Across All Verticals" delay={12} size={26} color="rgba(255,255,255,0.4)" weight={500} />
-        <svg width={chartW} height={chartH} style={{ marginTop: 40 }}>
-          {[100, 150, 200].map(v => (
-            <g key={v}>
-              <line x1={padL} y1={toY(v)} x2={padL + innerW} y2={toY(v)} stroke="rgba(255,255,255,0.06)" />
-              <text x={padL - 12} y={toY(v) + 5} textAnchor="end" fill="rgba(255,255,255,0.3)" fontSize={18} fontFamily="monospace">{v}</text>
-            </g>
-          ))}
-          {months.map((m, i) => (
-            <text key={i} x={toX(i)} y={chartH - 8} textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize={17} fontFamily="sans-serif">{m}</text>
-          ))}
-          {datasets.map((ds, di) => (
-            <path key={di} d={buildPath(ds.data)} fill="none" stroke={ds.color} strokeWidth={di === 0 ? 5 : 3.5} strokeLinecap="round" strokeLinejoin="round" opacity={di === 0 ? 1 : 0.75} />
-          ))}
-        </svg>
-        <div style={{ display: "flex", gap: 50, justifyContent: "center", marginTop: 30 }}>
-          {datasets.map((ds, i) => {
-            const ls = spring({ frame: frame - 90 - i * 10, fps, config: { damping: 15 } });
-            return (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, opacity: ls }}>
-                <div style={{ width: 18, height: 18, borderRadius: 4, background: ds.color }} />
-                <span style={{ fontFamily: "sans-serif", fontSize: 20, color: "rgba(255,255,255,0.6)" }}>{ds.label}</span>
-                <span style={{ fontFamily: "monospace", fontSize: 24, fontWeight: 700, color: ds.color }}>{ds.val}</span>
-              </div>
-            );
-          })}
+    <AbsoluteFill style={{ opacity: exitOp }}>
+      <SceneBG src="images/market-indexes.jpg" opacity={0.2} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+        <Glow color={ACCENT} size={600} x="40%" y="30%" opacity={0.12} />
+        <div style={{ textAlign: "center", position: "relative" }}>
+          <Text text="📊 REAL-TIME MARKET INDEXES" delay={3} size={56} color={ACCENT} />
+          <Text text="Live Price Tracking Across All Verticals" delay={12} size={26} color="rgba(255,255,255,0.4)" weight={500} />
+          <svg width={chartW} height={chartH} style={{ marginTop: 40 }}>
+            {[100, 150, 200].map(v => (
+              <g key={v}>
+                <line x1={padL} y1={toY(v)} x2={padL + innerW} y2={toY(v)} stroke="rgba(255,255,255,0.06)" />
+                <text x={padL - 12} y={toY(v) + 5} textAnchor="end" fill="rgba(255,255,255,0.3)" fontSize={18} fontFamily="monospace">{v}</text>
+              </g>
+            ))}
+            {months.map((m, i) => (
+              <text key={i} x={toX(i)} y={chartH - 8} textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize={17} fontFamily="sans-serif">{m}</text>
+            ))}
+            {datasets.map((ds, di) => (
+              <path key={di} d={buildPath(ds.data)} fill="none" stroke={ds.color} strokeWidth={di === 0 ? 5 : 3.5} strokeLinecap="round" strokeLinejoin="round" opacity={di === 0 ? 1 : 0.75} />
+            ))}
+          </svg>
+          <div style={{ display: "flex", gap: 50, justifyContent: "center", marginTop: 30 }}>
+            {datasets.map((ds, i) => {
+              const ls = spring({ frame: frame - 90 - i * 10, fps, config: { damping: 15 } });
+              return (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, opacity: ls }}>
+                  <div style={{ width: 18, height: 18, borderRadius: 4, background: ds.color }} />
+                  <span style={{ fontFamily: "sans-serif", fontSize: 20, color: "rgba(255,255,255,0.6)" }}>{ds.label}</span>
+                  <span style={{ fontFamily: "monospace", fontSize: 24, fontWeight: 700, color: ds.color }}>{ds.val}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -207,48 +229,51 @@ const SceneSimTrader: React.FC = () => {
   ];
 
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
-      <Glow color={ACCENT} size={500} x="25%" y="40%" opacity={0.15} />
-      <Glow color={BLUE} size={450} x="75%" y="60%" opacity={0.1} />
-      <div style={{ display: "flex", gap: 80, alignItems: "center" }}>
-        <div style={{ width: 750 }}>
-          <Text text="🎮 SIMTRADER WORLD™" delay={3} size={60} color={ACCENT} weight={900} />
-          <Text text="Virtual Trading · Real Market Data" delay={12} size={24} color="rgba(255,255,255,0.4)" weight={500} />
-          <Sequence from={18}>
-            {(() => {
-              const cardPop = spring({ frame: frame - 18, fps, config: { damping: 14 } });
-              return (
-                <div style={{ marginTop: 36, padding: "32px 36px", borderRadius: 20, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(0,210,106,0.2)", transform: `scale(${cardPop})`, opacity: cardPop }}>
-                  <div style={{ fontFamily: "monospace", fontSize: 18, color: "rgba(255,255,255,0.3)", letterSpacing: 4 }}>PORTFOLIO VALUE</div>
-                  <div style={{ fontFamily: "monospace", fontSize: 68, fontWeight: 900, color: "white", marginTop: 8 }}>${Math.floor(portfolioValue).toLocaleString()}</div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 20, marginTop: 10 }}>
-                    <span style={{ fontFamily: "monospace", fontSize: 28, fontWeight: 700, color: ACCENT }}>+${Math.floor(pnl).toLocaleString()} ({pnlPct}%)</span>
-                    <svg width={sparkW} height={sparkH}><path d={sparkPath} fill="none" stroke={ACCENT} strokeWidth={3} strokeLinecap="round" /></svg>
+    <AbsoluteFill style={{ opacity: exitOp }}>
+      <SceneBG src="images/simtrader-world.jpg" opacity={0.25} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+        <Glow color={ACCENT} size={500} x="25%" y="40%" opacity={0.15} />
+        <Glow color={BLUE} size={450} x="75%" y="60%" opacity={0.1} />
+        <div style={{ display: "flex", gap: 80, alignItems: "center", position: "relative" }}>
+          <div style={{ width: 750 }}>
+            <Text text="🎮 SIMTRADER WORLD™" delay={3} size={60} color={ACCENT} weight={900} />
+            <Text text="Virtual Trading · Real Market Data" delay={12} size={24} color="rgba(255,255,255,0.4)" weight={500} />
+            <Sequence from={18}>
+              {(() => {
+                const cardPop = spring({ frame: frame - 18, fps, config: { damping: 14 } });
+                return (
+                  <div style={{ marginTop: 36, padding: "32px 36px", borderRadius: 20, background: "rgba(0,0,0,0.7)", border: "1px solid rgba(0,210,106,0.2)", transform: `scale(${cardPop})`, opacity: cardPop }}>
+                    <div style={{ fontFamily: "monospace", fontSize: 18, color: "rgba(255,255,255,0.3)", letterSpacing: 4 }}>PORTFOLIO VALUE</div>
+                    <div style={{ fontFamily: "monospace", fontSize: 68, fontWeight: 900, color: "white", marginTop: 8 }}>${Math.floor(portfolioValue).toLocaleString()}</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 20, marginTop: 10 }}>
+                      <span style={{ fontFamily: "monospace", fontSize: 28, fontWeight: 700, color: ACCENT }}>+${Math.floor(pnl).toLocaleString()} ({pnlPct}%)</span>
+                      <svg width={sparkW} height={sparkH}><path d={sparkPath} fill="none" stroke={ACCENT} strokeWidth={3} strokeLinecap="round" /></svg>
+                    </div>
                   </div>
+                );
+              })()}
+            </Sequence>
+          </div>
+          <div style={{ width: 450 }}>
+            <div style={{ fontFamily: "monospace", fontSize: 18, color: "rgba(255,255,255,0.3)", letterSpacing: 4, marginBottom: 20 }}>BOT ACTIVITY</div>
+            {bots.map((bot, i) => {
+              const rs = spring({ frame: frame - 40 - i * 12, fps, config: { damping: 16 } });
+              return (
+                <div key={i} style={{ padding: "16px 20px", marginBottom: 10, borderRadius: 12, background: "rgba(0,0,0,0.65)", border: "1px solid rgba(255,255,255,0.06)", opacity: rs, transform: `translateX(${interpolate(rs, [0, 1], [30, 0])}px)`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div>
+                    <div style={{ fontFamily: "sans-serif", fontSize: 18, color: "rgba(255,255,255,0.7)" }}>{bot.name}</div>
+                    <div style={{ fontFamily: "monospace", fontSize: 14, color: "rgba(255,255,255,0.35)" }}>{bot.action} {bot.card}</div>
+                  </div>
+                  <div style={{ width: 36, height: 36, borderRadius: 8, background: `${bot.color}20`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "monospace", fontSize: 16, fontWeight: 700, color: bot.color }}>{bot.action === "BUY" ? "▲" : "▼"}</div>
                 </div>
               );
-            })()}
-          </Sequence>
+            })}
+            <Sequence from={90}>
+              <Text text="🤖 10 AI Opponents · 3 Difficulty Levels" delay={0} size={16} color={GOLD} weight={600} />
+            </Sequence>
+          </div>
         </div>
-        <div style={{ width: 450 }}>
-          <div style={{ fontFamily: "monospace", fontSize: 18, color: "rgba(255,255,255,0.3)", letterSpacing: 4, marginBottom: 20 }}>BOT ACTIVITY</div>
-          {bots.map((bot, i) => {
-            const rs = spring({ frame: frame - 40 - i * 12, fps, config: { damping: 16 } });
-            return (
-              <div key={i} style={{ padding: "16px 20px", marginBottom: 10, borderRadius: 12, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", opacity: rs, transform: `translateX(${interpolate(rs, [0, 1], [30, 0])}px)`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div>
-                  <div style={{ fontFamily: "sans-serif", fontSize: 18, color: "rgba(255,255,255,0.7)" }}>{bot.name}</div>
-                  <div style={{ fontFamily: "monospace", fontSize: 14, color: "rgba(255,255,255,0.35)" }}>{bot.action} {bot.card}</div>
-                </div>
-                <div style={{ width: 36, height: 36, borderRadius: 8, background: `${bot.color}20`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "monospace", fontSize: 16, fontWeight: 700, color: bot.color }}>{bot.action === "BUY" ? "▲" : "▼"}</div>
-              </div>
-            );
-          })}
-          <Sequence from={90}>
-            <Text text="🤖 10 AI Opponents · 3 Difficulty Levels" delay={0} size={16} color={GOLD} weight={600} />
-          </Sequence>
-        </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -265,24 +290,27 @@ const SceneArena: React.FC = () => {
     { icon: "⚔️", title: "Prediction Duels", desc: "1v1 PvP price prediction battles" },
   ];
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
-      <Glow color={GOLD} size={700} x="50%" y="40%" opacity={0.15} />
-      <div style={{ textAlign: "center", width: "90%" }}>
-        <Text text="🏟️ POKÉ-PULSE ARENA™" delay={3} size={64} color={GOLD} weight={900} />
-        <Text text="Gamified Trading · Real Stakes" delay={12} size={28} color="rgba(255,255,255,0.4)" weight={500} />
-        <div style={{ display: "flex", gap: 28, justifyContent: "center", marginTop: 50 }}>
-          {features.map((f, i) => {
-            const s = spring({ frame: frame - 25 - i * 10, fps, config: { damping: 14 } });
-            return (
-              <div key={i} style={{ width: 320, padding: "36px 28px", borderRadius: 20, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(245,158,11,0.15)", transform: `scale(${s})`, opacity: s, textAlign: "center" }}>
-                <div style={{ fontSize: 48 }}>{f.icon}</div>
-                <div style={{ fontFamily: "sans-serif", fontSize: 22, fontWeight: 700, color: "white", marginTop: 14 }}>{f.title}</div>
-                <div style={{ fontFamily: "sans-serif", fontSize: 16, color: "rgba(255,255,255,0.4)", marginTop: 8, lineHeight: 1.4 }}>{f.desc}</div>
-              </div>
-            );
-          })}
+    <AbsoluteFill style={{ opacity: exitOp }}>
+      <SceneBG src="images/arena-gaming.jpg" opacity={0.25} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+        <Glow color={GOLD} size={700} x="50%" y="40%" opacity={0.15} />
+        <div style={{ textAlign: "center", width: "90%", position: "relative" }}>
+          <Text text="🏟️ POKÉ-PULSE ARENA™" delay={3} size={64} color={GOLD} weight={900} />
+          <Text text="Gamified Trading · Real Stakes" delay={12} size={28} color="rgba(255,255,255,0.4)" weight={500} />
+          <div style={{ display: "flex", gap: 28, justifyContent: "center", marginTop: 50 }}>
+            {features.map((f, i) => {
+              const s = spring({ frame: frame - 25 - i * 10, fps, config: { damping: 14 } });
+              return (
+                <div key={i} style={{ width: 320, padding: "36px 28px", borderRadius: 20, background: "rgba(0,0,0,0.7)", border: "1px solid rgba(245,158,11,0.15)", transform: `scale(${s})`, opacity: s, textAlign: "center" }}>
+                  <div style={{ fontSize: 48 }}>{f.icon}</div>
+                  <div style={{ fontFamily: "sans-serif", fontSize: 22, fontWeight: 700, color: "white", marginTop: 14 }}>{f.title}</div>
+                  <div style={{ fontFamily: "sans-serif", fontSize: 16, color: "rgba(255,255,255,0.4)", marginTop: 8, lineHeight: 1.4 }}>{f.desc}</div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -292,32 +320,36 @@ const SceneAdventure: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const exitOp = interpolate(frame, [120, 145], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const sprites = [25, 6, 150, 149, 384]; // pikachu, charizard, mewtwo, dragonite, rayquaza
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
-      <Glow color={ORANGE} size={600} x="40%" y="35%" opacity={0.15} />
-      <Glow color={RED} size={500} x="65%" y="65%" opacity={0.1} />
-      <div style={{ textAlign: "center" }}>
-        <Text text="🎮 POKÉMONKIDS ADVENTURE" delay={3} size={60} color={ORANGE} weight={900} />
-        <Text text="Choose · Battle · Collect · Win" delay={12} size={28} color="rgba(255,255,255,0.4)" weight={500} />
-        <div style={{ display: "flex", gap: 40, justifyContent: "center", marginTop: 50 }}>
-          {sprites.map((id, i) => {
-            const s = spring({ frame: frame - 20 - i * 8, fps, config: { damping: 12, stiffness: 200 } });
-            const bob = Math.sin((frame - 20) * 0.06 + i) * 6;
-            return (
-              <div key={i} style={{ transform: `scale(${s}) translateY(${bob}px)`, opacity: s }}>
-                <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
-                  style={{ width: 180, height: 180, objectFit: "contain" }} />
-              </div>
-            );
-          })}
+    <AbsoluteFill style={{ opacity: exitOp }}>
+      <SceneBG src="images/adventure-game.jpg" opacity={0.35} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+        <Glow color={ORANGE} size={600} x="40%" y="35%" opacity={0.15} />
+        <Glow color={RED} size={500} x="65%" y="65%" opacity={0.1} />
+        <div style={{ textAlign: "center", position: "relative" }}>
+          <Text text="🎮 POKÉMONKIDS ADVENTURE" delay={3} size={60} color={ORANGE} weight={900} />
+          <Text text="Choose · Battle · Collect · Win" delay={12} size={28} color="rgba(255,255,255,0.4)" weight={500} />
+          <div style={{ display: "flex", gap: 50, justifyContent: "center", marginTop: 60 }}>
+            {["⚡ Pikachu", "🔥 Charizard", "🌊 Blastoise", "🍃 Venusaur", "🐉 Rayquaza"].map((name, i) => {
+              const s = spring({ frame: frame - 20 - i * 8, fps, config: { damping: 12, stiffness: 200 } });
+              const bob = Math.sin((frame - 20) * 0.06 + i) * 6;
+              return (
+                <div key={i} style={{ transform: `scale(${s}) translateY(${bob}px)`, opacity: s, textAlign: "center" }}>
+                  <div style={{ width: 160, height: 160, borderRadius: 20, background: `linear-gradient(135deg, ${[GOLD, RED, BLUE, ACCENT, PURPLE][i]}30, ${[GOLD, RED, BLUE, ACCENT, PURPLE][i]}10)`, border: `2px solid ${[GOLD, RED, BLUE, ACCENT, PURPLE][i]}40`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 72 }}>
+                    {["⚡","🔥","🌊","🍃","🐉"][i]}
+                  </div>
+                  <div style={{ fontFamily: "sans-serif", fontSize: 18, fontWeight: 700, color: "white", marginTop: 12 }}>{name}</div>
+                </div>
+              );
+            })}
+          </div>
+          <div style={{ display: "flex", gap: 50, justifyContent: "center", marginTop: 40 }}>
+            <Stat value="17" label="Battle Zones" delay={55} color={ORANGE} size={52} />
+            <Stat value="PvP" label="Real-Time" delay={65} color={RED} size={52} />
+            <Stat value="$0.99" label="Full Access" delay={75} color={ACCENT} size={52} />
+          </div>
         </div>
-        <div style={{ display: "flex", gap: 50, justifyContent: "center", marginTop: 40 }}>
-          <Stat value="17" label="Battle Zones" delay={55} color={ORANGE} size={52} />
-          <Stat value="PvP" label="Real-Time" delay={65} color={RED} size={52} />
-          <Stat value="$0.99" label="Full Access" delay={75} color={ACCENT} size={52} />
-        </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -336,24 +368,27 @@ const SceneAIPortfolio: React.FC = () => {
     { icon: "Δ", name: "Pop Report Delta", desc: "Grading population changes", color: ORANGE },
   ];
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
-      <Glow color={CYAN} size={600} x="50%" y="40%" opacity={0.12} />
-      <div style={{ textAlign: "center", width: "92%" }}>
-        <Text text="🧠 AI-POWERED INTELLIGENCE" delay={3} size={56} color={CYAN} weight={900} />
-        <Text text="Professional-Grade Tools for Every Vertical" delay={12} size={24} color="rgba(255,255,255,0.4)" weight={500} />
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 20, justifyContent: "center", marginTop: 45 }}>
-          {tools.map((t, i) => {
-            const s = spring({ frame: frame - 22 - i * 7, fps, config: { damping: 15 } });
-            return (
-              <div key={i} style={{ width: 280, padding: "28px 22px", borderRadius: 18, background: "rgba(255,255,255,0.04)", border: `1px solid ${t.color}25`, transform: `scale(${s})`, opacity: s, textAlign: "left" }}>
-                <div style={{ fontSize: 32 }}>{t.icon}</div>
-                <div style={{ fontFamily: "sans-serif", fontSize: 20, fontWeight: 700, color: t.color, marginTop: 10 }}>{t.name}</div>
-                <div style={{ fontFamily: "sans-serif", fontSize: 14, color: "rgba(255,255,255,0.4)", marginTop: 6 }}>{t.desc}</div>
-              </div>
-            );
-          })}
+    <AbsoluteFill style={{ opacity: exitOp }}>
+      <SceneBG src="images/ai-intelligence.jpg" opacity={0.25} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+        <Glow color={CYAN} size={600} x="50%" y="40%" opacity={0.12} />
+        <div style={{ textAlign: "center", width: "92%", position: "relative" }}>
+          <Text text="🧠 AI-POWERED INTELLIGENCE" delay={3} size={56} color={CYAN} weight={900} />
+          <Text text="Professional-Grade Tools for Every Vertical" delay={12} size={24} color="rgba(255,255,255,0.4)" weight={500} />
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 20, justifyContent: "center", marginTop: 45 }}>
+            {tools.map((t, i) => {
+              const s = spring({ frame: frame - 22 - i * 7, fps, config: { damping: 15 } });
+              return (
+                <div key={i} style={{ width: 280, padding: "28px 22px", borderRadius: 18, background: "rgba(0,0,0,0.7)", border: `1px solid ${t.color}25`, transform: `scale(${s})`, opacity: s, textAlign: "left" }}>
+                  <div style={{ fontSize: 32 }}>{t.icon}</div>
+                  <div style={{ fontFamily: "sans-serif", fontSize: 20, fontWeight: 700, color: t.color, marginTop: 10 }}>{t.name}</div>
+                  <div style={{ fontFamily: "sans-serif", fontSize: 14, color: "rgba(255,255,255,0.4)", marginTop: 6 }}>{t.desc}</div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -372,36 +407,39 @@ const SceneRevenue: React.FC = () => {
     { name: "PokéCoin Store", pct: 5, color: PINK },
   ];
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
-      <Glow color={ACCENT} size={500} x="50%" y="50%" opacity={0.12} />
-      <div style={{ display: "flex", gap: 80, alignItems: "center" }}>
-        <div style={{ width: 600 }}>
-          <Text text="💰 6 REVENUE STREAMS" delay={3} size={52} color="white" weight={900} align="left" />
-          <div style={{ marginTop: 40 }}>
-            {streams.map((s, i) => {
-              const barSpring = spring({ frame: frame - 18 - i * 8, fps, config: { damping: 15 } });
-              return (
-                <div key={i} style={{ marginBottom: 18, opacity: barSpring, transform: `translateX(${interpolate(barSpring, [0, 1], [-20, 0])}px)` }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                    <span style={{ fontFamily: "sans-serif", fontSize: 20, color: "rgba(255,255,255,0.6)" }}>{s.name}</span>
-                    <span style={{ fontFamily: "monospace", fontSize: 20, fontWeight: 700, color: s.color }}>{s.pct}%</span>
+    <AbsoluteFill style={{ opacity: exitOp }}>
+      <SceneBG src="images/revenue-streams.jpg" opacity={0.2} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+        <Glow color={ACCENT} size={500} x="50%" y="50%" opacity={0.12} />
+        <div style={{ display: "flex", gap: 80, alignItems: "center", position: "relative" }}>
+          <div style={{ width: 600 }}>
+            <Text text="💰 6 REVENUE STREAMS" delay={3} size={52} color="white" weight={900} align="left" />
+            <div style={{ marginTop: 40 }}>
+              {streams.map((s, i) => {
+                const barSpring = spring({ frame: frame - 18 - i * 8, fps, config: { damping: 15 } });
+                return (
+                  <div key={i} style={{ marginBottom: 18, opacity: barSpring, transform: `translateX(${interpolate(barSpring, [0, 1], [-20, 0])}px)` }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                      <span style={{ fontFamily: "sans-serif", fontSize: 20, color: "rgba(255,255,255,0.6)" }}>{s.name}</span>
+                      <span style={{ fontFamily: "monospace", fontSize: 20, fontWeight: 700, color: s.color }}>{s.pct}%</span>
+                    </div>
+                    <div style={{ height: 12, background: "rgba(255,255,255,0.06)", borderRadius: 6, overflow: "hidden" }}>
+                      <div style={{ height: "100%", width: `${s.pct * 2.5}%`, background: s.color, borderRadius: 6, transform: `scaleX(${barSpring})`, transformOrigin: "left" }} />
+                    </div>
                   </div>
-                  <div style={{ height: 12, background: "rgba(255,255,255,0.06)", borderRadius: 6, overflow: "hidden" }}>
-                    <div style={{ height: "100%", width: `${s.pct * 2.5}%`, background: s.color, borderRadius: 6, transform: `scaleX(${barSpring})`, transformOrigin: "left" }} />
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+          </div>
+          <div style={{ width: 500 }}>
+            <Stat value="$157.8M" label="ARR by 2030" delay={30} color={ACCENT} size={72} />
+            <div style={{ height: 40 }} />
+            <Stat value="76%" label="5-Year CAGR" delay={42} color={GOLD} size={60} />
+            <div style={{ height: 40 }} />
+            <Stat value="$1.89B" label="Valuation Target" delay={54} color="white" size={60} />
           </div>
         </div>
-        <div style={{ width: 500 }}>
-          <Stat value="$157.8M" label="ARR by 2030" delay={30} color={ACCENT} size={72} />
-          <div style={{ height: 40 }} />
-          <Stat value="76%" label="5-Year CAGR" delay={42} color={GOLD} size={60} />
-          <div style={{ height: 40 }} />
-          <Stat value="$1.89B" label="Valuation Target" delay={54} color="white" size={60} />
-        </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -419,25 +457,28 @@ const SceneGrowth: React.FC = () => {
     { year: "2030", arr: "$157.8M", users: "1.2M", h: 460 },
   ];
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
-      <Glow color={ACCENT} size={600} x="50%" y="50%" opacity={0.12} />
-      <div style={{ textAlign: "center" }}>
-        <Text text="📈 5-YEAR GROWTH TRAJECTORY" delay={3} size={56} color="white" weight={900} />
-        <Text text="From $8.6M to $157.8M ARR" delay={12} size={28} color={ACCENT} weight={600} />
-        <div style={{ display: "flex", gap: 50, alignItems: "flex-end", justifyContent: "center", marginTop: 70, height: 500 }}>
-          {years.map((y, i) => {
-            const barGrow = spring({ frame: frame - 25 - i * 10, fps, config: { damping: 12 } });
-            return (
-              <div key={i} style={{ textAlign: "center" }}>
-                <div style={{ fontFamily: "monospace", fontSize: 24, fontWeight: 900, color: ACCENT, marginBottom: 10, opacity: barGrow }}>{y.arr}</div>
-                <div style={{ width: 110, height: y.h * barGrow, borderRadius: "12px 12px 0 0", background: `linear-gradient(180deg, ${ACCENT} 0%, ${ACCENT}40 100%)` }} />
-                <div style={{ fontFamily: "monospace", fontSize: 22, color: "white", marginTop: 12, fontWeight: 700 }}>{y.year}</div>
-                <div style={{ fontFamily: "monospace", fontSize: 16, color: "rgba(255,255,255,0.4)", marginTop: 4 }}>{y.users} users</div>
-              </div>
-            );
-          })}
+    <AbsoluteFill style={{ opacity: exitOp }}>
+      <SceneBG src="images/growth-chart.jpg" opacity={0.2} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+        <Glow color={ACCENT} size={600} x="50%" y="50%" opacity={0.12} />
+        <div style={{ textAlign: "center", position: "relative" }}>
+          <Text text="📈 5-YEAR GROWTH TRAJECTORY" delay={3} size={56} color="white" weight={900} />
+          <Text text="From $8.6M to $157.8M ARR" delay={12} size={28} color={ACCENT} weight={600} />
+          <div style={{ display: "flex", gap: 50, alignItems: "flex-end", justifyContent: "center", marginTop: 70, height: 500 }}>
+            {years.map((y, i) => {
+              const barGrow = spring({ frame: frame - 25 - i * 10, fps, config: { damping: 12 } });
+              return (
+                <div key={i} style={{ textAlign: "center" }}>
+                  <div style={{ fontFamily: "monospace", fontSize: 24, fontWeight: 900, color: ACCENT, marginBottom: 10, opacity: barGrow }}>{y.arr}</div>
+                  <div style={{ width: 110, height: y.h * barGrow, borderRadius: "12px 12px 0 0", background: `linear-gradient(180deg, ${ACCENT} 0%, ${ACCENT}40 100%)` }} />
+                  <div style={{ fontFamily: "monospace", fontSize: 22, color: "white", marginTop: 12, fontWeight: 700 }}>{y.year}</div>
+                  <div style={{ fontFamily: "monospace", fontSize: 16, color: "rgba(255,255,255,0.4)", marginTop: 4 }}>{y.users} users</div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -454,24 +495,27 @@ const SceneSecurity: React.FC = () => {
     { icon: "🏛️", title: "Trust Structure", desc: "Noyes Family Trust shield" },
   ];
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
-      <Glow color={BLUE} size={500} x="50%" y="50%" opacity={0.12} />
-      <div style={{ textAlign: "center", width: "88%" }}>
-        <Text text="🛡️ BULLETPROOF PROTECTION" delay={3} size={56} color={BLUE} weight={900} />
-        <Text text="Enterprise Security · Full Legal Coverage" delay={12} size={24} color="rgba(255,255,255,0.4)" weight={500} />
-        <div style={{ display: "flex", gap: 30, justifyContent: "center", marginTop: 50 }}>
-          {items.map((item, i) => {
-            const s = spring({ frame: frame - 22 - i * 10, fps, config: { damping: 14 } });
-            return (
-              <div key={i} style={{ width: 280, padding: "36px 24px", borderRadius: 18, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(59,130,246,0.15)", transform: `scale(${s})`, opacity: s, textAlign: "center" }}>
-                <div style={{ fontSize: 44 }}>{item.icon}</div>
-                <div style={{ fontFamily: "sans-serif", fontSize: 22, fontWeight: 700, color: "white", marginTop: 14 }}>{item.title}</div>
-                <div style={{ fontFamily: "sans-serif", fontSize: 15, color: "rgba(255,255,255,0.4)", marginTop: 8 }}>{item.desc}</div>
-              </div>
-            );
-          })}
+    <AbsoluteFill style={{ opacity: exitOp }}>
+      <SceneBG src="images/security-legal.jpg" opacity={0.3} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+        <Glow color={BLUE} size={500} x="50%" y="50%" opacity={0.12} />
+        <div style={{ textAlign: "center", width: "88%", position: "relative" }}>
+          <Text text="🛡️ BULLETPROOF PROTECTION" delay={3} size={56} color={BLUE} weight={900} />
+          <Text text="Enterprise Security · Full Legal Coverage" delay={12} size={24} color="rgba(255,255,255,0.4)" weight={500} />
+          <div style={{ display: "flex", gap: 30, justifyContent: "center", marginTop: 50 }}>
+            {items.map((item, i) => {
+              const s = spring({ frame: frame - 22 - i * 10, fps, config: { damping: 14 } });
+              return (
+                <div key={i} style={{ width: 280, padding: "36px 24px", borderRadius: 18, background: "rgba(0,0,0,0.7)", border: "1px solid rgba(59,130,246,0.15)", transform: `scale(${s})`, opacity: s, textAlign: "center" }}>
+                  <div style={{ fontSize: 44 }}>{item.icon}</div>
+                  <div style={{ fontFamily: "sans-serif", fontSize: 22, fontWeight: 700, color: "white", marginTop: 14 }}>{item.title}</div>
+                  <div style={{ fontFamily: "sans-serif", fontSize: 15, color: "rgba(255,255,255,0.4)", marginTop: 8 }}>{item.desc}</div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -485,34 +529,37 @@ const SceneAudit: React.FC = () => {
   const circumference = 2 * Math.PI * 200;
   const ringProg = interpolate(frame, [10, 60], [0, 0.98], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exitOp }}>
-      <Glow color={ACCENT} size={500} x="50%" y="50%" opacity={0.15} />
-      <div style={{ display: "flex", gap: 100, alignItems: "center" }}>
-        <div>
-          <Text text="✅ PLATFORM AUDIT" delay={3} size={52} color="white" weight={900} align="left" />
-          <Text text="Daily Automated Self-Assessment" delay={12} size={22} color="rgba(255,255,255,0.4)" weight={500} align="left" />
-          <div style={{ marginTop: 40 }}>
-            {["Aesthetics 96", "Efficiency 97", "Security 93", "Legal 96", "Capital 94"].map((cat, i) => {
-              const s = spring({ frame: frame - 55 - i * 7, fps, config: { damping: 16 } });
-              return (
-                <div key={i} style={{ fontFamily: "monospace", fontSize: 22, color: "rgba(255,255,255,0.5)", marginBottom: 14, opacity: s, transform: `translateX(${interpolate(s, [0, 1], [-20, 0])}px)` }}>
-                  {cat}
-                </div>
-              );
-            })}
+    <AbsoluteFill style={{ opacity: exitOp }}>
+      <SceneBG src="images/audit-score.jpg" opacity={0.2} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+        <Glow color={ACCENT} size={500} x="50%" y="50%" opacity={0.15} />
+        <div style={{ display: "flex", gap: 100, alignItems: "center", position: "relative" }}>
+          <div>
+            <Text text="✅ PLATFORM AUDIT" delay={3} size={52} color="white" weight={900} align="left" />
+            <Text text="Daily Automated Self-Assessment" delay={12} size={22} color="rgba(255,255,255,0.4)" weight={500} align="left" />
+            <div style={{ marginTop: 40 }}>
+              {["Aesthetics 96", "Efficiency 97", "Security 93", "Legal 96", "Capital 94"].map((cat, i) => {
+                const s = spring({ frame: frame - 55 - i * 7, fps, config: { damping: 16 } });
+                return (
+                  <div key={i} style={{ fontFamily: "monospace", fontSize: 22, color: "rgba(255,255,255,0.5)", marginBottom: 14, opacity: s, transform: `translateX(${interpolate(s, [0, 1], [-20, 0])}px)` }}>
+                    {cat}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div style={{ position: "relative", width: 440, height: 440 }}>
+            <svg width={440} height={440} style={{ transform: "rotate(-90deg)" }}>
+              <circle cx={220} cy={220} r={200} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={18} />
+              <circle cx={220} cy={220} r={200} fill="none" stroke={ACCENT} strokeWidth={18} strokeDasharray={`${circumference * ringProg} ${circumference}`} strokeLinecap="round" />
+            </svg>
+            <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+              <div style={{ fontFamily: "monospace", fontSize: 120, fontWeight: 900, color: "white" }}>{Math.floor(scoreVal)}</div>
+              <div style={{ fontFamily: "monospace", fontSize: 28, color: "rgba(255,255,255,0.3)" }}>/100</div>
+            </div>
           </div>
         </div>
-        <div style={{ position: "relative", width: 440, height: 440 }}>
-          <svg width={440} height={440} style={{ transform: "rotate(-90deg)" }}>
-            <circle cx={220} cy={220} r={200} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={18} />
-            <circle cx={220} cy={220} r={200} fill="none" stroke={ACCENT} strokeWidth={18} strokeDasharray={`${circumference * ringProg} ${circumference}`} strokeLinecap="round" />
-          </svg>
-          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <div style={{ fontFamily: "monospace", fontSize: 120, fontWeight: 900, color: "white" }}>{Math.floor(scoreVal)}</div>
-            <div style={{ fontFamily: "monospace", fontSize: 28, color: "rgba(255,255,255,0.3)" }}>/100</div>
-          </div>
-        </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -525,20 +572,23 @@ const SceneFinalCTA: React.FC = () => {
   const ctaSpring = spring({ frame: frame - 10, fps, config: { damping: 10, stiffness: 80 } });
   const glowPulse = 0.35 + Math.sin(frame * 0.05) * 0.15;
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp }}>
-      <div style={{ position: "absolute", width: 1400, height: 1400, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,210,106,${glowPulse}) 0%, transparent 70%)`, filter: "blur(100px)" }} />
-      <div style={{ textAlign: "center", transform: `scale(${ctaSpring})`, position: "relative" }}>
-        <div style={{ fontFamily: "sans-serif", fontSize: 84, fontWeight: 900, color: "white", marginBottom: 8 }}>OWN THE FUTURE OF</div>
-        <div style={{ fontFamily: "sans-serif", fontSize: 84, fontWeight: 900, color: ACCENT, marginBottom: 24 }}>COLLECTIBLES DATA</div>
-        <div style={{ fontFamily: "monospace", fontSize: 44, color: GOLD, marginBottom: 50 }}>$103B+ MARKET OPPORTUNITY</div>
-        <div style={{ fontFamily: "monospace", fontSize: 30, color: "rgba(255,255,255,0.5)", letterSpacing: 4, marginBottom: 20 }}>PGVA VENTURES, LLC</div>
-        <Sequence from={25}>
-          <Text text="contact@poke-pulse-ticker.com" delay={0} size={32} color={ACCENT} weight={500} />
-        </Sequence>
-        <Sequence from={40}>
-          <Text text="© 2026 Noyes Family Trust — All Rights Reserved" delay={0} size={18} color="rgba(255,255,255,0.2)" weight={400} />
-        </Sequence>
-      </div>
+    <AbsoluteFill style={{ opacity: enterOp }}>
+      <SceneBG src="images/hero-terminal.jpg" opacity={0.15} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+        <div style={{ position: "absolute", width: 1400, height: 1400, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,210,106,${glowPulse}) 0%, transparent 70%)`, filter: "blur(100px)" }} />
+        <div style={{ textAlign: "center", transform: `scale(${ctaSpring})`, position: "relative" }}>
+          <div style={{ fontFamily: "sans-serif", fontSize: 84, fontWeight: 900, color: "white", marginBottom: 8 }}>OWN THE FUTURE OF</div>
+          <div style={{ fontFamily: "sans-serif", fontSize: 84, fontWeight: 900, color: ACCENT, marginBottom: 24 }}>COLLECTIBLES DATA</div>
+          <div style={{ fontFamily: "monospace", fontSize: 44, color: GOLD, marginBottom: 50 }}>$103B+ MARKET OPPORTUNITY</div>
+          <div style={{ fontFamily: "monospace", fontSize: 30, color: "rgba(255,255,255,0.5)", letterSpacing: 4, marginBottom: 20 }}>PGVA VENTURES, LLC</div>
+          <Sequence from={25}>
+            <Text text="contact@poke-pulse-ticker.com" delay={0} size={32} color={ACCENT} weight={500} />
+          </Sequence>
+          <Sequence from={40}>
+            <Text text="© 2026 Noyes Family Trust — All Rights Reserved" delay={0} size={18} color="rgba(255,255,255,0.2)" weight={400} />
+          </Sequence>
+        </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -558,20 +608,19 @@ export const InvestorPitch: React.FC = () => {
     return { x, y, size, opacity, color: colors[i % 4] };
   });
 
-  // 12 scenes across 1770 frames
   const scenes: [number, number][] = [
-    [0, 145],       // Hero
-    [145, 150],     // Verticals
-    [295, 135],     // Indexes
-    [430, 145],     // SimTrader
-    [575, 145],     // Arena
-    [720, 145],     // Adventure
-    [865, 145],     // AI/Portfolio
-    [1010, 145],    // Revenue
-    [1155, 145],    // Growth
-    [1300, 130],    // Security
-    [1430, 130],    // Audit
-    [1560, 210],    // Final CTA
+    [0, 145],
+    [145, 150],
+    [295, 135],
+    [430, 145],
+    [575, 145],
+    [720, 145],
+    [865, 145],
+    [1010, 145],
+    [1155, 145],
+    [1300, 130],
+    [1430, 130],
+    [1560, 210],
   ];
 
   return (
