@@ -219,7 +219,7 @@ const starwarsSealed: MarketItem[] = [
 
 export const franchiseConfigs: Record<string, FranchiseConfig> = {
   mlb: {
-    id: "mlb", name: "MLB Pulse Market Terminal", tagline: "Professional-grade market intelligence for baseball card collectors and investors. Track Topps, Bowman, and vintage to modern rookie cards.",
+    id: "mlb", name: "MLB Pulse Market Terminal Ticker", tagline: "Professional-grade market intelligence for baseball card collectors and investors. Track Topps, Bowman, and vintage to modern rookie cards.",
     primaryColor: "#E31937", accentColor: "#002D72", bgGradient: "linear-gradient(135deg, #002D72 0%, #E31937 100%)",
     tickerPrefix: "MLB", indexName: "DIAMOND", currency: "$",
     rawItems: mlbRaw, gradedItems: mlbGraded, sealedItems: mlbSealed,
@@ -227,7 +227,7 @@ export const franchiseConfigs: Record<string, FranchiseConfig> = {
     logoEmoji: "⚾", tam: "$5.4B", description: "The baseball card market remains the largest and most established collectible card market in North America.",
   },
   nfl: {
-    id: "nfl", name: "NFL Pulse Market Terminal", tagline: "Real-time football card market data for Panini Prizm, Contenders, and vintage gridiron assets.",
+    id: "nfl", name: "NFL Pulse Market Terminal Ticker", tagline: "Real-time football card market data for Panini Prizm, Contenders, and vintage gridiron assets.",
     primaryColor: "#013369", accentColor: "#D50A0A", bgGradient: "linear-gradient(135deg, #013369 0%, #D50A0A 100%)",
     tickerPrefix: "NFL", indexName: "GRIDIRON", currency: "$",
     rawItems: nflRaw, gradedItems: nflGraded, sealedItems: nflSealed,
@@ -235,7 +235,7 @@ export const franchiseConfigs: Record<string, FranchiseConfig> = {
     logoEmoji: "🏈", tam: "$4.8B", description: "Football cards represent the fastest-growing segment of the sports card market with massive rookie card speculation.",
   },
   nba: {
-    id: "nba", name: "NBA Pulse Market Terminal", tagline: "Track basketball card markets from vintage Fleer to modern Panini Prizm with institutional-grade analytics.",
+    id: "nba", name: "NBA Pulse Market Terminal Ticker", tagline: "Track basketball card markets from vintage Fleer to modern Panini Prizm with institutional-grade analytics.",
     primaryColor: "#1D428A", accentColor: "#C8102E", bgGradient: "linear-gradient(135deg, #1D428A 0%, #C8102E 100%)",
     tickerPrefix: "NBA", indexName: "HARDWOOD", currency: "$",
     rawItems: nbaRaw, gradedItems: nbaGraded, sealedItems: nbaSealed,
@@ -243,7 +243,7 @@ export const franchiseConfigs: Record<string, FranchiseConfig> = {
     logoEmoji: "🏀", tam: "$6.2B", description: "Basketball cards dominate modern sports card investing with explosive rookie card markets.",
   },
   nhl: {
-    id: "nhl", name: "NHL Pulse Market Terminal", tagline: "Hockey card market intelligence — Young Guns, O-Pee-Chee, and vintage puck assets tracked in real time.",
+    id: "nhl", name: "NHL Pulse Market Terminal Ticker", tagline: "Hockey card market intelligence — Young Guns, O-Pee-Chee, and vintage puck assets tracked in real time.",
     primaryColor: "#000000", accentColor: "#A2AAAD", bgGradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
     tickerPrefix: "NHL", indexName: "ICE", currency: "$",
     rawItems: nhlRaw, gradedItems: nhlGraded, sealedItems: nhlSealed,
@@ -251,7 +251,7 @@ export const franchiseConfigs: Record<string, FranchiseConfig> = {
     logoEmoji: "🏒", tam: "$1.8B", description: "The hockey card market offers significant value opportunities with Young Guns and vintage O-Pee-Chee.",
   },
   fifa: {
-    id: "fifa", name: "FIFA Soccer Pulse Market Terminal", tagline: "Global football (soccer) card market — World Cup Prizm, Topps Chrome UCL, and sticker markets worldwide.",
+    id: "fifa", name: "FIFA Soccer Pulse Market Terminal Ticker", tagline: "Global football (soccer) card market — World Cup Prizm, Topps Chrome UCL, and sticker markets worldwide.",
     primaryColor: "#326295", accentColor: "#FFCC00", bgGradient: "linear-gradient(135deg, #326295 0%, #1a472a 50%, #FFCC00 100%)",
     tickerPrefix: "FIFA", indexName: "PITCH", currency: "$",
     rawItems: fifaRaw, gradedItems: fifaGraded, sealedItems: fifaSealed,
@@ -259,7 +259,7 @@ export const franchiseConfigs: Record<string, FranchiseConfig> = {
     logoEmoji: "⚽", tam: "$8.5B", description: "Soccer is the world's most popular sport — the collectible card market is rapidly globalizing with World Cup and Champions League products.",
   },
   mtg: {
-    id: "mtg", name: "Magic: The Gathering Pulse Market Terminal", tagline: "Track Power Nine, Reserved List, and modern staples across all MTG formats with precision analytics.",
+    id: "mtg", name: "Magic: The Gathering Pulse Market Terminal Ticker", tagline: "Track Power Nine, Reserved List, and modern staples across all MTG formats with precision analytics.",
     primaryColor: "#8B5CF6", accentColor: "#F59E0B", bgGradient: "linear-gradient(135deg, #1a1033 0%, #3b0764 50%, #6d28d9 100%)",
     tickerPrefix: "MTG", indexName: "MANA", currency: "$",
     rawItems: mtgRaw, gradedItems: mtgGraded, sealedItems: mtgSealed,
@@ -267,7 +267,7 @@ export const franchiseConfigs: Record<string, FranchiseConfig> = {
     logoEmoji: "🧙", tam: "$12.5B", description: "Magic: The Gathering is the original TCG with a 30-year history and the most established secondary market in gaming.",
   },
   yugioh: {
-    id: "yugioh", name: "Yu-Gi-Oh! Pulse Market Terminal", tagline: "Monitor LOB 1st Edition, Ghost Rares, and tournament staples across the Yu-Gi-Oh! TCG ecosystem.",
+    id: "yugioh", name: "Yu-Gi-Oh! Pulse Market Terminal Ticker", tagline: "Monitor LOB 1st Edition, Ghost Rares, and tournament staples across the Yu-Gi-Oh! TCG ecosystem.",
     primaryColor: "#D4AF37", accentColor: "#8B0000", bgGradient: "linear-gradient(135deg, #1a0a00 0%, #4a1500 50%, #D4AF37 100%)",
     tickerPrefix: "YGO", indexName: "DUEL", currency: "$",
     rawItems: yugiohRaw, gradedItems: yugiohGraded, sealedItems: yugiohSealed,
@@ -275,7 +275,7 @@ export const franchiseConfigs: Record<string, FranchiseConfig> = {
     logoEmoji: "🃏", tam: "$4.2B", description: "Yu-Gi-Oh! has a massive global player base with explosive sealed product and vintage card markets.",
   },
   dbz: {
-    id: "dbz", name: "Dragon Ball Z Pulse Market Terminal", tagline: "Track Saiyan Saga to Tournament of Power — Dragon Ball Super and vintage DBZ card markets in one terminal.",
+    id: "dbz", name: "Dragon Ball Z Pulse Market Terminal Ticker", tagline: "Track Saiyan Saga to Tournament of Power — Dragon Ball Super and vintage DBZ card markets in one terminal.",
     primaryColor: "#FF6B00", accentColor: "#FFD700", bgGradient: "linear-gradient(135deg, #1a0500 0%, #8B2500 50%, #FF6B00 100%)",
     tickerPrefix: "DBZ", indexName: "POWER", currency: "$",
     rawItems: dbzRaw, gradedItems: dbzGraded, sealedItems: dbzSealed,
@@ -283,7 +283,7 @@ export const franchiseConfigs: Record<string, FranchiseConfig> = {
     logoEmoji: "🐉", tam: "$2.8B", description: "Dragon Ball Z cards are experiencing a renaissance with nostalgic collectors driving vintage prices and new DBS sets launching.",
   },
   lorcana: {
-    id: "lorcana", name: "Lorcana Pulse Market Terminal", tagline: "Disney Lorcana TCG market intelligence — Enchanted rares, sealed product, and meta staples tracked live.",
+    id: "lorcana", name: "Lorcana Pulse Market Terminal Ticker", tagline: "Disney Lorcana TCG market intelligence — Enchanted rares, sealed product, and meta staples tracked live.",
     primaryColor: "#0EA5E9", accentColor: "#A855F7", bgGradient: "linear-gradient(135deg, #0c0a2a 0%, #1e1b4b 50%, #0EA5E9 100%)",
     tickerPrefix: "LOR", indexName: "INK", currency: "$",
     rawItems: lorcanaRaw, gradedItems: lorcanaGraded, sealedItems: lorcanaSealed,
@@ -291,7 +291,7 @@ export const franchiseConfigs: Record<string, FranchiseConfig> = {
     logoEmoji: "✨", tam: "$1.5B", description: "Disney Lorcana is the newest major TCG backed by the world's most valuable IP portfolio, with explosive early growth.",
   },
   starwars: {
-    id: "starwars", name: "Star Wars Pulse Market Terminal", tagline: "Vintage 1977 Topps to modern Chrome — the definitive Star Wars card market data terminal.",
+    id: "starwars", name: "Star Wars Pulse Market Terminal Ticker", tagline: "Vintage 1977 Topps to modern Chrome — the definitive Star Wars card market data terminal.",
     primaryColor: "#FFE81F", accentColor: "#C0C0C0", bgGradient: "linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #2d2d44 100%)",
     tickerPrefix: "SW", indexName: "FORCE", currency: "$",
     rawItems: starwarsRaw, gradedItems: starwarsGraded, sealedItems: starwarsSealed,
