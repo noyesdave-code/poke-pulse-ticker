@@ -508,6 +508,12 @@ const bsLineLabel = { fontSize: '12px', color: '#475569', margin: '0' }
 const bsLineAmount = { fontSize: '12px', color: '#0f172a', fontWeight: '600', margin: '0', textAlign: 'right' as const }
 const bsDivider = { borderColor: '#cbd5e1', margin: '8px 0' }
 
+// Revenue Sheet styles
+const revenueSheetSection = {
+  backgroundColor: '#fef2f2', border: '2px solid #dc2626', borderRadius: '8px',
+  padding: '16px', marginBottom: '24px',
+}
+
 // Capital Dream styles
 const capitalDreamSection = {
   backgroundColor: '#fef3c7', border: '1px solid #fbbf24', borderRadius: '8px',
