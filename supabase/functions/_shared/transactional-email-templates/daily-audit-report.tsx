@@ -409,6 +409,12 @@ const bsLineLabel = { fontSize: '12px', color: '#475569', margin: '0' }
 const bsLineAmount = { fontSize: '12px', color: '#0f172a', fontWeight: '600', margin: '0', textAlign: 'right' as const }
 const bsDivider = { borderColor: '#cbd5e1', margin: '8px 0' }
 
+// Capital Dream styles
+const capitalDreamSection = {
+  backgroundColor: '#fef3c7', border: '1px solid #fbbf24', borderRadius: '8px',
+  padding: '16px', marginBottom: '24px',
+}
+
 const categoriesSection = { marginBottom: '24px' }
 const sectionTitle = { fontSize: '10px', color: '#64748b', letterSpacing: '0.1em', fontWeight: 'bold', margin: '0 0 12px' }
 const categoryRow = { marginBottom: '12px', borderBottom: '1px solid #f1f5f9', paddingBottom: '10px' }
