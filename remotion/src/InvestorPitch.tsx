@@ -529,6 +529,150 @@ const SceneCTA: React.FC = () => {
   );
 };
 
+// ─── Scene 9: Franchise Verticals ───
+const SceneFranchise: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const enterOp = interpolate(frame, [0, 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [125, 150], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const verticals = [
+    { name: "Pokémon TCG", tam: "$15.4B", color: GOLD },
+    { name: "MLB", tam: "$12.1B", color: RED },
+    { name: "NFL", tam: "$11.8B", color: BLUE },
+    { name: "NBA", tam: "$10.5B", color: "#f97316" },
+    { name: "MTG", tam: "$14.2B", color: "#a855f7" },
+    { name: "Yu-Gi-Oh!", tam: "$9.8B", color: "#ec4899" },
+    { name: "NHL", tam: "$4.2B", color: "#06b6d4" },
+    { name: "FIFA", tam: "$8.9B", color: ACCENT },
+    { name: "DBZ", tam: "$6.1B", color: "#f59e0b" },
+    { name: "Lorcana", tam: "$3.8B", color: "#8b5cf6" },
+    { name: "Star Wars", tam: "$5.2B", color: "#fbbf24" },
+    { name: "Blueprint", tam: "Master", color: "white" },
+  ];
+  return (
+    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
+      <div style={{ textAlign: "center", width: "92%" }}>
+        <TextReveal text="12-VERTICAL FRANCHISE" delay={5} fontSize={64} color={ACCENT} fontWeight={900} />
+        <TextReveal text="$103B+ COMBINED TAM" delay={15} fontSize={44} color={GOLD} fontWeight={700} />
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 18, justifyContent: "center", marginTop: 50 }}>
+          {verticals.map((v, i) => {
+            const s = spring({ frame: frame - 25 - i * 5, fps, config: { damping: 14 } });
+            return (
+              <div key={i} style={{
+                padding: "20px 28px", borderRadius: 16, background: "rgba(255,255,255,0.04)",
+                border: `2px solid ${v.color}40`, transform: `scale(${s})`, opacity: s, minWidth: 180,
+              }}>
+                <div style={{ fontFamily: "sans-serif", fontSize: 22, fontWeight: 700, color: v.color }}>{v.name}</div>
+                <div style={{ fontFamily: "monospace", fontSize: 18, color: "rgba(255,255,255,0.5)", marginTop: 6 }}>{v.tam}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ─── Scene 10: Revenue Projections ───
+const SceneRevenue: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const enterOp = interpolate(frame, [0, 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [125, 150], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const years = [
+    { year: "2026", arr: "$8.6M", users: "45K", height: 80 },
+    { year: "2027", arr: "$28.4M", users: "185K", height: 160 },
+    { year: "2028", arr: "$67.2M", users: "480K", height: 280 },
+    { year: "2029", arr: "$112.5M", users: "820K", height: 400 },
+    { year: "2030", arr: "$157.8M", users: "1.2M", height: 500 },
+  ];
+  return (
+    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
+      <div style={{ textAlign: "center" }}>
+        <TextReveal text="5-YEAR GROWTH TRAJECTORY" delay={5} fontSize={56} color="white" fontWeight={800} />
+        <TextReveal text="76% CAGR — $157.8M ARR BY 2030" delay={15} fontSize={34} color={ACCENT} fontWeight={600} />
+        <div style={{ display: "flex", gap: 60, alignItems: "flex-end", justifyContent: "center", marginTop: 80, height: 520 }}>
+          {years.map((y, i) => {
+            const barGrow = spring({ frame: frame - 30 - i * 12, fps, config: { damping: 12 } });
+            return (
+              <div key={i} style={{ textAlign: "center" }}>
+                <div style={{ fontFamily: "monospace", fontSize: 28, fontWeight: 900, color: ACCENT, marginBottom: 10, opacity: barGrow }}>{y.arr}</div>
+                <div style={{
+                  width: 120, height: y.height * barGrow, borderRadius: "12px 12px 0 0",
+                  background: `linear-gradient(180deg, ${ACCENT} 0%, ${ACCENT}40 100%)`,
+                }} />
+                <div style={{ fontFamily: "monospace", fontSize: 24, color: "white", marginTop: 14, fontWeight: 700 }}>{y.year}</div>
+                <div style={{ fontFamily: "monospace", fontSize: 18, color: "rgba(255,255,255,0.4)", marginTop: 4 }}>{y.users}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ─── Scene 11: Top Investors ───
+const SceneInvestors: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const enterOp = interpolate(frame, [0, 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [125, 150], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const targets = [
+    "Andreessen Horowitz", "Sequoia Capital", "Fanatics Inc.", "eBay Inc.",
+    "Hasbro Inc.", "The Pokémon Company", "Collector Universe", "Coatue Management",
+    "Tiger Global", "Insight Partners",
+  ];
+  return (
+    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp * exitOp }}>
+      <div style={{ textAlign: "center", width: "88%" }}>
+        <TextReveal text="DEPLOYMENT TARGETS" delay={5} fontSize={56} color={GOLD} fontWeight={900} />
+        <TextReveal text="TOP 10 STRATEGIC ACQUIRERS & INVESTORS" delay={15} fontSize={30} color="rgba(255,255,255,0.4)" fontWeight={500} />
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 20, justifyContent: "center", marginTop: 60 }}>
+          {targets.map((name, i) => {
+            const s = spring({ frame: frame - 30 - i * 6, fps, config: { damping: 16 } });
+            return (
+              <div key={i} style={{
+                padding: "22px 36px", borderRadius: 14, background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(245,158,11,0.2)", transform: `scale(${s})`, opacity: s,
+              }}>
+                <div style={{ fontFamily: "sans-serif", fontSize: 24, fontWeight: 700, color: "white" }}>{name}</div>
+                <div style={{ fontFamily: "monospace", fontSize: 14, color: GOLD, marginTop: 4 }}>#{i + 1}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ─── Scene 12: Final CTA ───
+const SceneFinalCTA: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const enterOp = interpolate(frame, [0, 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const ctaSpring = spring({ frame: frame - 10, fps, config: { damping: 10, stiffness: 80 } });
+  const glowPulse = 0.4 + Math.sin(frame * 0.05) * 0.2;
+  return (
+    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: enterOp }}>
+      <div style={{ position: "absolute", width: 1400, height: 1400, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,210,106,${glowPulse}) 0%, transparent 70%)`, filter: "blur(100px)" }} />
+      <div style={{ textAlign: "center", transform: `scale(${ctaSpring})`, position: "relative" }}>
+        <div style={{ fontFamily: "sans-serif", fontSize: 90, fontWeight: 900, color: "white", marginBottom: 10 }}>THE FUTURE OF</div>
+        <div style={{ fontFamily: "sans-serif", fontSize: 90, fontWeight: 900, color: ACCENT, marginBottom: 20 }}>COLLECTIBLES DATA</div>
+        <div style={{ fontFamily: "monospace", fontSize: 48, color: GOLD, marginBottom: 50 }}>$1.89B OPPORTUNITY</div>
+        <div style={{ fontFamily: "monospace", fontSize: 32, color: "rgba(255,255,255,0.4)", letterSpacing: 5 }}>PGVA VENTURES, LLC</div>
+        <Sequence from={30}>
+          <TextReveal text="noyes.dave@gmail.com | contact@poke-pulse-ticker.com" delay={0} fontSize={28} color={ACCENT} fontWeight={500} />
+        </Sequence>
+        <Sequence from={45}>
+          <TextReveal text="© 2026 Noyes Family Trust — All Rights Reserved" delay={0} fontSize={20} color="rgba(255,255,255,0.25)" fontWeight={400} />
+        </Sequence>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 // ─── Main Composition ───
 export const InvestorPitch: React.FC = () => {
   const frame = useCurrentFrame();
