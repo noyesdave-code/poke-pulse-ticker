@@ -138,10 +138,16 @@ const Franchise = () => {
                     </div>
                     <p className="font-bold text-sm">{t.name}</p>
                     <p className="text-xs text-muted-foreground font-mono">{t.terminal}</p>
-                    <div className="flex items-center justify-between mt-3">
+                     <div className="flex items-center justify-between mt-3">
                       <span className="text-xs text-muted-foreground">TAM</span>
                       <span className="font-mono font-bold text-primary text-sm">{t.tam}</span>
                     </div>
+                    {demoRoutes[t.name] && (
+                      <Button size="sm" variant="outline" className="w-full mt-3 text-xs"
+                        onClick={() => navigate(demoRoutes[t.name])}>
+                        {t.status === "live" ? "View Live Terminal" : "View Demo"} <ArrowRight className="w-3 h-3 ml-1" />
+                      </Button>
+                    )}
                   </CardContent>
                 </Card>
               </motion.div>
