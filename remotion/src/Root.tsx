@@ -4,6 +4,7 @@ import { InvestorPitch } from "./InvestorPitch";
 import { FeatureShowcase } from "./FeatureShowcase";
 import { GrandLaunch } from "./GrandLaunch";
 import { SocialHighlight } from "./SocialHighlight";
+import { PlatformHighlight } from "./PlatformHighlight";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -82,6 +83,22 @@ export const RemotionRoot: React.FC = () => (
     <Composition
       id="social-highlight-yt"
       component={SocialHighlight}
+      durationInFrames={3600}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="platform-highlight"
+      component={PlatformHighlight}
+      durationInFrames={3600}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+    <Composition
+      id="platform-highlight-yt"
+      component={PlatformHighlight}
       durationInFrames={3600}
       fps={30}
       width={1920}
