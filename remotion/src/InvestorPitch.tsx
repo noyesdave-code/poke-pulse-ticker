@@ -544,15 +544,19 @@ export const InvestorPitch: React.FC = () => {
     return { x, y, size, opacity, color: colors[i % 4] };
   });
 
-  // Scene timings (45 seconds = 1350 frames at 30fps)
+  // Scene timings (59 seconds = 1770 frames at 30fps)
   const S1 = 0, S1D = 120;
-  const S2 = 120, S2D = 180;
-  const S3 = 300, S3D = 180;
-  const S4 = 480, S4D = 180;
-  const S5 = 660, S5D = 180;
-  const S6 = 840, S6D = 180;
-  const S7 = 1020, S7D = 150;
-  const S8 = 1170, S8D = 180;
+  const S2 = 120, S2D = 150;
+  const S3 = 270, S3D = 150;
+  const S4 = 420, S4D = 150;
+  const S5 = 570, S5D = 150;
+  const S6 = 720, S6D = 150;
+  const S7 = 870, S7D = 120;
+  const S8 = 990, S8D = 150;
+  const S9 = 1140, S9D = 150;   // Franchise Verticals
+  const S10 = 1290, S10D = 150;  // Revenue Projections
+  const S11 = 1440, S11D = 150;  // Top Investors
+  const S12 = 1590, S12D = 180;  // Final CTA
 
   return (
     <AbsoluteFill>
