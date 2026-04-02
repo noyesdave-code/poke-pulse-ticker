@@ -299,6 +299,7 @@ const PokemonKidsGame = () => {
   const [collectedPokemon, setCollectedPokemon] = useState<string[]>([]);
   const [collectedCards, setCollectedCards] = useState<any[]>([]);
   const [tab, setTab] = useState("adventure");
+  const [activeZone, setActiveZone] = useState<AdventureZone | null>(null);
 
   // Battle state
   const [inBattle, setInBattle] = useState(false);
