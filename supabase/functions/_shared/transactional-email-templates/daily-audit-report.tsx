@@ -25,6 +25,7 @@ interface DailyAuditReportProps {
   summary?: string
   categories?: CategoryResult[]
   auditDate?: string
+  auditTime?: string
   topPriorities?: Array<{ title: string; category: string; impact: string; description: string }>
   balanceSheet?: {
     subscriptionRevenue?: BalanceSheetLine[]
@@ -44,11 +45,36 @@ interface DailyAuditReportProps {
     annualTarget?: number
     dayOfYear?: number
     dailyTarget?: number
+    hourlyTarget?: number
     dailyOperatingCosts?: number
     dailyNetTarget?: number
     ytdTarget?: number
-    streams?: Array<{ name: string; annualTarget: number; dailyTarget: number }>
+    streams?: Array<{ name: string; annualTarget: number; dailyTarget: number; hourlyTarget: number }>
     gapCloserHighlights?: string[]
+  }
+  dailyRevenueSheet?: {
+    businessDay?: number
+    actualRevenue?: {
+      subscriptions?: number
+      affiliates?: number
+      pokecoinStore?: number
+      simTrader?: number
+      arena?: number
+      dataApi?: number
+    }
+    targetRevenue?: {
+      subscriptions?: number
+      affiliates?: number
+      pokecoinStore?: number
+      simTrader?: number
+      arena?: number
+      dataApi?: number
+    }
+    totalActual?: number
+    totalTarget?: number
+    netCapital?: number
+    ytdActual?: number
+    ytdTarget?: number
   }
 }
 
@@ -72,9 +98,11 @@ const DailyAuditReportEmail = ({
   summary = '',
   categories = [],
   auditDate,
+  auditTime,
   topPriorities = [],
   balanceSheet,
   capitalDream,
+  dailyRevenueSheet,
 }: DailyAuditReportProps) => (
   <Html lang="en" dir="ltr">
     <Head />
@@ -83,7 +111,7 @@ const DailyAuditReportEmail = ({
       <Container style={container}>
         <Section style={headerSection}>
           <Text style={logo}>PG</Text>
-          <Heading style={h1}>Daily Site Audit Report</Heading>
+          <Heading style={h1}>{auditTime ? `${auditTime} ` : ''}Site Audit + Capital Report</Heading>
           <Text style={dateText}>{auditDate || new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
         </Section>
 
@@ -97,6 +125,65 @@ const DailyAuditReportEmail = ({
 
         {summary && (
           <Text style={summaryText}>{summary}</Text>
+        )}
+
+        {/* ── DAILY CAPITAL REVENUE SHEET ── */}
+        {dailyRevenueSheet && (
+          <Section style={revenueSheetSection}>
+            <Text style={sectionTitle}>📊 DAILY CAPITAL REVENUE SHEET — Business Day #{dailyRevenueSheet.businessDay ?? 0}</Text>
+            
+            <Section style={kpiRow}>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>ACTUAL TODAY</span>{'\n'}
+                <span style={{ ...kpiValue, color: '#16a34a' }}>{formatCurrency(dailyRevenueSheet.totalActual ?? 0)}</span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>TARGET TODAY</span>{'\n'}
+                <span style={kpiValue}>{formatCurrency(dailyRevenueSheet.totalTarget ?? 0)}</span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>NET CAPITAL</span>{'\n'}
+                <span style={{ ...kpiValue, color: (dailyRevenueSheet.netCapital ?? 0) >= 0 ? '#16a34a' : '#dc2626' }}>
+                  {formatCurrency(dailyRevenueSheet.netCapital ?? 0)}
+                </span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>VS TARGET</span>{'\n'}
+                <span style={{ ...kpiValue, color: (dailyRevenueSheet.totalActual ?? 0) >= (dailyRevenueSheet.totalTarget ?? 1) ? '#16a34a' : '#dc2626' }}>
+                  {(((dailyRevenueSheet.totalActual ?? 0) / (dailyRevenueSheet.totalTarget ?? 1)) * 100).toFixed(1)}%
+                </span>
+              </Text>
+            </Section>
+
+            <Section style={bsGroup}>
+              <Text style={bsGroupTitle}>REVENUE BY STREAM (ACTUAL vs TARGET)</Text>
+              {[
+                { name: 'Subscriptions', actual: dailyRevenueSheet.actualRevenue?.subscriptions ?? 0, target: dailyRevenueSheet.targetRevenue?.subscriptions ?? 0 },
+                { name: 'Affiliates', actual: dailyRevenueSheet.actualRevenue?.affiliates ?? 0, target: dailyRevenueSheet.targetRevenue?.affiliates ?? 0 },
+                { name: 'PokéCoin Store', actual: dailyRevenueSheet.actualRevenue?.pokecoinStore ?? 0, target: dailyRevenueSheet.targetRevenue?.pokecoinStore ?? 0 },
+                { name: 'SimTrader & Contests', actual: dailyRevenueSheet.actualRevenue?.simTrader ?? 0, target: dailyRevenueSheet.targetRevenue?.simTrader ?? 0 },
+                { name: 'Arena Economy', actual: dailyRevenueSheet.actualRevenue?.arena ?? 0, target: dailyRevenueSheet.targetRevenue?.arena ?? 0 },
+                { name: 'Data Licensing & API', actual: dailyRevenueSheet.actualRevenue?.dataApi ?? 0, target: dailyRevenueSheet.targetRevenue?.dataApi ?? 0 },
+              ].map((s, i) => (
+                <Section key={i} style={bsLineRow}>
+                  <Text style={bsLineLabel}>
+                    {s.actual >= s.target ? '✅' : '🔴'} {s.name}
+                  </Text>
+                  <Text style={{ ...bsLineAmount, color: s.actual >= s.target ? '#16a34a' : '#dc2626' }}>
+                    {formatCurrency(s.actual)} / {formatCurrency(s.target)}
+                  </Text>
+                </Section>
+              ))}
+            </Section>
+
+            <Hr style={bsDivider} />
+            <Section style={bsLineRow}>
+              <Text style={{ ...bsLineLabel, fontWeight: 'bold', fontSize: '14px' }}>YTD ACTUAL vs TARGET</Text>
+              <Text style={{ ...bsLineAmount, fontWeight: 'bold', fontSize: '14px' }}>
+                {formatCurrency(dailyRevenueSheet.ytdActual ?? 0)} / {formatCurrency(dailyRevenueSheet.ytdTarget ?? 0)}
+              </Text>
+            </Section>
+          </Section>
         )}
 
         {/* ── BALANCE SHEET ── */}
@@ -314,12 +401,13 @@ const DailyAuditReportEmail = ({
 export const template = {
   component: DailyAuditReportEmail,
   subject: (data: Record<string, any>) =>
-    `Daily Audit: ${data.overallScore || 0}/100 + Capital Dream + Balance Sheet — ${SITE_NAME}`,
-  displayName: 'Daily audit report + capital dream + balance sheet',
+    `${data.auditTime || ''} Audit + Capital Sheet: ${data.overallScore || 0}/100 — Day #${data.dailyRevenueSheet?.businessDay || 0} — ${SITE_NAME}`,
+  displayName: 'Daily audit + capital revenue sheet + balance sheet',
   previewData: {
     overallScore: 98,
     summary: 'Platform maintains strong performance across all 11 categories with a 98/100 overall score.',
-    auditDate: 'Tuesday, April 1, 2026',
+    auditDate: 'Wednesday, April 2, 2026',
+    auditTime: '6AM',
     categories: [
       { name: 'aesthetics', score: 98, status: 'strong', recommendations: ['Consider micro-animations on hover states'] },
       { name: 'efficiency', score: 98, status: 'strong', recommendations: [] },
@@ -328,6 +416,16 @@ export const template = {
     topPriorities: [
       { title: 'Add PSA grading API integration', category: 'competitive_edge', impact: 'high', description: 'Direct PSA population data would strengthen grading arbitrage signals.' },
     ],
+    dailyRevenueSheet: {
+      businessDay: 92,
+      actualRevenue: { subscriptions: 8.32, affiliates: 1.70, pokecoinStore: 0.50, simTrader: 0, arena: 6.16, dataApi: 0 },
+      targetRevenue: { subscriptions: 32877, affiliates: 13699, pokecoinStore: 8219, simTrader: 6849, arena: 4110, dataApi: 2740 },
+      totalActual: 16.68,
+      totalTarget: 68494,
+      netCapital: -916.32,
+      ytdActual: 1534.56,
+      ytdTarget: 6301448,
+    },
     balanceSheet: {
       totalMRR: 249.50,
       totalARR: 2994.00,
@@ -354,16 +452,17 @@ export const template = {
       annualTarget: 25000000,
       dayOfYear: 92,
       dailyTarget: 68493,
+      hourlyTarget: 2854,
       dailyOperatingCosts: 933,
       dailyNetTarget: 67560,
       ytdTarget: 6301356,
       streams: [
-        { name: 'Subscriptions', annualTarget: 12000000, dailyTarget: 32877 },
-        { name: 'Affiliate Revenue', annualTarget: 5000000, dailyTarget: 13699 },
-        { name: 'PokéCoin Store', annualTarget: 3000000, dailyTarget: 8219 },
-        { name: 'SimTrader & Contests', annualTarget: 2500000, dailyTarget: 6849 },
-        { name: 'Arena Economy', annualTarget: 1500000, dailyTarget: 4110 },
-        { name: 'Data Licensing & API', annualTarget: 1000000, dailyTarget: 2740 },
+        { name: 'Subscriptions', annualTarget: 12000000, dailyTarget: 32877, hourlyTarget: 1370 },
+        { name: 'Affiliate Revenue', annualTarget: 5000000, dailyTarget: 13699, hourlyTarget: 571 },
+        { name: 'PokéCoin Store', annualTarget: 3000000, dailyTarget: 8219, hourlyTarget: 342 },
+        { name: 'SimTrader & Contests', annualTarget: 2500000, dailyTarget: 6849, hourlyTarget: 285 },
+        { name: 'Arena Economy', annualTarget: 1500000, dailyTarget: 4110, hourlyTarget: 171 },
+        { name: 'Data Licensing & API', annualTarget: 1000000, dailyTarget: 2740, hourlyTarget: 114 },
       ],
       gapCloserHighlights: [
         'Dunning: 3-touch failed payment recovery sequence',
@@ -408,6 +507,12 @@ const bsLineRow = { display: 'flex' as const, justifyContent: 'space-between' as
 const bsLineLabel = { fontSize: '12px', color: '#475569', margin: '0' }
 const bsLineAmount = { fontSize: '12px', color: '#0f172a', fontWeight: '600', margin: '0', textAlign: 'right' as const }
 const bsDivider = { borderColor: '#cbd5e1', margin: '8px 0' }
+
+// Revenue Sheet styles
+const revenueSheetSection = {
+  backgroundColor: '#fef2f2', border: '2px solid #dc2626', borderRadius: '8px',
+  padding: '16px', marginBottom: '24px',
+}
 
 // Capital Dream styles
 const capitalDreamSection = {

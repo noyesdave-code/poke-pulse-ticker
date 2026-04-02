@@ -1,26 +1,26 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TerminalHeader from "@/components/TerminalHeader";
+import { supabase } from "@/integrations/supabase/client";
 import {
   DollarSign, Target, TrendingUp, Zap, Shield, Lock, Users,
   MousePointerClick, Gamepad2, Swords, ShoppingCart, BarChart3,
   AlertTriangle, CheckCircle2, ArrowUpRight, Flame, Calendar,
-  CreditCard, RefreshCw, Bell, Ban
+  CreditCard, RefreshCw, Bell, Ban, Clock, Activity, Gauge
 } from "lucide-react";
 
 const ANNUAL_TARGET = 25_000_000;
 const DAILY_TARGET = Math.round(ANNUAL_TARGET / 365);
+const HOURLY_TARGET = Math.round(DAILY_TARGET / 24);
 const MONTHLY_TARGET = Math.round(ANNUAL_TARGET / 12);
-const QUARTERLY_TARGET = Math.round(ANNUAL_TARGET / 4);
 
-// Operating cost estimates (monthly)
 const OPERATING_COSTS = {
   infrastructure: 2500,
   apiServices: 1200,
-  stripeProcessing: 0.029, // 2.9% per transaction
+  stripeProcessing: 0.029,
   marketing: 5000,
   legal: 1500,
   insurance: 800,
@@ -31,6 +31,7 @@ const MONTHLY_FIXED_COSTS = Object.entries(OPERATING_COSTS)
   .filter(([k]) => k !== 'stripeProcessing')
   .reduce((s, [, v]) => s + v, 0);
 const DAILY_FIXED_COSTS = Math.round(MONTHLY_FIXED_COSTS / 30);
+const HOURLY_FIXED_COSTS = Math.round(DAILY_FIXED_COSTS / 24);
 
 interface RevenueStream {
   name: string;
@@ -38,9 +39,11 @@ interface RevenueStream {
   annualTarget: number;
   monthlyTarget: number;
   dailyTarget: number;
+  hourlyTarget: number;
   strategies: string[];
   gapClosers: string[];
   color: string;
+  aggressiveActions: string[];
 }
 
 const STREAMS: RevenueStream[] = [
@@ -50,6 +53,7 @@ const STREAMS: RevenueStream[] = [
     annualTarget: 12_000_000,
     monthlyTarget: 1_000_000,
     dailyTarget: 32_877,
+    hourlyTarget: Math.round(32_877 / 24),
     strategies: [
       "Scale to 200K+ Pro subscribers at $4.99/mo avg",
       "Enterprise/Institutional tier at $99/mo — target 500 LGS & hedge funds",
@@ -58,11 +62,17 @@ const STREAMS: RevenueStream[] = [
       "Team plans for LGS at $19.99/mo × 5 seats — target 1,000 stores",
     ],
     gapClosers: [
-      "Dunning emails: 3-touch sequence on failed payments (recover 40% of involuntary churn)",
+      "Dunning emails: 3-touch sequence on failed payments (recover 40%)",
       "Grace period elimination: suspend access immediately on payment failure",
       "Annual prepay incentive: lock customers into 12-month commitments",
       "Auto-retry failed charges at 1hr, 24hr, 72hr intervals",
       "Cancel-save flow: offer 50% off for 3 months before allowing cancellation",
+    ],
+    aggressiveActions: [
+      "🔴 HOURLY: Monitor new signups — push upgrade CTA within 30 min of signup",
+      "🔴 HOURLY: Auto-trigger dunning on ANY failed payment within 60 seconds",
+      "🔴 HOURLY: Flash upgrade banners during peak trading hours (9am-11am, 2pm-4pm EST)",
+      "🔴 DAILY: A/B test pricing page CTAs — optimize conversion hourly",
     ],
     color: "text-primary",
   },
@@ -72,6 +82,7 @@ const STREAMS: RevenueStream[] = [
     annualTarget: 5_000_000,
     monthlyTarget: 416_667,
     dailyTarget: 13_699,
+    hourlyTarget: Math.round(13_699 / 24),
     strategies: [
       "TCGPlayer affiliate at $0.08/click × 50M+ annual clicks",
       "eBay Partner Network at $0.12/click × 20M+ annual clicks",
@@ -86,6 +97,11 @@ const STREAMS: RevenueStream[] = [
       "Weekly affiliate revenue reconciliation audit",
       "Minimum guaranteed CPC contracts with partners",
     ],
+    aggressiveActions: [
+      "🔴 HOURLY: Track click-through rates — surface underperforming affiliate links",
+      "🔴 HOURLY: Auto-inject 'Buy Now' CTAs on trending card pages",
+      "🔴 DAILY: Push highest-margin affiliate links to homepage spotlight",
+    ],
     color: "text-blue-500",
   },
   {
@@ -94,6 +110,7 @@ const STREAMS: RevenueStream[] = [
     annualTarget: 3_000_000,
     monthlyTarget: 250_000,
     dailyTarget: 8_219,
+    hourlyTarget: Math.round(8_219 / 24),
     strategies: [
       "75K Whale Pack at $49.99 — target 5,000 purchases/month",
       "25K Standard Pack at $24.99 — target 8,000 purchases/month",
@@ -108,6 +125,11 @@ const STREAMS: RevenueStream[] = [
       "Bundle upsell at checkout: 'Add 5K more for $4.99'",
       "Expire PokéCoins after 180 days of inactivity (drives usage)",
     ],
+    aggressiveActions: [
+      "🔴 HOURLY: Push flash sale notifications during Arena peak hours",
+      "🔴 HOURLY: Low-balance alerts — trigger buy CTA at <500 PC",
+      "🔴 DAILY: Surface 'limited time' bundles with countdown timers",
+    ],
     color: "text-yellow-500",
   },
   {
@@ -116,11 +138,12 @@ const STREAMS: RevenueStream[] = [
     annualTarget: 2_500_000,
     monthlyTarget: 208_333,
     dailyTarget: 6_849,
+    hourlyTarget: Math.round(6_849 / 24),
     strategies: [
       "Weekly tournaments at $4.99-$49.99 entry — target 10K entries/week",
       "Season passes at $29.99/quarter for unlimited tournament access",
       "Corporate-sponsored tournaments with prize pools funded by partners",
-      "SimTrader Pro features gated to paid tier (advanced order types, leverage)",
+      "SimTrader Pro features gated to paid tier",
       "Leaderboard badges and NFT-style trophies as premium cosmetics",
     ],
     gapClosers: [
@@ -128,7 +151,12 @@ const STREAMS: RevenueStream[] = [
       "Streak bonuses that require paid re-entry to maintain",
       "Tournament entry as part of subscription upgrade upsell",
       "Non-refundable entry fees — no exceptions",
-      "Minimum 3 trades required to withdraw winnings (engagement lock)",
+      "Minimum 3 trades required to withdraw winnings",
+    ],
+    aggressiveActions: [
+      "🔴 HOURLY: Surface next tournament countdown on every page",
+      "🔴 HOURLY: Push 'seats filling up' FOMO notifications",
+      "🔴 DAILY: Auto-create micro-contests ($0.99 entry) every 4 hours",
     ],
     color: "text-purple-500",
   },
@@ -138,6 +166,7 @@ const STREAMS: RevenueStream[] = [
     annualTarget: 1_500_000,
     monthlyTarget: 125_000,
     dailyTarget: 4_110,
+    hourlyTarget: Math.round(4_110 / 24),
     strategies: [
       "Arena Access subscription at $0.99/mo — target 100K users",
       "High-stakes prediction rooms with 5% house rake",
@@ -152,6 +181,11 @@ const STREAMS: RevenueStream[] = [
       "Cool-down period on large winnings (encourages re-wagering)",
       "Anti-bot measures to prevent automated prediction farming",
     ],
+    aggressiveActions: [
+      "🔴 HOURLY: Push daily challenge reminders to all Arena users",
+      "🔴 HOURLY: Surface 'hot prediction' alerts on market movers",
+      "🔴 DAILY: Create time-limited high-stakes rooms (2hr windows)",
+    ],
     color: "text-red-500",
   },
   {
@@ -160,6 +194,7 @@ const STREAMS: RevenueStream[] = [
     annualTarget: 1_000_000,
     monthlyTarget: 83_333,
     dailyTarget: 2_740,
+    hourlyTarget: Math.round(2_740 / 24),
     strategies: [
       "API access tiers: Basic ($99/mo), Pro ($499/mo), Enterprise ($2,499/mo)",
       "Raw index data licensing to hedge funds and financial analysts",
@@ -174,11 +209,17 @@ const STREAMS: RevenueStream[] = [
       "IP-locked API keys to prevent credential sharing",
       "Usage audit trail with automatic billing for overages",
     ],
+    aggressiveActions: [
+      "🔴 HOURLY: Monitor API usage — push upgrade CTAs at 80% quota",
+      "🔴 DAILY: Auto-generate leads from heavy free-tier API users",
+      "🔴 DAILY: Surface enterprise partnership opportunities",
+    ],
     color: "text-emerald-500",
   },
 ];
 
 const TOTAL_DAILY_REVENUE_TARGET = STREAMS.reduce((s, st) => s + st.dailyTarget, 0);
+const TOTAL_HOURLY_REVENUE_TARGET = STREAMS.reduce((s, st) => s + st.hourlyTarget, 0);
 
 const formatCurrency = (n: number) => {
   if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`;
@@ -190,6 +231,49 @@ const formatExact = (n: number) => `$${n.toLocaleString()}`;
 
 export default function CapitalDreamIntake() {
   const [activeTab, setActiveTab] = useState("overview");
+  const [currentHour, setCurrentHour] = useState(new Date().getHours());
+  const [liveMetrics, setLiveMetrics] = useState({
+    todaySignups: 0,
+    todayClicks: 0,
+    todayPokecoinPurchases: 0,
+    todayArenaWagers: 0,
+    activeTrials: 0,
+  });
+
+  // Update clock every minute
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHour(new Date().getHours());
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Fetch live metrics
+  useEffect(() => {
+    const fetchLiveMetrics = async () => {
+      const todayStart = new Date();
+      todayStart.setHours(0, 0, 0, 0);
+      const todayISO = todayStart.toISOString();
+
+      const [clicksRes, trialsRes, wagersRes] = await Promise.all([
+        supabase.from('affiliate_clicks').select('id', { count: 'exact', head: true }).gte('clicked_at', todayISO),
+        supabase.from('user_trials').select('id', { count: 'exact', head: true }).eq('is_active', true).gte('ends_at', new Date().toISOString()),
+        supabase.from('arena_wallets').select('lifetime_wagered'),
+      ]);
+
+      setLiveMetrics({
+        todaySignups: 0,
+        todayClicks: clicksRes.count || 0,
+        todayPokecoinPurchases: 0,
+        todayArenaWagers: (wagersRes.data || []).reduce((s, w) => s + (w.lifetime_wagered || 0), 0),
+        activeTrials: trialsRes.count || 0,
+      });
+    };
+
+    fetchLiveMetrics();
+    const interval = setInterval(fetchLiveMetrics, 300000); // refresh every 5 min
+    return () => clearInterval(interval);
+  }, []);
 
   const dayOfYear = useMemo(() => {
     const now = new Date();
@@ -200,6 +284,9 @@ export default function CapitalDreamIntake() {
 
   const ytdTarget = dayOfYear * DAILY_TARGET;
   const ytdNetTarget = dayOfYear * (DAILY_TARGET - DAILY_FIXED_COSTS);
+  const hourlyProgress = ((currentHour / 24) * 100);
+  const todayTargetSoFar = currentHour * HOURLY_TARGET;
+  const todayCostsSoFar = currentHour * HOURLY_FIXED_COSTS;
 
   return (
     <div className="min-h-screen bg-background">
@@ -210,20 +297,98 @@ export default function CapitalDreamIntake() {
           <div className="flex items-center justify-center gap-2">
             <Flame className="w-7 h-7 text-destructive animate-pulse" />
             <h1 className="text-2xl md:text-4xl font-bold text-foreground tracking-tight">
-              2026 CAPITAL DREAM INTAKE PROJECT
+              AGGRESSIVE CAPITAL DREAM INTAKE
             </h1>
             <Flame className="w-7 h-7 text-destructive animate-pulse" />
           </div>
           <p className="text-muted-foreground text-sm md:text-base">
             <span className="text-primary font-bold">$25,000,000</span> Revenue Target — PGVA Ventures, LLC
           </p>
-          <Badge variant="outline" className="text-xs font-mono">
-            Day {dayOfYear} of 365 • {((dayOfYear / 365) * 100).toFixed(1)}% of year elapsed
-          </Badge>
+          <div className="flex items-center justify-center gap-2 flex-wrap">
+            <Badge variant="outline" className="text-xs font-mono">
+              Day {dayOfYear} of 365 • {((dayOfYear / 365) * 100).toFixed(1)}% elapsed
+            </Badge>
+            <Badge variant="destructive" className="text-xs font-mono animate-pulse">
+              <Clock className="w-3 h-3 mr-1" />
+              Hour {currentHour}/24 • {formatExact(HOURLY_TARGET)}/hr target
+            </Badge>
+          </div>
         </div>
 
+        {/* LIVE HOURLY TRACKER */}
+        <Card className="border-destructive/50 bg-destructive/5">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2 text-destructive">
+              <Activity className="w-4 h-4 animate-pulse" />
+              LIVE HOURLY CAPITAL TRACKER — Business Day {dayOfYear}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="p-3 rounded-lg bg-background border text-center">
+                <div className="text-[10px] text-muted-foreground font-bold">HOURLY GROSS TARGET</div>
+                <div className="text-lg font-mono font-bold text-primary">{formatExact(HOURLY_TARGET)}</div>
+                <div className="text-[9px] text-muted-foreground">{formatExact(TOTAL_HOURLY_REVENUE_TARGET)} all streams</div>
+              </div>
+              <div className="p-3 rounded-lg bg-background border text-center">
+                <div className="text-[10px] text-muted-foreground font-bold">HOURLY NET TARGET</div>
+                <div className="text-lg font-mono font-bold text-green-500">{formatExact(HOURLY_TARGET - HOURLY_FIXED_COSTS)}</div>
+                <div className="text-[9px] text-muted-foreground">After {formatExact(HOURLY_FIXED_COSTS)}/hr costs</div>
+              </div>
+              <div className="p-3 rounded-lg bg-background border text-center">
+                <div className="text-[10px] text-muted-foreground font-bold">TODAY TARGET SO FAR</div>
+                <div className="text-lg font-mono font-bold text-foreground">{formatExact(todayTargetSoFar)}</div>
+                <div className="text-[9px] text-muted-foreground">Hour {currentHour} of 24</div>
+              </div>
+              <div className="p-3 rounded-lg bg-background border text-center">
+                <div className="text-[10px] text-muted-foreground font-bold">TODAY NET SO FAR</div>
+                <div className="text-lg font-mono font-bold text-green-500">{formatExact(todayTargetSoFar - todayCostsSoFar)}</div>
+                <div className="text-[9px] text-muted-foreground">Costs: -{formatExact(todayCostsSoFar)}</div>
+              </div>
+            </div>
+            <Progress value={hourlyProgress} className="h-3" />
+            <div className="text-[10px] text-center text-muted-foreground">
+              Day progress: {hourlyProgress.toFixed(0)}% • {24 - currentHour} hours remaining to hit {formatExact(DAILY_TARGET)}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* LIVE METRICS FROM DB */}
+        <Card className="border-primary/30">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <Gauge className="w-4 h-4 text-primary" />
+              LIVE PLATFORM METRICS (Auto-Refresh 5min)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="p-3 rounded-lg bg-blue-500/5 border border-blue-500/20 text-center">
+                <div className="text-[10px] text-muted-foreground font-bold">TODAY AFFILIATE CLICKS</div>
+                <div className="text-xl font-mono font-bold text-blue-500">{liveMetrics.todayClicks}</div>
+                <div className="text-[9px] text-muted-foreground">Est. rev: {formatExact(liveMetrics.todayClicks * 0.10)}</div>
+              </div>
+              <div className="p-3 rounded-lg bg-yellow-500/5 border border-yellow-500/20 text-center">
+                <div className="text-[10px] text-muted-foreground font-bold">ACTIVE TRIALS</div>
+                <div className="text-xl font-mono font-bold text-yellow-500">{liveMetrics.activeTrials}</div>
+                <div className="text-[9px] text-muted-foreground">Potential MRR: {formatExact(liveMetrics.activeTrials * 4.99)}</div>
+              </div>
+              <div className="p-3 rounded-lg bg-red-500/5 border border-red-500/20 text-center">
+                <div className="text-[10px] text-muted-foreground font-bold">ARENA PC WAGERED</div>
+                <div className="text-xl font-mono font-bold text-red-500">{liveMetrics.todayArenaWagers.toLocaleString()}</div>
+                <div className="text-[9px] text-muted-foreground">5% house rake captured</div>
+              </div>
+              <div className="p-3 rounded-lg bg-green-500/5 border border-green-500/20 text-center">
+                <div className="text-[10px] text-muted-foreground font-bold">BUSINESS DAY</div>
+                <div className="text-xl font-mono font-bold text-green-500">#{dayOfYear}</div>
+                <div className="text-[9px] text-muted-foreground">{365 - dayOfYear} days remain</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Top-level KPIs */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
           <Card className="border-primary/30 bg-primary/5">
             <CardContent className="p-3 text-center">
               <Target className="w-4 h-4 mx-auto text-primary mb-1" />
@@ -235,60 +400,65 @@ export default function CapitalDreamIntake() {
             <CardContent className="p-3 text-center">
               <Calendar className="w-4 h-4 mx-auto text-yellow-500 mb-1" />
               <div className="text-lg md:text-xl font-bold text-foreground">{formatExact(DAILY_TARGET)}</div>
-              <div className="text-[10px] text-muted-foreground">Daily Revenue Needed</div>
+              <div className="text-[10px] text-muted-foreground">Daily Target</div>
+            </CardContent>
+          </Card>
+          <Card className="border-destructive/30 bg-destructive/5">
+            <CardContent className="p-3 text-center">
+              <Clock className="w-4 h-4 mx-auto text-destructive mb-1" />
+              <div className="text-lg md:text-xl font-bold text-destructive">{formatExact(HOURLY_TARGET)}</div>
+              <div className="text-[10px] text-muted-foreground">Hourly Target</div>
             </CardContent>
           </Card>
           <Card className="border-red-500/30 bg-red-500/5">
             <CardContent className="p-3 text-center">
               <AlertTriangle className="w-4 h-4 mx-auto text-red-500 mb-1" />
               <div className="text-lg md:text-xl font-bold text-red-500">-{formatExact(DAILY_FIXED_COSTS)}</div>
-              <div className="text-[10px] text-muted-foreground">Daily Operating Costs</div>
+              <div className="text-[10px] text-muted-foreground">Daily Costs</div>
             </CardContent>
           </Card>
           <Card className="border-green-500/30 bg-green-500/5">
             <CardContent className="p-3 text-center">
               <TrendingUp className="w-4 h-4 mx-auto text-green-500 mb-1" />
               <div className="text-lg md:text-xl font-bold text-green-500">{formatExact(DAILY_TARGET - DAILY_FIXED_COSTS)}</div>
-              <div className="text-[10px] text-muted-foreground">Daily Net Revenue</div>
+              <div className="text-[10px] text-muted-foreground">Daily Net</div>
             </CardContent>
           </Card>
-          <Card className="border-accent/30 bg-accent/5 col-span-2 md:col-span-1">
+          <Card className="border-accent/30 bg-accent/5">
             <CardContent className="p-3 text-center">
               <DollarSign className="w-4 h-4 mx-auto text-accent-foreground mb-1" />
               <div className="text-lg md:text-xl font-bold text-foreground">{formatCurrency(ytdTarget)}</div>
-              <div className="text-[10px] text-muted-foreground">YTD Target (Day {dayOfYear})</div>
+              <div className="text-[10px] text-muted-foreground">YTD Target</div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Revenue minus costs breakdown */}
+        {/* Revenue equation */}
         <Card className="border-primary/20">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
               <Zap className="w-4 h-4 text-yellow-500" />
-              Daily Revenue Equation
+              Aggressive Revenue Equation (Hourly Granularity)
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <div className="flex items-center justify-between p-3 rounded-lg bg-primary/5 border border-primary/20">
-              <span className="text-sm font-medium">Gross Daily Revenue Target</span>
-              <span className="font-mono font-bold text-primary">{formatExact(TOTAL_DAILY_REVENUE_TARGET)}</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-primary/5 border border-primary/20">
+                <span className="text-sm font-medium">Gross Hourly</span>
+                <span className="font-mono font-bold text-primary">{formatExact(TOTAL_HOURLY_REVENUE_TARGET)}</span>
+              </div>
+              <div className="flex items-center justify-between p-3 rounded-lg bg-red-500/5 border border-red-500/20">
+                <span className="text-sm font-medium">Hourly Costs</span>
+                <span className="font-mono font-bold text-red-500">-{formatExact(HOURLY_FIXED_COSTS)}</span>
+              </div>
+              <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/5 border border-green-500/20">
+                <span className="text-sm font-medium">Net Hourly</span>
+                <span className="font-mono font-bold text-green-500">{formatExact(TOTAL_HOURLY_REVENUE_TARGET - HOURLY_FIXED_COSTS)}</span>
+              </div>
             </div>
-            <div className="flex items-center justify-between p-3 rounded-lg bg-red-500/5 border border-red-500/20">
-              <span className="text-sm font-medium">Daily Operating Costs</span>
-              <span className="font-mono font-bold text-red-500">-{formatExact(DAILY_FIXED_COSTS)}</span>
-            </div>
-            <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/5 border border-green-500/20">
-              <span className="text-sm font-medium text-green-600">Net Daily Revenue</span>
-              <span className="font-mono font-bold text-green-500">{formatExact(TOTAL_DAILY_REVENUE_TARGET - DAILY_FIXED_COSTS)}</span>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 pt-2">
-              {Object.entries(OPERATING_COSTS).filter(([k]) => k !== 'stripeProcessing').map(([key, val]) => (
-                <div key={key} className="text-center p-2 bg-muted/30 rounded">
-                  <div className="text-[10px] text-muted-foreground capitalize">{key.replace(/([A-Z])/g, ' $1')}</div>
-                  <div className="text-xs font-mono font-bold">{formatExact(val)}/mo</div>
-                </div>
-              ))}
+            <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/10 border-2 border-green-500/30">
+              <span className="text-sm font-bold text-green-600">NET DAILY CAPITAL</span>
+              <span className="font-mono text-xl font-bold text-green-500">{formatExact(TOTAL_DAILY_REVENUE_TARGET - DAILY_FIXED_COSTS)}</span>
             </div>
           </CardContent>
         </Card>
@@ -297,6 +467,7 @@ export default function CapitalDreamIntake() {
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="w-full flex overflow-x-auto">
             <TabsTrigger value="overview" className="flex-1 text-xs">Revenue Streams</TabsTrigger>
+            <TabsTrigger value="hourly" className="flex-1 text-xs">Hourly Actions</TabsTrigger>
             <TabsTrigger value="gaps" className="flex-1 text-xs">Gap Closers</TabsTrigger>
             <TabsTrigger value="lockdown" className="flex-1 text-xs">Revenue Lock-In</TabsTrigger>
           </TabsList>
@@ -310,12 +481,15 @@ export default function CapitalDreamIntake() {
                       {stream.icon}
                       {stream.name}
                     </span>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap justify-end">
                       <Badge variant="secondary" className="font-mono text-xs">
                         {formatCurrency(stream.annualTarget)}/yr
                       </Badge>
                       <Badge variant="outline" className="font-mono text-[10px]">
                         {formatExact(stream.dailyTarget)}/day
+                      </Badge>
+                      <Badge variant="destructive" className="font-mono text-[10px]">
+                        {formatExact(stream.hourlyTarget)}/hr
                       </Badge>
                     </div>
                   </CardTitle>
@@ -333,6 +507,47 @@ export default function CapitalDreamIntake() {
                       </div>
                     ))}
                   </div>
+                </CardContent>
+              </Card>
+            ))}
+          </TabsContent>
+
+          {/* NEW: Hourly Aggressive Actions Tab */}
+          <TabsContent value="hourly" className="space-y-4 mt-4">
+            <Card className="border-destructive/30">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm flex items-center gap-2 text-destructive">
+                  <Activity className="w-4 h-4 animate-pulse" />
+                  Aggressive Hourly Revenue Actions — Execute NOW
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-xs text-muted-foreground mb-4">
+                  These actions are designed to produce tangible, measurable capital results every hour.
+                  Each action is tied to a revenue stream and can be verified in real-time.
+                </p>
+              </CardContent>
+            </Card>
+            {STREAMS.map(stream => (
+              <Card key={stream.name} className="border-destructive/20">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm flex items-center justify-between">
+                    <span className={`flex items-center gap-2 ${stream.color}`}>
+                      {stream.icon}
+                      {stream.name}
+                    </span>
+                    <Badge variant="destructive" className="font-mono text-[10px]">
+                      {formatExact(stream.hourlyTarget)}/hr needed
+                    </Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-1">
+                  {stream.aggressiveActions.map((a, i) => (
+                    <div key={i} className="flex items-start gap-2 p-2 rounded bg-destructive/5 border border-destructive/10">
+                      <Zap className="w-3 h-3 text-destructive mt-0.5 shrink-0" />
+                      <span className="text-xs leading-relaxed font-medium">{a}</span>
+                    </div>
+                  ))}
                 </CardContent>
               </Card>
             ))}

@@ -576,18 +576,20 @@ Return a JSON object with this exact structure:
     const now = new Date();
     const startOfYear = new Date(now.getFullYear(), 0, 0);
     const dayOfYear = Math.floor((now.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24));
+    const currentHour = now.getUTCHours() - 5; // EST offset
     const ANNUAL_TARGET = 25_000_000;
     const DAILY_TARGET = Math.round(ANNUAL_TARGET / 365);
-    const MONTHLY_FIXED_COSTS = 28000; // infrastructure + api + marketing + legal + insurance + team + misc
+    const HOURLY_TARGET = Math.round(DAILY_TARGET / 24);
+    const MONTHLY_FIXED_COSTS = 28000;
     const DAILY_FIXED_COSTS = Math.round(MONTHLY_FIXED_COSTS / 30);
 
     const capitalDreamStreams = [
-      { name: 'Subscriptions', annualTarget: 12000000, dailyTarget: 32877 },
-      { name: 'Affiliate Revenue', annualTarget: 5000000, dailyTarget: 13699 },
-      { name: 'PokéCoin Store', annualTarget: 3000000, dailyTarget: 8219 },
-      { name: 'SimTrader & Contests', annualTarget: 2500000, dailyTarget: 6849 },
-      { name: 'Arena Economy', annualTarget: 1500000, dailyTarget: 4110 },
-      { name: 'Data Licensing & API', annualTarget: 1000000, dailyTarget: 2740 },
+      { name: 'Subscriptions', annualTarget: 12000000, dailyTarget: 32877, hourlyTarget: Math.round(32877 / 24) },
+      { name: 'Affiliate Revenue', annualTarget: 5000000, dailyTarget: 13699, hourlyTarget: Math.round(13699 / 24) },
+      { name: 'PokéCoin Store', annualTarget: 3000000, dailyTarget: 8219, hourlyTarget: Math.round(8219 / 24) },
+      { name: 'SimTrader & Contests', annualTarget: 2500000, dailyTarget: 6849, hourlyTarget: Math.round(6849 / 24) },
+      { name: 'Arena Economy', annualTarget: 1500000, dailyTarget: 4110, hourlyTarget: Math.round(4110 / 24) },
+      { name: 'Data Licensing & API', annualTarget: 1000000, dailyTarget: 2740, hourlyTarget: Math.round(2740 / 24) },
     ];
 
     const gapCloserRotation = [
@@ -602,7 +604,6 @@ Return a JSON object with this exact structure:
       'Metered API billing: overage charges at $0.001/request beyond quota',
       'Enterprise contracts: min 12-month commitment, 50% early termination fee',
     ];
-    // Rotate 3 gap closers daily
     const todayGapClosers = [
       gapCloserRotation[dayOfYear % gapCloserRotation.length],
       gapCloserRotation[(dayOfYear + 1) % gapCloserRotation.length],
@@ -613,6 +614,7 @@ Return a JSON object with this exact structure:
       annualTarget: ANNUAL_TARGET,
       dayOfYear,
       dailyTarget: DAILY_TARGET,
+      hourlyTarget: HOURLY_TARGET,
       dailyOperatingCosts: DAILY_FIXED_COSTS,
       dailyNetTarget: DAILY_TARGET - DAILY_FIXED_COSTS,
       ytdTarget: dayOfYear * DAILY_TARGET,
@@ -620,11 +622,53 @@ Return a JSON object with this exact structure:
       gapCloserHighlights: todayGapClosers,
     };
 
+    // ── Build Daily Revenue Sheet with actual data ──
+    const subscriptionActual = balanceSheet.totalMRR ? (balanceSheet.totalMRR / 30) : 0;
+    const affiliateActual = (balanceSheet.affiliateRevenue || []).reduce((s: number, l: any) => s + l.amount, 0) / 30;
+    const pokecoinActual = (balanceSheet.productRevenue || []).reduce((s: number, l: any) => s + l.amount, 0) / 30;
+    const arenaHouseRake = (balanceSheet.arenaEconomy?.totalWagered ?? 0) * 0.05 / 365;
+    const simTraderActual = 0; // no direct data source yet
+    const dataApiActual = 0; // no direct data source yet
+
+    const totalActual = subscriptionActual + affiliateActual + pokecoinActual + arenaHouseRake + simTraderActual + dataApiActual;
+    const totalTarget = DAILY_TARGET;
+    const netCapital = totalActual - DAILY_FIXED_COSTS;
+
+    const dailyRevenueSheet = {
+      businessDay: dayOfYear,
+      actualRevenue: {
+        subscriptions: Math.round(subscriptionActual * 100) / 100,
+        affiliates: Math.round(affiliateActual * 100) / 100,
+        pokecoinStore: Math.round(pokecoinActual * 100) / 100,
+        simTrader: simTraderActual,
+        arena: Math.round(arenaHouseRake * 100) / 100,
+        dataApi: dataApiActual,
+      },
+      targetRevenue: {
+        subscriptions: 32877,
+        affiliates: 13699,
+        pokecoinStore: 8219,
+        simTrader: 6849,
+        arena: 4110,
+        dataApi: 2740,
+      },
+      totalActual: Math.round(totalActual * 100) / 100,
+      totalTarget,
+      netCapital: Math.round(netCapital * 100) / 100,
+      ytdActual: Math.round(totalActual * dayOfYear * 100) / 100,
+      ytdTarget: dayOfYear * DAILY_TARGET,
+    };
+
+    // Determine audit time label
+    const auditHourEST = (now.getUTCHours() - 5 + 24) % 24;
+    const auditTime = auditHourEST < 12 ? '6AM' : '6PM';
+
     // Send daily audit report email
     const emailData = {
       overallScore: auditResult.overall_score,
       summary: auditResult.summary,
       auditDate: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+      auditTime,
       categories: (auditResult.categories || []).map((c: any) => ({
         name: c.name,
         score: c.score,
@@ -634,6 +678,7 @@ Return a JSON object with this exact structure:
       topPriorities: (auditResult.top_priorities || []).slice(0, 3),
       balanceSheet: Object.keys(balanceSheet).length > 0 ? balanceSheet : undefined,
       capitalDream,
+      dailyRevenueSheet,
     };
 
     const recipients = ['noyes.dave@gmail.com', 'contact@poke-pulse-ticker.com'];
