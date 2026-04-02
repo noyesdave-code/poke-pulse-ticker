@@ -401,12 +401,13 @@ const DailyAuditReportEmail = ({
 export const template = {
   component: DailyAuditReportEmail,
   subject: (data: Record<string, any>) =>
-    `Daily Audit: ${data.overallScore || 0}/100 + Capital Dream + Balance Sheet — ${SITE_NAME}`,
-  displayName: 'Daily audit report + capital dream + balance sheet',
+    `${data.auditTime || ''} Audit + Capital Sheet: ${data.overallScore || 0}/100 — Day #${data.dailyRevenueSheet?.businessDay || 0} — ${SITE_NAME}`,
+  displayName: 'Daily audit + capital revenue sheet + balance sheet',
   previewData: {
     overallScore: 98,
     summary: 'Platform maintains strong performance across all 11 categories with a 98/100 overall score.',
-    auditDate: 'Tuesday, April 1, 2026',
+    auditDate: 'Wednesday, April 2, 2026',
+    auditTime: '6AM',
     categories: [
       { name: 'aesthetics', score: 98, status: 'strong', recommendations: ['Consider micro-animations on hover states'] },
       { name: 'efficiency', score: 98, status: 'strong', recommendations: [] },
@@ -415,6 +416,16 @@ export const template = {
     topPriorities: [
       { title: 'Add PSA grading API integration', category: 'competitive_edge', impact: 'high', description: 'Direct PSA population data would strengthen grading arbitrage signals.' },
     ],
+    dailyRevenueSheet: {
+      businessDay: 92,
+      actualRevenue: { subscriptions: 8.32, affiliates: 1.70, pokecoinStore: 0.50, simTrader: 0, arena: 6.16, dataApi: 0 },
+      targetRevenue: { subscriptions: 32877, affiliates: 13699, pokecoinStore: 8219, simTrader: 6849, arena: 4110, dataApi: 2740 },
+      totalActual: 16.68,
+      totalTarget: 68494,
+      netCapital: -916.32,
+      ytdActual: 1534.56,
+      ytdTarget: 6301448,
+    },
     balanceSheet: {
       totalMRR: 249.50,
       totalARR: 2994.00,
@@ -441,16 +452,17 @@ export const template = {
       annualTarget: 25000000,
       dayOfYear: 92,
       dailyTarget: 68493,
+      hourlyTarget: 2854,
       dailyOperatingCosts: 933,
       dailyNetTarget: 67560,
       ytdTarget: 6301356,
       streams: [
-        { name: 'Subscriptions', annualTarget: 12000000, dailyTarget: 32877 },
-        { name: 'Affiliate Revenue', annualTarget: 5000000, dailyTarget: 13699 },
-        { name: 'PokéCoin Store', annualTarget: 3000000, dailyTarget: 8219 },
-        { name: 'SimTrader & Contests', annualTarget: 2500000, dailyTarget: 6849 },
-        { name: 'Arena Economy', annualTarget: 1500000, dailyTarget: 4110 },
-        { name: 'Data Licensing & API', annualTarget: 1000000, dailyTarget: 2740 },
+        { name: 'Subscriptions', annualTarget: 12000000, dailyTarget: 32877, hourlyTarget: 1370 },
+        { name: 'Affiliate Revenue', annualTarget: 5000000, dailyTarget: 13699, hourlyTarget: 571 },
+        { name: 'PokéCoin Store', annualTarget: 3000000, dailyTarget: 8219, hourlyTarget: 342 },
+        { name: 'SimTrader & Contests', annualTarget: 2500000, dailyTarget: 6849, hourlyTarget: 285 },
+        { name: 'Arena Economy', annualTarget: 1500000, dailyTarget: 4110, hourlyTarget: 171 },
+        { name: 'Data Licensing & API', annualTarget: 1000000, dailyTarget: 2740, hourlyTarget: 114 },
       ],
       gapCloserHighlights: [
         'Dunning: 3-touch failed payment recovery sequence',
