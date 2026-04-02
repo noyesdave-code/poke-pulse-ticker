@@ -6,9 +6,11 @@ import { GrandLaunch } from "./GrandLaunch";
 import { SocialHighlight } from "./SocialHighlight";
 import { PlatformHighlight } from "./PlatformHighlight";
 import { GameHighlight } from "./GameHighlight";
+import { FranchisePitch } from "./FranchisePitch";
 
 export const RemotionRoot: React.FC = () => (
   <>
+    {/* existing compositions unchanged */}
     <Composition
       id="main"
       component={MainVideo}
