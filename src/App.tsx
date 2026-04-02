@@ -43,6 +43,7 @@ import PromoAssets from "./pages/PromoAssets.tsx";
 import VideoLibrary from "./pages/VideoLibrary.tsx";
 import Arena from "./pages/Arena.tsx";
 import CapitalCampaign from "./pages/CapitalCampaign.tsx";
+import CapitalDreamIntake from "./pages/CapitalDreamIntake.tsx";
 
 const queryClient = new QueryClient();
 
