@@ -98,7 +98,7 @@ const AnimatedRoutes = () => {
           <Route path="/unsubscribe" element={<Unsubscribe />} />
           <Route path="/accessible" element={<AccessibleLanding />} />
           <Route path="/go" element={<SocialLanding />} />
-          <Route path="/sim-trader" element={<SimTrader />} />
+          
           <Route path="/promo" element={<PromoAssets />} />
           <Route path="/videos" element={<VideoLibrary />} />
           <Route path="/arena" element={<Arena />} />
