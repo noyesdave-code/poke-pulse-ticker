@@ -40,7 +40,26 @@ const PulseTerminalDemo = ({ config }: { config: FranchiseConfig }) => {
   const [tab, setTab] = useState("raw");
   const navigate = useNavigate();
 
-  const getIndexValue = (items: MarketItem[]) => {
+  // Copy protection
+  useEffect(() => {
+    const blockCtx = (e: MouseEvent) => e.preventDefault();
+    const blockKeys = (e: KeyboardEvent) => {
+      if ((e.ctrlKey && ['s','u','p','c','a'].includes(e.key.toLowerCase())) || e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['i','j'].includes(e.key.toLowerCase()))) e.preventDefault();
+    };
+    const blockDrag = (e: DragEvent) => e.preventDefault();
+    const blockPrint = (e: Event) => e.preventDefault();
+    document.addEventListener('contextmenu', blockCtx);
+    document.addEventListener('keydown', blockKeys);
+    document.addEventListener('dragstart', blockDrag);
+    window.addEventListener('beforeprint', blockPrint);
+    return () => {
+      document.removeEventListener('contextmenu', blockCtx);
+      document.removeEventListener('keydown', blockKeys);
+      document.removeEventListener('dragstart', blockDrag);
+      window.removeEventListener('beforeprint', blockPrint);
+    };
+  }, []);
     if (!items.length) return 0;
     return items.reduce((s, i) => s + i.price, 0) / items.length;
   };
