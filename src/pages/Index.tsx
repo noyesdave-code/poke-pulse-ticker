@@ -75,6 +75,7 @@ import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
 import PulseScore from "@/components/PulseScore";
 import CorrelationMatrix from "@/components/CorrelationMatrix";
 import PopReportDelta from "@/components/PopReportDelta";
+import GamePromo from "@/components/GamePromo";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
@@ -204,6 +205,9 @@ const Index = () => {
 
         {/* Quick Collection Value Calculator — instant engagement hook */}
         <QuickValueCalculator />
+
+        {/* PokémonKids Adventure Game Promo */}
+        <GamePromo />
 
         {/* Inline upgrade nudge — after first value moment */}
         <InlineUpgradeNudge variant="savings" />
@@ -408,6 +412,7 @@ const Index = () => {
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
               {[
+                { href: "/pokemon-kids", label: "PokémonKids Game" },
                 { href: "/arena", label: "Arena" },
                 { href: "/videos", label: "Video Library" },
                 { href: "/terms", label: "Terms of Service" },
