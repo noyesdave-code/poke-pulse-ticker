@@ -276,7 +276,12 @@ const Index = () => {
           </ProGate>
         </LazySection>
 
-        <LazySection minHeight="200px">
+        <LazySection minHeight="250px">
+          <ProGate feature="Pop Report Δ — Supply Pressure" blur>
+            <PopReportDelta cards={displayCards} />
+          </ProGate>
+        </LazySection>
+
           <ProGate feature="Alpha Signal Accuracy Metrics" blur>
             <AlphaAccuracy />
           </ProGate>
