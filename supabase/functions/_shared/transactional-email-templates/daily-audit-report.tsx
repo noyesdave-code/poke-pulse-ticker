@@ -40,6 +40,16 @@ interface DailyAuditReportProps {
       totalWon?: number
     }
   }
+  capitalDream?: {
+    annualTarget?: number
+    dayOfYear?: number
+    dailyTarget?: number
+    dailyOperatingCosts?: number
+    dailyNetTarget?: number
+    ytdTarget?: number
+    streams?: Array<{ name: string; annualTarget: number; dailyTarget: number }>
+    gapCloserHighlights?: string[]
+  }
 }
 
 const statusColor = (status: string) => {
@@ -64,6 +74,7 @@ const DailyAuditReportEmail = ({
   auditDate,
   topPriorities = [],
   balanceSheet,
+  capitalDream,
 }: DailyAuditReportProps) => (
   <Html lang="en" dir="ltr">
     <Head />
@@ -185,6 +196,62 @@ const DailyAuditReportEmail = ({
           </Section>
         )}
 
+        {/* ── CAPITAL DREAM INTAKE ── */}
+        {capitalDream && (
+          <Section style={capitalDreamSection}>
+            <Text style={sectionTitle}>2026 CAPITAL DREAM INTAKE PROJECT</Text>
+            <Text style={{ fontSize: '11px', color: '#475569', margin: '0 0 8px' }}>
+              Target: ${formatNumber(capitalDream.annualTarget ?? 25000000)} annual revenue — Day {capitalDream.dayOfYear ?? 0} of 365
+            </Text>
+
+            <Section style={kpiRow}>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>Daily Target</span>{'\n'}
+                <span style={{ ...kpiValue, color: '#16a34a' }}>{formatCurrency(capitalDream.dailyTarget ?? 0)}</span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>Operating Costs</span>{'\n'}
+                <span style={{ ...kpiValue, color: '#dc2626' }}>-{formatCurrency(capitalDream.dailyOperatingCosts ?? 0)}</span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>Net Daily</span>{'\n'}
+                <span style={{ ...kpiValue, color: '#16a34a' }}>{formatCurrency(capitalDream.dailyNetTarget ?? 0)}</span>
+              </Text>
+              <Text style={kpiItem}>
+                <span style={kpiLabel}>YTD Target</span>{'\n'}
+                <span style={kpiValue}>{formatCurrency(capitalDream.ytdTarget ?? 0)}</span>
+              </Text>
+            </Section>
+
+            {capitalDream.streams && capitalDream.streams.length > 0 && (
+              <Section style={bsGroup}>
+                <Text style={bsGroupTitle}>REVENUE STREAM BREAKDOWN</Text>
+                {capitalDream.streams.map((s, i) => (
+                  <Section key={i} style={bsLineRow}>
+                    <Text style={bsLineLabel}>{s.name}</Text>
+                    <Text style={bsLineAmount}>
+                      {formatCurrency(s.annualTarget)}/yr • {formatCurrency(s.dailyTarget)}/day
+                    </Text>
+                  </Section>
+                ))}
+              </Section>
+            )}
+
+            {capitalDream.gapCloserHighlights && capitalDream.gapCloserHighlights.length > 0 && (
+              <Section style={bsGroup}>
+                <Text style={bsGroupTitle}>TODAY'S GAP CLOSER FOCUS</Text>
+                {capitalDream.gapCloserHighlights.map((g, i) => (
+                  <Text key={i} style={{ fontSize: '11px', color: '#dc2626', margin: '2px 0' }}>🔒 {g}</Text>
+                ))}
+              </Section>
+            )}
+
+            <Button style={ctaButton} href="https://poke-pulse-ticker.lovable.app/capital-dream">
+              View Full Capital Dream Plan →
+            </Button>
+          </Section>
+        )}
+
         {categories.length > 0 && (
           <Section style={categoriesSection}>
             <Text style={sectionTitle}>CATEGORY BREAKDOWN</Text>
@@ -247,8 +314,8 @@ const DailyAuditReportEmail = ({
 export const template = {
   component: DailyAuditReportEmail,
   subject: (data: Record<string, any>) =>
-    `Daily Audit: ${data.overallScore || 0}/100 + Balance Sheet — ${SITE_NAME}`,
-  displayName: 'Daily audit report + balance sheet',
+    `Daily Audit: ${data.overallScore || 0}/100 + Capital Dream + Balance Sheet — ${SITE_NAME}`,
+  displayName: 'Daily audit report + capital dream + balance sheet',
   previewData: {
     overallScore: 98,
     summary: 'Platform maintains strong performance across all 11 categories with a 98/100 overall score.',
@@ -282,6 +349,27 @@ export const template = {
         totalWagered: 45000,
         totalWon: 38500,
       },
+    },
+    capitalDream: {
+      annualTarget: 25000000,
+      dayOfYear: 92,
+      dailyTarget: 68493,
+      dailyOperatingCosts: 933,
+      dailyNetTarget: 67560,
+      ytdTarget: 6301356,
+      streams: [
+        { name: 'Subscriptions', annualTarget: 12000000, dailyTarget: 32877 },
+        { name: 'Affiliate Revenue', annualTarget: 5000000, dailyTarget: 13699 },
+        { name: 'PokéCoin Store', annualTarget: 3000000, dailyTarget: 8219 },
+        { name: 'SimTrader & Contests', annualTarget: 2500000, dailyTarget: 6849 },
+        { name: 'Arena Economy', annualTarget: 1500000, dailyTarget: 4110 },
+        { name: 'Data Licensing & API', annualTarget: 1000000, dailyTarget: 2740 },
+      ],
+      gapCloserHighlights: [
+        'Dunning: 3-touch failed payment recovery sequence',
+        'Annual prepay lock-in with 20% discount',
+        'Cancel-save flow: 50% off for 3 months before cancel',
+      ],
     },
   },
 } satisfies TemplateEntry
@@ -320,6 +408,12 @@ const bsLineRow = { display: 'flex' as const, justifyContent: 'space-between' as
 const bsLineLabel = { fontSize: '12px', color: '#475569', margin: '0' }
 const bsLineAmount = { fontSize: '12px', color: '#0f172a', fontWeight: '600', margin: '0', textAlign: 'right' as const }
 const bsDivider = { borderColor: '#cbd5e1', margin: '8px 0' }
+
+// Capital Dream styles
+const capitalDreamSection = {
+  backgroundColor: '#fef3c7', border: '1px solid #fbbf24', borderRadius: '8px',
+  padding: '16px', marginBottom: '24px',
+}
 
 const categoriesSection = { marginBottom: '24px' }
 const sectionTitle = { fontSize: '10px', color: '#64748b', letterSpacing: '0.1em', fontWeight: 'bold', margin: '0 0 12px' }

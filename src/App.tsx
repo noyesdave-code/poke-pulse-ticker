@@ -43,6 +43,7 @@ import PromoAssets from "./pages/PromoAssets.tsx";
 import VideoLibrary from "./pages/VideoLibrary.tsx";
 import Arena from "./pages/Arena.tsx";
 import CapitalCampaign from "./pages/CapitalCampaign.tsx";
+import CapitalDreamIntake from "./pages/CapitalDreamIntake.tsx";
 
 const queryClient = new QueryClient();
 
@@ -89,6 +90,7 @@ const AnimatedRoutes = () => {
           <Route path="/videos" element={<VideoLibrary />} />
           <Route path="/arena" element={<Arena />} />
           <Route path="/capital-campaign" element={<CapitalCampaign />} />
+          <Route path="/capital-dream" element={<CapitalDreamIntake />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>
