@@ -60,6 +60,8 @@ const PulseTerminalDemo = ({ config }: { config: FranchiseConfig }) => {
       window.removeEventListener('beforeprint', blockPrint);
     };
   }, []);
+
+  const getIndexValue = (items: MarketItem[]) => {
     if (!items.length) return 0;
     return items.reduce((s, i) => s + i.price, 0) / items.length;
   };
