@@ -341,12 +341,38 @@ const PokemonKidsGame = () => {
 
   useEffect(() => { loadPlayerData(); }, [loadPlayerData]);
 
-  // Realtime PvP subscription
+  // Load PvP leaderboard
+  const loadPvpLeaderboard = useCallback(async () => {
+    const { data } = await supabase
+      .from("game_players")
+      .select("id, display_name, starter_pokemon, starter_pokemon_image, level, total_wins, total_losses")
+      .order("total_wins", { ascending: false })
+      .limit(20);
+    setPvpLeaderboard(data || []);
+  }, []);
+
+  useEffect(() => { loadPvpLeaderboard(); }, [loadPvpLeaderboard]);
+
+  // Realtime PvP subscription with notifications
   useEffect(() => {
     if (!playerData?.id) return;
     const channel = supabase
       .channel("pvp-challenges")
-      .on("postgres_changes", { event: "*", schema: "public", table: "game_pvp_challenges" }, () => {
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "game_pvp_challenges" }, (payload: any) => {
+        const updated = payload.new;
+        // Notify challenger when their challenge is accepted
+        if (updated.status === "resolved" && updated.challenger_id === playerData.id) {
+          const won = updated.winner_id === playerData.id;
+          toast({
+            title: won ? "⚔️ PvP Result: Victory!" : updated.winner_id ? "⚔️ PvP Result: Defeat" : "⚔️ PvP Result: Draw",
+            description: `${updated.opponent_pokemon || "Someone"} accepted your challenge!`,
+          });
+          loadPlayerData();
+        }
+        loadPvpChallenges(playerData.id);
+        loadPvpLeaderboard();
+      })
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "game_pvp_challenges" }, () => {
         loadPvpChallenges(playerData.id);
       })
       .subscribe();
