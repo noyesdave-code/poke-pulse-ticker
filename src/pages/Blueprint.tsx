@@ -167,7 +167,7 @@ const AnimCounter = ({ target, prefix = "", suffix = "", duration = 2000 }: { ta
     }, 30);
     return () => clearInterval(iv);
   }, [target, duration]);
-  return <span>{prefix}{val >= 100 ? Math.round(val).toLocaleString() : val.toFixed(1)}{suffix}</span>;
+  return <span>{prefix}{Number.isInteger(target) ? Math.round(val).toLocaleString() : val.toFixed(1)}{suffix}</span>;
 };
 
 /* ─── Main Blueprint Page ─── */
