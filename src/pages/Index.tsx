@@ -282,6 +282,7 @@ const Index = () => {
           </ProGate>
         </LazySection>
 
+        <LazySection minHeight="200px">
           <ProGate feature="Alpha Signal Accuracy Metrics" blur>
             <AlphaAccuracy />
           </ProGate>
