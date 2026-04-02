@@ -594,6 +594,10 @@ export const InvestorPitch: React.FC = () => {
       <Sequence from={S6} durationInFrames={S6D}><SceneCompetitive /></Sequence>
       <Sequence from={S7} durationInFrames={S7D}><SceneMetrics /></Sequence>
       <Sequence from={S8} durationInFrames={S8D}><SceneCTA /></Sequence>
+      <Sequence from={S9} durationInFrames={S9D}><SceneFranchise /></Sequence>
+      <Sequence from={S10} durationInFrames={S10D}><SceneRevenue /></Sequence>
+      <Sequence from={S11} durationInFrames={S11D}><SceneInvestors /></Sequence>
+      <Sequence from={S12} durationInFrames={S12D}><SceneFinalCTA /></Sequence>
 
       {/* Watermark */}
       <div style={{ position: "absolute", bottom: 30, left: 0, right: 0, textAlign: "center", fontFamily: "monospace", fontSize: 14, color: "rgba(255,255,255,0.12)", letterSpacing: 4 }}>
