@@ -73,7 +73,7 @@ const AnimatedRoutes = () => {
         transition={{ duration: 0.25, ease: "easeInOut" }}
       >
         <Routes location={location}>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<Blueprint />} />
           <Route path="/card/:slug" element={<CardDetail />} />
           <Route path="/sets" element={<SetBrowser />} />
           <Route path="/portfolio" element={<Portfolio />} />
