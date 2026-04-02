@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { ArrowUp, ArrowDown, TrendingUp, BarChart3, Activity, Shield, Star, Trophy, Zap, Users, ChevronRight, ExternalLink } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowUp, ArrowDown, TrendingUp, BarChart3, Activity, Shield, Star, Trophy, Zap, Users, ChevronRight, ExternalLink, Lock, AlertTriangle, Scale } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
+import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 
 export interface MarketItem {
   name: string;
@@ -38,6 +39,27 @@ export interface FranchiseConfig {
 const PulseTerminalDemo = ({ config }: { config: FranchiseConfig }) => {
   const [tab, setTab] = useState("raw");
   const navigate = useNavigate();
+
+  // Copy protection
+  useEffect(() => {
+    const blockCtx = (e: MouseEvent) => e.preventDefault();
+    const blockKeys = (e: KeyboardEvent) => {
+      if ((e.ctrlKey && ['s','u','p','c','a'].includes(e.key.toLowerCase())) || e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['i','j'].includes(e.key.toLowerCase()))) e.preventDefault();
+    };
+    const blockDrag = (e: DragEvent) => e.preventDefault();
+    const blockPrint = (e: Event) => e.preventDefault();
+    document.addEventListener('contextmenu', blockCtx);
+    document.addEventListener('keydown', blockKeys);
+    document.addEventListener('dragstart', blockDrag);
+    window.addEventListener('beforeprint', blockPrint);
+    return () => {
+      document.removeEventListener('contextmenu', blockCtx);
+      document.removeEventListener('keydown', blockKeys);
+      document.removeEventListener('dragstart', blockDrag);
+      window.removeEventListener('beforeprint', blockPrint);
+    };
+  }, []);
 
   const getIndexValue = (items: MarketItem[]) => {
     if (!items.length) return 0;
@@ -219,12 +241,40 @@ const PulseTerminalDemo = ({ config }: { config: FranchiseConfig }) => {
         </Card>
       </div>
 
-      {/* Footer */}
-      <div className="max-w-7xl mx-auto px-4 pb-12 text-center">
-        <p className="text-xs text-muted-foreground font-mono">
-          © {new Date().getFullYear()} PGVA Ventures, LLC · Pulse Market Terminal™ · All Rights Reserved · Patent Pending
-        </p>
+      {/* Legal / Financial Disclaimer */}
+      <div className="max-w-7xl mx-auto px-4 pb-4">
+        <FinancialDisclaimer />
       </div>
+
+      {/* Footer with IP Protection */}
+      <div className="max-w-7xl mx-auto px-4 pb-6 text-center space-y-2">
+        <div className="flex items-center justify-center gap-1.5">
+          <Shield className="w-3 h-3 text-primary" />
+          <p className="text-xs text-muted-foreground font-mono">
+            © {new Date().getFullYear()} PGVA Ventures, LLC · Pulse Market Terminal™ · All Rights Reserved · Patent Pending
+          </p>
+        </div>
+        <div className="flex items-center justify-center gap-1.5">
+          <Lock className="w-2.5 h-2.5 text-muted-foreground/60" />
+          <p className="text-[9px] text-muted-foreground/50 font-mono tracking-wide">
+            CONFIDENTIAL & PROPRIETARY · Protected under DMCA, CFAA & DTSA · Noyes Family Trust
+          </p>
+        </div>
+        <div className="flex items-center justify-center gap-1.5">
+          <AlertTriangle className="w-2.5 h-2.5 text-muted-foreground/40" />
+          <p className="text-[8px] text-muted-foreground/40 font-mono">
+            Not financial advice. All trademarks belong to their respective owners.
+          </p>
+        </div>
+      </div>
+
+      {/* Forensic Watermark */}
+      <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden select-none" aria-hidden="true"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250'%3E%3Ctext x='50%25' y='30%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='10' fill='rgba(255,255,255,0.015)' transform='rotate(-30 200 125)'%3E© 2026 PGVA Ventures LLC%3C/text%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='8' fill='rgba(255,255,255,0.012)' transform='rotate(-30 200 125)'%3EPulse Market Terminal · Patent Pending%3C/text%3E%3C/svg%3E")`,
+          backgroundRepeat: "repeat",
+        }}
+      />
     </div>
   );
 };
