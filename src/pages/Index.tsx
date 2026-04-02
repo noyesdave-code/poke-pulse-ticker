@@ -72,6 +72,8 @@ import FomoPopup from "@/components/FomoPopup";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import SimTraderPromo from "@/components/SimTraderPromo";
 import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
+import PulseScore from "@/components/PulseScore";
+import CorrelationMatrix from "@/components/CorrelationMatrix";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
