@@ -108,7 +108,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition
       id="game-highlight"
       component={GameHighlight}
-      durationInFrames={3390}
+      durationInFrames={2700}
       fps={30}
       width={1080}
       height={1920}
@@ -116,7 +116,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition
       id="game-highlight-yt"
       component={GameHighlight}
-      durationInFrames={3390}
+      durationInFrames={2700}
       fps={30}
       width={1920}
       height={1080}

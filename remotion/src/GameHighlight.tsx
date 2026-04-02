@@ -389,20 +389,16 @@ export const GameHighlight: React.FC = () => {
   const frame = useCurrentFrame();
   const isVertical = height > width;
 
-  // Background gradient that shifts through scenes
-  const bgHue = interpolate(frame, [0, 3600], [200, 320], { extrapolateRight: "clamp" });
-
-  // Scene timing: 7 scenes across 120s = ~3600 frames at 30fps
-  // Each scene ~510 frames with overlap via sequences
-  const sceneDur = 510;
+  // 90s = 2700 frames at 30fps, 7 scenes
+  const sceneDur = 400;
   const scenes = [
     { from: 0, comp: Scene1 },      // Hero intro
-    { from: 480, comp: Scene2 },     // Starters
-    { from: 960, comp: Scene3 },     // Adventure zones
-    { from: 1440, comp: Scene4 },    // PvP battles
-    { from: 1920, comp: Scene5 },    // Achievements
-    { from: 2400, comp: Scene6 },    // Shop/pricing
-    { from: 2880, comp: Scene7 },    // CTA
+    { from: 370, comp: Scene2 },     // Starters
+    { from: 740, comp: Scene3 },     // Adventure zones
+    { from: 1110, comp: Scene4 },    // PvP battles
+    { from: 1480, comp: Scene5 },    // Achievements
+    { from: 1850, comp: Scene6 },    // Shop/pricing
+    { from: 2250, comp: Scene7 },    // CTA
   ];
 
   return (
