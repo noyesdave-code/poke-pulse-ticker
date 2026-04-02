@@ -55,6 +55,7 @@ const projections = [
 ];
 
 const Franchise = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Hero */}
