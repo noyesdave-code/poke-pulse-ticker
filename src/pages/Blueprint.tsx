@@ -506,6 +506,31 @@ const Blueprint = () => {
             </p>
           </div>
         </div>
+      {/* ── Sticky Investor CTA Bar ── */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-primary/20 py-3 px-4">
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-3">
+          <p className="hidden sm:block font-mono text-xs text-muted-foreground">
+            <span className="text-primary font-bold">${totalTAM.toFixed(0)}B+ TAM</span> across 12 verticals
+          </p>
+          <div className="flex gap-3 w-full sm:w-auto">
+            <Button
+              onClick={() => navigate("/contact")}
+              variant="outline"
+              className="flex-1 sm:flex-none border-primary/40 text-primary hover:bg-primary/10 font-mono text-xs"
+            >
+              <Users className="w-3.5 h-3.5 mr-1.5" />
+              Contact Investors
+            </Button>
+            <Button
+              onClick={() => navigate("/franchise")}
+              className="flex-1 sm:flex-none bg-gradient-to-r from-primary to-[hsl(158_90%_42%)] text-primary-foreground font-mono text-xs font-bold shadow-[0_0_20px_hsl(158_72%_46%/0.25)]"
+            >
+              <Rocket className="w-3.5 h-3.5 mr-1.5" />
+              Request Demo
+            </Button>
+          </div>
+        </div>
+      </div>
       </section>
     </div>
   );
