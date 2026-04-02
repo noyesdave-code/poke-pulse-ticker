@@ -74,6 +74,7 @@ const DailyAuditReportEmail = ({
   auditDate,
   topPriorities = [],
   balanceSheet,
+  capitalDream,
 }: DailyAuditReportProps) => (
   <Html lang="en" dir="ltr">
     <Head />
