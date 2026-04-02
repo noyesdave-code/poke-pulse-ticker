@@ -5,6 +5,7 @@ import { FeatureShowcase } from "./FeatureShowcase";
 import { GrandLaunch } from "./GrandLaunch";
 import { SocialHighlight } from "./SocialHighlight";
 import { PlatformHighlight } from "./PlatformHighlight";
+import { GameHighlight } from "./GameHighlight";
 
 export const RemotionRoot: React.FC = () => (
   <>
