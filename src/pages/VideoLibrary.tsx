@@ -173,17 +173,6 @@ const videoLibrary: VideoEntry[] = [
     date: "2026-04-02",
     views: 0,
   },
-  {
-    id: "extended-investor-pitch",
-    title: "Extended Investor Pitch — 59s Full Franchise Overview",
-    description: "59-second cinematic investor pitch covering all 12 Pulse Market Terminal Ticker™ verticals, $103B+ TAM, 5-year revenue trajectory ($157.8M ARR), $1.89B valuation, IP protection, and top 10 acquisition targets. With Laura AI voiceover and orchestral background music. CONFIDENTIAL.",
-    file: "/videos/extended-investor-pitch-59s.mp4",
-    aspect: "16:9",
-    duration: "0:59",
-    category: "Investor",
-    date: "2026-04-02",
-    views: 0,
-  },
 ];
 
 const categories = ["All", ...Array.from(new Set(videoLibrary.map(v => v.category)))];
