@@ -285,6 +285,18 @@ const Index = () => {
           <RecentNotableSales cards={displayCards} />
         </LazySection>
 
+        <LazySection minHeight="250px">
+          <ProGate feature="Pulse Score™ Analysis" blur>
+            <PulseScore cards={displayCards} />
+          </ProGate>
+        </LazySection>
+
+        <LazySection minHeight="250px">
+          <ProGate feature="Correlation Matrix" blur>
+            <CorrelationMatrix cards={displayCards} />
+          </ProGate>
+        </LazySection>
+
         <div ref={searchRef}>
           <LazySection minHeight="100px">
             <CardSearch />
