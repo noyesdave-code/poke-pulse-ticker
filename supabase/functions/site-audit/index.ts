@@ -572,6 +572,54 @@ Return a JSON object with this exact structure:
       console.error("Balance sheet fetch error:", bsErr);
     }
 
+    // ── Build Capital Dream Intake data ──
+    const now = new Date();
+    const startOfYear = new Date(now.getFullYear(), 0, 0);
+    const dayOfYear = Math.floor((now.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24));
+    const ANNUAL_TARGET = 25_000_000;
+    const DAILY_TARGET = Math.round(ANNUAL_TARGET / 365);
+    const MONTHLY_FIXED_COSTS = 28000; // infrastructure + api + marketing + legal + insurance + team + misc
+    const DAILY_FIXED_COSTS = Math.round(MONTHLY_FIXED_COSTS / 30);
+
+    const capitalDreamStreams = [
+      { name: 'Subscriptions', annualTarget: 12000000, dailyTarget: 32877 },
+      { name: 'Affiliate Revenue', annualTarget: 5000000, dailyTarget: 13699 },
+      { name: 'PokéCoin Store', annualTarget: 3000000, dailyTarget: 8219 },
+      { name: 'SimTrader & Contests', annualTarget: 2500000, dailyTarget: 6849 },
+      { name: 'Arena Economy', annualTarget: 1500000, dailyTarget: 4110 },
+      { name: 'Data Licensing & API', annualTarget: 1000000, dailyTarget: 2740 },
+    ];
+
+    const gapCloserRotation = [
+      'Dunning: 3-touch failed payment recovery (1hr, 24hr, 72hr)',
+      'Annual prepay lock-in: 20% discount, non-refundable after 14 days',
+      'Cancel-save flow: offer 50% off for 3 months before allowing cancellation',
+      'Auto-retry failed charges at 1hr, 24hr, 72hr intervals',
+      'Payment method auto-update: pre-emptive notifications 30 days before expiry',
+      'Anti-sharing enforcement: device fingerprinting on Institutional tier',
+      'Abandoned cart recovery: push + email within 1 hour',
+      'Low PokéCoin balance nudge: alert when below 1,000 PC',
+      'Metered API billing: overage charges at $0.001/request beyond quota',
+      'Enterprise contracts: min 12-month commitment, 50% early termination fee',
+    ];
+    // Rotate 3 gap closers daily
+    const todayGapClosers = [
+      gapCloserRotation[dayOfYear % gapCloserRotation.length],
+      gapCloserRotation[(dayOfYear + 1) % gapCloserRotation.length],
+      gapCloserRotation[(dayOfYear + 2) % gapCloserRotation.length],
+    ];
+
+    const capitalDream = {
+      annualTarget: ANNUAL_TARGET,
+      dayOfYear,
+      dailyTarget: DAILY_TARGET,
+      dailyOperatingCosts: DAILY_FIXED_COSTS,
+      dailyNetTarget: DAILY_TARGET - DAILY_FIXED_COSTS,
+      ytdTarget: dayOfYear * DAILY_TARGET,
+      streams: capitalDreamStreams,
+      gapCloserHighlights: todayGapClosers,
+    };
+
     // Send daily audit report email
     const emailData = {
       overallScore: auditResult.overall_score,
@@ -585,6 +633,7 @@ Return a JSON object with this exact structure:
       })),
       topPriorities: (auditResult.top_priorities || []).slice(0, 3),
       balanceSheet: Object.keys(balanceSheet).length > 0 ? balanceSheet : undefined,
+      capitalDream,
     };
 
     const recipients = ['noyes.dave@gmail.com', 'contact@poke-pulse-ticker.com'];
