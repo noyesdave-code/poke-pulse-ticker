@@ -36,9 +36,9 @@ const GamePromo = () => (
       </p>
       <div className="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-3 text-[10px] sm:text-[11px] text-muted-foreground">
         <span className="flex items-center gap-1"><Swords className="w-3 h-3 text-primary" /> Battle System</span>
-        <span className="flex items-center gap-1"><Trophy className="w-3 h-3 text-amber-400" /> 26 Pokémon to collect</span>
-        <span className="flex items-center gap-1"><Star className="w-3 h-3 text-yellow-400" /> Knowledge Trivia</span>
-        <span className="flex items-center gap-1"><Coins className="w-3 h-3 text-yellow-400" /> Card Wagers</span>
+        <span className="flex items-center gap-1"><Trophy className="w-3 h-3 text-secondary" /> 26 Pokémon to collect</span>
+        <span className="flex items-center gap-1"><Star className="w-3 h-3 text-secondary" /> Knowledge Trivia</span>
+        <span className="flex items-center gap-1"><Coins className="w-3 h-3 text-secondary" /> Card Wagers</span>
       </div>
       <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 pt-1">
         <Link to="/pokemon-kids">
