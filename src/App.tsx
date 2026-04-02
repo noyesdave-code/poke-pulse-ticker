@@ -45,6 +45,7 @@ import Arena from "./pages/Arena.tsx";
 import CapitalCampaign from "./pages/CapitalCampaign.tsx";
 import CapitalDreamIntake from "./pages/CapitalDreamIntake.tsx";
 import PokemonKidsGame from "./pages/PokemonKidsGame.tsx";
+import Franchise from "./pages/Franchise.tsx";
 
 const queryClient = new QueryClient();
 
@@ -93,6 +94,7 @@ const AnimatedRoutes = () => {
           <Route path="/capital-campaign" element={<CapitalCampaign />} />
           <Route path="/capital-dream" element={<CapitalDreamIntake />} />
           <Route path="/pokemon-kids" element={<PokemonKidsGame />} />
+          <Route path="/franchise" element={<Franchise />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>

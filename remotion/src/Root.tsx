@@ -6,9 +6,11 @@ import { GrandLaunch } from "./GrandLaunch";
 import { SocialHighlight } from "./SocialHighlight";
 import { PlatformHighlight } from "./PlatformHighlight";
 import { GameHighlight } from "./GameHighlight";
+import { FranchisePitch } from "./FranchisePitch";
 
 export const RemotionRoot: React.FC = () => (
   <>
+    {/* existing compositions unchanged */}
     <Composition
       id="main"
       component={MainVideo}
@@ -117,6 +119,14 @@ export const RemotionRoot: React.FC = () => (
       id="game-highlight-yt"
       component={GameHighlight}
       durationInFrames={2700}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="franchise-pitch"
+      component={FranchisePitch}
+      durationInFrames={810}
       fps={30}
       width={1920}
       height={1080}
