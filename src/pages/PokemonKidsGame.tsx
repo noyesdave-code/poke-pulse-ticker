@@ -813,6 +813,43 @@ const PokemonKidsGame = () => {
                     </div>
                   ))}
                 </div>
+
+                {/* PvP Leaderboard */}
+                <div className="space-y-2">
+                  <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                    <Trophy className="w-4 h-4 text-yellow-400" /> Global Leaderboard
+                  </h4>
+                  {pvpLeaderboard.length === 0 ? (
+                    <p className="text-xs text-muted-foreground text-center py-4">No trainers yet. Be the first!</p>
+                  ) : (
+                    <div className="space-y-1">
+                      {pvpLeaderboard.map((player, idx) => (
+                        <div key={player.id} className={`terminal-card p-2 flex items-center gap-3 ${
+                          player.id === playerData?.id ? "ring-1 ring-primary bg-primary/5" : ""
+                        }`}>
+                          <span className={`font-black text-lg w-8 text-center ${
+                            idx === 0 ? "text-yellow-400" : idx === 1 ? "text-gray-400" : idx === 2 ? "text-orange-400" : "text-muted-foreground"
+                          }`}>
+                            {idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `#${idx + 1}`}
+                          </span>
+                          {player.starter_pokemon_image && (
+                            <img src={player.starter_pokemon_image} alt="" className="w-8 h-8 object-contain" />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-foreground truncate">
+                              {player.display_name || "Trainer"} {player.id === playerData?.id && <span className="text-primary">(You)</span>}
+                            </p>
+                            <p className="text-[10px] text-muted-foreground">Lv.{player.level} · {player.starter_pokemon}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-sm font-bold text-primary">{player.total_wins}W</p>
+                            <p className="text-[10px] text-muted-foreground">{player.total_losses}L</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </TabsContent>
 
