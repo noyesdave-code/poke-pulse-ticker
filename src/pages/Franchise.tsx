@@ -10,18 +10,32 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 
+const demoRoutes: Record<string, string> = {
+  "Pokémon TCG": "/",
+  "Magic: The Gathering": "/demo/mtg",
+  "Yu-Gi-Oh!": "/demo/yugioh",
+  "Lorcana": "/demo/lorcana",
+  "Major League Baseball": "/demo/mlb",
+  "National Football League": "/demo/nfl",
+  "National Basketball Association": "/demo/nba",
+  "National Hockey League": "/demo/nhl",
+  "DragonBall Z": "/demo/dbz",
+  "Star Wars": "/demo/starwars",
+  "FIFA Soccer": "/demo/fifa",
+};
+
 const terminals = [
   { name: "Pokémon TCG", terminal: "Poke-Pulse-Ticker", status: "live", tam: "$15.4B", emoji: "⚡", color: "from-yellow-500 to-amber-600" },
-  { name: "Magic: The Gathering", terminal: "MTG Pulse Market Terminal", status: "development", tam: "$8.2B", emoji: "🧙", color: "from-indigo-500 to-purple-600" },
-  { name: "Yu-Gi-Oh!", terminal: "YuGiOh Pulse Market Terminal", status: "development", tam: "$5.1B", emoji: "🃏", color: "from-red-500 to-orange-600" },
-  { name: "Lorcana", terminal: "Lorcana Pulse Market Terminal", status: "planned", tam: "$1.8B", emoji: "✨", color: "from-sky-400 to-blue-600" },
-  { name: "Major League Baseball", terminal: "MLB Pulse Market Terminal", status: "planned", tam: "$12.6B", emoji: "⚾", color: "from-red-600 to-red-800" },
-  { name: "National Football League", terminal: "NFL Pulse Market Terminal", status: "planned", tam: "$18.3B", emoji: "🏈", color: "from-green-600 to-green-800" },
-  { name: "National Basketball Association", terminal: "NBA Pulse Market Terminal", status: "planned", tam: "$14.7B", emoji: "🏀", color: "from-orange-500 to-red-600" },
-  { name: "National Hockey League", terminal: "NHL Pulse Market Terminal", status: "planned", tam: "$4.2B", emoji: "🏒", color: "from-blue-600 to-blue-800" },
-  { name: "DragonBall Z", terminal: "DBZ Pulse Market Terminal", status: "planned", tam: "$6.8B", emoji: "🐉", color: "from-orange-400 to-yellow-500" },
-  { name: "Star Wars", terminal: "Star Wars Pulse Market Terminal", status: "planned", tam: "$9.5B", emoji: "⭐", color: "from-gray-600 to-gray-900" },
-  { name: "FIFA Soccer", terminal: "FIFA Pulse Market Terminal", status: "planned", tam: "$7.3B", emoji: "⚽", color: "from-emerald-500 to-teal-600" },
+  { name: "Magic: The Gathering", terminal: "MTG Pulse Market Terminal", status: "demo", tam: "$8.2B", emoji: "🧙", color: "from-indigo-500 to-purple-600" },
+  { name: "Yu-Gi-Oh!", terminal: "YuGiOh Pulse Market Terminal", status: "demo", tam: "$5.1B", emoji: "🃏", color: "from-red-500 to-orange-600" },
+  { name: "Lorcana", terminal: "Lorcana Pulse Market Terminal", status: "demo", tam: "$1.8B", emoji: "✨", color: "from-sky-400 to-blue-600" },
+  { name: "Major League Baseball", terminal: "MLB Pulse Market Terminal", status: "demo", tam: "$12.6B", emoji: "⚾", color: "from-red-600 to-red-800" },
+  { name: "National Football League", terminal: "NFL Pulse Market Terminal", status: "demo", tam: "$18.3B", emoji: "🏈", color: "from-green-600 to-green-800" },
+  { name: "National Basketball Association", terminal: "NBA Pulse Market Terminal", status: "demo", tam: "$14.7B", emoji: "🏀", color: "from-orange-500 to-red-600" },
+  { name: "National Hockey League", terminal: "NHL Pulse Market Terminal", status: "demo", tam: "$4.2B", emoji: "🏒", color: "from-blue-600 to-blue-800" },
+  { name: "DragonBall Z", terminal: "DBZ Pulse Market Terminal", status: "demo", tam: "$6.8B", emoji: "🐉", color: "from-orange-400 to-yellow-500" },
+  { name: "Star Wars", terminal: "Star Wars Pulse Market Terminal", status: "demo", tam: "$9.5B", emoji: "⭐", color: "from-gray-600 to-gray-900" },
+  { name: "FIFA Soccer", terminal: "FIFA Pulse Market Terminal", status: "demo", tam: "$7.3B", emoji: "⚽", color: "from-emerald-500 to-teal-600" },
 ];
 
 const coreFeatures = [
