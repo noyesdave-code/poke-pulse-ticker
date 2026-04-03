@@ -7,6 +7,7 @@ interface IndexDayChartProps {
   indexValue: number;
   indexChange: number;
   variant: "green" | "amber" | "blue";
+  refreshKey?: number;
 }
 
 const VARIANT_CONFIG = {
