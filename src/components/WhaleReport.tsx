@@ -142,9 +142,7 @@ const WhaleReport = ({ cards }: WhaleReportProps) => {
                 <TrendingUp className="w-3 h-3" /> Card of the Week
               </h4>
               <div className="flex items-start gap-4">
-                {report.cardOfTheWeek.image && (
-                  <img src={report.cardOfTheWeek.image} alt="" className="w-16 h-22 rounded object-contain" />
-                )}
+                <img src={report.cardOfTheWeek.image || "/icon-192.png"} alt="" className={`w-16 h-22 rounded ${report.cardOfTheWeek.image ? "object-contain" : "object-contain p-1 bg-muted"}`} onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; }} />
                 <div className="flex-1 space-y-2">
                   <div>
                     <p className="font-mono text-sm font-bold text-foreground">{report.cardOfTheWeek.name}</p>
