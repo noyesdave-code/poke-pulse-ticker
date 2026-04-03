@@ -26,8 +26,8 @@ const HighStakesArenaBanner = () => {
       </button>
       <div className="relative px-3 py-2.5 flex flex-col sm:flex-row items-center gap-2">
         <div className="flex items-center gap-3 flex-1 min-w-0">
-          <div className="h-12 w-12 rounded-xl bg-destructive/15 flex items-center justify-center ring-2 ring-destructive/30 flex-shrink-0">
-            <Swords className="h-6 w-6 text-destructive" />
+          <div className="h-9 w-9 rounded-lg bg-destructive/15 flex items-center justify-center ring-2 ring-destructive/30 flex-shrink-0">
+            <Swords className="h-4 w-4 text-destructive" />
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
