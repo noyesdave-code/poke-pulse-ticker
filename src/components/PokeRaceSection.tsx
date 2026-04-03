@@ -324,7 +324,7 @@ const PokeRaceSection = () => {
     return [...priceRace.racers]
       .sort((a, b) => Math.abs(b.changePct) - Math.abs(a.changePct))
       .slice(0, 5)
-      .map(r => ({ name: r.name, image: r.image, change: r.changePct, category: r.category }));
+      .map(r => ({ name: r.name, image: r.image, change: r.changePct, category: r.category, price: r.currentValue }));
   }, [priceRace]);
 
   const topInventoryMovers = useMemo(() => {
@@ -332,7 +332,7 @@ const PokeRaceSection = () => {
     return [...inventoryRace.racers]
       .sort((a, b) => Math.abs(b.changePct) - Math.abs(a.changePct))
       .slice(0, 5)
-      .map(r => ({ name: r.name, image: r.image, change: r.changePct, category: r.category }));
+      .map(r => ({ name: r.name, image: r.image, change: r.changePct, category: r.category, price: r.currentValue }));
   }, [inventoryRace]);
 
   const currentRace = cycle.activeTrack === "price" ? priceRace : inventoryRace;
