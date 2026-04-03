@@ -135,7 +135,7 @@ const CardBoardTable = ({ cards, title, showGrade = false }: CardBoardTableProps
                   </span>
                 </td>
                 <td className={`${compact ? "px-2 py-1 text-xs" : "px-4 py-2 text-sm"} font-mono text-foreground font-medium flex items-center gap-2`}>
-                  {!compact && card._image && <img src={card._image} alt="" className="w-6 h-8 rounded object-cover" />}
+                  {!compact && <img src={card._image || "/icon-192.png"} alt="" className={`w-6 h-8 rounded ${card._image ? "object-cover" : "object-contain p-0.5 bg-muted"}`} onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; (e.target as HTMLImageElement).className = 'w-6 h-8 rounded object-contain p-0.5 bg-muted'; }} />}
                   {card.name}
                 </td>
                 {!compact && <td className="px-4 py-2 font-mono text-xs text-muted-foreground">{card.set}</td>}

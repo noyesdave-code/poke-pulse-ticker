@@ -150,15 +150,9 @@ const TopMoversTable = ({ cards, title, isLoading }: TopMoversTableProps) => {
                   className="data-row"
                 >
                   <td className="px-2 py-1.5">
-                    {card._image ? (
-                      <div className="w-8 h-11 rounded overflow-hidden bg-muted ring-1 ring-border flex-shrink-0">
-                        <img src={card._image} alt={card.name} className="w-full h-full object-cover" loading="lazy" />
-                      </div>
-                    ) : (
-                      <div className="w-8 h-11 rounded bg-muted ring-1 ring-border flex items-center justify-center flex-shrink-0">
-                        <span className="font-mono text-[7px] text-muted-foreground">IMG</span>
-                      </div>
-                    )}
+                    <div className="w-8 h-11 rounded overflow-hidden bg-muted ring-1 ring-border flex-shrink-0">
+                      <img src={card._image || "/icon-192.png"} alt={card.name} className={`w-full h-full ${card._image ? "object-cover" : "object-contain p-1"}`} loading="lazy" onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; (e.target as HTMLImageElement).className = 'w-full h-full object-contain p-1'; }} />
+                    </div>
                   </td>
                   <td className="px-1.5 py-1.5">
                     <span className="font-mono text-[10px] text-primary/70 font-bold tracking-wider block">
