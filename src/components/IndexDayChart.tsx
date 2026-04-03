@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid, ReferenceLine } from "recharts";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
@@ -123,8 +123,46 @@ const RANGE_LABELS: Record<TimeRange, string> = {
   "1M": "1-Month • NYSE Trading Days",
 };
 
+function getCurrentETLabel(): string {
+  const now = new Date();
+  // Convert to ET (America/New_York handles EST/EDT automatically)
+  const etStr = now.toLocaleString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit", hour12: true });
+  // etStr is like "2:15 PM" — match our slot format "2:15 PM"
+  return etStr;
+}
+
+function getNowSlotLabel(data: { time: string }[]): string | null {
+  const etLabel = getCurrentETLabel();
+  // Parse current ET hour/minute
+  const match = etLabel.match(/^(\d+):(\d+)\s*(AM|PM)$/i);
+  if (!match) return null;
+  const h = parseInt(match[1]);
+  const m = parseInt(match[2]);
+  const ampm = match[3].toUpperCase();
+  const totalMin = ((ampm === "PM" && h !== 12) ? h + 12 : (ampm === "AM" && h === 12) ? 0 : h) * 60 + m;
+
+  // Market hours: 9:30 AM (570) to 4:00 PM (960)
+  if (totalMin < 570 || totalMin > 960) return null;
+
+  // Find closest slot
+  let closest = data[0]?.time;
+  let closestDiff = Infinity;
+  for (const d of data) {
+    const sm = d.time.match(/^(\d+):(\d+)\s*(AM|PM)$/i);
+    if (!sm) continue;
+    const sh = parseInt(sm[1]);
+    const smn = parseInt(sm[2]);
+    const sap = sm[3].toUpperCase();
+    const slotMin = ((sap === "PM" && sh !== 12) ? sh + 12 : (sap === "AM" && sh === 12) ? 0 : sh) * 60 + smn;
+    const diff = Math.abs(slotMin - totalMin);
+    if (diff < closestDiff) { closestDiff = diff; closest = d.time; }
+  }
+  return closest;
+}
+
 const IndexDayChart = ({ title, indexValue, indexChange, variant, refreshKey = 0 }: IndexDayChartProps) => {
   const [range, setRange] = useState<TimeRange>("1D");
+  const [nowLabel, setNowLabel] = useState<string | null>(null);
   const config = VARIANT_CONFIG[variant];
   const isUp = indexChange >= 0;
 
@@ -133,6 +171,22 @@ const IndexDayChart = ({ title, indexValue, indexChange, variant, refreshKey = 0
     const days = range === "5D" ? 5 : 30;
     return generateMultiDayData(indexValue, indexChange, days);
   }, [indexValue, indexChange, range, refreshKey]);
+
+  // Update "now" line every 30s
+  useEffect(() => {
+    const update = () => {
+      if (range === "1D" && data.length > 0) {
+        setNowLabel(getNowSlotLabel(data));
+      } else {
+        const todayLabel = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric" });
+        const found = data.find(d => d.time === todayLabel);
+        setNowLabel(found ? todayLabel : null);
+      }
+    };
+    update();
+    const interval = setInterval(update, 30000);
+    return () => clearInterval(interval);
+  }, [range, data]);
 
   const minVal = Math.min(...data.map(d => d.value));
   const maxVal = Math.max(...data.map(d => d.value));
@@ -234,6 +288,22 @@ const IndexDayChart = ({ title, indexValue, indexChange, variant, refreshKey = 0
               strokeDasharray="4 4"
               strokeWidth={1}
             />
+            {nowLabel && (
+              <ReferenceLine
+                x={nowLabel}
+                stroke="hsl(45, 100%, 55%)"
+                strokeWidth={1.5}
+                strokeDasharray="3 2"
+                label={{
+                  value: "NOW",
+                  position: "top",
+                  fill: "hsl(45, 100%, 55%)",
+                  fontSize: 8,
+                  fontFamily: "JetBrains Mono",
+                  fontWeight: 700,
+                }}
+              />
+            )}
             <Area
               type="monotone"
               dataKey="value"
