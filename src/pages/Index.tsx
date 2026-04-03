@@ -436,6 +436,7 @@ const Index = () => {
       </main>
       <InstallPrompt />
       <OnboardingWalkthrough />
+      <ShareButton />
     </div>
   );
 };
