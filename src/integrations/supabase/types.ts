@@ -1272,6 +1272,122 @@ export type Database = {
         }
         Relationships: []
       }
+      race_bets: {
+        Row: {
+          created_at: string
+          id: string
+          odds: number
+          payout: number | null
+          race_id: string
+          racer_id: string
+          resolved_at: string | null
+          status: string
+          user_id: string
+          wager: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          odds?: number
+          payout?: number | null
+          race_id: string
+          racer_id: string
+          resolved_at?: string | null
+          status?: string
+          user_id: string
+          wager?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          odds?: number
+          payout?: number | null
+          race_id?: string
+          racer_id?: string
+          resolved_at?: string | null
+          status?: string
+          user_id?: string
+          wager?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "race_bets_race_id_fkey"
+            columns: ["race_id"]
+            isOneToOne: false
+            referencedRelation: "race_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      race_sessions: {
+        Row: {
+          category: string
+          created_at: string
+          ends_at: string
+          id: string
+          race_type: string
+          racers: Json
+          results: Json | null
+          started_at: string
+          status: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          ends_at: string
+          id?: string
+          race_type?: string
+          racers?: Json
+          results?: Json | null
+          started_at?: string
+          status?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          ends_at?: string
+          id?: string
+          race_type?: string
+          racers?: Json
+          results?: Json | null
+          started_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      race_wallets: {
+        Row: {
+          balance: number
+          created_at: string
+          id: string
+          lifetime_earned: number
+          lifetime_wagered: number
+          lifetime_won: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          id?: string
+          lifetime_earned?: number
+          lifetime_wagered?: number
+          lifetime_won?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          id?: string
+          lifetime_earned?: number
+          lifetime_wagered?: number
+          lifetime_won?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       sentiment_votes: {
         Row: {
           card_api_id: string
@@ -1649,6 +1765,17 @@ export type Database = {
           starter_pokemon_image: string | null
           total_losses: number | null
           total_wins: number | null
+          user_id: string | null
+        }
+        Relationships: []
+      }
+      race_leaderboard: {
+        Row: {
+          avatar_url: string | null
+          balance: number | null
+          display_name: string | null
+          lifetime_wagered: number | null
+          lifetime_won: number | null
           user_id: string | null
         }
         Relationships: []
