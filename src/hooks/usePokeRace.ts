@@ -14,7 +14,7 @@ export interface Racer {
   odds: number;
 }
 
-export type RacePhase = "racing" | "betting";
+export type RacePhase = "racing" | "freeze" | "betting";
 export type ActiveTrack = "price" | "inventory";
 
 export interface RaceState {
