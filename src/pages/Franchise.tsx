@@ -11,7 +11,7 @@ import {
 import { motion } from "framer-motion";
 
 const demoRoutes: Record<string, string> = {
-  "Pokémon TCG": "/",
+  "Poké TCG": "/",
   "Magic: The Gathering": "/demo/mtg",
   "Yu-Gi-Oh!": "/demo/yugioh",
   "Lorcana": "/demo/lorcana",
@@ -25,7 +25,7 @@ const demoRoutes: Record<string, string> = {
 };
 
 const terminals = [
-  { name: "Pokémon TCG", terminal: "Poke-Pulse-Ticker", status: "live", tam: "$15.4B", emoji: "⚡", color: "from-yellow-500 to-amber-600" },
+  { name: "Poké TCG", terminal: "Poke-Pulse-Ticker", status: "live", tam: "$15.4B", emoji: "⚡", color: "from-yellow-500 to-amber-600" },
   { name: "Magic: The Gathering", terminal: "MTG Pulse Market Terminal Ticker", status: "demo", tam: "$8.2B", emoji: "🧙", color: "from-indigo-500 to-purple-600" },
   { name: "Yu-Gi-Oh!", terminal: "YuGiOh Pulse Market Terminal Ticker", status: "demo", tam: "$5.1B", emoji: "🃏", color: "from-red-500 to-orange-600" },
   { name: "Lorcana", terminal: "Lorcana Pulse Market Terminal Ticker", status: "demo", tam: "$1.8B", emoji: "✨", color: "from-sky-400 to-blue-600" },

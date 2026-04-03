@@ -32,7 +32,7 @@ export const rawCards: CardData[] = [
   { name: "Gengar", set: "Expedition Base Set", number: "13", market: 555.00, low: 750.00, mid: 750.00, change: 0.00, _apiId: "ecard1-13", _image: "https://images.pokemontcg.io/ecard1/13.png" },
   { name: "Charizard δ", set: "Crystal Guardians", number: "4", market: 536.99, low: 499.99, mid: 575.00, change: -2.10, _apiId: "ex14-4", _image: "https://images.pokemontcg.io/ex14/4.png" },
   { name: "Mewtwo", set: "Legendary Collection", number: "29", market: 517.02, low: 499.99, mid: 550.00, change: 0.78, _apiId: "base6-29", _image: "https://images.pokemontcg.io/base6/29.png" },
-  { name: "Pikachu", set: "Pokémon Rumble", number: "7", market: 505.00, low: 485.00, mid: 520.00, change: 1.22, _apiId: "rumble-7", _image: "https://images.pokemontcg.io/rumble/7.png" },
+  { name: "Pikachu", set: "Poké Rumble", number: "7", market: 505.00, low: 485.00, mid: 520.00, change: 1.22, _apiId: "rumble-7", _image: "https://images.pokemontcg.io/rumble/7.png" },
   { name: "Mewtwo", set: "Expedition Base Set", number: "20", market: 500.98, low: 450.00, mid: 499.99, change: 0.33, _apiId: "ecard1-20", _image: "https://images.pokemontcg.io/ecard1/20.png" },
   { name: "Blaine's Charizard", set: "Gym Challenge", number: "2", market: 499.52, low: 425.00, mid: 475.00, change: -0.65, _apiId: "gym2-2", _image: "https://images.pokemontcg.io/gym2/2.png" },
   { name: "Charizard", set: "Base Set", number: "4", market: 494.23, low: 350.00, mid: 475.00, change: 4.12, _apiId: "base1-4", _image: "https://images.pokemontcg.io/base1/4.png" },

@@ -73,7 +73,7 @@ const SetBrowser = () => {
                 <div>
                   <h1 className="font-mono text-lg font-bold text-foreground">Set Browser</h1>
                   <p className="font-mono text-[10px] text-muted-foreground mt-0.5">
-                    {sets?.length ?? "…"} sets • Browse every Pokémon TCG set with live pricing
+                    {sets?.length ?? "…"} sets • Browse every Poké TCG set with live pricing
                   </p>
                 </div>
                 <div className="relative w-full sm:w-64">

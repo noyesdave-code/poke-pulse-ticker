@@ -88,7 +88,7 @@ const MarketIntelWidget = ({ cards }: MarketIntelWidgetProps) => {
 
       <div className="border-t border-border px-4 py-1.5 flex items-center gap-1.5">
         <span className="font-mono text-[8px] text-muted-foreground/60">
-          Seasonality data based on historical Pokémon TCG market patterns. Not financial advice. © PGVA Ventures, LLC.
+          Seasonality data based on historical Poké TCG market patterns. Not financial advice. © PGVA Ventures, LLC.
         </span>
       </div>
     </motion.div>

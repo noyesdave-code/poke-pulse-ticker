@@ -28,7 +28,7 @@ const Portfolio = () => {
         <main className="max-w-7xl mx-auto px-4 py-12 text-center space-y-4">
           <h1 className="font-mono text-lg font-bold text-foreground">Portfolio Tracker</h1>
           <p className="font-mono text-sm text-muted-foreground">
-            Sign in to track your Pokémon card collection and monitor its value.
+            Sign in to track your Poké card collection and monitor its value.
           </p>
           <button
             onClick={() => setShowAuth(true)}

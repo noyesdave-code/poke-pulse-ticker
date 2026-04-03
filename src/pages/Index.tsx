@@ -206,7 +206,7 @@ const Index = () => {
         {/* Quick Collection Value Calculator — instant engagement hook */}
         <QuickValueCalculator />
 
-        {/* PokémonKids Adventure Game Promo */}
+        {/* PokéKids Adventure Game Promo */}
         <GamePromo />
 
         {/* Inline upgrade nudge — after first value moment */}
@@ -407,12 +407,12 @@ const Index = () => {
               </a>
               <span className="text-border/50 hidden sm:inline">|</span>
               <span className="text-xs text-muted-foreground tracking-wide">
-                Live Pokémon TCG Market Data
+                Live Poké TCG Market Data
               </span>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
               {[
-                { href: "/pokemon-kids", label: "PokémonKids Game" },
+                { href: "/pokemon-kids", label: "PokéKids Game" },
                 { href: "/arena", label: "Arena" },
                 { href: "/videos", label: "Video Library" },
                 { href: "/terms", label: "Terms of Service" },
@@ -426,7 +426,7 @@ const Index = () => {
               ))}
             </div>
             <p className="text-[11px] text-muted-foreground/70 text-center max-w-lg leading-relaxed">
-              Pokémon is a trademark of Nintendo/Creatures Inc./GAME FREAK inc. Not affiliated with The Pokémon Company International. Data powered by pokemontcg.io. Not financial advice.
+              Poké is a trademark of Nintendo/Creatures Inc./GAME FREAK inc. Not affiliated with The Poké Company International. Data powered by pokemontcg.io. Not financial advice.
             </p>
             <p className="text-xs text-muted-foreground/60 font-mono">
               © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.

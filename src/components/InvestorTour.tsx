@@ -23,7 +23,7 @@ const TOUR_STEPS: TourStep[] = [
   {
     title: "Live Market Terminal",
     description:
-      "Real-time Pokémon TCG pricing powered by hourly market scans. Track 500+ cards across Raw, Graded & Sealed indexes with institutional-grade data.",
+      "Real-time Poké TCG pricing powered by hourly market scans. Track 500+ cards across Raw, Graded & Sealed indexes with institutional-grade data.",
     icon: LayoutDashboard,
     route: "/",
     badge: "CORE",
@@ -40,7 +40,7 @@ const TOUR_STEPS: TourStep[] = [
   {
     title: "Set Browser & Explorer",
     description:
-      "Browse every Pokémon TCG set ever released. Dive into individual cards, view price histories, rarity breakdowns, and set completion rates.",
+      "Browse every Poké TCG set ever released. Dive into individual cards, view price histories, rarity breakdowns, and set completion rates.",
     icon: Layers,
     route: "/sets",
     badge: "CORE",

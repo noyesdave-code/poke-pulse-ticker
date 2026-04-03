@@ -57,7 +57,7 @@ export function useCopyProtection() {
       if (document.hidden) {
         document.title = "© PGVA Ventures, LLC — Protected Content";
       } else {
-        document.title = "Poke Pulse Ticker — Live Pokémon TCG Market Data";
+        document.title = "Poke Pulse Ticker — Live Poké TCG Market Data";
       }
     };
 

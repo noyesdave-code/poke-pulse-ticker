@@ -158,7 +158,7 @@ const HeroSplash = ({ onSignIn }: { onSignIn: () => void }) => (
         style={{ background: "hsl(160 84% 50% / 0.08)" }}
       >
         <Sparkles className="h-3.5 w-3.5 text-primary" />
-        <span className="font-mono text-[10px] font-semibold text-primary tracking-wider">POKÉMON STOCK MARKET SIMULATOR</span>
+        <span className="font-mono text-[10px] font-semibold text-primary tracking-wider">POKÉ STOCK MARKET SIMULATOR</span>
       </motion.div>
 
       <motion.h2
@@ -178,7 +178,7 @@ const HeroSplash = ({ onSignIn }: { onSignIn: () => void }) => (
         transition={{ delay: 0.3 }}
         className="font-mono text-xs text-muted-foreground max-w-md mx-auto leading-relaxed"
       >
-        Start with $100,000 virtual cash. Trade based on live Pokémon card prices. 
+        Start with $100,000 virtual cash. Trade based on live Poké card prices. 
         Compete against real players and 10 AI bots with unique strategies. No real money involved.
       </motion.p>
 
@@ -271,7 +271,7 @@ const SimTraderPage = () => {
             <h1 className="font-mono text-xl font-black text-foreground tracking-tight flex items-center gap-2">
               SIMTRADER WORLD<span className="text-primary">™</span>
             </h1>
-            <p className="font-mono text-[10px] text-muted-foreground tracking-widest">POKÉMON STOCK MARKET SIMULATOR · LIVE DATA</p>
+            <p className="font-mono text-[10px] text-muted-foreground tracking-widest">POKÉ STOCK MARKET SIMULATOR · LIVE DATA</p>
           </div>
           <div className="ml-auto">
             {isTrader ? (

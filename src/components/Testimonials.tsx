@@ -26,7 +26,7 @@ const testimonials = [
   {
     name: "Alex K.",
     role: "Casual Collector",
-    quote: "Even the free tier gives me more data than any other Pokémon market tracker I've tried. Upgraded to Pro in a week.",
+    quote: "Even the free tier gives me more data than any other Poké market tracker I've tried. Upgraded to Pro in a week.",
     rating: 4,
     verified: true,
   },

@@ -30,7 +30,7 @@ const releases: SetRelease[] = [
     series: "Scarlet & Violet",
     releaseDate: "2025-03-28",
     status: "released",
-    description: "Trainer-Pokémon partnerships take center stage with unique dual artwork.",
+    description: "Trainer-Poké partnerships take center stage with unique dual artwork.",
     cardCount: 162,
     highlights: ["Pikachu & Red SAR", "N's Zoroark ex", "Trainer Gallery"],
   },
@@ -48,15 +48,15 @@ const releases: SetRelease[] = [
     series: "Scarlet & Violet",
     releaseDate: "2025-08-08",
     status: "upcoming",
-    description: "Explore the twilight regions of Paldea with new Paradox and Legendary Pokémon.",
-    highlights: ["New Paradox forms", "Legendary Pokémon ex", "Illustration Rares"],
+    description: "Explore the twilight regions of Paldea with new Paradox and Legendary Poké.",
+    highlights: ["New Paradox forms", "Legendary Poké ex", "Illustration Rares"],
   },
   {
     name: "SV Set 9",
     series: "Scarlet & Violet",
     releaseDate: "2025-11-07",
     status: "upcoming",
-    description: "The penultimate Scarlet & Violet set — expected to feature Area Zero Pokémon.",
+    description: "The penultimate Scarlet & Violet set — expected to feature Area Zero Poké.",
     highlights: ["Final SV legendaries", "Competitive staples", "Chase SIRs"],
   },
   {
@@ -72,8 +72,8 @@ const releases: SetRelease[] = [
     series: "New Generation",
     releaseDate: "2026-05-01",
     status: "rumored",
-    description: "First set of the new Pokémon TCG generation, coinciding with the next game release.",
-    highlights: ["New mechanics", "Starter Pokémon ex", "New rarity types"],
+    description: "First set of the new Poké TCG generation, coinciding with the next game release.",
+    highlights: ["New mechanics", "Starter Poké ex", "New rarity types"],
   },
 ];
 
@@ -123,7 +123,7 @@ const ReleaseCalendar = () => {
                 <CalendarDays className="w-5 h-5 text-primary" /> Release Calendar
               </h1>
               <p className="font-mono text-xs text-muted-foreground mt-1">
-                Upcoming & recent Pokémon TCG set releases — plan your investments.
+                Upcoming & recent Poké TCG set releases — plan your investments.
               </p>
             </div>
             {nextRelease && daysUntil !== null && (
@@ -217,7 +217,7 @@ const ReleaseCalendar = () => {
         <footer className="border-t border-border pt-6 pb-4">
           <p className="font-mono text-[10px] text-muted-foreground text-center">
             Release dates are estimates based on publicly available information. Dates may change.
-            Pokémon and Pokémon TCG are trademarks of Nintendo / Creatures Inc. / GAME FREAK Inc.
+            Poké and Poké TCG are trademarks of Nintendo / Creatures Inc. / GAME FREAK Inc.
             © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.
           </p>
         </footer>

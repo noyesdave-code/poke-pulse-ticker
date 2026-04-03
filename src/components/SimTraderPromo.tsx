@@ -60,7 +60,7 @@ const SimTraderPromo = () => {
                   <span className="font-mono text-[8px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-bold animate-pulse">NEW</span>
                 </p>
                 <p className="font-mono text-[11px] text-muted-foreground mt-1 leading-relaxed">
-                  Trade Pokémon cards with $100K virtual cash. 3 free trades daily!
+                  Trade Poké cards with $100K virtual cash. 3 free trades daily!
                 </p>
                 <div className="flex items-center gap-3 mt-2.5">
                   <button

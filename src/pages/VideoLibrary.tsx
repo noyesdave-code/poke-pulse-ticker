@@ -19,7 +19,7 @@ interface VideoEntry {
   views: number;
 }
 
-const SOCIAL_HIGHLIGHT_DESC = `The wait is finally over. PGVA Ventures, LLC officially presents the Poke-Pulse-Ticker Market Terminal—the most sophisticated data engine ever built for the Pokémon TCG ecosystem. Stop guessing and start dominating with the professional-grade tools used by the world's top high-velocity collectors.
+const SOCIAL_HIGHLIGHT_DESC = `The wait is finally over. PGVA Ventures, LLC officially presents the Poke-Pulse-Ticker Market Terminal—the most sophisticated data engine ever built for the Poké TCG ecosystem. Stop guessing and start dominating with the professional-grade tools used by the world's top high-velocity collectors.
 
 This isn't just a tracker; it's a command center. Gain a competitive edge with real-time live pricing for 500+ high-liquidity cards, updated every second. Our proprietary AI-powered market signals alert you to breakouts before they hit social media, while our advanced grading arbitrage tools identify the exact spreads between raw and slabbed assets to maximize your ROI.
 
@@ -165,7 +165,7 @@ const videoLibrary: VideoEntry[] = [
   {
     id: "franchise-umbrella",
     title: "Pulse Market Terminal™ — 12-Vertical Franchise Pitch",
-    description: "27-second investor pitch showcasing the Pulse Market Terminal expansion across 12 collectible and sports card verticals — Pokémon, MLB, NFL, NBA, NHL, FIFA, MTG, Yu-Gi-Oh!, Dragon Ball Z, Lorcana, and Star Wars. $103B+ combined TAM under PGVA Ventures, LLC.",
+    description: "27-second investor pitch showcasing the Pulse Market Terminal expansion across 12 collectible and sports card verticals — Poké, MLB, NFL, NBA, NHL, FIFA, MTG, Yu-Gi-Oh!, Dragon Ball Z, Lorcana, and Star Wars. $103B+ combined TAM under PGVA Ventures, LLC.",
     file: "/videos/franchise-pitch-2026.mp4",
     aspect: "16:9",
     duration: "0:27",
@@ -187,7 +187,7 @@ const videoLibrary: VideoEntry[] = [
   {
     id: "investor-12-engines",
     title: "12 Revenue Engines — Investor Social Pitch",
-    description: "59-second polished investor pitch highlighting all 12 revenue-generating market engines: Live Indexes, Growth Charts, SimTrader World™, Poké-Pulse Arena™, PokémonKids Adventure, Alpha Signals, Grading Arbitrage, Portfolio Tracking, Whale Reports, Data API, Franchise Blueprint, and Subscription Tiers. Female voiceover, upbeat background music, large-frame imagery. Optimized for social media. Contact: contact@poke-pulse-ticker.com. © PGVA Ventures, LLC. All rights reserved. Protected under U.S. Patent, Trademark & Copyright law.",
+    description: "59-second polished investor pitch highlighting all 12 revenue-generating market engines: Live Indexes, Growth Charts, SimTrader World™, Poké-Pulse Arena™, PokéKids Adventure, Alpha Signals, Grading Arbitrage, Portfolio Tracking, Whale Reports, Data API, Franchise Blueprint, and Subscription Tiers. Female voiceover, upbeat background music, large-frame imagery. Optimized for social media. Contact: contact@poke-pulse-ticker.com. © PGVA Ventures, LLC. All rights reserved. Protected under U.S. Patent, Trademark & Copyright law.",
     file: "/videos/PGVA_Investor_Pitch_59s_2026.mp4",
     aspect: "16:9",
     duration: "0:59",

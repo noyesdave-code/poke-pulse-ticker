@@ -3,7 +3,7 @@ import type { CardData } from "@/data/marketData";
 
 /**
  * Grade multiplier ranges for simulating graded card values.
- * Based on real-world premium data for vintage Pokémon TCG cards.
+ * Based on real-world premium data for vintage Poké TCG cards.
  */
 interface GradeConfig {
   label: string;

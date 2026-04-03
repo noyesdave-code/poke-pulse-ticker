@@ -18,7 +18,7 @@ const ERAS: Era[] = [
   {
     label: "VINTAGE (WOTC)",
     tag: "1999–2003",
-    sets: ["Base Set", "Base Set 2", "Jungle", "Fossil", "Team Rocket", "Gym Challenge", "Neo Genesis", "Neo Discovery", "Neo Destiny", "Legendary Collection", "Expedition Base Set", "Skyridge", "POP Series 5", "Pokémon Rumble"],
+    sets: ["Base Set", "Base Set 2", "Jungle", "Fossil", "Team Rocket", "Gym Challenge", "Neo Genesis", "Neo Discovery", "Neo Destiny", "Legendary Collection", "Expedition Base Set", "Skyridge", "POP Series 5", "Poké Rumble"],
     color: "text-terminal-amber",
     glowClass: "glow-amber",
   },

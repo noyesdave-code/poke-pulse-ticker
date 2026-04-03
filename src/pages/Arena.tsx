@@ -117,7 +117,7 @@ const Arena = () => {
             <span className="text-sm font-bold text-primary">POKE-PULSE ARENA™</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-foreground">
-            The Pokémon TCG Casino
+            The Poké TCG Casino
           </h1>
           <p className="text-muted-foreground max-w-lg mx-auto">
             Bet on card price movements, open virtual packs, and compete in prediction tournaments — all powered by live market data from our 3 indexes.
@@ -702,7 +702,7 @@ const Arena = () => {
                   </div>
                 </div>
                 <p className="text-[10px] text-muted-foreground italic">
-                  * Physical Pokémon card prizes will be available when a licensed 3rd-party prize partner is onboarded.
+                  * Physical Poké card prizes will be available when a licensed 3rd-party prize partner is onboarded.
                 </p>
               </CardContent>
             </Card>

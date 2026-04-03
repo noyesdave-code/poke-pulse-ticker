@@ -21,7 +21,7 @@ const Terms = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">2. Description of Service</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          Poke-Pulse-Ticker is a proprietary digital platform providing live Pokémon TCG market data, proprietary market indexes, portfolio tracking, simulated trading games, price alert systems, AI-powered market analytics, and related financial technology tools. The Service is operated exclusively by PGVA Ventures, LLC. Data is sourced from third-party APIs and proprietary algorithms and is provided "as-is" for informational and entertainment purposes only.
+          Poke-Pulse-Ticker is a proprietary digital platform providing live Poké TCG market data, proprietary market indexes, portfolio tracking, simulated trading games, price alert systems, AI-powered market analytics, and related financial technology tools. The Service is operated exclusively by PGVA Ventures, LLC. Data is sourced from third-party APIs and proprietary algorithms and is provided "as-is" for informational and entertainment purposes only.
         </p>
       </section>
 
@@ -59,7 +59,7 @@ const Terms = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">6A. SimTrader™ / SimTrader World™ Proprietary Game System</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          SimTrader™ and SimTrader World™ (collectively, "SimTrader"), the Pokémon Stock Market Simulator, including but not limited to its concept, design, user interface, game mechanics, virtual trading engine, order types (market, limit, stop-loss), contest systems, leaderboard algorithms, portfolio simulation logic, AI bot opponents, token economy, FloatingOrbs visual effects, glassmorphism UI design, Bot Activity Feed, and all associated source code, artwork, audio, video assets, and documentation, is the exclusive proprietary intellectual property of PGVA Ventures, LLC, a company wholly owned by the Noyes Family Trust, managed by David Noyes.
+          SimTrader™ and SimTrader World™ (collectively, "SimTrader"), the Poké Stock Market Simulator, including but not limited to its concept, design, user interface, game mechanics, virtual trading engine, order types (market, limit, stop-loss), contest systems, leaderboard algorithms, portfolio simulation logic, AI bot opponents, token economy, FloatingOrbs visual effects, glassmorphism UI design, Bot Activity Feed, and all associated source code, artwork, audio, video assets, and documentation, is the exclusive proprietary intellectual property of PGVA Ventures, LLC, a company wholly owned by the Noyes Family Trust, managed by David Noyes.
         </p>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
           The name "SimTrader World™" is a branded extension of the original SimTrader™ trademark. All rights are reserved under United States and international copyright, trade secret, patent, and intellectual property law. The SimTrader™ brand, including all associated marks, logos, and trade dress, constitutes protectable intellectual property with first use in commerce established as of the date of initial public deployment.
@@ -109,7 +109,7 @@ const Terms = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">10. Fair Use & Trademark Notice</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          Pokémon, Pokémon TCG, and all related trademarks, logos, and card images are the property of Nintendo, Creatures Inc., GAME FREAK inc., and The Pokémon Company International. Poke-Pulse-Ticker is not affiliated with, sponsored by, or endorsed by The Pokémon Company, Nintendo, or any official entity. All Pokémon card images are used under fair use for informational, educational, and commentary purposes pursuant to 17 U.S.C. § 107. Market data is sourced from public third-party APIs including pokemontcg.io.
+          Poké, Poké TCG, and all related trademarks, logos, and card images are the property of Nintendo, Creatures Inc., GAME FREAK inc., and The Poké Company International. Poke-Pulse-Ticker is not affiliated with, sponsored by, or endorsed by The Poké Company, Nintendo, or any official entity. All Poké card images are used under fair use for informational, educational, and commentary purposes pursuant to 17 U.S.C. § 107. Market data is sourced from public third-party APIs including pokemontcg.io.
         </p>
       </section>
 

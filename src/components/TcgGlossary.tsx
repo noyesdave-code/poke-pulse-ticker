@@ -2,13 +2,13 @@ import { BookText, Search } from "lucide-react";
 import { useState, useMemo } from "react";
 
 const glossaryTerms = [
-  { term: "Alt Art", aka: "Alternate Art", def: "A card featuring unique artwork different from its standard version, often depicting Pokémon in scenic or dynamic settings. Highly sought by collectors." },
-  { term: "Base Set", def: "The original Pokémon TCG set released in 1999 (US). Contains iconic cards like Charizard, Blastoise, and Venusaur holos." },
+  { term: "Alt Art", aka: "Alternate Art", def: "A card featuring unique artwork different from its standard version, often depicting Poké in scenic or dynamic settings. Highly sought by collectors." },
+  { term: "Base Set", def: "The original Poké TCG set released in 1999 (US). Contains iconic cards like Charizard, Blastoise, and Venusaur holos." },
   { term: "BGS", aka: "Beckett Grading Services", def: "A card grading company that provides sub-grades for centering, corners, edges, and surface. A BGS 10 'Black Label' is extremely rare." },
   { term: "Booster Box", def: "A sealed box containing 36 booster packs (typically). Sealed boxes appreciate in value after sets go out of print." },
   { term: "Booster Pack", def: "A sealed pack of 10 cards with randomized pulls. Contains a mix of commons, uncommons, and at least one rare or higher." },
   { term: "Centering", def: "How evenly the card's artwork is positioned within its borders. Perfect centering (50/50) significantly increases graded value." },
-  { term: "CGC", aka: "Certified Guaranty Company", def: "A grading service that expanded from comics to Pokémon cards. Known for competitive pricing and subgrades." },
+  { term: "CGC", aka: "Certified Guaranty Company", def: "A grading service that expanded from comics to Poké cards. Known for competitive pricing and subgrades." },
   { term: "Chase Card", def: "The most desirable and valuable card in a set — the one collectors are 'chasing.' Usually a Secret Rare, SIR, or Alt Art." },
   { term: "Common", aka: "C", def: "The most frequently pulled rarity tier, marked with a circle (●). Typically low value unless it's a vintage or error card." },
   { term: "Crown Rare", def: "A premium rarity introduced in Scarlet & Violet featuring a golden crown stamp. Extremely limited pull rates." },
@@ -21,7 +21,7 @@ const glossaryTerms = [
   { term: "Holo", aka: "Holographic", def: "A card with a holographic foil pattern on the artwork. In vintage sets, holos are the highest standard rarity." },
   { term: "Illustration Rare", aka: "IR", def: "A rarity tier in Scarlet & Violet featuring extended artwork by notable artists. More common than SIRs but still premium." },
   { term: "NM", aka: "Near Mint", def: "Card condition with minimal to no wear — sharp corners, clean edges, no scratches. The standard condition for pricing raw cards." },
-  { term: "PSA", aka: "Professional Sports Authenticator", def: "The most recognized card grading service. PSA 10 (Gem Mint) is the gold standard for graded Pokémon cards." },
+  { term: "PSA", aka: "Professional Sports Authenticator", def: "The most recognized card grading service. PSA 10 (Gem Mint) is the gold standard for graded Poké cards." },
   { term: "Pull Rate", def: "The statistical probability of pulling a specific card or rarity from a booster pack. Lower pull rates = higher market value." },
   { term: "Rainbow Rare", aka: "RR / Hyper Rare", def: "A multicolored foil variant of V, VMAX, or ex cards. Features a rainbow-gradient treatment." },
   { term: "Raw", def: "An ungraded card — not encapsulated by PSA, BGS, CGC, or any grading service. 'Raw NM' refers to ungraded Near Mint condition." },
@@ -30,13 +30,13 @@ const glossaryTerms = [
   { term: "Shadowless", def: "An early Base Set print run missing the drop shadow on the right side of the artwork box. Rarer and more valuable than Unlimited." },
   { term: "SIR", aka: "Special Illustration Rare", def: "The highest standard rarity in modern Scarlet & Violet sets. Features full-bleed, artistic illustrations. The modern equivalent of Alt Arts." },
   { term: "Slab", def: "A graded card encapsulated in a hard plastic case by a grading company. 'Slabbed' = professionally graded and sealed." },
-  { term: "TAG", aka: "TAG Team", def: "A grading company, also a card mechanic from Sun & Moon featuring two Pokémon together with powerful TAG TEAM GX attacks." },
-  { term: "TCG", aka: "Trading Card Game", def: "The category of collectible card games designed for play and collecting. Pokémon TCG is one of the 'Big Three' alongside MTG and Yu-Gi-Oh." },
+  { term: "TAG", aka: "TAG Team", def: "A grading company, also a card mechanic from Sun & Moon featuring two Poké together with powerful TAG TEAM GX attacks." },
+  { term: "TCG", aka: "Trading Card Game", def: "The category of collectible card games designed for play and collecting. Poké TCG is one of the 'Big Three' alongside MTG and Yu-Gi-Oh." },
   { term: "Top Loader", def: "A rigid plastic sleeve used to protect valuable cards. Standard size is 3×4 inches. Essential for shipping and storage." },
   { term: "Uncommon", aka: "U", def: "A mid-tier rarity marked with a diamond (◆). More common than rares but less common than commons." },
   { term: "Unlimited", def: "The standard (non-1st Edition) print run of early sets. More widely available and less valuable than 1st Edition prints." },
-  { term: "V / VMAX / VSTAR", def: "Card mechanics from Sword & Shield era. V cards are basic powerful Pokémon; VMAX are evolved forms; VSTAR have special VSTAR powers." },
-  { term: "WotC", aka: "Wizards of the Coast", def: "The original publisher of the Pokémon TCG in English (1999–2003). WotC-era cards are considered 'vintage' and command premium prices." },
+  { term: "V / VMAX / VSTAR", def: "Card mechanics from Sword & Shield era. V cards are basic powerful Poké; VMAX are evolved forms; VSTAR have special VSTAR powers." },
+  { term: "WotC", aka: "Wizards of the Coast", def: "The original publisher of the Poké TCG in English (1999–2003). WotC-era cards are considered 'vintage' and command premium prices." },
 ];
 
 const TcgGlossary = () => {

@@ -71,7 +71,7 @@ const InvestmentTips = () => {
           <div className="mt-3 flex items-start gap-2 px-3 py-2 rounded border border-terminal-amber/30 bg-terminal-amber/5">
             <AlertTriangle className="w-4 h-4 text-terminal-amber mt-0.5 flex-shrink-0" />
             <span className="font-mono text-[11px] text-terminal-amber">
-              Not financial advice. Pokémon cards are collectibles with speculative value. Never invest more than you can afford to lose.
+              Not financial advice. Poké cards are collectibles with speculative value. Never invest more than you can afford to lose.
             </span>
           </div>
         </div>
