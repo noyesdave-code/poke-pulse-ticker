@@ -14,6 +14,9 @@ export interface Racer {
   odds: number;
 }
 
+export type RacePhase = "racing" | "betting";
+export type ActiveTrack = "price" | "inventory";
+
 export interface RaceState {
   id: string;
   type: "sprint" | "championship";
@@ -25,6 +28,13 @@ export interface RaceState {
   winner: Racer | null;
 }
 
+export interface CycleState {
+  phase: RacePhase;
+  activeTrack: ActiveTrack;
+  phaseEndsAt: number;
+  raceNumber: number;
+}
+
 // Deterministic seeded random for consistent race simulation
 const seededRandom = (seed: number) => {
   const x = Math.sin(seed) * 10000;
@@ -32,7 +42,6 @@ const seededRandom = (seed: number) => {
 };
 
 const generateOdds = (index: number, total: number): number => {
-  // Favorites have lower odds, longshots higher
   const base = 1.5 + (index / total) * 8;
   return Math.round(base * 10) / 10;
 };
@@ -69,82 +78,151 @@ const pickSealedRacers = (products: SealedProduct[], count: number, seed: number
   }));
 };
 
+const RACE_DURATION = 2 * 60 * 1000; // 2 minutes
+const BET_DURATION = 1 * 60 * 1000;  // 1 minute
+const CYCLE_DURATION = RACE_DURATION + BET_DURATION; // 3 minutes per half-cycle
+
 export const usePokeRace = () => {
   const [priceRace, setPriceRace] = useState<RaceState | null>(null);
   const [inventoryRace, setInventoryRace] = useState<RaceState | null>(null);
+  const [cycle, setCycle] = useState<CycleState>({
+    phase: "racing",
+    activeTrack: "inventory",
+    phaseEndsAt: 0,
+    raceNumber: 0,
+  });
   const animFrame = useRef<number>(0);
 
-  // Generate races based on current 5-minute window
-  const initRaces = useCallback(() => {
+  // Compute cycle state from current time
+  const computeCycle = useCallback((): CycleState => {
     const now = Date.now();
-    const fiveMin = 5 * 60 * 1000;
-    const windowStart = Math.floor(now / fiveMin) * fiveMin;
-    const windowEnd = windowStart + fiveMin;
-    const seed = windowStart;
+    // Full cycle = 6 minutes (inv race 2m + bet 1m + price race 2m + bet 1m)
+    const fullCycle = CYCLE_DURATION * 2; // 6 minutes
+    const cycleStart = Math.floor(now / fullCycle) * fullCycle;
+    const elapsed = now - cycleStart;
 
-    // Pick 5 racers per race from different categories
-    const priceRacers = [
-      ...pickRacers(rawCards, 2, seed, "raw"),
-      ...pickRacers(gradedCards, 2, seed + 1, "graded"),
-      ...pickSealedRacers(sealedProducts, 1, seed + 2),
-    ].map((r, i) => ({ ...r, lane: i, odds: generateOdds(i, 5) }));
+    // 0-2min: inventory race, 2-3min: bet break, 3-5min: price race, 5-6min: bet break
+    let phase: RacePhase;
+    let activeTrack: ActiveTrack;
+    let phaseEndsAt: number;
 
-    const invRacers = [
-      ...pickRacers(rawCards, 2, seed + 100, "raw"),
-      ...pickRacers(gradedCards, 2, seed + 101, "graded"),
-      ...pickSealedRacers(sealedProducts, 1, seed + 102),
-    ].map((r, i) => ({ ...r, lane: i, odds: generateOdds(i, 5) }));
+    if (elapsed < RACE_DURATION) {
+      phase = "racing";
+      activeTrack = "inventory";
+      phaseEndsAt = cycleStart + RACE_DURATION;
+    } else if (elapsed < CYCLE_DURATION) {
+      phase = "betting";
+      activeTrack = "price"; // next race will be price
+      phaseEndsAt = cycleStart + CYCLE_DURATION;
+    } else if (elapsed < CYCLE_DURATION + RACE_DURATION) {
+      phase = "racing";
+      activeTrack = "price";
+      phaseEndsAt = cycleStart + CYCLE_DURATION + RACE_DURATION;
+    } else {
+      phase = "betting";
+      activeTrack = "inventory"; // next race will be inventory
+      phaseEndsAt = cycleStart + fullCycle;
+    }
 
-    setPriceRace({
-      id: `price-${windowStart}`,
-      type: "sprint",
-      category: "price",
-      status: "active",
-      racers: priceRacers,
-      startedAt: windowStart,
-      endsAt: windowEnd,
-      winner: null,
-    });
+    const raceNumber = Math.floor(now / CYCLE_DURATION);
 
-    setInventoryRace({
-      id: `inv-${windowStart}`,
-      type: "sprint",
-      category: "inventory",
-      status: "active",
-      racers: invRacers,
-      startedAt: windowStart,
-      endsAt: windowEnd,
-      winner: null,
-    });
+    return { phase, activeTrack, phaseEndsAt, raceNumber };
   }, []);
 
-  // Simulate race progress
+  // Build race for a given track
+  const buildRace = useCallback((track: ActiveTrack, seed: number, startedAt: number, endsAt: number): RaceState => {
+    const offset = track === "price" ? 0 : 100;
+    const racers = [
+      ...pickRacers(rawCards, 2, seed + offset, "raw"),
+      ...pickRacers(gradedCards, 2, seed + offset + 1, "graded"),
+      ...pickSealedRacers(sealedProducts, 1, seed + offset + 2),
+    ].map((r, i) => ({ ...r, lane: i, odds: generateOdds(i, 5) }));
+
+    return {
+      id: `${track}-${seed}`,
+      type: "sprint",
+      category: track,
+      status: "active",
+      racers,
+      startedAt,
+      endsAt,
+      winner: null,
+    };
+  }, []);
+
+  // Initialize/update races based on cycle
+  const syncRaces = useCallback(() => {
+    const c = computeCycle();
+    setCycle(c);
+
+    const now = Date.now();
+    const fullCycle = CYCLE_DURATION * 2;
+    const cycleStart = Math.floor(now / fullCycle) * fullCycle;
+    const seed = cycleStart;
+
+    // Build inventory race (first half)
+    const invStart = cycleStart;
+    const invEnd = cycleStart + RACE_DURATION;
+    const invRace = buildRace("inventory", seed, invStart, invEnd);
+
+    // Build price race (second half)
+    const priceStart = cycleStart + CYCLE_DURATION;
+    const priceEnd = cycleStart + CYCLE_DURATION + RACE_DURATION;
+    const priceRaceData = buildRace("price", seed + 50, priceStart, priceEnd);
+
+    setPriceRace(priceRaceData);
+    setInventoryRace(invRace);
+  }, [computeCycle, buildRace]);
+
   useEffect(() => {
-    initRaces();
-    const interval = setInterval(initRaces, 5 * 60 * 1000);
+    syncRaces();
+    // Re-sync at every cycle boundary
+    const interval = setInterval(syncRaces, 5000);
     return () => clearInterval(interval);
-  }, [initRaces]);
+  }, [syncRaces]);
 
   // Animate positions
   useEffect(() => {
     const animate = () => {
       const now = Date.now();
-      
+      const c = computeCycle();
+      setCycle(c);
+
       const updateRace = (race: RaceState | null): RaceState | null => {
-        if (!race || race.status === "finished") return race;
+        if (!race) return race;
+
+        // Only animate if currently racing this track
+        const isCurrentlyRacing = c.phase === "racing" && c.activeTrack === race.category;
+        
+        if (!isCurrentlyRacing) {
+          // If race time has passed, show finished state
+          if (now >= race.endsAt && race.status !== "finished") {
+            const finalRacers = race.racers.map((r, i) => {
+              const racerSeed = race.startedAt + i * 7919;
+              const speedFactor = 0.85 + seededRandom(racerSeed) * 0.3;
+              const position = Math.min(100 * speedFactor + seededRandom(racerSeed + 999) * 5, 100);
+              const changePct = (seededRandom(racerSeed + 500) - 0.5) * 10;
+              return { ...r, position, changePct };
+            });
+            const sorted = [...finalRacers].sort((a, b) => b.position - a.position);
+            return { ...race, status: "finished" as const, racers: sorted, winner: sorted[0] };
+          }
+          return race;
+        }
+
+        if (race.status === "finished") return race;
+
         const elapsed = now - race.startedAt;
         const total = race.endsAt - race.startedAt;
         const progress = Math.min(elapsed / total, 1);
 
         const updatedRacers = race.racers.map((r, i) => {
-          // Each racer has a unique movement pattern using seeded randomness
           const racerSeed = race.startedAt + i * 7919;
-          const jitter = seededRandom(racerSeed + Math.floor(now / 1000)) * 0.08;
+          const jitter = seededRandom(racerSeed + Math.floor(now / 800)) * 0.08;
           const basePct = progress * 100;
-          // Some racers are faster (based on lane position + randomness)
           const speedFactor = 0.85 + seededRandom(racerSeed) * 0.3;
-          const position = Math.min(basePct * speedFactor + jitter * 10, 100);
-          const changePct = (seededRandom(racerSeed + Math.floor(now / 5000)) - 0.5) * 10 * progress;
+          const position = Math.min(basePct * speedFactor + jitter * 12, 100);
+          const changePct = (seededRandom(racerSeed + Math.floor(now / 3000)) - 0.5) * 10 * progress;
           return { ...r, position, changePct };
         });
 
@@ -164,18 +242,18 @@ export const usePokeRace = () => {
 
     animFrame.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animFrame.current);
-  }, []);
+  }, [computeCycle]);
 
-  // Time remaining in current race
-  const timeRemaining = useMemo(() => {
-    if (!priceRace) return 0;
-    return Math.max(0, priceRace.endsAt - Date.now());
-  }, [priceRace?.endsAt]);
+  // Time remaining in current phase
+  const phaseTimeRemaining = useMemo(() => {
+    return Math.max(0, cycle.phaseEndsAt - Date.now());
+  }, [cycle.phaseEndsAt]);
 
   return {
     priceRace,
     inventoryRace,
-    timeRemaining,
-    refreshRaces: initRaces,
+    cycle,
+    phaseTimeRemaining,
+    refreshRaces: syncRaces,
   };
 };
