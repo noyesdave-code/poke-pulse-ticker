@@ -341,7 +341,7 @@ const PokeRaceSection = () => {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <CountdownTimer ms={phaseMs} label={isRacing ? "Race ends" : "Next race"} variant={isRacing ? "accent" : "warning"} />
+          <CountdownTimer ms={phaseMs} label={isRacing ? "Race ends" : isFrozen ? "Results" : "Next race"} variant={isRacing ? "accent" : "warning"} />
           <div className="text-right">
             <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Coins</p>
             <p className="text-lg font-mono font-bold text-amber-400 flex items-center gap-1">
