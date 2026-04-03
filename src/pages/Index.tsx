@@ -396,7 +396,7 @@ const Index = () => {
         <FinancialDisclaimer />
 
         {/* Footer */}
-        <footer className="border-t border-border/50 pt-12 pb-10">
+        <footer className="border-t border-border/50 pt-8 pb-6">
           <div className="flex flex-col items-center gap-6">
             <div className="flex items-center gap-3">
               <div className="flex flex-col leading-none select-none">
