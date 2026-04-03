@@ -10,7 +10,7 @@ const sections = [
     border: "border-terminal-green/20",
     bg: "bg-terminal-green/5",
     items: [
-      "Tracks the top 500 most valuable raw (ungraded) Pokémon TCG cards by market price.",
+      "Tracks the top 500 most valuable raw (ungraded) Poké TCG cards by market price.",
       "Cards span every era from Base Set (1999) through the latest modern expansions.",
       "Market prices are sourced from the pokemontcg.io API, which aggregates TCGPlayer marketplace data.",
       "The index value is the simple arithmetic mean of all 500 tracked card market prices.",
@@ -40,7 +40,7 @@ const sections = [
     border: "border-terminal-blue/20",
     bg: "bg-terminal-blue/5",
     items: [
-      "Tracks 1,000 sealed Pokémon TCG products including Booster Boxes, Booster Packs, Elite Trainer Boxes (ETBs), Blisters, and Theme Decks.",
+      "Tracks 1,000 sealed Poké TCG products including Booster Boxes, Booster Packs, Elite Trainer Boxes (ETBs), Blisters, and Theme Decks.",
       "Product types are distributed to mirror the real sealed market: ~30% Booster Boxes, ~25% Booster Packs, ~20% ETBs, ~15% Blisters, ~10% Theme Decks.",
       "Pricing is derived from era-based multipliers applied to constituent card values, reflecting the sealed premium collectors pay.",
       "Older era sealed products (Base Set, Neo, e-Series) carry significantly higher multipliers due to scarcity.",
@@ -71,7 +71,7 @@ const Methodology = () => (
           <h2 className="font-mono text-xs uppercase tracking-widest text-primary font-semibold">How It Works</h2>
         </div>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          Each index is a price-weighted basket of Pokémon TCG assets. We calculate a simple arithmetic mean of
+          Each index is a price-weighted basket of Poké TCG assets. We calculate a simple arithmetic mean of
           constituent prices to produce the index value. Percentage changes are computed as the average movement
           across all tracked items. Data refreshes automatically — 60 minutes for cards, 90 minutes for sealed products.
         </p>

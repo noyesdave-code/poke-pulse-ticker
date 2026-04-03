@@ -88,7 +88,7 @@ const AccessibleLanding = () => {
           </h1>
 
           <p className="text-xl text-foreground max-w-2xl mx-auto leading-relaxed">
-            Track Pokémon card prices with a display designed for
+            Track Poké card prices with a display designed for
             <strong> maximum visibility</strong>. Large text, high contrast,
             no distracting animations.
           </p>

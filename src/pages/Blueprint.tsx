@@ -18,7 +18,7 @@ import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, BarChart, Bar, Cell
 
 /* ─── data ─── */
 const terminals = [
-  { name: "Pokémon TCG", slug: "/", status: "live", tam: 15.4, emoji: "⚡", color: "hsl(48, 96%, 53%)" },
+  { name: "Poké TCG", slug: "/", status: "live", tam: 15.4, emoji: "⚡", color: "hsl(48, 96%, 53%)" },
   { name: "Magic: The Gathering", slug: "/demo/mtg", status: "demo", tam: 8.2, emoji: "🧙", color: "hsl(263, 90%, 51%)" },
   { name: "Yu-Gi-Oh!", slug: "/demo/yugioh", status: "demo", tam: 5.1, emoji: "🃏", color: "hsl(0, 84%, 60%)" },
   { name: "MLB", slug: "/demo/mlb", status: "demo", tam: 12.6, emoji: "⚾", color: "hsl(0, 72%, 51%)" },

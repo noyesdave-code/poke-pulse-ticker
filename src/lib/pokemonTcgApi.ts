@@ -131,7 +131,7 @@ export async function fetchSetCards(setId: string, page = 1, pageSize = 50): Pro
 }
 
 /**
- * Fetch cards from the Pokémon TCG API
+ * Fetch cards from the Poké TCG API
  */
 export async function fetchCards(query: string, pageSize = 50, page = 1): Promise<APIResponse> {
   return proxyFetch("/cards", {

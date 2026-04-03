@@ -49,7 +49,7 @@ const generateReport = (cards: CardData[]): AIReport => {
       ],
     },
     marketOutlook: bullish.length > bearish.length
-      ? `The Pokémon TCG market is showing bullish momentum with ${bullish.length} cards trending up vs ${bearish.length} declining. The RAW 500 index breadth is ${((bullish.length / cards.length) * 100).toFixed(0)}% positive, suggesting broad market strength rather than isolated moves.`
+      ? `The Poké TCG market is showing bullish momentum with ${bullish.length} cards trending up vs ${bearish.length} declining. The RAW 500 index breadth is ${((bullish.length / cards.length) * 100).toFixed(0)}% positive, suggesting broad market strength rather than isolated moves.`
       : `Mixed market conditions with ${bearish.length} cards showing weakness. Consider defensive positioning and focus on high-grade vintage with strong floor prices.`,
     topOpportunities: bearish.slice(0, 3).map((c) => ({
       name: c.name,

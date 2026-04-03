@@ -30,7 +30,7 @@ const CharacterSelect = ({ onSelect }: { onSelect: (p: StarterPokemon) => void }
     <div className="space-y-6 animate-in fade-in">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold text-foreground flex items-center justify-center gap-2">
-          <Sparkles className="w-6 h-6 text-primary" /> Choose Your Starter Pokémon
+          <Sparkles className="w-6 h-6 text-primary" /> Choose Your Starter Poké
         </h2>
         <p className="text-sm text-muted-foreground">Pick your partner and begin your adventure!</p>
       </div>
@@ -131,7 +131,7 @@ const AdventureMap = ({
           <Map className="w-5 h-5 text-primary" /> World Map
         </h3>
         <div className="text-xs text-muted-foreground">
-          {collectedCount}/{totalPokemon} Pokémon · {ADVENTURE_ZONES.filter(z => level >= z.minLevel).length}/{ADVENTURE_ZONES.length} zones
+          {collectedCount}/{totalPokemon} Poké · {ADVENTURE_ZONES.filter(z => level >= z.minLevel).length}/{ADVENTURE_ZONES.length} zones
         </div>
       </div>
       <Progress value={(collectedCount / totalPokemon) * 100} className="h-3" />
@@ -657,10 +657,10 @@ const PokemonKidsGame = () => {
         {/* Hero */}
         <div className="text-center space-y-3">
           <h1 className="text-3xl md:text-4xl font-black text-foreground">
-            🎮 PokémonKids <span className="text-primary">Adventure</span>
+            🎮 PokéKids <span className="text-primary">Adventure</span>
           </h1>
           <p className="text-sm text-muted-foreground max-w-xl mx-auto">
-            Choose your Pokémon, collect cards, battle trainers & real players, earn achievements!
+            Choose your Poké, collect cards, battle trainers & real players, earn achievements!
           </p>
           {!user && <Button onClick={() => setShowAuth(true)} size="lg" className="text-lg">Sign In to Play ⚡</Button>}
         </div>
@@ -716,7 +716,7 @@ const PokemonKidsGame = () => {
         {isGameComplete && (
           <div className="terminal-card p-6 text-center border-2 border-primary bg-primary/5">
             <Crown className="w-12 h-12 mx-auto text-primary mb-2" />
-            <h2 className="text-2xl font-black text-foreground">🎉 POKÉMON MASTER! 🎉</h2>
+            <h2 className="text-2xl font-black text-foreground">🎉 POKÉ MASTER! 🎉</h2>
           </div>
         )}
 

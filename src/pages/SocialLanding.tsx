@@ -19,7 +19,7 @@ const stats = [
 ];
 
 const features = [
-  { icon: TrendingUp, title: "Live Price Ticker", desc: "Real-time prices for raw, graded & sealed Pokémon TCG products." },
+  { icon: TrendingUp, title: "Live Price Ticker", desc: "Real-time prices for raw, graded & sealed Poké TCG products." },
   { icon: BarChart3, title: "Portfolio Tracker", desc: "Track your collection value, see P&L, and set price alerts." },
   { icon: Bell, title: "Smart Alerts", desc: "Get notified the instant a card hits your target buy/sell price." },
   { icon: Shield, title: "AI Market Signals", desc: "30-day MA crossover, RSI, and consensus pricing — built in." },
@@ -92,7 +92,7 @@ const SocialLanding = () => {
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.1]">
-            Your Pokémon Cards Are
+            Your Poké Cards Are
             <span className="block text-primary mt-1">Moving Right Now</span>
           </h1>
 
@@ -167,7 +167,7 @@ const SocialLanding = () => {
             Everything You Need to <span className="text-primary">Trade Smarter</span>
           </h2>
           <p className="text-muted-foreground mt-3 max-w-md mx-auto">
-            Built for collectors, investors, and shop owners who take Pokémon TCG seriously.
+            Built for collectors, investors, and shop owners who take Poké TCG seriously.
           </p>
         </motion.div>
 
@@ -245,11 +245,11 @@ const SocialLanding = () => {
                 <span className="font-mono text-[10px] text-primary font-bold uppercase tracking-wider">New — Play Free</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                SimTrader™ — Pokémon
+                SimTrader™ — Poké
                 <span className="text-primary"> Stock Market</span>
               </h2>
               <p className="text-muted-foreground max-w-md leading-relaxed">
-                Trade Pokémon cards with <span className="text-foreground font-semibold">$100K virtual cash</span> using real market data. 
+                Trade Poké cards with <span className="text-foreground font-semibold">$100K virtual cash</span> using real market data. 
                 Compete against 10 AI bots. 3 free trades daily — no subscription required.
               </p>
               <ul className="space-y-2 font-mono text-sm">

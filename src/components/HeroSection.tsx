@@ -124,7 +124,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
               transition={{ delay: 0.2, duration: 0.5 }}
               className="font-display text-xl sm:text-3xl font-extrabold tracking-tight text-foreground"
             >
-              Pokémon TCG{" "}
+              Poké TCG{" "}
               <span className="text-primary bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">Live Data</span>
             </motion.h1>
 

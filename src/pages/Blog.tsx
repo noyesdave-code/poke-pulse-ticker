@@ -19,7 +19,7 @@ const Blog = () => {
             Market Analysis & News
           </h1>
           <p className="font-mono text-sm text-muted-foreground mt-1">
-            Insights, trends, and analysis for Pokémon TCG collectors
+            Insights, trends, and analysis for Poké TCG collectors
           </p>
         </div>
 

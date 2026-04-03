@@ -10,7 +10,7 @@ const FinancialDisclaimer = ({ compact = false }: FinancialDisclaimerProps) => {
       <div className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-terminal-amber/20 bg-terminal-amber/5">
         <AlertTriangle className="w-3 h-3 text-terminal-amber flex-shrink-0" />
         <span className="font-mono text-[9px] text-terminal-amber/80">
-          Not financial advice — for informational purposes only. Pokémon is a trademark of Nintendo/Creatures Inc./GAME FREAK inc.
+          Not financial advice — for informational purposes only. Poké is a trademark of Nintendo/Creatures Inc./GAME FREAK inc.
         </span>
       </div>
     );
@@ -39,10 +39,10 @@ const FinancialDisclaimer = ({ compact = false }: FinancialDisclaimerProps) => {
             Trademark Notice
           </p>
           <p className="font-mono text-[9px] text-muted-foreground/80 leading-relaxed">
-            Pokémon, Pokémon TCG, and all related names, images, and logos are trademarks of
+            Poké, Poké TCG, and all related names, images, and logos are trademarks of
             Nintendo, Creatures Inc., and GAME FREAK inc. This site is not affiliated with, endorsed,
             sponsored, or specifically approved by Nintendo, Creatures Inc., GAME FREAK inc., or The
-            Pokémon Company International. Card prices are sourced from public market data and may
+            Poké Company International. Card prices are sourced from public market data and may
             not reflect actual sale prices. © {new Date().getFullYear()} PGVA Ventures, LLC. 
             All rights reserved. Patent pending. Protected under U.S. copyright, trademark, trade secret, and patent laws.
             See Terms of Service for complete liability limitations.

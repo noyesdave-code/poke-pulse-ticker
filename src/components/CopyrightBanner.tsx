@@ -11,7 +11,7 @@ const CopyrightBanner = () => {
           </p>
           <AlertTriangle className="w-2 h-2 text-terminal-amber flex-shrink-0" />
           <p className="font-mono text-[6px] text-muted-foreground/70 tracking-wide text-center leading-tight">
-            Not financial advice. Pokémon™ Nintendo/Creatures/GAME FREAK.
+            Not financial advice. Poké™ Nintendo/Creatures/GAME FREAK.
           </p>
         </div>
       </div>

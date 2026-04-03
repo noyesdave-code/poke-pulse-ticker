@@ -1,4 +1,4 @@
-// PokémonKids Adventure game data
+// PokéKids Adventure game data
 
 export interface StarterPokemon {
   name: string;
@@ -50,7 +50,7 @@ export const STARTER_POKEMON: StarterPokemon[] = [
     name: "Mewtwo",
     type: "Psychic",
     image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png",
-    description: "Legendary Psychic-type. The most powerful Pokémon ever created.",
+    description: "Legendary Psychic-type. The most powerful Poké ever created.",
     hp: 100, attack: 95, defense: 65,
   },
   // --- NEW STARTERS ---
@@ -58,7 +58,7 @@ export const STARTER_POKEMON: StarterPokemon[] = [
     name: "Eevee",
     type: "Normal",
     image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png",
-    description: "Versatile evolution Pokémon. Adapts to any challenge with heart.",
+    description: "Versatile evolution Poké. Adapts to any challenge with heart.",
     hp: 75, attack: 65, defense: 65,
   },
   {
@@ -121,12 +121,12 @@ export const STARTER_POKEMON: StarterPokemon[] = [
     name: "Mew",
     type: "Psychic",
     image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/151.png",
-    description: "Mythical ancestor of all Pokémon. Can learn any move in existence.",
+    description: "Mythical ancestor of all Poké. Can learn any move in existence.",
     hp: 85, attack: 85, defense: 85,
   },
 ];
 
-// All collectible Pokémon in the game (expanded Gen 1)
+// All collectible Poké in the game (expanded Gen 1)
 export const ALL_POKEMON = [
   { name: "Bulbasaur", type: "Grass", id: 1 },
   { name: "Ivysaur", type: "Grass", id: 2 },
@@ -257,10 +257,10 @@ export interface AdventureZone {
   icon: string;
   color: string;
   description: string;
-  encounterRate: number; // 0-1 chance to find Pokémon
+  encounterRate: number; // 0-1 chance to find Poké
   xpReward: number;
   coinReward: number;
-  pokemonPool: number[]; // Pokémon IDs that spawn here
+  pokemonPool: number[]; // Poké IDs that spawn here
   bossBot?: BotOpponent;
 }
 
@@ -270,7 +270,7 @@ export const ADVENTURE_ZONES: AdventureZone[] = [
     minLevel: 1,
     icon: "🏠",
     color: "bg-green-500/20 border-green-500/30",
-    description: "Home sweet home. Practice battles and meet your neighbors' Pokémon.",
+    description: "Home sweet home. Practice battles and meet your neighbors' Poké.",
     encounterRate: 0.5,
     xpReward: 10,
     coinReward: 20,
@@ -346,7 +346,7 @@ export const ADVENTURE_ZONES: AdventureZone[] = [
     bossBot: { name: "Gym Leader Lt. Surge", pokemon: "Raichu", pokemonType: "Electric", pokemonId: 26, difficulty: "medium", knowledgeLevel: 65 },
   },
   {
-    name: "Pokémon Tower",
+    name: "Poké Tower",
     minLevel: 12,
     icon: "👻",
     color: "bg-violet-500/20 border-violet-500/30",
@@ -373,7 +373,7 @@ export const ADVENTURE_ZONES: AdventureZone[] = [
     minLevel: 15,
     icon: "🦏",
     color: "bg-orange-500/20 border-orange-500/30",
-    description: "Wild preserve with rare Pokémon! Throw Safari Balls and hope for the best.",
+    description: "Wild preserve with rare Poké! Throw Safari Balls and hope for the best.",
     encounterRate: 0.60,
     xpReward: 30,
     coinReward: 60,
@@ -408,7 +408,7 @@ export const ADVENTURE_ZONES: AdventureZone[] = [
     minLevel: 20,
     icon: "🧊",
     color: "bg-sky-500/20 border-sky-500/30",
-    description: "Frozen caverns where the legendary Articuno roosts. Bring warm Pokémon!",
+    description: "Frozen caverns where the legendary Articuno roosts. Bring warm Poké!",
     encounterRate: 0.45,
     xpReward: 45,
     coinReward: 100,
@@ -441,7 +441,7 @@ export const ADVENTURE_ZONES: AdventureZone[] = [
     minLevel: 28,
     icon: "🏆",
     color: "bg-amber-500/20 border-amber-500/30",
-    description: "The Elite Four and Champion await! Become the Pokémon League Champion!",
+    description: "The Elite Four and Champion await! Become the Poké League Champion!",
     encounterRate: 0.30,
     xpReward: 60,
     coinReward: 150,
@@ -471,28 +471,28 @@ export interface QuizQuestion {
 
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   { question: "What type is Pikachu?", options: ["Fire", "Electric", "Water", "Grass"], correctIndex: 1 },
-  { question: "Who is Ash's first Pokémon?", options: ["Charmander", "Bulbasaur", "Pikachu", "Squirtle"], correctIndex: 2 },
+  { question: "Who is Ash's first Poké?", options: ["Charmander", "Bulbasaur", "Pikachu", "Squirtle"], correctIndex: 2 },
   { question: "What does Eevee evolve into with a Water Stone?", options: ["Jolteon", "Flareon", "Vaporeon", "Espeon"], correctIndex: 2 },
-  { question: "How many original Pokémon are there (Gen 1)?", options: ["100", "150", "151", "200"], correctIndex: 2 },
+  { question: "How many original Poké are there (Gen 1)?", options: ["100", "150", "151", "200"], correctIndex: 2 },
   { question: "What type is super effective against Water?", options: ["Fire", "Grass", "Rock", "Fighting"], correctIndex: 1 },
-  { question: "Which Pokémon is #001 in the Pokédex?", options: ["Pikachu", "Charmander", "Bulbasaur", "Mew"], correctIndex: 2 },
+  { question: "Which Poké is #001 in the Pokédex?", options: ["Pikachu", "Charmander", "Bulbasaur", "Mew"], correctIndex: 2 },
   { question: "What is Mewtwo's type?", options: ["Ghost", "Dark", "Psychic", "Dragon"], correctIndex: 2 },
   { question: "Which stone evolves Pikachu?", options: ["Fire Stone", "Water Stone", "Thunder Stone", "Moon Stone"], correctIndex: 2 },
   { question: "Who created Mewtwo?", options: ["Ash", "Team Rocket", "Scientists", "Professor Oak"], correctIndex: 2 },
   { question: "What type is Gengar?", options: ["Dark", "Ghost/Poison", "Psychic", "Shadow"], correctIndex: 1 },
   { question: "How many Gym Badges does Ash need in Kanto?", options: ["6", "7", "8", "10"], correctIndex: 2 },
   { question: "What is Charizard's secondary type?", options: ["Dragon", "Fire", "Flying", "Normal"], correctIndex: 2 },
-  { question: "Which Pokémon can learn Surf?", options: ["Pikachu", "Blastoise", "Charizard", "Both A & B"], correctIndex: 3 },
-  { question: "What does PSA stand for in card grading?", options: ["Professional Sports Authenticator", "Pokémon Standards Authority", "Premium Sports Assessment", "Professional Stamp Association"], correctIndex: 0 },
+  { question: "Which Poké can learn Surf?", options: ["Pikachu", "Blastoise", "Charizard", "Both A & B"], correctIndex: 3 },
+  { question: "What does PSA stand for in card grading?", options: ["Professional Sports Authenticator", "Poké Standards Authority", "Premium Sports Assessment", "Professional Stamp Association"], correctIndex: 0 },
   { question: "What is the rarest card in Base Set?", options: ["Pikachu", "Charizard Holo", "Mewtwo", "Blastoise"], correctIndex: 1 },
   // New questions
-  { question: "What Pokémon is known as the 'Sleeping Pokémon'?", options: ["Slowpoke", "Snorlax", "Drowzee", "Jigglypuff"], correctIndex: 1 },
+  { question: "What Poké is known as the 'Sleeping Poké'?", options: ["Slowpoke", "Snorlax", "Drowzee", "Jigglypuff"], correctIndex: 1 },
   { question: "Which legendary bird is Ice-type?", options: ["Moltres", "Zapdos", "Articuno", "Ho-Oh"], correctIndex: 2 },
   { question: "What type is Dragonite?", options: ["Fire/Flying", "Dragon/Flying", "Water/Dragon", "Dragon/Normal"], correctIndex: 1 },
-  { question: "What Pokémon evolves from Magikarp?", options: ["Dragonite", "Lapras", "Gyarados", "Milotic"], correctIndex: 2 },
-  { question: "Where do you find Mewtwo in the games?", options: ["Victory Road", "Pokémon Tower", "Cerulean Cave", "Silph Co."], correctIndex: 2 },
+  { question: "What Poké evolves from Magikarp?", options: ["Dragonite", "Lapras", "Gyarados", "Milotic"], correctIndex: 2 },
+  { question: "Where do you find Mewtwo in the games?", options: ["Victory Road", "Poké Tower", "Cerulean Cave", "Silph Co."], correctIndex: 2 },
   { question: "Which Gym Leader uses Electric-types?", options: ["Brock", "Misty", "Lt. Surge", "Erika"], correctIndex: 2 },
-  { question: "What item revives a fainted Pokémon?", options: ["Potion", "Antidote", "Revive", "Elixir"], correctIndex: 2 },
+  { question: "What item revives a fainted Poké?", options: ["Potion", "Antidote", "Revive", "Elixir"], correctIndex: 2 },
   { question: "How many Eevee evolutions exist in Gen 1?", options: ["2", "3", "4", "5"], correctIndex: 1 },
   { question: "What fossil becomes Aerodactyl?", options: ["Helix Fossil", "Dome Fossil", "Old Amber", "Root Fossil"], correctIndex: 2 },
   { question: "What type does NOT exist in Gen 1?", options: ["Dragon", "Ghost", "Dark", "Psychic"], correctIndex: 2 },
@@ -554,10 +554,10 @@ export const ACHIEVEMENTS: AchievementDef[] = [
   { id: "5_wins", name: "Battle Veteran", description: "Win 5 battles", icon: "🎖️", check: s => s.totalWins >= 5 },
   { id: "25_wins", name: "Battle Master", description: "Win 25 battles", icon: "🏅", check: s => s.totalWins >= 25 },
   { id: "100_wins", name: "Legendary Warrior", description: "Win 100 battles", icon: "👑", check: s => s.totalWins >= 100 },
-  { id: "5_pokemon", name: "Pokémon Collector", description: "Collect 5 Pokémon", icon: "📦", check: s => s.collectedPokemon >= 5 },
-  { id: "25_pokemon", name: "Pokédex Explorer", description: "Collect 25 Pokémon", icon: "📚", check: s => s.collectedPokemon >= 25 },
-  { id: "50_pokemon", name: "Pokédex Scholar", description: "Collect 50 Pokémon", icon: "🔬", check: s => s.collectedPokemon >= 50 },
-  { id: "all_pokemon", name: "Pokémon Master", description: "Collect all Pokémon", icon: "🏆", check: s => s.collectedPokemon >= ALL_POKEMON.length },
+  { id: "5_pokemon", name: "Poké Collector", description: "Collect 5 Poké", icon: "📦", check: s => s.collectedPokemon >= 5 },
+  { id: "25_pokemon", name: "Pokédex Explorer", description: "Collect 25 Poké", icon: "📚", check: s => s.collectedPokemon >= 25 },
+  { id: "50_pokemon", name: "Pokédex Scholar", description: "Collect 50 Poké", icon: "🔬", check: s => s.collectedPokemon >= 50 },
+  { id: "all_pokemon", name: "Poké Master", description: "Collect all Poké", icon: "🏆", check: s => s.collectedPokemon >= ALL_POKEMON.length },
   { id: "level_5", name: "Rising Trainer", description: "Reach level 5", icon: "⭐", check: s => s.level >= 5 },
   { id: "level_10", name: "Skilled Trainer", description: "Reach level 10", icon: "🌟", check: s => s.level >= 10 },
   { id: "level_20", name: "Elite Trainer", description: "Reach level 20", icon: "💫", check: s => s.level >= 20 },

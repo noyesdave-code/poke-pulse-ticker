@@ -31,7 +31,7 @@ const steps = [
     icon: Gamepad2,
     title: "Practice on SimTrader",
     description:
-      "Trade Pokémon cards with $100K virtual cash. Test strategies risk-free, compete on the leaderboard, and learn the market before going live.",
+      "Trade Poké cards with $100K virtual cash. Test strategies risk-free, compete on the leaderboard, and learn the market before going live.",
     cta: "Play SimTrader",
     path: "/sim-trader",
     gradient: "from-violet-500 to-indigo-500",

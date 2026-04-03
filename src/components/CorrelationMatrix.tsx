@@ -66,7 +66,7 @@ const CorrelationMatrix = ({ cards }: CorrelationMatrixProps) => {
       </div>
 
       <p className="font-mono text-[10px] text-muted-foreground leading-relaxed">
-        How Pokémon TCG set eras move relative to <span className="text-foreground">Bitcoin</span>, the <span className="text-foreground">S&P 500</span>, and <span className="text-foreground">Gold</span>. Values range from -1 (inverse) to +1 (perfectly correlated).
+        How Poké TCG set eras move relative to <span className="text-foreground">Bitcoin</span>, the <span className="text-foreground">S&P 500</span>, and <span className="text-foreground">Gold</span>. Values range from -1 (inverse) to +1 (perfectly correlated).
       </p>
 
       {/* Matrix Grid */}
