@@ -120,19 +120,24 @@ const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
             <div className="absolute inset-0 opacity-[0.04]"
               style={{ backgroundImage: "repeating-linear-gradient(90deg, transparent, transparent 20px, currentColor 20px, currentColor 21px)" }} />
 
-            {/* Racing trail — colored streak behind the card */}
+            {/* Racing trail — bright colored streak behind the card */}
             <div
-              className={`absolute top-0 bottom-0 left-0 bg-gradient-to-r ${colors.trail} transition-all ${isActive ? "duration-700" : "duration-300"} ease-out`}
-              style={{ width: `${Math.max(racer.position * 0.85, 2)}%`, opacity: isActive ? 0.35 : 0.15 }}
+              className={`absolute top-0 bottom-0 left-0 bg-gradient-to-r ${colors.trail} transition-all ${isActive ? "duration-700" : "duration-300"} ease-out rounded-r`}
+              style={{ width: `${Math.max(racer.position * 0.85, 2)}%`, opacity: isActive ? 0.7 : (race.status === "finished" ? 0.6 : 0.2) }}
+            />
+            {/* Bright core line */}
+            <div
+              className={`absolute top-1/2 -translate-y-1/2 h-1 left-0 rounded-r ${colors.solid} transition-all ${isActive ? "duration-700" : "duration-300"} ease-out`}
+              style={{ width: `${Math.max(racer.position * 0.85, 1)}%`, opacity: isActive ? 0.9 : (race.status === "finished" ? 0.7 : 0.1) }}
             />
 
             {/* Particle dots along trail */}
-            {isActive && racer.position > 10 && (
+            {(isActive || race.status === "finished") && racer.position > 10 && (
               <>
-                <div className={`absolute top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-gradient-to-r ${colors.trail} opacity-60 animate-pulse`}
-                  style={{ left: `${racer.position * 0.85 - 8}%` }} />
-                <div className={`absolute top-1/2 -translate-y-1/2 w-0.5 h-0.5 rounded-full bg-gradient-to-r ${colors.trail} opacity-40`}
-                  style={{ left: `${racer.position * 0.85 - 14}%` }} />
+                <div className={`absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full ${colors.solid} opacity-80 ${isActive ? "animate-pulse" : ""}`}
+                  style={{ left: `${racer.position * 0.85 - 6}%` }} />
+                <div className={`absolute top-1/2 -translate-y-1/2 w-1 h-1 rounded-full ${colors.solid} opacity-50`}
+                  style={{ left: `${racer.position * 0.85 - 12}%` }} />
               </>
             )}
 
