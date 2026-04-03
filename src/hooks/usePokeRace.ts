@@ -170,7 +170,7 @@ export const usePokeRace = () => {
     setCycle(c);
 
     const now = Date.now();
-    const fullCycle = CYCLE_DURATION * 2;
+    const fullCycle = HALF_CYCLE * 2;
     const cycleStart = Math.floor(now / fullCycle) * fullCycle;
     const seed = cycleStart;
 
@@ -180,8 +180,8 @@ export const usePokeRace = () => {
     const invRace = buildRace("inventory", seed, invStart, invEnd);
 
     // Build price race (second half)
-    const priceStart = cycleStart + CYCLE_DURATION;
-    const priceEnd = cycleStart + CYCLE_DURATION + RACE_DURATION;
+    const priceStart = cycleStart + RACE_DURATION + FREEZE_DURATION + BET_DURATION;
+    const priceEnd = priceStart + RACE_DURATION;
     const priceRaceData = buildRace("price", seed + 50, priceStart, priceEnd);
 
     setPriceRace(priceRaceData);
