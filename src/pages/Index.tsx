@@ -220,7 +220,7 @@ const Index = () => {
         {/* Quick Collection Value Calculator — instant engagement hook */}
         <QuickValueCalculator />
 
-        {/* PokéKids Adventure Game Promo */}
+        {/* Poké Adventure Land Game Promo */}
         <GamePromo />
 
         {/* Inline upgrade nudge — after first value moment */}
