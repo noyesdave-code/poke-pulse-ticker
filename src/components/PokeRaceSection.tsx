@@ -207,7 +207,7 @@ const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
 const MoversBoard = ({ title, icon, items }: {
   title: string;
   icon: React.ReactNode;
-  items: { name: string; image: string | null; change: number; category: string }[];
+  items: { name: string; image: string | null; change: number; category: string; price: number }[];
 }) => (
   <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
     <CardHeader className="pb-2 pt-3 px-3">
@@ -226,9 +226,14 @@ const MoversBoard = ({ title, icon, items }: {
             <p className="text-[10px] font-semibold truncate">{item.name}</p>
             <Badge variant="outline" className="text-[8px] px-1 py-0">{item.category}</Badge>
           </div>
-          <span className={`text-xs font-mono font-bold ${item.change >= 0 ? "text-primary" : "text-destructive"}`}>
-            {item.change >= 0 ? "+" : ""}{item.change.toFixed(1)}%
-          </span>
+          <div className="text-right flex-shrink-0">
+            <span className="text-[10px] font-mono font-bold text-foreground block">
+              ${item.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </span>
+            <span className={`text-[10px] font-mono font-bold ${item.change >= 0 ? "text-primary" : "text-destructive"}`}>
+              {item.change >= 0 ? "▲+" : "▼"}{Math.abs(item.change).toFixed(1)}%
+            </span>
+          </div>
         </div>
       ))}
     </CardContent>
