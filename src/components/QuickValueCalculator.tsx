@@ -28,11 +28,14 @@ const QuickValueCalculator = () => {
 
   const pool = useMemo(() => {
     if (!liveCards || liveCards.length === 0) return [];
-    return liveCards.slice(0, 500).map((c) => ({
-      name: `${c.name} (${c.set})`,
-      price: c.market,
-      image: c._image || "",
-    }));
+    return liveCards
+      .slice(0, 500)
+      .filter((c) => c._image && c.market > 0)
+      .map((c) => ({
+        name: `${c.name} (${c.set})`,
+        price: c.market,
+        image: c._image || "",
+      }));
   }, [liveCards]);
 
   const [rotationIdx, setRotationIdx] = useState(() => getRotationIndex(pool.length));
