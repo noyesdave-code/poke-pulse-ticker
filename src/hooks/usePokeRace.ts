@@ -53,6 +53,22 @@ const pickRacers = (cards: CardData[], count: number, seed: number, category: "r
   }));
 };
 
+const pickSealedRacers = (products: SealedProduct[], count: number, seed: number): Racer[] => {
+  const shuffled = [...products].sort((a, b) => seededRandom(seed + a.market) - seededRandom(seed + b.market));
+  return shuffled.slice(0, count).map((p, i) => ({
+    id: `sealed-${p.name.replace(/\s+/g, "-").toLowerCase()}`,
+    name: p.name,
+    image: null,
+    category: "sealed" as const,
+    startValue: p.market,
+    currentValue: p.market,
+    changePct: 0,
+    position: 0,
+    lane: i,
+    odds: generateOdds(i, count),
+  }));
+};
+
 export const usePokeRace = () => {
   const [priceRace, setPriceRace] = useState<RaceState | null>(null);
   const [inventoryRace, setInventoryRace] = useState<RaceState | null>(null);
