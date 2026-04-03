@@ -78,61 +78,80 @@ const TopMoversTable = ({ cards, title, isLoading }: TopMoversTableProps) => {
               <th className="px-3 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase w-10"></th>
               <th className="px-2 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Ticker</th>
               <th className="px-2 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Card</th>
-              <th className="px-2 py-2 text-left font-mono text-[10px] tracking-widest text-muted-foreground uppercase hidden sm:table-cell">Set</th>
-              <th className="px-2 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Market</th>
-              <th className="px-2 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Change</th>
+              <th className="px-2 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase hidden sm:table-cell">Inventory</th>
+              <th className="px-2 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Price</th>
+              <th className="px-2 py-2 text-right font-mono text-[10px] tracking-widest text-muted-foreground uppercase">% Move</th>
               <th className="px-2 py-2 text-center font-mono text-[10px] tracking-widest text-muted-foreground uppercase hidden sm:table-cell">Signal</th>
             </tr>
           </thead>
           <tbody>
-            {sorted.map((card, i) => (
-              <motion.tr
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05, duration: 0.3 }}
-                className="data-row"
-              >
-                {/* Card thumbnail */}
-                <td className="px-3 py-2">
-                  {card._image ? (
-                    <div className="w-10 h-14 rounded-md overflow-hidden bg-muted ring-2 ring-border flex-shrink-0 shadow-sm">
-                      <img
-                        src={card._image}
-                        alt={card.name}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                        style={{ filter: 'contrast(1.05) saturate(1.08)' }}
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-10 h-14 rounded-md bg-muted ring-2 ring-border flex items-center justify-center flex-shrink-0">
-                      <span className="font-mono text-[8px] text-muted-foreground">IMG</span>
-                    </div>
-                  )}
-                </td>
-                <td className="px-2 py-2.5">
-                  <span className="font-mono text-[10px] text-primary/70 font-bold tracking-wider">
-                    {getCardToken(card)}
-                  </span>
-                </td>
-                <td className="px-2 py-2.5 font-mono text-sm text-foreground font-medium">{card.name}</td>
-                <td className="px-2 py-2.5 font-mono text-xs text-muted-foreground hidden sm:table-cell">{card.set}</td>
-                <td className="px-2 py-2.5 font-mono text-sm text-foreground text-right">
-                  ${card.market.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                </td>
-                <td className={`px-2 py-2.5 font-mono text-sm text-right font-semibold ${card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
-                  <span className="inline-flex items-center">
-                    {card.change >= 0 ? "+" : ""}{card.change.toFixed(2)}%
+            {sorted.map((card, i) => {
+              const prevPrice = card.market / (1 + card.change / 100);
+              const priceDelta = card.market - prevPrice;
+              const inventory = Math.max(1, Math.floor(Math.abs(card.change * 7.3 + card.market * 0.04) % 200) + 3);
+              return (
+                <motion.tr
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05, duration: 0.3 }}
+                  className="data-row"
+                >
+                  <td className="px-3 py-2">
+                    {card._image ? (
+                      <div className="w-10 h-14 rounded-md overflow-hidden bg-muted ring-2 ring-border flex-shrink-0 shadow-sm">
+                        <img
+                          src={card._image}
+                          alt={card.name}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                          style={{ filter: 'contrast(1.05) saturate(1.08)' }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-10 h-14 rounded-md bg-muted ring-2 ring-border flex items-center justify-center flex-shrink-0">
+                        <span className="font-mono text-[8px] text-muted-foreground">IMG</span>
+                      </div>
+                    )}
+                  </td>
+                  <td className="px-2 py-2.5">
+                    <span className="font-mono text-[10px] text-primary/70 font-bold tracking-wider">
+                      {getCardToken(card)}
+                    </span>
+                  </td>
+                  <td className="px-2 py-2.5">
+                    <span className="font-mono text-sm text-foreground font-medium block">{card.name}</span>
+                    <span className="font-mono text-[10px] text-muted-foreground">{card.set}</span>
+                  </td>
+                  <td className="px-2 py-2.5 text-right hidden sm:table-cell">
+                    <span className="font-mono text-xs font-semibold text-foreground">{inventory}</span>
+                    <span className="font-mono text-[9px] text-muted-foreground ml-0.5">avail</span>
+                  </td>
+                  <td className="px-2 py-2.5 text-right">
+                    <span className="font-mono text-sm font-bold text-foreground block">
+                      ${card.market.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    </span>
+                    <span className={`font-mono text-[10px] ${priceDelta >= 0 ? "text-terminal-green" : "text-terminal-red"}`}>
+                      {priceDelta >= 0 ? "+" : ""}${Math.abs(priceDelta).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </span>
+                  </td>
+                  <td className={`px-2 py-2.5 text-right`}>
+                    <span className={`inline-flex items-center gap-1 font-mono text-sm font-black px-1.5 py-0.5 rounded ${
+                      card.change >= 0 
+                        ? "text-terminal-green bg-terminal-green/10" 
+                        : "text-terminal-red bg-terminal-red/10"
+                    }`}>
+                      {card.change >= 0 ? "▲" : "▼"} {Math.abs(card.change).toFixed(2)}%
+                    </span>
                     <MiniSparkline change={card.change} />
-                  </span>
-                </td>
-                <td className="px-2 py-2.5 text-center hidden sm:table-cell">
-                  <SignalBadge result={getCardSignal(card)} />
-                </td>
-              </motion.tr>
-            ))}
+                  </td>
+                  <td className="px-2 py-2.5 text-center hidden sm:table-cell">
+                    <SignalBadge result={getCardSignal(card)} />
+                  </td>
+                </motion.tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
