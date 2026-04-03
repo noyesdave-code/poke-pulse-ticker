@@ -132,14 +132,16 @@ const QuickValueCalculator = () => {
                     : "border-border bg-muted/20 text-muted-foreground hover:border-muted-foreground/30"
                 }`}
               >
-                {card.image && (
+                {card.image ? (
                   <img
                     src={card.image}
                     alt={card.name}
-                    loading="lazy"
+                    loading="eager"
+                    crossOrigin="anonymous"
                     className="w-9 h-12 object-contain rounded flex-shrink-0"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                   />
-                )}
+                ) : null}
                 <div className="min-w-0">
                   <span className="block font-medium truncate text-[11px]">{card.name}</span>
                   <span className={`block text-[10px] mt-0.5 ${selected.has(idx) ? "text-primary" : ""}`}>
