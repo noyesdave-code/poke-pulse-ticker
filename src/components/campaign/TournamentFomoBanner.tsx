@@ -40,7 +40,7 @@ const TournamentFomoBanner = () => {
       >
         <X className="w-4 h-4" />
       </button>
-      <div className="relative p-4 flex flex-col sm:flex-row items-center gap-3">
+      <div className="relative px-3 py-2.5 flex flex-col sm:flex-row items-center gap-2">
         <div className="flex items-center gap-3 flex-1 min-w-0">
           <div className="h-12 w-12 rounded-xl bg-purple-500/15 flex items-center justify-center ring-2 ring-purple-500/30 flex-shrink-0">
             <Trophy className="h-6 w-6 text-purple-400" />
