@@ -97,35 +97,48 @@ export const usePokeRace = () => {
   // Compute cycle state from current time
   const computeCycle = useCallback((): CycleState => {
     const now = Date.now();
-    // Full cycle = 6 minutes (inv race 2m + bet 1m + price race 2m + bet 1m)
-    const fullCycle = CYCLE_DURATION * 2; // 6 minutes
+    // Full cycle: inv race 2m + freeze 10s + bet 1m + price race 2m + freeze 10s + bet 1m
+    const fullCycle = HALF_CYCLE * 2;
     const cycleStart = Math.floor(now / fullCycle) * fullCycle;
     const elapsed = now - cycleStart;
 
-    // 0-2min: inventory race, 2-3min: bet break, 3-5min: price race, 5-6min: bet break
     let phase: RacePhase;
     let activeTrack: ActiveTrack;
     let phaseEndsAt: number;
 
-    if (elapsed < RACE_DURATION) {
+    const raceEnd1 = RACE_DURATION;
+    const freezeEnd1 = raceEnd1 + FREEZE_DURATION;
+    const betEnd1 = freezeEnd1 + BET_DURATION;
+    const raceEnd2 = betEnd1 + RACE_DURATION;
+    const freezeEnd2 = raceEnd2 + FREEZE_DURATION;
+
+    if (elapsed < raceEnd1) {
       phase = "racing";
       activeTrack = "inventory";
-      phaseEndsAt = cycleStart + RACE_DURATION;
-    } else if (elapsed < CYCLE_DURATION) {
+      phaseEndsAt = cycleStart + raceEnd1;
+    } else if (elapsed < freezeEnd1) {
+      phase = "freeze";
+      activeTrack = "inventory";
+      phaseEndsAt = cycleStart + freezeEnd1;
+    } else if (elapsed < betEnd1) {
       phase = "betting";
-      activeTrack = "price"; // next race will be price
-      phaseEndsAt = cycleStart + CYCLE_DURATION;
-    } else if (elapsed < CYCLE_DURATION + RACE_DURATION) {
+      activeTrack = "price";
+      phaseEndsAt = cycleStart + betEnd1;
+    } else if (elapsed < raceEnd2) {
       phase = "racing";
       activeTrack = "price";
-      phaseEndsAt = cycleStart + CYCLE_DURATION + RACE_DURATION;
+      phaseEndsAt = cycleStart + raceEnd2;
+    } else if (elapsed < freezeEnd2) {
+      phase = "freeze";
+      activeTrack = "price";
+      phaseEndsAt = cycleStart + freezeEnd2;
     } else {
       phase = "betting";
-      activeTrack = "inventory"; // next race will be inventory
+      activeTrack = "inventory";
       phaseEndsAt = cycleStart + fullCycle;
     }
 
-    const raceNumber = Math.floor(now / CYCLE_DURATION);
+    const raceNumber = Math.floor(now / HALF_CYCLE);
 
     return { phase, activeTrack, phaseEndsAt, raceNumber };
   }, []);
