@@ -495,7 +495,7 @@ const VideoLibrary = () => {
         <div className="mt-8 border-t border-border/40 pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[10px] text-muted-foreground">
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-3.5 w-3.5 text-primary flex-shrink-0" />
-            <span>All content © {new Date().getFullYear()} PGVA Ventures, LLC — David Noyes / Noyes Family Trust. DMCA protected.</span>
+            <span>All content © {new Date().getFullYear()} PGVA Ventures, LLC. DMCA protected.</span>
           </div>
           <Button variant="ghost" size="sm" className="text-xs h-7" onClick={() => navigate("/promo")}>
             Authorized Downloads →

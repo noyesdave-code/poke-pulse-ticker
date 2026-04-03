@@ -257,7 +257,7 @@ const PulseTerminalDemo = ({ config }: { config: FranchiseConfig }) => {
         <div className="flex items-center justify-center gap-1.5">
           <Lock className="w-2.5 h-2.5 text-muted-foreground/60" />
           <p className="text-[9px] text-muted-foreground/50 font-mono tracking-wide">
-            CONFIDENTIAL & PROPRIETARY · Protected under DMCA, CFAA & DTSA · Noyes Family Trust
+            CONFIDENTIAL & PROPRIETARY · Protected under DMCA, CFAA & DTSA · PGVA Ventures, LLC
           </p>
         </div>
         <div className="flex items-center justify-center gap-1.5">

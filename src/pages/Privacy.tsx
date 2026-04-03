@@ -8,7 +8,7 @@ const Privacy = () => (
       <h1 className="font-mono text-2xl font-bold text-foreground tracking-wider">Privacy Policy</h1>
       <p className="font-mono text-xs text-muted-foreground">Effective Date: March 31, 2026 · Last Updated: April 1, 2026</p>
       <p className="font-mono text-xs text-muted-foreground leading-relaxed italic">
-        This Privacy Policy ("Policy") describes how PGVA Ventures, LLC ("Company," "we," "us"), a limited liability company wholly owned by the Noyes Family Trust and managed by David Noyes, collects, uses, stores, and protects your personal information when you use the Poke-Pulse-Ticker platform at poke-pulse-ticker.com ("the Service").
+        This Privacy Policy ("Policy") describes how PGVA Ventures, LLC ("Company," "we," "us"), a Delaware limited liability company, collects, uses, stores, and protects your personal information when you use the Poke-Pulse-Ticker platform at poke-pulse-ticker.com ("the Service").
       </p>
 
       <section className="space-y-3">
@@ -122,7 +122,7 @@ const Privacy = () => (
           For privacy-related inquiries, data access requests, or to exercise your rights, contact us at <a href="mailto:contact@poke-pulse-ticker.com" className="text-primary hover:underline">contact@poke-pulse-ticker.com</a>.
         </p>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          PGVA Ventures, LLC · Owned by the Noyes Family Trust · Managed by David Noyes
+          PGVA Ventures, LLC · Delaware LLC · Managed by David Noyes
         </p>
       </section>
       <FinancialDisclaimer compact />

@@ -111,7 +111,7 @@ const OutroScene: React.FC = () => {
         <div style={{ height: 16 }} />
         <FadeText text="contact@poke-pulse-ticker.com" delay={75} size={14} color="rgba(255,255,255,0.3)" weight={400} family={inter} />
         <div style={{ position: "absolute", bottom: 25, fontFamily: inter, fontSize: 9, color: "#475569", textAlign: "center", lineHeight: 1.4 }}>
-          © 2026 PGVA Ventures, LLC — David Noyes / Noyes Family Trust — Patent Pending<br/>
+          © 2026 PGVA Ventures, LLC — Patent Pending<br/>
           Protected under U.S. Copyright, Trademark, Trade Secret, and Patent Laws
         </div>
       </div>
