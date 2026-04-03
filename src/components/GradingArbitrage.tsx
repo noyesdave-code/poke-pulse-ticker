@@ -92,9 +92,7 @@ const GradingArbitrage = () => {
               transition={{ delay: idx * 0.05 }}
               className="flex items-center gap-3 px-4 py-3 hover:bg-muted/20 transition-colors"
             >
-              {opp.image && (
-                <img src={opp.image} alt={opp.name} className="w-10 h-14 object-contain rounded" loading="lazy" />
-              )}
+              <img src={opp.image || "/icon-192.png"} alt={opp.name} className={`w-10 h-14 rounded ${opp.image ? "object-contain" : "object-contain p-1 bg-muted"}`} loading="lazy" onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; }} />
               <div className="flex-1 min-w-0">
                 <p className="font-mono text-xs font-bold text-foreground truncate">{opp.name}</p>
                 <p className="font-mono text-[10px] text-muted-foreground">{opp.set}</p>

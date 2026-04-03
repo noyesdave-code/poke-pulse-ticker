@@ -326,7 +326,7 @@ export default function PredictionDuels({ tradableCards, walletBalance, onBalanc
               <div key={duel.id} className="space-y-2">
                 <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30 border border-primary/20">
                   <div className="flex items-center gap-3">
-                    {duel.card_image && <img src={duel.card_image} alt="" className="w-8 h-11 rounded object-cover" />}
+                    <img src={duel.card_image || "/icon-192.png"} alt="" className={`w-8 h-11 rounded ${duel.card_image ? "object-cover" : "object-contain p-0.5 bg-muted"}`} onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; }} />
                     <div>
                       <p className="text-xs font-bold">{duel.card_name}</p>
                       <p className="text-[10px] text-muted-foreground">

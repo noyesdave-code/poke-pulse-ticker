@@ -57,14 +57,13 @@ const AlphaSignals = ({ signals }: AlphaSignalsProps) => {
                 transition={{ delay: idx * 0.05, duration: 0.3 }}
                 className="px-4 py-3 flex items-start gap-3 hover:bg-muted/30 transition-colors"
               >
-                {signal.cardImage && (
-                  <img
-                    src={signal.cardImage}
-                    alt={signal.cardName}
-                    className="w-10 h-14 object-contain rounded flex-shrink-0"
-                    loading="lazy"
-                  />
-                )}
+                <img
+                  src={signal.cardImage || "/icon-192.png"}
+                  alt={signal.cardName}
+                  className={`w-10 h-14 rounded flex-shrink-0 ${signal.cardImage ? "object-contain" : "object-contain p-1 bg-muted"}`}
+                  loading="lazy"
+                  onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; }}
+                />
                 <div className="flex-1 min-w-0 space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
                     <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${config.color}`} />
