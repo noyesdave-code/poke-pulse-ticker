@@ -28,11 +28,14 @@ const QuickValueCalculator = () => {
 
   const pool = useMemo(() => {
     if (!liveCards || liveCards.length === 0) return [];
-    return liveCards.slice(0, 500).map((c) => ({
-      name: `${c.name} (${c.set})`,
-      price: c.market,
-      image: c._image || "",
-    }));
+    return liveCards
+      .slice(0, 500)
+      .filter((c) => c._image && c.market > 0)
+      .map((c) => ({
+        name: `${c.name} (${c.set})`,
+        price: c.market,
+        image: c._image || "",
+      }));
   }, [liveCards]);
 
   const [rotationIdx, setRotationIdx] = useState(() => getRotationIndex(pool.length));
@@ -129,14 +132,16 @@ const QuickValueCalculator = () => {
                     : "border-border bg-muted/20 text-muted-foreground hover:border-muted-foreground/30"
                 }`}
               >
-                {card.image && (
+                {card.image ? (
                   <img
                     src={card.image}
                     alt={card.name}
-                    loading="lazy"
+                    loading="eager"
+                    crossOrigin="anonymous"
                     className="w-9 h-12 object-contain rounded flex-shrink-0"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                   />
-                )}
+                ) : null}
                 <div className="min-w-0">
                   <span className="block font-medium truncate text-[11px]">{card.name}</span>
                   <span className={`block text-[10px] mt-0.5 ${selected.has(idx) ? "text-primary" : ""}`}>

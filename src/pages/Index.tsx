@@ -26,9 +26,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
-// Campaign Day 1 banners
-import CampaignProBanner from "@/components/campaign/CampaignProBanner";
-import DoublePokeCoinBanner from "@/components/campaign/DoublePokeCoinBanner";
+// Campaign banners
 import TournamentFomoBanner from "@/components/campaign/TournamentFomoBanner";
 import HighStakesArenaBanner from "@/components/campaign/HighStakesArenaBanner";
 import ShareButton from "@/components/ShareButton";
@@ -164,9 +162,7 @@ const Index = () => {
         {/* Launch Countdown — urgency drives first purchase */}
         <LaunchCountdown />
 
-        {/* Day 1 Campaign Banners — maximum visibility */}
-        <CampaignProBanner />
-        <DoublePokeCoinBanner />
+        {/* Day 1 Campaign Banners — streamlined */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <TournamentFomoBanner />
           <HighStakesArenaBanner />
@@ -220,7 +216,7 @@ const Index = () => {
         {/* Quick Collection Value Calculator — instant engagement hook */}
         <QuickValueCalculator />
 
-        {/* PokéKids Adventure Game Promo */}
+        {/* Poké Adventure Land Game Promo */}
         <GamePromo />
 
         {/* Inline upgrade nudge — after first value moment */}
@@ -426,7 +422,7 @@ const Index = () => {
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
               {[
-                { href: "/pokemon-kids", label: "PokéKids Game" },
+                { href: "/pokemon-kids", label: "Poké Adventure Land" },
                 { href: "#poke-race", label: "Poké Race" },
                 { href: "/arena", label: "Arena" },
                 { href: "/videos", label: "Video Library" },

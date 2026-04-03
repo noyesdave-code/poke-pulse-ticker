@@ -1,4 +1,4 @@
-// PokéKids Adventure game data
+// Poké Adventure Land game data
 
 export interface StarterPokemon {
   name: string;
