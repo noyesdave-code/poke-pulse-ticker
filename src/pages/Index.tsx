@@ -427,6 +427,7 @@ const Index = () => {
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
               {[
                 { href: "/pokemon-kids", label: "PokéKids Game" },
+                { href: "#poke-race", label: "Poké Race" },
                 { href: "/arena", label: "Arena" },
                 { href: "/videos", label: "Video Library" },
                 { href: "/terms", label: "Terms of Service" },
