@@ -172,21 +172,20 @@ const IndexDayChart = ({ title, indexValue, indexChange, variant, refreshKey = 0
     return generateMultiDayData(indexValue, indexChange, days);
   }, [indexValue, indexChange, range, refreshKey]);
 
-  // Update "now" line every 30s for 1D view
-  useState(() => {
-    if (range === "1D" && data.length > 0) {
-      setNowLabel(getNowSlotLabel(data));
-    }
-  });
-  useMemo(() => {
-    if (range === "1D" && data.length > 0) {
-      setNowLabel(getNowSlotLabel(data));
-    } else {
-      // For 5D/1M, mark today's date
-      const todayLabel = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric" });
-      const found = data.find(d => d.time === todayLabel);
-      setNowLabel(found ? todayLabel : null);
-    }
+  // Update "now" line every 30s
+  useEffect(() => {
+    const update = () => {
+      if (range === "1D" && data.length > 0) {
+        setNowLabel(getNowSlotLabel(data));
+      } else {
+        const todayLabel = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric" });
+        const found = data.find(d => d.time === todayLabel);
+        setNowLabel(found ? todayLabel : null);
+      }
+    };
+    update();
+    const interval = setInterval(update, 30000);
+    return () => clearInterval(interval);
   }, [range, data]);
 
   const minVal = Math.min(...data.map(d => d.value));
