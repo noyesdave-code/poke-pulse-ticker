@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TerminalHeader from "@/components/TerminalHeader";
+import ShareButton from "@/components/ShareButton";
 import {
   DollarSign, Target, TrendingUp, Zap, Trophy, ShoppingCart,
   Users, MousePointerClick, Gamepad2, Swords, CheckCircle2, Clock,
@@ -382,6 +383,7 @@ export default function CapitalCampaign() {
           ))}
         </Tabs>
       </div>
+      <ShareButton />
     </div>
   );
 }

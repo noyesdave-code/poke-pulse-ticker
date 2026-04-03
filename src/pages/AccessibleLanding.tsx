@@ -3,6 +3,7 @@ import { Eye, ArrowRight, Sun, Type, Zap, Volume2, MousePointer } from "lucide-r
 import TerminalHeader from "@/components/TerminalHeader";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import { useAccessibility } from "@/contexts/AccessibilityContext";
+import ShareButton from "@/components/ShareButton";
 import { useEffect } from "react";
 
 const features = [
@@ -206,6 +207,7 @@ const AccessibleLanding = () => {
 
         <FinancialDisclaimer compact />
       </main>
+      <ShareButton />
     </div>
   );
 };
