@@ -79,11 +79,11 @@ const PhaseBanner = ({ cycle, phaseTimeRemaining }: {
 
 /* ─── Race Track ─── */
 const laneColors = [
-  { trail: "from-primary via-primary/60 to-transparent", glow: "shadow-primary/40", border: "border-primary/30" },
-  { trail: "from-amber-500 via-amber-500/60 to-transparent", glow: "shadow-amber-500/40", border: "border-amber-500/30" },
-  { trail: "from-blue-500 via-blue-500/60 to-transparent", glow: "shadow-blue-500/40", border: "border-blue-500/30" },
-  { trail: "from-rose-500 via-rose-500/60 to-transparent", glow: "shadow-rose-500/40", border: "border-rose-500/30" },
-  { trail: "from-purple-500 via-purple-500/60 to-transparent", glow: "shadow-purple-500/40", border: "border-purple-500/30" },
+  { trail: "from-emerald-400 via-emerald-400/80 to-emerald-400/20", glow: "shadow-emerald-400/60", border: "border-emerald-400/50", solid: "bg-emerald-400" },
+  { trail: "from-amber-400 via-amber-400/80 to-amber-400/20", glow: "shadow-amber-400/60", border: "border-amber-400/50", solid: "bg-amber-400" },
+  { trail: "from-cyan-400 via-cyan-400/80 to-cyan-400/20", glow: "shadow-cyan-400/60", border: "border-cyan-400/50", solid: "bg-cyan-400" },
+  { trail: "from-rose-400 via-rose-400/80 to-rose-400/20", glow: "shadow-rose-400/60", border: "border-rose-400/50", solid: "bg-rose-400" },
+  { trail: "from-violet-400 via-violet-400/80 to-violet-400/20", glow: "shadow-violet-400/60", border: "border-violet-400/50", solid: "bg-violet-400" },
 ];
 
 const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
