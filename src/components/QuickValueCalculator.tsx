@@ -1,9 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Calculator, DollarSign, TrendingUp, ArrowRight, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const POPULAR_CARDS = [
+const ALL_CARDS = [
   { name: "Charizard ex (OBF)", price: 42.50, image: "https://images.pokemontcg.io/sv3/223_hires.png" },
   { name: "Pikachu VMAX (VV)", price: 28.75, image: "https://images.pokemontcg.io/swsh4/188_hires.png" },
   { name: "Mew ex (151)", price: 19.80, image: "https://images.pokemontcg.io/sv3pt5/151_hires.png" },
@@ -12,7 +12,31 @@ const POPULAR_CARDS = [
   { name: "Giratina V Alt (LOR)", price: 62.30, image: "https://images.pokemontcg.io/swsh11/186_hires.png" },
   { name: "Moonbreon (EVS)", price: 220.00, image: "https://images.pokemontcg.io/swsh7/214_hires.png" },
   { name: "Charizard UPC (promo)", price: 95.00, image: "https://images.pokemontcg.io/swsh12pt5gg/GG70_hires.png" },
+  { name: "Rayquaza VMAX Alt (ES)", price: 155.00, image: "https://images.pokemontcg.io/swsh7/218_hires.png" },
+  { name: "Gengar VMAX Alt (FST)", price: 72.00, image: "https://images.pokemontcg.io/swsh8/271_hires.png" },
+  { name: "Espeon VMAX Alt (FST)", price: 48.00, image: "https://images.pokemontcg.io/swsh8/270_hires.png" },
+  { name: "Blaziken VMAX Alt (CRS)", price: 38.50, image: "https://images.pokemontcg.io/swsh10/200_hires.png" },
+  { name: "Sylveon VMAX Alt (ES)", price: 58.00, image: "https://images.pokemontcg.io/swsh7/212_hires.png" },
+  { name: "Dragonite V Alt (EVO)", price: 42.00, image: "https://images.pokemontcg.io/swsh7/203_hires.png" },
+  { name: "Arceus V Alt (BST)", price: 34.00, image: "https://images.pokemontcg.io/swsh9/166_hires.png" },
+  { name: "Mewtwo VSTAR (Pokemon GO)", price: 25.50, image: "https://images.pokemontcg.io/pgo/79_hires.png" },
 ];
+
+const DISPLAY_COUNT = 8;
+const ROTATION_MS = 60 * 60 * 1000; // 60 minutes
+
+function getRotationIndex() {
+  return Math.floor(Date.now() / ROTATION_MS) % Math.ceil(ALL_CARDS.length / DISPLAY_COUNT);
+}
+
+function getVisibleCards(rotationIdx: number) {
+  const start = (rotationIdx * DISPLAY_COUNT) % ALL_CARDS.length;
+  const cards = [];
+  for (let i = 0; i < DISPLAY_COUNT; i++) {
+    cards.push(ALL_CARDS[(start + i) % ALL_CARDS.length]);
+  }
+  return cards;
+}
 
 const QuickValueCalculator = () => {
   const navigate = useNavigate();
