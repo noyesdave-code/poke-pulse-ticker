@@ -425,31 +425,16 @@ const PokeRaceSection = () => {
         />
       </div>
 
-      {/* Prizes — compact */}
-      <div className="flex items-center justify-center gap-3 text-center py-1 border-t border-border/30">
-        <div className="flex items-center gap-1">
-          <Medal className="w-3 h-3 text-primary" />
-          <span className="text-[8px] text-muted-foreground">1st: 7d Pro</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <Star className="w-3 h-3 text-amber-400" />
-          <span className="text-[8px] text-muted-foreground">Top 3: Badge</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <Crown className="w-3 h-3 text-purple-400" />
-          <span className="text-[8px] text-muted-foreground">Daily: 14d Pro</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <Flame className="w-3 h-3 text-destructive" />
-          <span className="text-[8px] text-muted-foreground">Monthly: 1mo Pro</span>
-        </div>
+      {/* Prizes — single compact line */}
+      <div className="flex items-center justify-center gap-4 py-1.5 border-t border-border/30 text-[8px] text-muted-foreground">
+        <span className="flex items-center gap-0.5"><Medal className="w-2.5 h-2.5 text-primary" /> 1st: 7d Pro</span>
+        <span className="flex items-center gap-0.5"><Star className="w-2.5 h-2.5 text-amber-400" /> Top 3: Badge</span>
+        <span className="flex items-center gap-0.5"><Crown className="w-2.5 h-2.5 text-purple-400" /> Daily: 14d Pro</span>
       </div>
 
-      {/* Legal */}
-      <p className="text-[8px] text-muted-foreground/60 text-center leading-relaxed">
-        Poké Race™ is a simulated entertainment experience. No real money is wagered on outcomes. Virtual coins have no cash value.
-        Prizes are digital platform perks. © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.
-        Protected under U.S. intellectual property law.
+      <p className="text-[7px] text-muted-foreground/50 text-center leading-relaxed">
+        Poké Race™ — simulated entertainment. No real money wagered. Virtual coins have no cash value.
+        © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.
       </p>
     </section>
   );
