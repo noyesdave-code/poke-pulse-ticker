@@ -336,7 +336,7 @@ const PokeRaceSection = () => {
   const isBetting = cycle.phase === "betting";
 
   return (
-    <section className="space-y-4">
+    <section className="space-y-3">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
