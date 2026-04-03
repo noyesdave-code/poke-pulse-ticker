@@ -40,11 +40,25 @@ function getVisibleCards(rotationIdx: number) {
 
 const QuickValueCalculator = () => {
   const navigate = useNavigate();
+  const [rotationIdx, setRotationIdx] = useState(getRotationIndex);
   const [selected, setSelected] = useState<Set<number>>(new Set());
 
+  const visibleCards = useMemo(() => getVisibleCards(rotationIdx), [rotationIdx]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newIdx = getRotationIndex();
+      if (newIdx !== rotationIdx) {
+        setRotationIdx(newIdx);
+        setSelected(new Set());
+      }
+    }, 60_000);
+    return () => clearInterval(interval);
+  }, [rotationIdx]);
+
   const totalValue = useMemo(
-    () => Array.from(selected).reduce((sum, idx) => sum + POPULAR_CARDS[idx].price, 0),
-    [selected]
+    () => Array.from(selected).reduce((sum, idx) => sum + visibleCards[idx].price, 0),
+    [selected, visibleCards]
   );
 
   const toggle = (idx: number) => {
