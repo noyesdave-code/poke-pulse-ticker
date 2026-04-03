@@ -180,6 +180,8 @@ const Index = () => {
           cardCount={displayCards.length}
         />
 
+        {/* POKÉ RACE — Live alternating 2-min card racing game */}
+        <PokeRaceSection />
 
         {/* 3. Market Index Cards — show the money right away */}
         {isLoading ? (
