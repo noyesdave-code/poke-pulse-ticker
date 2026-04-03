@@ -319,6 +319,7 @@ const PokeRaceSection = () => {
 
   const currentRace = cycle.activeTrack === "price" ? priceRace : inventoryRace;
   const isRacing = cycle.phase === "racing";
+  const isFrozen = cycle.phase === "freeze";
   const isBetting = cycle.phase === "betting";
 
   return (
