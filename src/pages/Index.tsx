@@ -86,6 +86,15 @@ const Index = () => {
   const { toast } = useToast();
   const { checkSubscription } = useAuth();
 
+  // Refresh key increments every 60 minutes to force chart data regeneration
+  const [chartRefreshKey, setChartRefreshKey] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setChartRefreshKey(k => k + 1);
+    }, 60 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const checkout = searchParams.get("checkout");
     if (checkout === "success") {
