@@ -122,7 +122,7 @@ const Privacy = () => (
           For privacy-related inquiries, data access requests, or to exercise your rights, contact us at <a href="mailto:contact@poke-pulse-ticker.com" className="text-primary hover:underline">contact@poke-pulse-ticker.com</a>.
         </p>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          PGVA Ventures, LLC · Owned by the Noyes Family Trust · Managed by David Noyes
+          PGVA Ventures, LLC · Delaware LLC · Managed by David Noyes
         </p>
       </section>
       <FinancialDisclaimer compact />

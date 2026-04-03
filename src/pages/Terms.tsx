@@ -175,7 +175,7 @@ const Terms = () => (
           For questions about these Terms, contact us at <a href="mailto:contact@poke-pulse-ticker.com" className="text-primary hover:underline">contact@poke-pulse-ticker.com</a>.
         </p>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          PGVA Ventures, LLC · A Noyes Family Trust Entity · Managed by David Noyes, Trustee · Delaware LLC · Patent Pending
+          PGVA Ventures, LLC · Managed by David Noyes · Delaware LLC · Patent Pending
         </p>
       </section>
       <FinancialDisclaimer compact />
