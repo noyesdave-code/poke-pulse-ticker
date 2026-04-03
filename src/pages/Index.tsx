@@ -160,10 +160,7 @@ const Index = () => {
 
         <LaunchCountdown />
 
-        <div className="grid grid-cols-2 gap-2">
-          <TournamentFomoBanner />
-          <HighStakesArenaBanner />
-        </div>
+        <PromoStack />
 
         <SocialProofBar
           totalMarketValue={totalMarketValue}
