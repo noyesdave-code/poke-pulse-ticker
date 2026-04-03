@@ -164,9 +164,18 @@ const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
               {/* Compact info */}
               <div className="flex flex-col min-w-0">
                 <span className="text-[8px] font-bold text-foreground truncate max-w-[60px] leading-tight">{racer.name}</span>
-                <span className={`text-[8px] font-mono font-bold leading-tight ${racer.changePct >= 0 ? "text-primary" : "text-destructive"}`}>
-                  {racer.changePct >= 0 ? "+" : ""}{racer.changePct.toFixed(1)}%
-                </span>
+                {race.status === "finished" ? (
+                  <>
+                    <span className="text-[8px] font-mono font-bold text-foreground leading-tight">
+                      ${racer.currentValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </span>
+                    <span className={`text-[7px] font-mono font-bold leading-tight ${racer.changePct >= 0 ? "text-primary" : "text-destructive"}`}>
+                      {racer.changePct >= 0 ? "+" : ""}{racer.changePct.toFixed(1)}%
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-[7px] font-mono text-muted-foreground leading-tight">racing…</span>
+                )}
               </div>
 
               {isWinner && <Crown className="w-3 h-3 text-primary animate-pulse flex-shrink-0" />}
