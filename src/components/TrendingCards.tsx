@@ -85,6 +85,7 @@ const TrendingCards = ({ cards, isLoading }: TrendingCardsProps) => {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     loading="lazy"
                     style={{ imageRendering: 'auto', filter: 'contrast(1.05) saturate(1.08)' }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; (e.target as HTMLImageElement).style.objectFit = 'contain'; (e.target as HTMLImageElement).style.padding = '1rem'; }}
                   />
                 </div>
               ) : (

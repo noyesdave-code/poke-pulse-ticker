@@ -203,14 +203,13 @@ function PortfolioContent({
                 className="flex items-center gap-3 px-4 py-3 hover:bg-muted/50 transition-colors"
               >
                 {/* Image */}
-                {card.card_image && (
-                  <img
-                    src={card.card_image}
-                    alt={card.card_name}
-                    className="w-10 h-14 rounded object-cover cursor-pointer"
-                    onClick={() => navigate(`/card/${card.card_api_id}`)}
-                  />
-                )}
+                <img
+                  src={card.card_image || "/icon-192.png"}
+                  alt={card.card_name}
+                  className="w-10 h-14 rounded object-cover cursor-pointer"
+                  onClick={() => navigate(`/card/${card.card_api_id}`)}
+                  onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; }}
+                />
 
                 {/* Info */}
                 <div className="flex-1 min-w-0">
