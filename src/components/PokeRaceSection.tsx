@@ -40,18 +40,21 @@ const PhaseBanner = ({ cycle, phaseTimeRemaining }: {
   phaseTimeRemaining: number;
 }) => {
   const isRacing = cycle.phase === "racing";
+  const isFrozen = cycle.phase === "freeze";
   const trackLabel = cycle.activeTrack === "price" ? "PRICE" : "INVENTORY";
   const nextTrack = cycle.activeTrack === "price" ? "INVENTORY" : "PRICE";
 
   return (
     <div className={`rounded-lg border p-2 sm:p-3 flex items-center justify-between gap-3 ${
-      isRacing
-        ? "border-primary/50 bg-primary/5"
+      isRacing ? "border-primary/50 bg-primary/5"
+        : isFrozen ? "border-emerald-500/50 bg-emerald-500/5"
         : "border-amber-500/50 bg-amber-500/5"
     }`}>
       <div className="flex items-center gap-2">
         {isRacing ? (
           <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+        ) : isFrozen ? (
+          <Trophy className="w-4 h-4 text-emerald-400" />
         ) : (
           <Clock className="w-4 h-4 text-amber-400" />
         )}
@@ -59,18 +62,22 @@ const PhaseBanner = ({ cycle, phaseTimeRemaining }: {
           <p className="text-xs font-bold text-foreground">
             {isRacing
               ? `🏁 ${trackLabel} RACE — LIVE`
+              : isFrozen
+              ? `🏆 ${trackLabel} RACE — RESULTS`
               : `⏳ BETTING OPEN — ${nextTrack} RACE NEXT`}
           </p>
           <p className="text-[9px] text-muted-foreground">
             {isRacing
               ? "Cards racing for position • Watch & cheer!"
+              : isFrozen
+              ? "Race complete! Review the final standings."
               : "Place your bets before the next race starts!"}
           </p>
         </div>
       </div>
       <CountdownTimer
         ms={phaseTimeRemaining}
-        label={isRacing ? "Race ends" : "Race starts"}
+        label={isRacing ? "Race ends" : isFrozen ? "Results" : "Race starts"}
         variant={isRacing ? "accent" : "warning"}
       />
     </div>
