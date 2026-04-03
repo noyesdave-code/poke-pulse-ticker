@@ -289,6 +289,22 @@ const IndexDayChart = ({ title, indexValue, indexChange, variant, refreshKey = 0
               strokeDasharray="4 4"
               strokeWidth={1}
             />
+            {nowLabel && (
+              <ReferenceLine
+                x={nowLabel}
+                stroke="hsl(45, 100%, 55%)"
+                strokeWidth={1.5}
+                strokeDasharray="3 2"
+                label={{
+                  value: "NOW",
+                  position: "top",
+                  fill: "hsl(45, 100%, 55%)",
+                  fontSize: 8,
+                  fontFamily: "JetBrains Mono",
+                  fontWeight: 700,
+                }}
+              />
+            )}
             <Area
               type="monotone"
               dataKey="value"
