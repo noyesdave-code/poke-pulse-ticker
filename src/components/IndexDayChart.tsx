@@ -123,7 +123,7 @@ const RANGE_LABELS: Record<TimeRange, string> = {
   "1M": "1-Month • NYSE Trading Days",
 };
 
-const IndexDayChart = ({ title, indexValue, indexChange, variant }: IndexDayChartProps) => {
+const IndexDayChart = ({ title, indexValue, indexChange, variant, refreshKey = 0 }: IndexDayChartProps) => {
   const [range, setRange] = useState<TimeRange>("1D");
   const config = VARIANT_CONFIG[variant];
   const isUp = indexChange >= 0;
@@ -132,7 +132,7 @@ const IndexDayChart = ({ title, indexValue, indexChange, variant }: IndexDayChar
     if (range === "1D") return generateIntradayData(indexValue, indexChange);
     const days = range === "5D" ? 5 : 30;
     return generateMultiDayData(indexValue, indexChange, days);
-  }, [indexValue, indexChange, range]);
+  }, [indexValue, indexChange, range, refreshKey]);
 
   const minVal = Math.min(...data.map(d => d.value));
   const maxVal = Math.max(...data.map(d => d.value));

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo, useState } from "react";
 
 import { rawCards, gradedCards, sealedProducts, getIndexValue, getIndexChange } from "@/data/marketData";
 import { useLiveCards } from "@/hooks/usePokemonTcg";
