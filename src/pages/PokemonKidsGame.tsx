@@ -657,7 +657,7 @@ const PokemonKidsGame = () => {
         {/* Hero */}
         <div className="text-center space-y-3">
           <h1 className="text-3xl md:text-4xl font-black text-foreground">
-            🎮 PokéKids <span className="text-primary">Adventure</span>
+            🎮 Poké Adventure <span className="text-primary">Land</span>
           </h1>
           <p className="text-sm text-muted-foreground max-w-xl mx-auto">
             Choose your Poké, collect cards, battle trainers & real players, earn achievements!

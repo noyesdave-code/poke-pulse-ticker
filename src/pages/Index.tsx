@@ -164,9 +164,7 @@ const Index = () => {
         {/* Launch Countdown — urgency drives first purchase */}
         <LaunchCountdown />
 
-        {/* Day 1 Campaign Banners — maximum visibility */}
-        <CampaignProBanner />
-        <DoublePokeCoinBanner />
+        {/* Day 1 Campaign Banners — streamlined */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <TournamentFomoBanner />
           <HighStakesArenaBanner />

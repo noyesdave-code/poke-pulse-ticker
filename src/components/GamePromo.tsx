@@ -1,18 +1,27 @@
 import { Link } from "react-router-dom";
 import { Gamepad2, Swords, Trophy, Star, Coins } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import pokeAdventureLogo from "@/assets/poke-adventure-land-logo.png";
+
+const ARTWORK_IDS = [25, 6, 9, 150];
+const ARTWORK_BASE = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork";
 
 const GamePromo = () => (
   <section className="terminal-card p-4 sm:p-6 md:p-8 border-t-2 border-t-primary bg-gradient-to-br from-primary/5 to-transparent overflow-hidden">
+    {/* Branded logo */}
+    <div className="flex justify-center mb-3">
+      <img src={pokeAdventureLogo} alt="Poké Adventure Land" className="w-20 h-20 sm:w-24 sm:h-24 object-contain" />
+    </div>
     {/* Poké artwork banner */}
     <div className="flex justify-center gap-3 sm:gap-4 mb-4 -mt-1">
-      {[25, 6, 9, 150].map(id => (
+      {ARTWORK_IDS.map(id => (
         <div key={id} className="relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex-shrink-0">
           <img
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
+            src={`${ARTWORK_BASE}/${id}.png`}
             alt={`Poké #${id}`}
             className="w-full h-full object-contain drop-shadow-[0_4px_12px_hsl(var(--primary)/0.3)]"
-            loading="lazy"
+            loading="eager"
+            crossOrigin="anonymous"
           />
         </div>
       ))}
@@ -22,7 +31,7 @@ const GamePromo = () => (
       <div className="flex items-center justify-center sm:justify-start gap-2">
         <Gamepad2 className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
         <span className="font-mono text-[10px] tracking-widest text-primary uppercase font-bold">
-          NEW — PokéKids Adventure
+          NEW — Poké Adventure Land
         </span>
       </div>
       <h3 className="text-xl sm:text-2xl font-black text-foreground leading-tight">
@@ -36,7 +45,7 @@ const GamePromo = () => (
       </p>
       <div className="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-3 text-[10px] sm:text-[11px] text-muted-foreground">
         <span className="flex items-center gap-1"><Swords className="w-3 h-3 text-primary" /> Battle System</span>
-        <span className="flex items-center gap-1"><Trophy className="w-3 h-3 text-secondary" /> 26 Poké to collect</span>
+        <span className="flex items-center gap-1"><Trophy className="w-3 h-3 text-secondary" /> 98 Poké to collect</span>
         <span className="flex items-center gap-1"><Star className="w-3 h-3 text-secondary" /> Knowledge Trivia</span>
         <span className="flex items-center gap-1"><Coins className="w-3 h-3 text-secondary" /> Card Wagers</span>
       </div>
