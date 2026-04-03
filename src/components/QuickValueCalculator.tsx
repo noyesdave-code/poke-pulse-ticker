@@ -1,6 +1,6 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Calculator, DollarSign, TrendingUp, ArrowRight, Sparkles, Loader2 } from "lucide-react";
+import { Calculator, DollarSign, TrendingUp, ArrowRight, Sparkles, Loader2, Shuffle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLiveCards } from "@/hooks/usePokemonTcg";
 
@@ -44,6 +44,14 @@ const QuickValueCalculator = () => {
 
   const visibleCards = useMemo(() => getVisibleCards(pool, rotationIdx), [pool, rotationIdx]);
 
+  const handleShuffle = useCallback(() => {
+    if (pool.length <= DISPLAY_COUNT) return;
+    const maxIdx = Math.ceil(pool.length / DISPLAY_COUNT);
+    let next = (rotationIdx + 1) % maxIdx;
+    setRotationIdx(next);
+    setSelected(new Set());
+  }, [rotationIdx, pool.length]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       const newIdx = getRotationIndex(pool.length);
@@ -82,9 +90,21 @@ const QuickValueCalculator = () => {
           <Calculator className="w-3.5 h-3.5 text-primary" />
           Quick Collection Value Check
         </h3>
-        <span className="font-mono text-[9px] text-muted-foreground tracking-wider">
-          {pool.length > 0 ? `${pool.length} CARDS · TAP TO SELECT` : "TAP TO SELECT"}
-        </span>
+        <div className="flex items-center gap-2">
+          {pool.length > DISPLAY_COUNT && (
+            <button
+              onClick={handleShuffle}
+              className="inline-flex items-center gap-1 px-2 py-1 rounded border border-border hover:border-primary/50 hover:bg-primary/10 transition-all font-mono text-[9px] text-muted-foreground hover:text-primary"
+              title="Shuffle cards"
+            >
+              <Shuffle className="w-3 h-3" />
+              Shuffle
+            </button>
+          )}
+          <span className="font-mono text-[9px] text-muted-foreground tracking-wider">
+            {pool.length > 0 ? `${pool.length} CARDS` : "TAP TO SELECT"}
+          </span>
+        </div>
       </div>
 
       <div className="p-4 space-y-3">

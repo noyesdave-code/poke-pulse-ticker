@@ -11,11 +11,12 @@ interface LazySectionProps {
 
 /**
  * Renders children only when the section scrolls near the viewport.
- * Uses IntersectionObserver for zero-cost idle sections.
+ * Uses IntersectionObserver with a generous margin plus a fallback
+ * timer so fast-scrolling never leaves sections permanently empty.
  */
 const LazySection = ({
   children,
-  rootMargin = "400px",
+  rootMargin = "800px",
   minHeight = "100px",
   className,
 }: LazySectionProps) => {
@@ -37,7 +38,18 @@ const LazySection = ({
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+
+    // Fallback: if the section is scrolled past (fast scroll / jump)
+    // and never intersects, force-render after 3 seconds.
+    const fallback = setTimeout(() => {
+      setVisible(true);
+      observer.disconnect();
+    }, 3000);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(fallback);
+    };
   }, [rootMargin]);
 
   return (
