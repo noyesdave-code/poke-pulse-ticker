@@ -435,9 +435,6 @@ const Index = () => {
         </footer>
       </main>
       <InstallPrompt />
-      <FomoPopup />
-      <ExitIntentPopup />
-      <SimTraderPromo />
       <OnboardingWalkthrough />
     </div>
   );
