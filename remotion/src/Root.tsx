@@ -7,6 +7,10 @@ import { SocialHighlight } from "./SocialHighlight";
 import { PlatformHighlight } from "./PlatformHighlight";
 import { GameHighlight } from "./GameHighlight";
 import { FranchisePitch } from "./FranchisePitch";
+import { Tier1Promo } from "./Tier1Promo";
+import { Tier2Promo } from "./Tier2Promo";
+import { Tier3Promo } from "./Tier3Promo";
+import { CombinedDemo } from "./CombinedDemo";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -135,6 +139,38 @@ export const RemotionRoot: React.FC = () => (
       id="franchise-pitch"
       component={FranchisePitch}
       durationInFrames={810}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="tier1-promo"
+      component={Tier1Promo}
+      durationInFrames={900}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="tier2-promo"
+      component={Tier2Promo}
+      durationInFrames={900}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="tier3-promo"
+      component={Tier3Promo}
+      durationInFrames={900}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="combined-demo"
+      component={CombinedDemo}
+      durationInFrames={3400}
       fps={30}
       width={1920}
       height={1080}
