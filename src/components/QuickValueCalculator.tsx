@@ -62,7 +62,6 @@ const QuickValueCalculator = () => {
     }, 60_000);
     return () => clearInterval(interval);
   }, [rotationIdx, pool.length]);
-  }, [rotationIdx, pool.length]);
 
   const totalValue = useMemo(
     () => Array.from(selected).reduce((sum, idx) => sum + (visibleCards[idx]?.price ?? 0), 0),
