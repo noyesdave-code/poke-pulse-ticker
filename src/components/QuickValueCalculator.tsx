@@ -1,63 +1,62 @@
 import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Calculator, DollarSign, TrendingUp, ArrowRight, Sparkles } from "lucide-react";
+import { Calculator, DollarSign, TrendingUp, ArrowRight, Sparkles, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-const ALL_CARDS = [
-  { name: "Charizard ex (OBF)", price: 42.50, image: "https://images.pokemontcg.io/sv3/223_hires.png" },
-  { name: "Pikachu VMAX (VV)", price: 28.75, image: "https://images.pokemontcg.io/swsh4/188_hires.png" },
-  { name: "Mew ex (151)", price: 19.80, image: "https://images.pokemontcg.io/sv3pt5/151_hires.png" },
-  { name: "Umbreon VMAX Alt (ES)", price: 185.00, image: "https://images.pokemontcg.io/swsh7/215_hires.png" },
-  { name: "Lugia V Alt (SIT)", price: 78.50, image: "https://images.pokemontcg.io/swsh12pt5/186_hires.png" },
-  { name: "Giratina V Alt (LOR)", price: 62.30, image: "https://images.pokemontcg.io/swsh11/186_hires.png" },
-  { name: "Moonbreon (EVS)", price: 220.00, image: "https://images.pokemontcg.io/swsh7/214_hires.png" },
-  { name: "Charizard UPC (promo)", price: 95.00, image: "https://images.pokemontcg.io/swsh12pt5gg/GG70_hires.png" },
-  { name: "Rayquaza VMAX Alt (ES)", price: 155.00, image: "https://images.pokemontcg.io/swsh7/218_hires.png" },
-  { name: "Gengar VMAX Alt (FST)", price: 72.00, image: "https://images.pokemontcg.io/swsh8/271_hires.png" },
-  { name: "Espeon VMAX Alt (FST)", price: 48.00, image: "https://images.pokemontcg.io/swsh8/270_hires.png" },
-  { name: "Blaziken VMAX Alt (CRS)", price: 38.50, image: "https://images.pokemontcg.io/swsh10/200_hires.png" },
-  { name: "Sylveon VMAX Alt (ES)", price: 58.00, image: "https://images.pokemontcg.io/swsh7/212_hires.png" },
-  { name: "Dragonite V Alt (EVO)", price: 42.00, image: "https://images.pokemontcg.io/swsh7/203_hires.png" },
-  { name: "Arceus V Alt (BST)", price: 34.00, image: "https://images.pokemontcg.io/swsh9/166_hires.png" },
-  { name: "Mewtwo VSTAR (Pokemon GO)", price: 25.50, image: "https://images.pokemontcg.io/pgo/79_hires.png" },
-];
+import { useLiveCards } from "@/hooks/usePokemonTcg";
 
 const DISPLAY_COUNT = 8;
-const ROTATION_MS = 60 * 60 * 1000; // 60 minutes
+const ROTATION_MS = 60 * 60 * 1000;
 
-function getRotationIndex() {
-  return Math.floor(Date.now() / ROTATION_MS) % Math.ceil(ALL_CARDS.length / DISPLAY_COUNT);
+function getRotationIndex(poolSize: number) {
+  if (poolSize <= DISPLAY_COUNT) return 0;
+  return Math.floor(Date.now() / ROTATION_MS) % Math.ceil(poolSize / DISPLAY_COUNT);
 }
 
-function getVisibleCards(rotationIdx: number) {
-  const start = (rotationIdx * DISPLAY_COUNT) % ALL_CARDS.length;
-  const cards = [];
-  for (let i = 0; i < DISPLAY_COUNT; i++) {
-    cards.push(ALL_CARDS[(start + i) % ALL_CARDS.length]);
+function getVisibleCards<T>(cards: T[], rotationIdx: number): T[] {
+  if (cards.length === 0) return [];
+  const start = (rotationIdx * DISPLAY_COUNT) % cards.length;
+  const result: T[] = [];
+  for (let i = 0; i < Math.min(DISPLAY_COUNT, cards.length); i++) {
+    result.push(cards[(start + i) % cards.length]);
   }
-  return cards;
+  return result;
 }
 
 const QuickValueCalculator = () => {
   const navigate = useNavigate();
-  const [rotationIdx, setRotationIdx] = useState(getRotationIndex);
+  const { data: liveCards, isLoading } = useLiveCards();
+
+  const pool = useMemo(() => {
+    if (!liveCards || liveCards.length === 0) return [];
+    return liveCards.slice(0, 500).map((c) => ({
+      name: `${c.name} (${c.set})`,
+      price: c.market,
+      image: c._image || "",
+    }));
+  }, [liveCards]);
+
+  const [rotationIdx, setRotationIdx] = useState(() => getRotationIndex(pool.length));
   const [selected, setSelected] = useState<Set<number>>(new Set());
 
-  const visibleCards = useMemo(() => getVisibleCards(rotationIdx), [rotationIdx]);
+  useEffect(() => {
+    setRotationIdx(getRotationIndex(pool.length));
+  }, [pool.length]);
+
+  const visibleCards = useMemo(() => getVisibleCards(pool, rotationIdx), [pool, rotationIdx]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const newIdx = getRotationIndex();
+      const newIdx = getRotationIndex(pool.length);
       if (newIdx !== rotationIdx) {
         setRotationIdx(newIdx);
         setSelected(new Set());
       }
     }, 60_000);
     return () => clearInterval(interval);
-  }, [rotationIdx]);
+  }, [rotationIdx, pool.length]);
 
   const totalValue = useMemo(
-    () => Array.from(selected).reduce((sum, idx) => sum + visibleCards[idx].price, 0),
+    () => Array.from(selected).reduce((sum, idx) => sum + (visibleCards[idx]?.price ?? 0), 0),
     [selected, visibleCards]
   );
 
@@ -83,7 +82,9 @@ const QuickValueCalculator = () => {
           <Calculator className="w-3.5 h-3.5 text-primary" />
           Quick Collection Value Check
         </h3>
-        <span className="font-mono text-[9px] text-muted-foreground tracking-wider">TAP TO SELECT</span>
+        <span className="font-mono text-[9px] text-muted-foreground tracking-wider">
+          {pool.length > 0 ? `${pool.length} CARDS · TAP TO SELECT` : "TAP TO SELECT"}
+        </span>
       </div>
 
       <div className="p-4 space-y-3">
@@ -91,34 +92,42 @@ const QuickValueCalculator = () => {
           Own any of these? Tap to see what they're worth right now:
         </p>
 
-        <div className="grid grid-cols-2 gap-2">
-          {visibleCards.map((card, idx) => (
-            <button
-              key={card.name}
-              onClick={() => toggle(idx)}
-              className={`flex items-center gap-2.5 text-left px-2.5 py-2 rounded-lg border font-mono text-xs transition-all min-h-[56px] ${
-                selected.has(idx)
-                  ? "border-primary/50 bg-primary/10 text-foreground"
-                  : "border-border bg-muted/20 text-muted-foreground hover:border-muted-foreground/30"
-              }`}
-            >
-              <img
-                src={card.image}
-                alt={card.name}
-                loading="lazy"
-                className="w-9 h-12 object-contain rounded flex-shrink-0"
-              />
-              <div className="min-w-0">
-                <span className="block font-medium truncate text-[11px]">{card.name}</span>
-                <span className={`block text-[10px] mt-0.5 ${selected.has(idx) ? "text-primary" : ""}`}>
-                  ${card.price.toFixed(2)}
-                </span>
-              </div>
-            </button>
-          ))}
-        </div>
+        {isLoading && pool.length === 0 ? (
+          <div className="flex items-center justify-center py-8 gap-2 text-muted-foreground">
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span className="font-mono text-xs">Loading live prices…</span>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-2">
+            {visibleCards.map((card, idx) => (
+              <button
+                key={`${card.name}-${idx}`}
+                onClick={() => toggle(idx)}
+                className={`flex items-center gap-2.5 text-left px-2.5 py-2 rounded-lg border font-mono text-xs transition-all min-h-[56px] ${
+                  selected.has(idx)
+                    ? "border-primary/50 bg-primary/10 text-foreground"
+                    : "border-border bg-muted/20 text-muted-foreground hover:border-muted-foreground/30"
+                }`}
+              >
+                {card.image && (
+                  <img
+                    src={card.image}
+                    alt={card.name}
+                    loading="lazy"
+                    className="w-9 h-12 object-contain rounded flex-shrink-0"
+                  />
+                )}
+                <div className="min-w-0">
+                  <span className="block font-medium truncate text-[11px]">{card.name}</span>
+                  <span className={`block text-[10px] mt-0.5 ${selected.has(idx) ? "text-primary" : ""}`}>
+                    ${card.price.toFixed(2)}
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
 
-        {/* Value display */}
         <motion.div
           initial={false}
           animate={{ height: totalValue > 0 ? "auto" : 0, opacity: totalValue > 0 ? 1 : 0 }}
@@ -147,7 +156,7 @@ const QuickValueCalculator = () => {
           </div>
         </motion.div>
 
-        {totalValue === 0 && (
+        {totalValue === 0 && !isLoading && (
           <p className="font-mono text-[10px] text-center text-muted-foreground/60 mt-1">
             Select cards you own to see their combined value
           </p>
