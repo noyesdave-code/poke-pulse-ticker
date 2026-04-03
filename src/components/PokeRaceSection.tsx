@@ -336,29 +336,29 @@ const PokeRaceSection = () => {
   const isBetting = cycle.phase === "betting";
 
   return (
-    <section className="space-y-3">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <img src={pokeRaceLogo} alt="Poké Race" className="w-10 h-10" loading="lazy" width={40} height={40} />
+    <section className="space-y-2.5 rounded-xl border border-border/50 bg-card/40 backdrop-blur-sm p-3 sm:p-4">
+      {/* Header — branded & compact */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2.5">
+          <img src={pokeRaceLogo} alt="Poké Race" className="h-8 sm:h-10 w-auto" loading="lazy" />
           <div>
-            <h2 className="text-lg sm:text-xl font-display font-black text-foreground tracking-tight flex items-center gap-2">
-              POKÉ RACE™
-              <Badge variant="default" className={`text-[9px] px-1.5 ${isRacing ? "animate-pulse bg-primary/90" : isFrozen ? "bg-amber-500/90 animate-pulse" : "bg-amber-500/90"}`}>
+            <div className="flex items-center gap-1.5">
+              <h2 className="text-sm sm:text-base font-display font-black text-foreground tracking-tight">POKÉ RACE™</h2>
+              <Badge variant="default" className={`text-[8px] px-1.5 h-4 ${isRacing ? "animate-pulse bg-primary/90" : isFrozen ? "bg-amber-500/90 animate-pulse" : "bg-amber-500/90"}`}>
                 {isRacing ? "LIVE" : isFrozen ? "RESULTS" : "BETS OPEN"}
               </Badge>
-            </h2>
-            <p className="text-[10px] text-muted-foreground">
-              2-min races • 1-min betting breaks • Inventory ↔ Price
+            </div>
+            <p className="text-[9px] text-muted-foreground leading-tight">
+              2-min races • 1-min betting • Inventory ↔ Price
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           <CountdownTimer ms={phaseMs} label={isRacing ? "Race ends" : isFrozen ? "Results" : "Next race"} variant={isRacing ? "accent" : "warning"} />
-          <div className="text-right">
-            <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Coins</p>
-            <p className="text-lg font-mono font-bold text-amber-400 flex items-center gap-1">
-              <Coins className="w-3.5 h-3.5" /> {wallet.balance.toLocaleString()}
+          <div className="text-right hidden sm:block">
+            <p className="text-[8px] text-muted-foreground uppercase tracking-wider">Coins</p>
+            <p className="text-sm font-mono font-bold text-amber-400 flex items-center gap-1">
+              <Coins className="w-3 h-3" /> {wallet.balance.toLocaleString()}
             </p>
           </div>
         </div>
