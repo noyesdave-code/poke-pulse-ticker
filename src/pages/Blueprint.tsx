@@ -559,7 +559,7 @@ const Blueprint = () => {
           <div className="text-center space-y-1">
             <p className="font-mono text-[10px] text-primary font-bold tracking-widest">PGVA VENTURES, LLC</p>
             <p className="font-mono text-[7px] text-muted-foreground/60 max-w-2xl mx-auto">
-              © {new Date().getFullYear()} PGVA Ventures, LLC & Noyes Family Trust. All rights reserved. Patent pending.
+              © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved. Patent pending.
               Protected under U.S. copyright, trademark, trade secret, and patent laws (DMCA, CFAA, DTSA).
               Pulse Market Terminal Ticker™, SimTrader World™, PokéArena™, and Alpha Signals™ are trademarks of PGVA Ventures, LLC.
               This document is confidential and intended solely for the named recipient. Unauthorized distribution is strictly prohibited.

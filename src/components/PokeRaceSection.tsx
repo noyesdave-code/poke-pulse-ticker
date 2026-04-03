@@ -355,7 +355,7 @@ const PokeRaceSection = () => {
       <p className="text-[8px] text-muted-foreground/60 text-center leading-relaxed">
         Poké Race™ is a simulated entertainment experience. No real money is wagered on outcomes. Virtual coins have no cash value.
         Prizes are digital platform perks. © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.
-        Protected under the Noyes Family Trust IP framework.
+        Protected under U.S. intellectual property law.
       </p>
     </section>
   );

@@ -796,7 +796,7 @@ export const FeatureShowcase: React.FC = () => {
         position: "absolute", bottom: 20, left: 0, right: 0, textAlign: "center",
         fontFamily: "monospace", fontSize: 10, color: "rgba(255,255,255,0.08)", letterSpacing: 3,
       }}>
-        PGVA, LLC. &amp; NOYES FAMILY TRUST
+        PGVA VENTURES, LLC
       </div>
     </AbsoluteFill>
   );
