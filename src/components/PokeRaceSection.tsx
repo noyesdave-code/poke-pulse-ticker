@@ -367,25 +367,25 @@ const PokeRaceSection = () => {
       {/* Phase Banner */}
       <PhaseBanner cycle={cycle} phaseTimeRemaining={phaseMs} />
 
-      {/* Wager selector — highlighted during betting phase */}
-      <div className={`flex items-center gap-2 flex-wrap rounded-lg p-2 transition-all ${
-        isBetting ? "bg-amber-500/10 border border-amber-500/30" : ""
+      {/* Wager selector — compact row */}
+      <div className={`flex items-center gap-1.5 flex-wrap rounded-lg px-2 py-1.5 transition-all ${
+        isBetting ? "bg-amber-500/10 border border-amber-500/30" : "border border-transparent"
       }`}>
-        <span className="text-[10px] text-muted-foreground font-semibold">WAGER:</span>
+        <span className="text-[9px] text-muted-foreground font-semibold">WAGER:</span>
         {[50, 100, 250, 500].map(amount => (
           <Button
             key={amount}
             size="sm"
             variant={betWager === amount ? "default" : "outline"}
-            className="h-6 text-[10px] px-2"
+            className="h-5 text-[9px] px-1.5"
             onClick={() => setBetWager(amount)}
           >
-            {amount} <Coins className="w-2.5 h-2.5 ml-0.5" />
+            {amount} <Coins className="w-2 h-2 ml-0.5" />
           </Button>
         ))}
-        <Button size="sm" variant="outline" className="h-6 text-[10px] px-2 ml-auto border-amber-500/50 text-amber-400 hover:bg-amber-500/10">
-          <Coins className="w-2.5 h-2.5 mr-1" /> Buy Coins — $0.99
-        </Button>
+        <span className="sm:hidden text-[9px] font-mono text-amber-400 ml-auto flex items-center gap-0.5">
+          <Coins className="w-2.5 h-2.5" /> {wallet.balance.toLocaleString()}
+        </span>
       </div>
 
       {/* Active Race Track */}
