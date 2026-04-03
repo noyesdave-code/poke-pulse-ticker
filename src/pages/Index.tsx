@@ -27,8 +27,7 @@ import { useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 // Campaign banners
-import TournamentFomoBanner from "@/components/campaign/TournamentFomoBanner";
-import HighStakesArenaBanner from "@/components/campaign/HighStakesArenaBanner";
+import PromoStack from "@/components/PromoStack";
 import ShareButton from "@/components/ShareButton";
 
 // Lazy-loaded below-the-fold components
