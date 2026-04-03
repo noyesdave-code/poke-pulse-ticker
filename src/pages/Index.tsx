@@ -27,8 +27,7 @@ import { useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 // Campaign banners
-import TournamentFomoBanner from "@/components/campaign/TournamentFomoBanner";
-import HighStakesArenaBanner from "@/components/campaign/HighStakesArenaBanner";
+import PromoStack from "@/components/PromoStack";
 import ShareButton from "@/components/ShareButton";
 
 // Lazy-loaded below-the-fold components
@@ -161,10 +160,7 @@ const Index = () => {
 
         <LaunchCountdown />
 
-        <div className="grid grid-cols-2 gap-2">
-          <TournamentFomoBanner />
-          <HighStakesArenaBanner />
-        </div>
+        <PromoStack />
 
         <SocialProofBar
           totalMarketValue={totalMarketValue}
