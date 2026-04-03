@@ -79,8 +79,9 @@ const pickSealedRacers = (products: SealedProduct[], count: number, seed: number
 };
 
 const RACE_DURATION = 2 * 60 * 1000; // 2 minutes
-const BET_DURATION = 1 * 60 * 1000;  // 1 minute
-const CYCLE_DURATION = RACE_DURATION + BET_DURATION; // 3 minutes per half-cycle
+const FREEZE_DURATION = 10 * 1000;   // 10 seconds freeze after race
+const BET_DURATION = 1 * 60 * 1000;  // 1 minute betting (after freeze)
+const HALF_CYCLE = RACE_DURATION + FREEZE_DURATION + BET_DURATION; // 3m10s per half-cycle
 
 export const usePokeRace = () => {
   const [priceRace, setPriceRace] = useState<RaceState | null>(null);
