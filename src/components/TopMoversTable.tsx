@@ -37,7 +37,7 @@ const MiniSparkline = ({ change }: { change: number }) => {
 };
 
 const TopMoversTable = ({ cards, title, isLoading }: TopMoversTableProps) => {
-  const sorted = [...cards].sort((a, b) => Math.abs(b.change) - Math.abs(a.change)).slice(0, 8);
+  const sorted = [...cards].sort((a, b) => Math.abs(b.change) - Math.abs(a.change)).slice(0, 5);
 
   if (isLoading) {
     return (
