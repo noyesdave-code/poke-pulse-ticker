@@ -179,12 +179,12 @@ const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
 
             {/* Left sidebar: rank badge + odds + bet */}
             <div className="absolute left-0 top-0 bottom-0 flex items-center gap-1 px-1 z-30 bg-gradient-to-r from-card via-card/90 to-transparent w-24">
-              {/* Position badge with lane color */}
-              <span className={`inline-flex items-center justify-center w-5 h-5 rounded-full text-[9px] font-black flex-shrink-0 ring-1 ${
-                rank === 1 ? `${colors.solid} text-background ring-white/30 shadow-md ${colors.glow}` :
-                rank === 2 ? "bg-amber-500/80 text-background ring-amber-300/40" :
-                rank === 3 ? "bg-orange-500/60 text-background ring-orange-300/30" :
-                "bg-muted text-muted-foreground ring-border/30"
+              {/* Position badge — high visibility */}
+              <span className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-black flex-shrink-0 ring-2 ${
+                rank === 1 ? `bg-yellow-400 text-yellow-950 ring-yellow-300 shadow-lg shadow-yellow-400/50` :
+                rank === 2 ? "bg-slate-300 text-slate-900 ring-slate-200 shadow-md shadow-slate-300/40" :
+                rank === 3 ? "bg-amber-600 text-amber-50 ring-amber-500 shadow-md shadow-amber-600/40" :
+                "bg-muted/80 text-muted-foreground ring-border/50"
               }`}>
                 {rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : rank}
               </span>
