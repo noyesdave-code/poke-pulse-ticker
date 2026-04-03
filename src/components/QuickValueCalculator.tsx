@@ -44,6 +44,14 @@ const QuickValueCalculator = () => {
 
   const visibleCards = useMemo(() => getVisibleCards(pool, rotationIdx), [pool, rotationIdx]);
 
+  const handleShuffle = useCallback(() => {
+    if (pool.length <= DISPLAY_COUNT) return;
+    const maxIdx = Math.ceil(pool.length / DISPLAY_COUNT);
+    let next = (rotationIdx + 1) % maxIdx;
+    setRotationIdx(next);
+    setSelected(new Set());
+  }, [rotationIdx, pool.length]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       const newIdx = getRotationIndex(pool.length);
@@ -53,6 +61,7 @@ const QuickValueCalculator = () => {
       }
     }, 60_000);
     return () => clearInterval(interval);
+  }, [rotationIdx, pool.length]);
   }, [rotationIdx, pool.length]);
 
   const totalValue = useMemo(
