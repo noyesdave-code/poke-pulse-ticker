@@ -154,17 +154,12 @@ const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
               style={{ left: `${Math.min(racer.position * 0.85, 82)}%` }}
             >
               {/* Card thumbnail */}
-              {racer.image ? (
-                <img src={racer.image} alt={racer.name}
-                  className={`w-6 h-8 object-cover rounded-sm flex-shrink-0 ring-1 ${
-                    isWinner ? "ring-primary shadow-lg " + colors.glow : "ring-border/50"
-                  }`}
-                  loading="lazy" />
-              ) : (
-                <div className={`w-6 h-8 bg-muted rounded-sm flex-shrink-0 flex items-center justify-center ring-1 ring-border/50`}>
-                  <Package className="w-3 h-3 text-muted-foreground" />
-                </div>
-              )}
+              <img src={racer.image || "/icon-192.png"} alt={racer.name}
+                className={`w-6 h-8 ${racer.image ? "object-cover" : "object-contain p-0.5 bg-muted"} rounded-sm flex-shrink-0 ring-1 ${
+                  isWinner ? "ring-primary shadow-lg " + colors.glow : "ring-border/50"
+                }`}
+                loading="lazy"
+                onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; (e.target as HTMLImageElement).style.objectFit = 'contain'; (e.target as HTMLImageElement).style.padding = '2px'; }} />
 
               {/* Compact info */}
               <div className="flex flex-col min-w-0">
@@ -226,11 +221,7 @@ const MoversBoard = ({ title, icon, items }: {
           <span className={`text-[10px] font-bold w-4 ${i === 0 ? "text-primary" : "text-muted-foreground"}`}>
             {i + 1}
           </span>
-          {item.image ? (
-            <img src={item.image} alt={item.name} className="w-6 h-8 object-cover rounded" loading="lazy" />
-          ) : (
-            <div className="w-6 h-8 bg-muted rounded" />
-          )}
+          <img src={item.image || "/icon-192.png"} alt={item.name} className={`w-6 h-8 ${item.image ? "object-cover" : "object-contain p-0.5 bg-muted"} rounded`} loading="lazy" onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; }} />
           <div className="flex-1 min-w-0">
             <p className="text-[10px] font-semibold truncate">{item.name}</p>
             <Badge variant="outline" className="text-[8px] px-1 py-0">{item.category}</Badge>
