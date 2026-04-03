@@ -77,6 +77,7 @@ import PulseScore from "@/components/PulseScore";
 import CorrelationMatrix from "@/components/CorrelationMatrix";
 import PopReportDelta from "@/components/PopReportDelta";
 import GamePromo from "@/components/GamePromo";
+import PokeRaceSection from "@/components/PokeRaceSection";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
@@ -209,6 +210,9 @@ const Index = () => {
             </div>
           );
         })()}
+
+        {/* POKÉ RACE — Live 5-minute card racing game */}
+        <PokeRaceSection />
 
         {/* 4. Trending Cards with images — above the fold dopamine hit */}
         <TrendingCards cards={displayCards} isLoading={isLoading} />
@@ -423,6 +427,7 @@ const Index = () => {
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
               {[
                 { href: "/pokemon-kids", label: "PokéKids Game" },
+                { href: "#poke-race", label: "Poké Race" },
                 { href: "/arena", label: "Arena" },
                 { href: "/videos", label: "Video Library" },
                 { href: "/terms", label: "Terms of Service" },

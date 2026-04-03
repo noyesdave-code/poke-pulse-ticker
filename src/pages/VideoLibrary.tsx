@@ -229,6 +229,17 @@ const videoLibrary: VideoEntry[] = [
     views: 0,
   },
   {
+    id: "poke-race-promo",
+    title: "Poké Race™ — Game Promo (Music)",
+    description: "30-second promo for Poké Race™, the live card racing game. Features 5-minute sprint races, 1000 free coins, and competitive betting across Raw, Graded, and Sealed products. © PGVA Ventures, LLC.",
+    file: "/videos/PGVA_PokeRace_Promo_2026_AV.mp4",
+    aspect: "16:9",
+    duration: "0:30",
+    category: "Campaign",
+    date: "2026-04-03",
+    views: 0,
+  },
+  {
     id: "combined-3tier-demo-av",
     title: "3-Tier Vertical Integration — Full Demo (VO + Music)",
     description: "Nearly 2-minute cinematic demo with Laura AI voiceover and epic orchestral-electronic soundtrack. Complete walkthrough of all three vertical tiers: Poké Pulse (Data), Pulse Market Terminal (Franchise), and PGTV Media Hub (Media). © PGVA Ventures, LLC.",
