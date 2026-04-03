@@ -176,5 +176,13 @@ export const RemotionRoot: React.FC = () => (
       width={1920}
       height={1080}
     />
+    <Composition
+      id="poke-race-promo"
+      component={PokeRacePromo}
+      durationInFrames={900}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
   </>
 );
