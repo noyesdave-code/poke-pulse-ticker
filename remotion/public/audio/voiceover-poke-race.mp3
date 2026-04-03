@@ -1,0 +1,1 @@
+{"error":"ElevenLabs TTS failed [401]: {\"detail\":{\"status\":\"quota_exceeded\",\"message\":\"This request exceeds your quota of 110000. You have 144 credits remaining, while 540 credits are required for this request.\"}}"}
