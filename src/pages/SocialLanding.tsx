@@ -8,6 +8,7 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/AuthModal";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
+import ShareButton from "@/components/ShareButton";
 
 /* ── UTM-aware page: /go?ref=tiktok&campaign=launch ── */
 
