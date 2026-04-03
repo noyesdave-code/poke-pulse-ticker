@@ -54,8 +54,6 @@ const DailySpotlight = ({ cards }: { cards: CardData[] }) => {
             />
           ) : (
             <img src="/icon-192.png" alt="Pulse Market Terminal" className="w-36 h-48 rounded-lg object-contain bg-muted p-4" />
-              <Star className="w-8 h-8 text-muted-foreground" />
-            </div>
           )}
         </div>
 
