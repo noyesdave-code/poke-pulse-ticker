@@ -151,7 +151,7 @@ const Index = () => {
       <TerminalHeader />
       <TickerBar cards={displayCards} isLive={isLive} lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined} />
 
-      <main id="main-content" className="max-w-7xl mx-auto px-4 lg:px-6 py-5 sm:py-8 space-y-5 sm:space-y-7">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 lg:px-6 py-3 sm:py-5 space-y-3 sm:space-y-4">
         {/* 1. Hero with urgency hook */}
         <HeroSection
           onSearchFocus={handleSearchFocus}
@@ -159,16 +159,13 @@ const Index = () => {
           topMoverChange={topMover?.change}
         />
 
-        {/* Launch Countdown — urgency drives first purchase */}
         <LaunchCountdown />
 
-        {/* Day 1 Campaign Banners — streamlined */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-2">
           <TournamentFomoBanner />
           <HighStakesArenaBanner />
         </div>
 
-        {/* 2. Social proof — immediately after hero */}
         <SocialProofBar
           totalMarketValue={totalMarketValue}
           isLive={isLive}
@@ -399,7 +396,7 @@ const Index = () => {
         <FinancialDisclaimer />
 
         {/* Footer */}
-        <footer className="border-t border-border/50 pt-12 pb-10">
+        <footer className="border-t border-border/50 pt-8 pb-6">
           <div className="flex flex-col items-center gap-6">
             <div className="flex items-center gap-3">
               <div className="flex flex-col leading-none select-none">
