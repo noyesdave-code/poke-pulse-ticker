@@ -405,33 +405,25 @@ const PokeRaceSection = () => {
         />
       </div>
 
-      {/* Prizes & Info */}
-      <Card className="border-border/50 bg-gradient-to-r from-primary/5 to-amber-500/5">
-        <CardContent className="p-3">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-            <div>
-              <Medal className="w-5 h-5 text-primary mx-auto mb-1" />
-              <p className="text-[10px] font-bold text-foreground">1st Place</p>
-              <p className="text-[9px] text-muted-foreground">7 days Pro Trial</p>
-            </div>
-            <div>
-              <Star className="w-5 h-5 text-amber-400 mx-auto mb-1" />
-              <p className="text-[10px] font-bold text-foreground">Top 3</p>
-              <p className="text-[9px] text-muted-foreground">Exclusive Badge</p>
-            </div>
-            <div>
-              <Crown className="w-5 h-5 text-purple-400 mx-auto mb-1" />
-              <p className="text-[10px] font-bold text-foreground">Daily Champion</p>
-              <p className="text-[9px] text-muted-foreground">14 days Pro Trial</p>
-            </div>
-            <div>
-              <Flame className="w-5 h-5 text-destructive mx-auto mb-1" />
-              <p className="text-[10px] font-bold text-foreground">Monthly King</p>
-              <p className="text-[9px] text-muted-foreground">1 Month Pro Free</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Prizes — compact */}
+      <div className="flex items-center justify-center gap-4 text-center py-1.5 border-t border-border/30">
+        <div className="flex items-center gap-1">
+          <Medal className="w-3 h-3 text-primary" />
+          <span className="text-[8px] text-muted-foreground">1st: 7d Pro</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <Star className="w-3 h-3 text-amber-400" />
+          <span className="text-[8px] text-muted-foreground">Top 3: Badge</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <Crown className="w-3 h-3 text-purple-400" />
+          <span className="text-[8px] text-muted-foreground">Daily: 14d Pro</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <Flame className="w-3 h-3 text-destructive" />
+          <span className="text-[8px] text-muted-foreground">Monthly: 1mo Pro</span>
+        </div>
+      </div>
 
       {/* Legal */}
       <p className="text-[8px] text-muted-foreground/60 text-center leading-relaxed">
