@@ -79,15 +79,18 @@ export function useCopyProtection() {
     window.addEventListener("beforeprint", handleBeforePrint);
     window.addEventListener("afterprint", handleAfterPrint);
 
-    // Anti-iframe: break out if embedded in unauthorized origin
+    // Anti-iframe: break out only from clearly unauthorized embeds
     try {
       if (window.self !== window.top) {
         const parentOrigin = document.referrer;
-        if (
-          !parentOrigin.includes("lovable.app") &&
-          !parentOrigin.includes("lovable.dev") &&
-          !parentOrigin.includes("poke-pulse-ticker.com")
-        ) {
+        const isAllowedPreview =
+          parentOrigin.includes("lovable.app") ||
+          parentOrigin.includes("lovable.dev") ||
+          parentOrigin.includes("lovableproject.com") ||
+          parentOrigin.includes("poke-pulse-ticker.com") ||
+          parentOrigin.includes("localhost");
+
+        if (!isAllowedPreview) {
           window.top!.location.href = window.self.location.href;
         }
       }

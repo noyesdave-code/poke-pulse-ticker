@@ -74,6 +74,7 @@ const AnimatedRoutes = () => {
       >
         <Routes location={location}>
           <Route path="/" element={<Index />} />
+          <Route path="/index" element={<Index />} />
           <Route path="/card/:slug" element={<CardDetail />} />
           <Route path="/sets" element={<SetBrowser />} />
           <Route path="/portfolio" element={<Portfolio />} />
