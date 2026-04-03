@@ -196,45 +196,89 @@ const videoLibrary: VideoEntry[] = [
     views: 0,
   },
   {
+    id: "tier1-poke-pulse-av",
+    title: "Tier 1 — Poké Pulse Market Terminal (VO + Music)",
+    description: "30-second aggressive social promo with Laura AI voiceover and upbeat electronic music. Highlights live pricing for 500+ cards, SimTrader World™, Poké-Pulse Arena™, Alpha Signals, grading arbitrage, and 7-tier subscriptions. © PGVA Ventures, LLC.",
+    file: "/videos/PGVA_Tier1_PokePulse_Promo_2026_AV.mp4",
+    aspect: "16:9",
+    duration: "0:30",
+    category: "Campaign",
+    date: "2026-04-03",
+    views: 0,
+  },
+  {
+    id: "tier2-pulse-market-av",
+    title: "Tier 2 — Pulse Market Terminal Franchise (VO + Music)",
+    description: "30-second investor-focused promo with Laura AI voiceover and cinematic orchestral music. Covers $103B+ TAM, $157.8M ARR projections, 12 revenue engines, and $1.89B valuation. © PGVA Ventures, LLC.",
+    file: "/videos/PGVA_Tier2_PulseMarket_Promo_2026_AV.mp4",
+    aspect: "16:9",
+    duration: "0:30",
+    category: "Campaign",
+    date: "2026-04-03",
+    views: 0,
+  },
+  {
+    id: "tier3-pgtv-av",
+    title: "Tier 3 — PGTV Media Hub (VO + Music)",
+    description: "30-second promo with Laura AI voiceover and upbeat music. Highlights live streaming, creator tools, ad revenue sharing, exclusive content, and community features for collectors, investors, and streamers. © PGVA Ventures, LLC.",
+    file: "/videos/PGVA_Tier3_PGTV_Promo_2026_AV.mp4",
+    aspect: "16:9",
+    duration: "0:30",
+    category: "Campaign",
+    date: "2026-04-03",
+    views: 0,
+  },
+  {
+    id: "combined-3tier-demo-av",
+    title: "3-Tier Vertical Integration — Full Demo (VO + Music)",
+    description: "Nearly 2-minute cinematic demo with Laura AI voiceover and epic orchestral-electronic soundtrack. Complete walkthrough of all three vertical tiers: Poké Pulse (Data), Pulse Market Terminal (Franchise), and PGTV Media Hub (Media). © PGVA Ventures, LLC.",
+    file: "/videos/PGVA_3Tier_Combined_Demo_2026_AV.mp4",
+    aspect: "16:9",
+    duration: "1:53",
+    category: "Campaign",
+    date: "2026-04-03",
+    views: 0,
+  },
+  {
     id: "tier1-poke-pulse",
-    title: "Tier 1 — Poké Pulse Market Terminal Promo",
-    description: "60-second aggressive social promo for the Poké Pulse Market Terminal — the consumer-facing data engine. Highlights live pricing for 500+ cards, SimTrader World™, Poké-Pulse Arena™, Alpha Signals, grading arbitrage, and 7-tier subscriptions. Female voiceover, upbeat music. © PGVA Ventures, LLC.",
+    title: "Tier 1 — Poké Pulse Market Terminal Promo (Silent)",
+    description: "30-second aggressive social promo for the Poké Pulse Market Terminal — the consumer-facing data engine. Silent version. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier1_PokePulse_Promo_2026.mp4",
     aspect: "16:9",
-    duration: "1:00",
+    duration: "0:30",
     category: "Campaign",
     date: "2026-04-03",
     views: 0,
   },
   {
     id: "tier2-pulse-market",
-    title: "Tier 2 — Pulse Market Terminal Franchise Promo",
-    description: "60-second investor-focused promo for the Pulse Market Terminal franchise expansion across 12 verticals. Covers $103B+ TAM, $157.8M ARR projections, 12 revenue engines, and franchise licensing model. © PGVA Ventures, LLC.",
+    title: "Tier 2 — Pulse Market Terminal Franchise Promo (Silent)",
+    description: "30-second investor-focused promo. Silent version. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier2_PulseMarket_Promo_2026.mp4",
     aspect: "16:9",
-    duration: "1:00",
+    duration: "0:30",
     category: "Campaign",
     date: "2026-04-03",
     views: 0,
   },
   {
     id: "tier3-pgtv",
-    title: "Tier 3 — PGTV Media Hub Promo",
-    description: "60-second promo for PGTV Media Hub — the streaming and creator network tier. Highlights live streaming, creator tools, ad revenue sharing, exclusive content, and community features for collectors, investors, and streamers. © PGVA Ventures, LLC.",
+    title: "Tier 3 — PGTV Media Hub Promo (Silent)",
+    description: "30-second promo for PGTV Media Hub. Silent version. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier3_PGTV_Promo_2026.mp4",
     aspect: "16:9",
-    duration: "1:00",
+    duration: "0:30",
     category: "Campaign",
     date: "2026-04-03",
     views: 0,
   },
   {
     id: "combined-3tier-demo",
-    title: "3-Tier Vertical Integration — Full Demo",
-    description: "3-minute cinematic demo showcasing all three vertical tiers: Poké Pulse (Data), Pulse Market Terminal (Franchise), and PGTV Media Hub (Media). Complete walkthrough of the PGVA Ventures vertical integration strategy, 12 revenue engines, and $1.89B valuation thesis. © PGVA Ventures, LLC.",
+    title: "3-Tier Vertical Integration — Full Demo (Silent)",
+    description: "Nearly 2-minute cinematic demo. Silent version. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_3Tier_Combined_Demo_2026.mp4",
     aspect: "16:9",
-    duration: "3:00",
+    duration: "1:53",
     category: "Campaign",
     date: "2026-04-03",
     views: 0,
@@ -298,12 +342,39 @@ const VideoLibrary = () => {
       style={{ userSelect: "none", WebkitUserSelect: "none" }}
       onContextMenu={e => e.preventDefault()}
     >
+      {/* PGTV Hero — Auto-playing newest video */}
+      <div className="bg-black relative overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <video
+            src={videoLibrary[0]?.file}
+            autoPlay
+            muted
+            loop
+            playsInline
+            controlsList="nodownload noremoteplayback"
+            disablePictureInPicture
+            className="w-full aspect-video object-contain"
+            onContextMenu={e => e.preventDefault()}
+          />
+          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4 sm:p-6">
+            <Badge className="bg-primary/90 text-primary-foreground text-[10px] mb-2">
+              🔴 NOW PLAYING
+            </Badge>
+            <h2 className="text-white text-lg sm:text-xl font-bold">{videoLibrary[0]?.title}</h2>
+            <p className="text-white/60 text-xs mt-1 line-clamp-2 max-w-2xl">{videoLibrary[0]?.description}</p>
+          </div>
+          <div className="absolute top-2 right-2 text-[8px] font-mono text-white/15 pointer-events-none select-none">
+            © PGVA Ventures LLC
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="border-b border-border/40 bg-card/50 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 py-6 sm:py-8">
           <div className="flex items-center gap-2 mb-1">
             <ShieldCheck className="h-6 w-6 text-primary" />
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Video Library</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">PGTV Media Hub — Video Library</h1>
             <Badge variant="outline" className="ml-2 text-[10px] border-primary/30 text-primary">
               <Lock className="h-3 w-3 mr-1" /> Protected
             </Badge>
