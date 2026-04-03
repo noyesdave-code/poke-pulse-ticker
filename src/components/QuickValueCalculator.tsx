@@ -92,7 +92,7 @@ const QuickValueCalculator = () => {
         </p>
 
         <div className="grid grid-cols-2 gap-2">
-          {POPULAR_CARDS.map((card, idx) => (
+          {visibleCards.map((card, idx) => (
             <button
               key={card.name}
               onClick={() => toggle(idx)}
