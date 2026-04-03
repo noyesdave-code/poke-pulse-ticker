@@ -34,7 +34,7 @@ const DAYS: DayPlan[] = [
       ]},
       { name: "Affiliates", target: 800, icon: <MousePointerClick className="w-4 h-4" />, actions: [
         "Publish '10 Most Undervalued Cards' blog with TCGPlayer/eBay links",
-        "Share across Reddit r/PokemonTCG, r/pokemoncards — target 8K+ clicks",
+        "Share across Reddit r/PokéTCG, r/pokécards — target 8K+ clicks",
       ]},
       { name: "PokéCoins", target: 800, icon: <ShoppingCart className="w-4 h-4" />, actions: [
         "Launch 2X PokéCoin Bonus — all packs double for 48hrs",

@@ -5,7 +5,7 @@ const DATA_SOURCES = [
   { name: "RAW 500 Index", lastScrape: new Date(Date.now() - 12 * 60000), interval: "60 min", status: "healthy" as const },
   { name: "GRADED 1000 Index", lastScrape: new Date(Date.now() - 28 * 60000), interval: "60 min", status: "healthy" as const },
   { name: "SEALED 1000 Index", lastScrape: new Date(Date.now() - 35 * 60000), interval: "60 min", status: "healthy" as const },
-  { name: "pokemontcg.io API", lastScrape: new Date(Date.now() - 5 * 60000), interval: "5 min", status: "healthy" as const },
+  { name: "Poké TCG API", lastScrape: new Date(Date.now() - 5 * 60000), interval: "5 min", status: "healthy" as const },
   { name: "SWR Cache Layer", lastScrape: new Date(Date.now() - 2 * 60000), interval: "Continuous", status: "healthy" as const },
   { name: "Consensus Pricing", lastScrape: new Date(Date.now() - 45 * 60000), interval: "90 min", status: "healthy" as const },
 ];

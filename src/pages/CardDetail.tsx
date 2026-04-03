@@ -119,11 +119,12 @@ const CardDetail = () => {
         {/* Card header with image */}
         <div className="terminal-card p-6">
           <div className="flex flex-col sm:flex-row gap-6">
-            {card._image && (
+            {(
               <img
-                src={card._image}
+                src={card._image || "/icon-192.png"}
                 alt={card.name}
                 className="w-48 rounded-lg shadow-lg self-start"
+                onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; }}
               />
             )}
             <div className="flex-1">

@@ -709,7 +709,7 @@ const PokemonKidsGame = () => {
               </div>
             </div>
             <Progress value={completionPct} className="h-2 mt-3" />
-            <p className="text-[10px] text-muted-foreground mt-1">{completionPct.toFixed(0)}% Pokédex · {collectedPokemon.length}/{ALL_POKEMON.length}</p>
+            <p className="text-[10px] text-muted-foreground mt-1">{completionPct.toFixed(0)}% Poké Dex · {collectedPokemon.length}/{ALL_POKEMON.length}</p>
           </div>
         )}
 
@@ -912,7 +912,7 @@ const PokemonKidsGame = () => {
             <TabsContent value="pokemon">
               <div className="space-y-3">
                 <h3 className="font-bold text-foreground flex items-center gap-2">
-                  <Users className="w-5 h-5 text-primary" /> Pokédex ({collectedPokemon.length}/{ALL_POKEMON.length})
+                  <Users className="w-5 h-5 text-primary" /> Poké Dex ({collectedPokemon.length}/{ALL_POKEMON.length})
                 </h3>
                 <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
                   {ALL_POKEMON.map((p) => {

@@ -202,10 +202,11 @@ const CardTile = ({ card, onClick }: { card: PokemonTCGCard; onClick: () => void
     >
       <div className="relative aspect-[2.5/3.5] bg-muted overflow-hidden">
         <img
-          src={card.images.small}
+          src={card.images.small || "/icon-192.png"}
           alt={card.name}
           className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
           loading="lazy"
+          onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; }}
         />
       </div>
       <div className="p-2">
