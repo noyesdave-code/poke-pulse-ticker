@@ -86,7 +86,7 @@ const SET_MAP: Record<string, string> = {
   "pop series 5": "P5",
   "pop series": "PP",
   "promo": "PR",
-  "pokémon rumble": "RU",
+  "poké rumble": "RU",
   "scarlet & violet": "SV",
   "obsidian flames": "OF",
   "paldea evolved": "PE",

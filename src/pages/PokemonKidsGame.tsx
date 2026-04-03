@@ -709,7 +709,7 @@ const PokemonKidsGame = () => {
               </div>
             </div>
             <Progress value={completionPct} className="h-2 mt-3" />
-            <p className="text-[10px] text-muted-foreground mt-1">{completionPct.toFixed(0)}% Pokédex · {collectedPokemon.length}/{ALL_POKEMON.length}</p>
+            <p className="text-[10px] text-muted-foreground mt-1">{completionPct.toFixed(0)}% Poké Dex · {collectedPokemon.length}/{ALL_POKEMON.length}</p>
           </div>
         )}
 
