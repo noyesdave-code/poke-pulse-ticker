@@ -78,6 +78,14 @@ const PhaseBanner = ({ cycle, phaseTimeRemaining }: {
 };
 
 /* ─── Race Track ─── */
+const laneColors = [
+  { trail: "from-primary via-primary/60 to-transparent", glow: "shadow-primary/40", border: "border-primary/30" },
+  { trail: "from-amber-500 via-amber-500/60 to-transparent", glow: "shadow-amber-500/40", border: "border-amber-500/30" },
+  { trail: "from-blue-500 via-blue-500/60 to-transparent", glow: "shadow-blue-500/40", border: "border-blue-500/30" },
+  { trail: "from-rose-500 via-rose-500/60 to-transparent", glow: "shadow-rose-500/40", border: "border-rose-500/30" },
+  { trail: "from-purple-500 via-purple-500/60 to-transparent", glow: "shadow-purple-500/40", border: "border-purple-500/30" },
+];
+
 const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
   race: RaceState | null;
   onBet: (racer: Racer) => void;
@@ -91,95 +99,89 @@ const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
   const canBet = isBettingPhase;
 
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1 relative overflow-hidden rounded-lg border border-border/40 bg-card/30 p-1.5">
+      {/* Finish line */}
+      <div className="absolute right-6 top-0 bottom-0 w-px border-r border-dashed border-muted-foreground/30 z-10" />
+      <div className="absolute right-5 top-0 text-[7px] text-muted-foreground/50 font-mono z-10">🏁</div>
+
       {race.racers.map((racer, i) => {
         const rank = sorted.findIndex(r => r.id === racer.id) + 1;
         const hasBet = userBets.includes(racer.id);
         const isWinner = race.status === "finished" && race.winner?.id === racer.id;
-        const laneColors = [
-          "from-primary/40 to-primary/10",
-          "from-amber-500/40 to-amber-500/10",
-          "from-blue-500/40 to-blue-500/10",
-          "from-rose-500/40 to-rose-500/10",
-          "from-purple-500/40 to-purple-500/10",
-        ];
+        const colors = laneColors[i % laneColors.length];
 
         return (
-          <div key={racer.id} className={`relative rounded-lg border overflow-hidden transition-all duration-300 ${
-            isWinner ? "border-primary ring-1 ring-primary/50 bg-primary/5" :
-            hasBet ? "border-amber-500/50 bg-amber-500/5" :
-            isActive ? "border-border/50 bg-card/50" : "border-border/30 bg-card/30 opacity-70"
+          <div key={racer.id} className={`relative h-10 rounded border overflow-hidden transition-colors ${
+            isWinner ? "border-primary/60 bg-primary/5" :
+            hasBet ? `${colors.border} bg-muted/30` :
+            "border-border/20 bg-card/20"
           }`}>
-            {/* Lane background — animated during racing */}
-            <div className="absolute inset-0 opacity-20">
-              <div className={`h-full bg-gradient-to-r ${laneColors[i]} rounded-lg`}
-                style={{ width: `${racer.position}%`, transition: isActive ? "width 0.5s ease-out" : "none" }} />
-            </div>
+            {/* Lane stripe */}
+            <div className="absolute inset-0 opacity-[0.04]"
+              style={{ backgroundImage: "repeating-linear-gradient(90deg, transparent, transparent 20px, currentColor 20px, currentColor 21px)" }} />
 
-            <div className="relative flex items-center gap-2 p-2 sm:p-3">
-              {/* Rank */}
-              <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                rank === 1 ? "bg-primary/20 text-primary" :
-                rank === 2 ? "bg-amber-500/20 text-amber-400" : "bg-muted text-muted-foreground"
-              }`}>
-                {rank === 1 && isWinner ? <Crown className="w-3.5 h-3.5" /> : rank}
-              </div>
+            {/* Racing trail — colored streak behind the card */}
+            <div
+              className={`absolute top-0 bottom-0 left-0 bg-gradient-to-r ${colors.trail} transition-all ${isActive ? "duration-700" : "duration-300"} ease-out`}
+              style={{ width: `${Math.max(racer.position * 0.85, 2)}%`, opacity: isActive ? 0.35 : 0.15 }}
+            />
 
-              {/* Card image */}
+            {/* Particle dots along trail */}
+            {isActive && racer.position > 10 && (
+              <>
+                <div className={`absolute top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-gradient-to-r ${colors.trail} opacity-60 animate-pulse`}
+                  style={{ left: `${racer.position * 0.85 - 8}%` }} />
+                <div className={`absolute top-1/2 -translate-y-1/2 w-0.5 h-0.5 rounded-full bg-gradient-to-r ${colors.trail} opacity-40`}
+                  style={{ left: `${racer.position * 0.85 - 14}%` }} />
+              </>
+            )}
+
+            {/* Racer (card image + info) — positioned along track */}
+            <div
+              className={`absolute top-0 bottom-0 flex items-center gap-1 transition-all ${isActive ? "duration-700" : "duration-300"} ease-out z-20`}
+              style={{ left: `${Math.min(racer.position * 0.85, 82)}%` }}
+            >
+              {/* Card thumbnail */}
               {racer.image ? (
-                <img src={racer.image} alt={racer.name} className="w-8 h-11 object-cover rounded flex-shrink-0"
+                <img src={racer.image} alt={racer.name}
+                  className={`w-6 h-8 object-cover rounded-sm flex-shrink-0 ring-1 ${
+                    isWinner ? "ring-primary shadow-lg " + colors.glow : "ring-border/50"
+                  }`}
                   loading="lazy" />
               ) : (
-                <div className="w-8 h-11 bg-muted rounded flex-shrink-0 flex items-center justify-center">
-                  <Package className="w-4 h-4 text-muted-foreground" />
+                <div className={`w-6 h-8 bg-muted rounded-sm flex-shrink-0 flex items-center justify-center ring-1 ring-border/50`}>
+                  <Package className="w-3 h-3 text-muted-foreground" />
                 </div>
               )}
 
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold text-foreground truncate">{racer.name}</p>
-                <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="text-[9px] px-1 py-0">
-                    {racer.category.toUpperCase()}
-                  </Badge>
-                  <span className={`text-[10px] font-mono ${racer.changePct >= 0 ? "text-primary" : "text-destructive"}`}>
-                    {racer.changePct >= 0 ? "+" : ""}{racer.changePct.toFixed(1)}%
-                  </span>
-                </div>
+              {/* Compact info */}
+              <div className="flex flex-col min-w-0">
+                <span className="text-[8px] font-bold text-foreground truncate max-w-[60px] leading-tight">{racer.name}</span>
+                <span className={`text-[8px] font-mono font-bold leading-tight ${racer.changePct >= 0 ? "text-primary" : "text-destructive"}`}>
+                  {racer.changePct >= 0 ? "+" : ""}{racer.changePct.toFixed(1)}%
+                </span>
               </div>
 
-              {/* Odds */}
-              <div className="flex-shrink-0 text-right">
-                <p className="text-[10px] text-muted-foreground">ODDS</p>
-                <p className="text-sm font-bold text-foreground font-mono">{racer.odds}x</p>
-              </div>
+              {isWinner && <Crown className="w-3 h-3 text-primary animate-pulse flex-shrink-0" />}
+            </div>
 
-              {/* Bet button — only during betting phase */}
+            {/* Left sidebar: rank + odds + bet */}
+            <div className="absolute left-0 top-0 bottom-0 flex items-center gap-1 px-1 z-30 bg-gradient-to-r from-card via-card/90 to-transparent w-20">
+              <span className={`text-[9px] font-bold w-3 text-center ${
+                rank === 1 ? "text-primary" : rank === 2 ? "text-amber-400" : "text-muted-foreground"
+              }`}>{rank}</span>
+              <span className="text-[8px] font-mono text-muted-foreground">{racer.odds}x</span>
               {canBet && (
                 <Button
                   size="sm"
                   variant={hasBet ? "secondary" : "default"}
-                  className="flex-shrink-0 h-7 text-[10px] px-2"
+                  className="h-5 text-[8px] px-1.5 ml-auto"
                   onClick={() => onBet(racer)}
                   disabled={hasBet}
                 >
-                  {hasBet ? "BET ✓" : "BET"}
+                  {hasBet ? "✓" : "BET"}
                 </Button>
               )}
-
-              {/* Winner indicator */}
-              {isWinner && (
-                <div className="flex-shrink-0">
-                  <Trophy className="w-5 h-5 text-primary animate-pulse" />
-                </div>
-              )}
-            </div>
-
-            {/* Progress bar */}
-            <div className="h-0.5 bg-muted">
-              <div className={`h-full transition-all duration-500 ease-out ${
-                isWinner ? "bg-primary" : "bg-foreground/30"
-              }`} style={{ width: `${racer.position}%` }} />
             </div>
           </div>
         );
@@ -403,33 +405,25 @@ const PokeRaceSection = () => {
         />
       </div>
 
-      {/* Prizes & Info */}
-      <Card className="border-border/50 bg-gradient-to-r from-primary/5 to-amber-500/5">
-        <CardContent className="p-3">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-            <div>
-              <Medal className="w-5 h-5 text-primary mx-auto mb-1" />
-              <p className="text-[10px] font-bold text-foreground">1st Place</p>
-              <p className="text-[9px] text-muted-foreground">7 days Pro Trial</p>
-            </div>
-            <div>
-              <Star className="w-5 h-5 text-amber-400 mx-auto mb-1" />
-              <p className="text-[10px] font-bold text-foreground">Top 3</p>
-              <p className="text-[9px] text-muted-foreground">Exclusive Badge</p>
-            </div>
-            <div>
-              <Crown className="w-5 h-5 text-purple-400 mx-auto mb-1" />
-              <p className="text-[10px] font-bold text-foreground">Daily Champion</p>
-              <p className="text-[9px] text-muted-foreground">14 days Pro Trial</p>
-            </div>
-            <div>
-              <Flame className="w-5 h-5 text-destructive mx-auto mb-1" />
-              <p className="text-[10px] font-bold text-foreground">Monthly King</p>
-              <p className="text-[9px] text-muted-foreground">1 Month Pro Free</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Prizes — compact */}
+      <div className="flex items-center justify-center gap-4 text-center py-1.5 border-t border-border/30">
+        <div className="flex items-center gap-1">
+          <Medal className="w-3 h-3 text-primary" />
+          <span className="text-[8px] text-muted-foreground">1st: 7d Pro</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <Star className="w-3 h-3 text-amber-400" />
+          <span className="text-[8px] text-muted-foreground">Top 3: Badge</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <Crown className="w-3 h-3 text-purple-400" />
+          <span className="text-[8px] text-muted-foreground">Daily: 14d Pro</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <Flame className="w-3 h-3 text-destructive" />
+          <span className="text-[8px] text-muted-foreground">Monthly: 1mo Pro</span>
+        </div>
+      </div>
 
       {/* Legal */}
       <p className="text-[8px] text-muted-foreground/60 text-center leading-relaxed">
