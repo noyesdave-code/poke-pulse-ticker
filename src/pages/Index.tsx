@@ -211,6 +211,9 @@ const Index = () => {
           );
         })()}
 
+        {/* POKÉ RACE — Live 5-minute card racing game */}
+        <PokeRaceSection />
+
         {/* 4. Trending Cards with images — above the fold dopamine hit */}
         <TrendingCards cards={displayCards} isLoading={isLoading} />
 
