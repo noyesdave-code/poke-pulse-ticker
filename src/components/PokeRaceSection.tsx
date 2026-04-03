@@ -40,18 +40,21 @@ const PhaseBanner = ({ cycle, phaseTimeRemaining }: {
   phaseTimeRemaining: number;
 }) => {
   const isRacing = cycle.phase === "racing";
+  const isFrozen = cycle.phase === "freeze";
   const trackLabel = cycle.activeTrack === "price" ? "PRICE" : "INVENTORY";
   const nextTrack = cycle.activeTrack === "price" ? "INVENTORY" : "PRICE";
 
   return (
     <div className={`rounded-lg border p-2 sm:p-3 flex items-center justify-between gap-3 ${
-      isRacing
-        ? "border-primary/50 bg-primary/5"
+      isRacing ? "border-primary/50 bg-primary/5"
+        : isFrozen ? "border-emerald-500/50 bg-emerald-500/5"
         : "border-amber-500/50 bg-amber-500/5"
     }`}>
       <div className="flex items-center gap-2">
         {isRacing ? (
           <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+        ) : isFrozen ? (
+          <Trophy className="w-4 h-4 text-emerald-400" />
         ) : (
           <Clock className="w-4 h-4 text-amber-400" />
         )}
@@ -59,18 +62,22 @@ const PhaseBanner = ({ cycle, phaseTimeRemaining }: {
           <p className="text-xs font-bold text-foreground">
             {isRacing
               ? `🏁 ${trackLabel} RACE — LIVE`
+              : isFrozen
+              ? `🏆 ${trackLabel} RACE — RESULTS`
               : `⏳ BETTING OPEN — ${nextTrack} RACE NEXT`}
           </p>
           <p className="text-[9px] text-muted-foreground">
             {isRacing
               ? "Cards racing for position • Watch & cheer!"
+              : isFrozen
+              ? "Race complete! Review the final standings."
               : "Place your bets before the next race starts!"}
           </p>
         </div>
       </div>
       <CountdownTimer
         ms={phaseTimeRemaining}
-        label={isRacing ? "Race ends" : "Race starts"}
+        label={isRacing ? "Race ends" : isFrozen ? "Results" : "Race starts"}
         variant={isRacing ? "accent" : "warning"}
       />
     </div>
@@ -79,11 +86,11 @@ const PhaseBanner = ({ cycle, phaseTimeRemaining }: {
 
 /* ─── Race Track ─── */
 const laneColors = [
-  { trail: "from-primary via-primary/60 to-transparent", glow: "shadow-primary/40", border: "border-primary/30" },
-  { trail: "from-amber-500 via-amber-500/60 to-transparent", glow: "shadow-amber-500/40", border: "border-amber-500/30" },
-  { trail: "from-blue-500 via-blue-500/60 to-transparent", glow: "shadow-blue-500/40", border: "border-blue-500/30" },
-  { trail: "from-rose-500 via-rose-500/60 to-transparent", glow: "shadow-rose-500/40", border: "border-rose-500/30" },
-  { trail: "from-purple-500 via-purple-500/60 to-transparent", glow: "shadow-purple-500/40", border: "border-purple-500/30" },
+  { trail: "from-emerald-400 via-emerald-400/80 to-emerald-400/20", glow: "shadow-emerald-400/60", border: "border-emerald-400/50", solid: "bg-emerald-400" },
+  { trail: "from-amber-400 via-amber-400/80 to-amber-400/20", glow: "shadow-amber-400/60", border: "border-amber-400/50", solid: "bg-amber-400" },
+  { trail: "from-cyan-400 via-cyan-400/80 to-cyan-400/20", glow: "shadow-cyan-400/60", border: "border-cyan-400/50", solid: "bg-cyan-400" },
+  { trail: "from-rose-400 via-rose-400/80 to-rose-400/20", glow: "shadow-rose-400/60", border: "border-rose-400/50", solid: "bg-rose-400" },
+  { trail: "from-violet-400 via-violet-400/80 to-violet-400/20", glow: "shadow-violet-400/60", border: "border-violet-400/50", solid: "bg-violet-400" },
 ];
 
 const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
@@ -120,19 +127,24 @@ const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
             <div className="absolute inset-0 opacity-[0.04]"
               style={{ backgroundImage: "repeating-linear-gradient(90deg, transparent, transparent 20px, currentColor 20px, currentColor 21px)" }} />
 
-            {/* Racing trail — colored streak behind the card */}
+            {/* Racing trail — bright colored streak behind the card */}
             <div
-              className={`absolute top-0 bottom-0 left-0 bg-gradient-to-r ${colors.trail} transition-all ${isActive ? "duration-700" : "duration-300"} ease-out`}
-              style={{ width: `${Math.max(racer.position * 0.85, 2)}%`, opacity: isActive ? 0.35 : 0.15 }}
+              className={`absolute top-0 bottom-0 left-0 bg-gradient-to-r ${colors.trail} transition-all ${isActive ? "duration-700" : "duration-300"} ease-out rounded-r`}
+              style={{ width: `${Math.max(racer.position * 0.85, 2)}%`, opacity: isActive ? 0.7 : (race.status === "finished" ? 0.6 : 0.2) }}
+            />
+            {/* Bright core line */}
+            <div
+              className={`absolute top-1/2 -translate-y-1/2 h-1 left-0 rounded-r ${colors.solid} transition-all ${isActive ? "duration-700" : "duration-300"} ease-out`}
+              style={{ width: `${Math.max(racer.position * 0.85, 1)}%`, opacity: isActive ? 0.9 : (race.status === "finished" ? 0.7 : 0.1) }}
             />
 
             {/* Particle dots along trail */}
-            {isActive && racer.position > 10 && (
+            {(isActive || race.status === "finished") && racer.position > 10 && (
               <>
-                <div className={`absolute top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-gradient-to-r ${colors.trail} opacity-60 animate-pulse`}
-                  style={{ left: `${racer.position * 0.85 - 8}%` }} />
-                <div className={`absolute top-1/2 -translate-y-1/2 w-0.5 h-0.5 rounded-full bg-gradient-to-r ${colors.trail} opacity-40`}
-                  style={{ left: `${racer.position * 0.85 - 14}%` }} />
+                <div className={`absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full ${colors.solid} opacity-80 ${isActive ? "animate-pulse" : ""}`}
+                  style={{ left: `${racer.position * 0.85 - 6}%` }} />
+                <div className={`absolute top-1/2 -translate-y-1/2 w-1 h-1 rounded-full ${colors.solid} opacity-50`}
+                  style={{ left: `${racer.position * 0.85 - 12}%` }} />
               </>
             )}
 
@@ -314,6 +326,7 @@ const PokeRaceSection = () => {
 
   const currentRace = cycle.activeTrack === "price" ? priceRace : inventoryRace;
   const isRacing = cycle.phase === "racing";
+  const isFrozen = cycle.phase === "freeze";
   const isBetting = cycle.phase === "betting";
 
   return (
@@ -325,8 +338,8 @@ const PokeRaceSection = () => {
           <div>
             <h2 className="text-lg sm:text-xl font-display font-black text-foreground tracking-tight flex items-center gap-2">
               POKÉ RACE™
-              <Badge variant="default" className={`text-[9px] px-1.5 ${isRacing ? "animate-pulse bg-primary/90" : "bg-amber-500/90"}`}>
-                {isRacing ? "LIVE" : "BETS OPEN"}
+              <Badge variant="default" className={`text-[9px] px-1.5 ${isRacing ? "animate-pulse bg-primary/90" : isFrozen ? "bg-amber-500/90 animate-pulse" : "bg-amber-500/90"}`}>
+                {isRacing ? "LIVE" : isFrozen ? "RESULTS" : "BETS OPEN"}
               </Badge>
             </h2>
             <p className="text-[10px] text-muted-foreground">
@@ -335,7 +348,7 @@ const PokeRaceSection = () => {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <CountdownTimer ms={phaseMs} label={isRacing ? "Race ends" : "Next race"} variant={isRacing ? "accent" : "warning"} />
+          <CountdownTimer ms={phaseMs} label={isRacing ? "Race ends" : isFrozen ? "Results" : "Next race"} variant={isRacing ? "accent" : "warning"} />
           <div className="text-right">
             <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Coins</p>
             <p className="text-lg font-mono font-bold text-amber-400 flex items-center gap-1">
@@ -381,12 +394,13 @@ const PokeRaceSection = () => {
             {cycle.activeTrack === "price" ? "Price Movement Race" : "Inventory Movement Race"}
           </span>
           {isRacing && <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />}
+          {isFrozen && <span className="text-[9px] text-emerald-400 font-bold">🏆 FINISHED</span>}
         </div>
         <RaceTrack
           race={currentRace}
           onBet={handleBet}
           userBets={userBets}
-          isActive={isRacing}
+          isActive={isRacing || isFrozen}
           isBettingPhase={isBetting}
         />
       </div>
