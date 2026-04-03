@@ -221,8 +221,7 @@ const MoversBoard = ({ title, icon, items }: {
           <span className={`text-[10px] font-bold w-4 ${i === 0 ? "text-primary" : "text-muted-foreground"}`}>
             {i + 1}
           </span>
-          {item.image ? (
-            <img src={item.image || "/icon-192.png"} alt={item.name} className={`w-6 h-8 ${item.image ? "object-cover" : "object-contain p-0.5 bg-muted"} rounded`} loading="lazy" onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; }} />
+          <img src={item.image || "/icon-192.png"} alt={item.name} className={`w-6 h-8 ${item.image ? "object-cover" : "object-contain p-0.5 bg-muted"} rounded`} loading="lazy" onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; }} />
           <div className="flex-1 min-w-0">
             <p className="text-[10px] font-semibold truncate">{item.name}</p>
             <Badge variant="outline" className="text-[8px] px-1 py-0">{item.category}</Badge>
