@@ -92,7 +92,7 @@ export const usePokeRace = () => {
     const invRacers = [
       ...pickRacers(rawCards, 2, seed + 100, "raw"),
       ...pickRacers(gradedCards, 2, seed + 101, "graded"),
-      ...pickRacers(sealedProducts, 1, seed + 102, "sealed"),
+      ...pickSealedRacers(sealedProducts, 1, seed + 102),
     ].map((r, i) => ({ ...r, lane: i, odds: generateOdds(i, 5) }));
 
     setPriceRace({
