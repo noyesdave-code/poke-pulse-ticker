@@ -143,5 +143,37 @@ export const RemotionRoot: React.FC = () => (
       width={1920}
       height={1080}
     />
+    <Composition
+      id="tier1-promo"
+      component={Tier1Promo}
+      durationInFrames={900}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="tier2-promo"
+      component={Tier2Promo}
+      durationInFrames={900}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="tier3-promo"
+      component={Tier3Promo}
+      durationInFrames={900}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="combined-demo"
+      component={CombinedDemo}
+      durationInFrames={3400}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
   </>
 );
