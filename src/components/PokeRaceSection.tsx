@@ -394,12 +394,13 @@ const PokeRaceSection = () => {
             {cycle.activeTrack === "price" ? "Price Movement Race" : "Inventory Movement Race"}
           </span>
           {isRacing && <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />}
+          {isFrozen && <span className="text-[9px] text-emerald-400 font-bold">🏆 FINISHED</span>}
         </div>
         <RaceTrack
           race={currentRace}
           onBet={handleBet}
           userBets={userBets}
-          isActive={isRacing}
+          isActive={isRacing || isFrozen}
           isBettingPhase={isBetting}
         />
       </div>
