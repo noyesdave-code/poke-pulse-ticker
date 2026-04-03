@@ -331,8 +331,8 @@ const PokeRaceSection = () => {
           <div>
             <h2 className="text-lg sm:text-xl font-display font-black text-foreground tracking-tight flex items-center gap-2">
               POKÉ RACE™
-              <Badge variant="default" className={`text-[9px] px-1.5 ${isRacing ? "animate-pulse bg-primary/90" : "bg-amber-500/90"}`}>
-                {isRacing ? "LIVE" : "BETS OPEN"}
+              <Badge variant="default" className={`text-[9px] px-1.5 ${isRacing ? "animate-pulse bg-primary/90" : isFrozen ? "bg-amber-500/90 animate-pulse" : "bg-amber-500/90"}`}>
+                {isRacing ? "LIVE" : isFrozen ? "RESULTS" : "BETS OPEN"}
               </Badge>
             </h2>
             <p className="text-[10px] text-muted-foreground">
