@@ -177,11 +177,17 @@ const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
               {isWinner && <Crown className="w-3 h-3 text-primary animate-pulse flex-shrink-0" />}
             </div>
 
-            {/* Left sidebar: rank + odds + bet */}
-            <div className="absolute left-0 top-0 bottom-0 flex items-center gap-1 px-1 z-30 bg-gradient-to-r from-card via-card/90 to-transparent w-20">
-              <span className={`text-[9px] font-bold w-3 text-center ${
-                rank === 1 ? "text-primary" : rank === 2 ? "text-amber-400" : "text-muted-foreground"
-              }`}>{rank}</span>
+            {/* Left sidebar: rank badge + odds + bet */}
+            <div className="absolute left-0 top-0 bottom-0 flex items-center gap-1 px-1 z-30 bg-gradient-to-r from-card via-card/90 to-transparent w-24">
+              {/* Position badge with lane color */}
+              <span className={`inline-flex items-center justify-center w-5 h-5 rounded-full text-[9px] font-black flex-shrink-0 ring-1 ${
+                rank === 1 ? `${colors.solid} text-background ring-white/30 shadow-md ${colors.glow}` :
+                rank === 2 ? "bg-amber-500/80 text-background ring-amber-300/40" :
+                rank === 3 ? "bg-orange-500/60 text-background ring-orange-300/30" :
+                "bg-muted text-muted-foreground ring-border/30"
+              }`}>
+                {rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : rank}
+              </span>
               <span className="text-[8px] font-mono text-muted-foreground">{racer.odds}x</span>
               {canBet && (
                 <Button
