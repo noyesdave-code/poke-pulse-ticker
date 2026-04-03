@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
-import { rawCards, gradedCards, sealedProducts, type CardData } from "@/data/marketData";
+import { rawCards, gradedCards, sealedProducts, type CardData, type SealedProduct } from "@/data/marketData";
 
 export interface Racer {
   id: string;
