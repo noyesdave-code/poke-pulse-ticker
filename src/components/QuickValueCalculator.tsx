@@ -1,6 +1,6 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Calculator, DollarSign, TrendingUp, ArrowRight, Sparkles, Loader2 } from "lucide-react";
+import { Calculator, DollarSign, TrendingUp, ArrowRight, Sparkles, Loader2, Shuffle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLiveCards } from "@/hooks/usePokemonTcg";
 
