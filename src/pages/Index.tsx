@@ -159,7 +159,6 @@ const Index = () => {
           topMoverChange={topMover?.change}
         />
 
-        {/* Launch Countdown — urgency drives first purchase */}
         <LaunchCountdown />
 
         {/* Day 1 Campaign Banners — streamlined */}
