@@ -164,9 +164,18 @@ const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
               {/* Compact info */}
               <div className="flex flex-col min-w-0">
                 <span className="text-[8px] font-bold text-foreground truncate max-w-[60px] leading-tight">{racer.name}</span>
-                <span className={`text-[8px] font-mono font-bold leading-tight ${racer.changePct >= 0 ? "text-primary" : "text-destructive"}`}>
-                  {racer.changePct >= 0 ? "+" : ""}{racer.changePct.toFixed(1)}%
-                </span>
+                {race.status === "finished" ? (
+                  <>
+                    <span className="text-[8px] font-mono font-bold text-foreground leading-tight">
+                      ${racer.currentValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </span>
+                    <span className={`text-[7px] font-mono font-bold leading-tight ${racer.changePct >= 0 ? "text-primary" : "text-destructive"}`}>
+                      {racer.changePct >= 0 ? "+" : ""}{racer.changePct.toFixed(1)}%
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-[7px] font-mono text-muted-foreground leading-tight">racing…</span>
+                )}
               </div>
 
               {isWinner && <Crown className="w-3 h-3 text-primary animate-pulse flex-shrink-0" />}
@@ -207,7 +216,7 @@ const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
 const MoversBoard = ({ title, icon, items }: {
   title: string;
   icon: React.ReactNode;
-  items: { name: string; image: string | null; change: number; category: string }[];
+  items: { name: string; image: string | null; change: number; category: string; price: number }[];
 }) => (
   <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
     <CardHeader className="pb-2 pt-3 px-3">
@@ -226,9 +235,14 @@ const MoversBoard = ({ title, icon, items }: {
             <p className="text-[10px] font-semibold truncate">{item.name}</p>
             <Badge variant="outline" className="text-[8px] px-1 py-0">{item.category}</Badge>
           </div>
-          <span className={`text-xs font-mono font-bold ${item.change >= 0 ? "text-primary" : "text-destructive"}`}>
-            {item.change >= 0 ? "+" : ""}{item.change.toFixed(1)}%
-          </span>
+          <div className="text-right flex-shrink-0">
+            <span className="text-[10px] font-mono font-bold text-foreground block">
+              ${item.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </span>
+            <span className={`text-[10px] font-mono font-bold ${item.change >= 0 ? "text-primary" : "text-destructive"}`}>
+              {item.change >= 0 ? "▲+" : "▼"}{Math.abs(item.change).toFixed(1)}%
+            </span>
+          </div>
         </div>
       ))}
     </CardContent>
@@ -310,7 +324,7 @@ const PokeRaceSection = () => {
     return [...priceRace.racers]
       .sort((a, b) => Math.abs(b.changePct) - Math.abs(a.changePct))
       .slice(0, 5)
-      .map(r => ({ name: r.name, image: r.image, change: r.changePct, category: r.category }));
+      .map(r => ({ name: r.name, image: r.image, change: r.changePct, category: r.category, price: r.currentValue }));
   }, [priceRace]);
 
   const topInventoryMovers = useMemo(() => {
@@ -318,7 +332,7 @@ const PokeRaceSection = () => {
     return [...inventoryRace.racers]
       .sort((a, b) => Math.abs(b.changePct) - Math.abs(a.changePct))
       .slice(0, 5)
-      .map(r => ({ name: r.name, image: r.image, change: r.changePct, category: r.category }));
+      .map(r => ({ name: r.name, image: r.image, change: r.changePct, category: r.category, price: r.currentValue }));
   }, [inventoryRace]);
 
   const currentRace = cycle.activeTrack === "price" ? priceRace : inventoryRace;
