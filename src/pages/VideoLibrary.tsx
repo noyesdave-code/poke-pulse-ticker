@@ -411,7 +411,6 @@ const VideoLibrary = () => {
           </div>
         </div>
       </div>
-      </div>
 
       {/* Video Grid */}
       <div className="max-w-6xl mx-auto px-4 py-6 sm:py-8">
