@@ -31,6 +31,7 @@ import CampaignProBanner from "@/components/campaign/CampaignProBanner";
 import DoublePokeCoinBanner from "@/components/campaign/DoublePokeCoinBanner";
 import TournamentFomoBanner from "@/components/campaign/TournamentFomoBanner";
 import HighStakesArenaBanner from "@/components/campaign/HighStakesArenaBanner";
+import ShareButton from "@/components/ShareButton";
 
 // Lazy-loaded below-the-fold components
 

@@ -387,6 +387,7 @@ const SocialLanding = () => {
 
       {/* Auth Modal */}
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
+      <ShareButton />
     </div>
   );
 };

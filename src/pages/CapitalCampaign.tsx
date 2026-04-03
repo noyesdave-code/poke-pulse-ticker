@@ -383,6 +383,7 @@ export default function CapitalCampaign() {
           ))}
         </Tabs>
       </div>
+      <ShareButton />
     </div>
   );
 }

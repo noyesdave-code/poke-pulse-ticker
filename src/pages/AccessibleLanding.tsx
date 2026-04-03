@@ -207,6 +207,7 @@ const AccessibleLanding = () => {
 
         <FinancialDisclaimer compact />
       </main>
+      <ShareButton />
     </div>
   );
 };
