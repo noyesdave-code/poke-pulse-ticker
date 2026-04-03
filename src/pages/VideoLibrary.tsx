@@ -342,12 +342,39 @@ const VideoLibrary = () => {
       style={{ userSelect: "none", WebkitUserSelect: "none" }}
       onContextMenu={e => e.preventDefault()}
     >
+      {/* PGTV Hero — Auto-playing newest video */}
+      <div className="bg-black relative overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <video
+            src={videoLibrary[0]?.file}
+            autoPlay
+            muted
+            loop
+            playsInline
+            controlsList="nodownload noremoteplayback"
+            disablePictureInPicture
+            className="w-full aspect-video object-contain"
+            onContextMenu={e => e.preventDefault()}
+          />
+          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4 sm:p-6">
+            <Badge className="bg-primary/90 text-primary-foreground text-[10px] mb-2">
+              🔴 NOW PLAYING
+            </Badge>
+            <h2 className="text-white text-lg sm:text-xl font-bold">{videoLibrary[0]?.title}</h2>
+            <p className="text-white/60 text-xs mt-1 line-clamp-2 max-w-2xl">{videoLibrary[0]?.description}</p>
+          </div>
+          <div className="absolute top-2 right-2 text-[8px] font-mono text-white/15 pointer-events-none select-none">
+            © PGVA Ventures LLC
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="border-b border-border/40 bg-card/50 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 py-6 sm:py-8">
           <div className="flex items-center gap-2 mb-1">
             <ShieldCheck className="h-6 w-6 text-primary" />
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Video Library</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">PGTV Media Hub — Video Library</h1>
             <Badge variant="outline" className="ml-2 text-[10px] border-primary/30 text-primary">
               <Lock className="h-3 w-3 mr-1" /> Protected
             </Badge>
@@ -383,6 +410,7 @@ const VideoLibrary = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       {/* Video Grid */}
