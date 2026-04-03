@@ -1,27 +1,94 @@
 import { useState, useEffect, useMemo } from "react";
-import { usePokeRace, type Racer, type RaceState } from "@/hooks/usePokeRace";
+import { usePokeRace, type Racer, type RaceState, type CycleState } from "@/hooks/usePokeRace";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import pokeRaceLogo from "@/assets/poke-race-logo.png";
 import {
   Trophy, Timer, TrendingUp, Package, Coins, Flame,
-  ChevronRight, Zap, Crown, Medal, Star
+  ChevronRight, Zap, Crown, Medal, Star, Clock
 } from "lucide-react";
 
+/* ─── Countdown Display ─── */
+const CountdownTimer = ({ ms, label, variant = "default" }: {
+  ms: number;
+  label: string;
+  variant?: "default" | "warning" | "accent";
+}) => {
+  const totalSec = Math.max(0, Math.floor(ms / 1000));
+  const min = Math.floor(totalSec / 60);
+  const sec = totalSec % 60;
+  const colorClass = variant === "warning" ? "text-amber-400" :
+    variant === "accent" ? "text-primary" : "text-foreground";
+
+  return (
+    <div className="text-center">
+      <p className="text-[9px] text-muted-foreground uppercase tracking-wider">{label}</p>
+      <p className={`text-lg font-mono font-bold ${colorClass} tabular-nums`}>
+        {min}:{sec.toString().padStart(2, "0")}
+      </p>
+    </div>
+  );
+};
+
+/* ─── Phase Banner ─── */
+const PhaseBanner = ({ cycle, phaseTimeRemaining }: {
+  cycle: CycleState;
+  phaseTimeRemaining: number;
+}) => {
+  const isRacing = cycle.phase === "racing";
+  const trackLabel = cycle.activeTrack === "price" ? "PRICE" : "INVENTORY";
+  const nextTrack = cycle.activeTrack === "price" ? "INVENTORY" : "PRICE";
+
+  return (
+    <div className={`rounded-lg border p-2 sm:p-3 flex items-center justify-between gap-3 ${
+      isRacing
+        ? "border-primary/50 bg-primary/5"
+        : "border-amber-500/50 bg-amber-500/5"
+    }`}>
+      <div className="flex items-center gap-2">
+        {isRacing ? (
+          <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+        ) : (
+          <Clock className="w-4 h-4 text-amber-400" />
+        )}
+        <div>
+          <p className="text-xs font-bold text-foreground">
+            {isRacing
+              ? `🏁 ${trackLabel} RACE — LIVE`
+              : `⏳ BETTING OPEN — ${nextTrack} RACE NEXT`}
+          </p>
+          <p className="text-[9px] text-muted-foreground">
+            {isRacing
+              ? "Cards racing for position • Watch & cheer!"
+              : "Place your bets before the next race starts!"}
+          </p>
+        </div>
+      </div>
+      <CountdownTimer
+        ms={phaseTimeRemaining}
+        label={isRacing ? "Race ends" : "Race starts"}
+        variant={isRacing ? "accent" : "warning"}
+      />
+    </div>
+  );
+};
+
 /* ─── Race Track ─── */
-const RaceTrack = ({ race, onBet, userBets }: {
+const RaceTrack = ({ race, onBet, userBets, isActive, isBettingPhase }: {
   race: RaceState | null;
   onBet: (racer: Racer) => void;
   userBets: string[];
+  isActive: boolean;
+  isBettingPhase: boolean;
 }) => {
   if (!race) return null;
 
   const sorted = [...race.racers].sort((a, b) => b.position - a.position);
+  const canBet = isBettingPhase;
 
   return (
     <div className="space-y-1.5">
@@ -39,19 +106,20 @@ const RaceTrack = ({ race, onBet, userBets }: {
 
         return (
           <div key={racer.id} className={`relative rounded-lg border overflow-hidden transition-all duration-300 ${
-            isWinner ? "border-primary ring-1 ring-primary/50 bg-primary/5" : 
-            hasBet ? "border-amber-500/50 bg-amber-500/5" : "border-border/50 bg-card/50"
+            isWinner ? "border-primary ring-1 ring-primary/50 bg-primary/5" :
+            hasBet ? "border-amber-500/50 bg-amber-500/5" :
+            isActive ? "border-border/50 bg-card/50" : "border-border/30 bg-card/30 opacity-70"
           }`}>
-            {/* Lane background */}
+            {/* Lane background — animated during racing */}
             <div className="absolute inset-0 opacity-20">
               <div className={`h-full bg-gradient-to-r ${laneColors[i]} rounded-lg`}
-                style={{ width: `${racer.position}%`, transition: "width 0.5s ease-out" }} />
+                style={{ width: `${racer.position}%`, transition: isActive ? "width 0.5s ease-out" : "none" }} />
             </div>
 
             <div className="relative flex items-center gap-2 p-2 sm:p-3">
               {/* Rank */}
               <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                rank === 1 ? "bg-primary/20 text-primary" : 
+                rank === 1 ? "bg-primary/20 text-primary" :
                 rank === 2 ? "bg-amber-500/20 text-amber-400" : "bg-muted text-muted-foreground"
               }`}>
                 {rank === 1 && isWinner ? <Crown className="w-3.5 h-3.5" /> : rank}
@@ -86,8 +154,8 @@ const RaceTrack = ({ race, onBet, userBets }: {
                 <p className="text-sm font-bold text-foreground font-mono">{racer.odds}x</p>
               </div>
 
-              {/* Bet button */}
-              {race.status === "active" && (
+              {/* Bet button — only during betting phase */}
+              {canBet && (
                 <Button
                   size="sm"
                   variant={hasBet ? "secondary" : "default"}
@@ -158,21 +226,21 @@ const MoversBoard = ({ title, icon, items }: {
 
 /* ─── Main Section ─── */
 const PokeRaceSection = () => {
-  const { priceRace, inventoryRace, timeRemaining } = usePokeRace();
+  const { priceRace, inventoryRace, cycle, phaseTimeRemaining } = usePokeRace();
   const { user } = useAuth();
   const { toast } = useToast();
   const [wallet, setWallet] = useState({ balance: 1000, lifetime_won: 0 });
   const [betWager, setBetWager] = useState(100);
   const [userBets, setUserBets] = useState<string[]>([]);
-  const [activeTab, setActiveTab] = useState("price");
+  const [now, setNow] = useState(Date.now());
 
-  // Format time remaining
-  const formatTime = (ms: number) => {
-    const totalSec = Math.floor(ms / 1000);
-    const min = Math.floor(totalSec / 60);
-    const sec = totalSec % 60;
-    return `${min}:${sec.toString().padStart(2, "0")}`;
-  };
+  // Tick every second for countdown displays
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, []);
+
+  const phaseMs = Math.max(0, cycle.phaseEndsAt - now);
 
   // Load wallet
   useEffect(() => {
@@ -193,6 +261,11 @@ const PokeRaceSection = () => {
     loadWallet();
   }, [user]);
 
+  // Clear bets on new race cycle
+  useEffect(() => {
+    setUserBets([]);
+  }, [cycle.raceNumber]);
+
   const handleBet = async (racer: Racer) => {
     if (!user) {
       toast({ title: "Sign in required", description: "Create an account to bet on Poké Race!", variant: "destructive" });
@@ -208,7 +281,6 @@ const PokeRaceSection = () => {
     setWallet(w => ({ ...w, balance: newBalance }));
     setUserBets(prev => [...prev, racer.id]);
 
-    // Update wallet in DB
     await supabase.from("race_wallets").update({
       balance: newBalance,
       lifetime_wagered: wallet.balance - newBalance,
@@ -221,7 +293,7 @@ const PokeRaceSection = () => {
     });
   };
 
-  // Generate top movers from race data
+  // Top movers from race data
   const topPriceMovers = useMemo(() => {
     if (!priceRace) return [];
     return [...priceRace.racers]
@@ -238,6 +310,10 @@ const PokeRaceSection = () => {
       .map(r => ({ name: r.name, image: r.image, change: r.changePct, category: r.category }));
   }, [inventoryRace]);
 
+  const currentRace = cycle.activeTrack === "price" ? priceRace : inventoryRace;
+  const isRacing = cycle.phase === "racing";
+  const isBetting = cycle.phase === "betting";
+
   return (
     <section className="space-y-4">
       {/* Header */}
@@ -247,20 +323,17 @@ const PokeRaceSection = () => {
           <div>
             <h2 className="text-lg sm:text-xl font-display font-black text-foreground tracking-tight flex items-center gap-2">
               POKÉ RACE™
-              <Badge variant="default" className="text-[9px] px-1.5 animate-pulse bg-primary/90">
-                LIVE
+              <Badge variant="default" className={`text-[9px] px-1.5 ${isRacing ? "animate-pulse bg-primary/90" : "bg-amber-500/90"}`}>
+                {isRacing ? "LIVE" : "BETS OPEN"}
               </Badge>
             </h2>
             <p className="text-[10px] text-muted-foreground">
-              Bet on 5-minute card races • Raw × Graded × Sealed
+              2-min races • 1-min betting breaks • Inventory ↔ Price
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="text-right">
-            <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Race Ends</p>
-            <p className="text-lg font-mono font-bold text-primary">{formatTime(timeRemaining)}</p>
-          </div>
+        <div className="flex items-center gap-4">
+          <CountdownTimer ms={phaseMs} label={isRacing ? "Race ends" : "Next race"} variant={isRacing ? "accent" : "warning"} />
           <div className="text-right">
             <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Coins</p>
             <p className="text-lg font-mono font-bold text-amber-400 flex items-center gap-1">
@@ -270,8 +343,13 @@ const PokeRaceSection = () => {
         </div>
       </div>
 
-      {/* Wager selector */}
-      <div className="flex items-center gap-2 flex-wrap">
+      {/* Phase Banner */}
+      <PhaseBanner cycle={cycle} phaseTimeRemaining={phaseMs} />
+
+      {/* Wager selector — highlighted during betting phase */}
+      <div className={`flex items-center gap-2 flex-wrap rounded-lg p-2 transition-all ${
+        isBetting ? "bg-amber-500/10 border border-amber-500/30" : ""
+      }`}>
         <span className="text-[10px] text-muted-foreground font-semibold">WAGER:</span>
         {[50, 100, 250, 500].map(amount => (
           <Button
@@ -289,25 +367,27 @@ const PokeRaceSection = () => {
         </Button>
       </div>
 
-      {/* Race tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="w-full grid grid-cols-2">
-          <TabsTrigger value="price" className="text-xs gap-1">
-            <TrendingUp className="w-3.5 h-3.5" /> Price Race
-          </TabsTrigger>
-          <TabsTrigger value="inventory" className="text-xs gap-1">
-            <Package className="w-3.5 h-3.5" /> Inventory Race
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="price" className="mt-3 space-y-3">
-          <RaceTrack race={priceRace} onBet={handleBet} userBets={userBets} />
-        </TabsContent>
-
-        <TabsContent value="inventory" className="mt-3 space-y-3">
-          <RaceTrack race={inventoryRace} onBet={handleBet} userBets={userBets} />
-        </TabsContent>
-      </Tabs>
+      {/* Active Race Track */}
+      <div>
+        <div className="flex items-center gap-2 mb-2">
+          {cycle.activeTrack === "price" ? (
+            <TrendingUp className="w-4 h-4 text-primary" />
+          ) : (
+            <Package className="w-4 h-4 text-amber-400" />
+          )}
+          <span className="text-xs font-bold text-foreground uppercase">
+            {cycle.activeTrack === "price" ? "Price Movement Race" : "Inventory Movement Race"}
+          </span>
+          {isRacing && <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />}
+        </div>
+        <RaceTrack
+          race={currentRace}
+          onBet={handleBet}
+          userBets={userBets}
+          isActive={isRacing}
+          isBettingPhase={isBetting}
+        />
+      </div>
 
       {/* Top Movers Boards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
