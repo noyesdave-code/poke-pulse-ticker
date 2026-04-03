@@ -1,4 +1,4 @@
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo, useState } from "react";
 
 import { rawCards, gradedCards, sealedProducts, getIndexValue, getIndexChange } from "@/data/marketData";
 import { useLiveCards } from "@/hooks/usePokemonTcg";
@@ -85,6 +85,15 @@ const Index = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { toast } = useToast();
   const { checkSubscription } = useAuth();
+
+  // Refresh key increments every 60 minutes to force chart data regeneration
+  const [chartRefreshKey, setChartRefreshKey] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setChartRefreshKey(k => k + 1);
+    }, 60 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const checkout = searchParams.get("checkout");
@@ -193,9 +202,9 @@ const Index = () => {
             <div className="relative">
               {!isNYSE && <MarketClosedOverlay />}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <IndexDayChart title="RAW 500 INDEX" indexValue={rawIndex} indexChange={rawChange} variant="green" />
-                <IndexDayChart title="GRADED 1000 INDEX" indexValue={gradedIndex} indexChange={gradedChange} variant="amber" />
-                <IndexDayChart title="SEALED 1000 INDEX" indexValue={sealedIndex} indexChange={sealedChange} variant="blue" />
+                <IndexDayChart title="RAW 500 INDEX" indexValue={rawIndex} indexChange={rawChange} variant="green" refreshKey={chartRefreshKey} />
+                <IndexDayChart title="GRADED 1000 INDEX" indexValue={gradedIndex} indexChange={gradedChange} variant="amber" refreshKey={chartRefreshKey} />
+                <IndexDayChart title="SEALED 1000 INDEX" indexValue={sealedIndex} indexChange={sealedChange} variant="blue" refreshKey={chartRefreshKey} />
               </div>
             </div>
           );

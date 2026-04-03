@@ -30,8 +30,8 @@ export function useIndexCache() {
 
       return data.data as unknown as CachedIndexData;
     },
-    staleTime: 5 * 60 * 1000, // 5 min
-    refetchInterval: 5 * 60 * 1000,
+    staleTime: 60 * 60 * 1000, // 60 min
+    refetchInterval: 60 * 60 * 1000,
   });
 }
 
