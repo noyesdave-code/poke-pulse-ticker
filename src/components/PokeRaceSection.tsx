@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import pokeRaceLogo from "@/assets/poke-race-logo.png";
+import pokeRaceLogo from "@/assets/poke-race-brand.png";
 import {
   Trophy, Timer, TrendingUp, Package, Coins, Flame,
   ChevronRight, Zap, Crown, Medal, Star, Clock
