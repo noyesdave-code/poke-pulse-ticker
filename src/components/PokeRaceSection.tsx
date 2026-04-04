@@ -318,8 +318,9 @@ const PokeRaceSection = () => {
     });
   };
 
-  // Top movers from race data
-  const topPriceMovers = useMemo(() => {
+  // Top movers from race data — throttled to refresh every 60s for readability
+  type MoverItem = { name: string; image: string; change: number; category: string; price: number };
+  const topPriceMoversRaw = useMemo<MoverItem[]>(() => {
     if (!priceRace) return [];
     return [...priceRace.racers]
       .sort((a, b) => Math.abs(b.changePct) - Math.abs(a.changePct))
@@ -327,13 +328,28 @@ const PokeRaceSection = () => {
       .map(r => ({ name: r.name, image: r.image, change: r.changePct, category: r.category, price: r.currentValue }));
   }, [priceRace]);
 
-  const topInventoryMovers = useMemo(() => {
+  const topInventoryMoversRaw = useMemo<MoverItem[]>(() => {
     if (!inventoryRace) return [];
     return [...inventoryRace.racers]
       .sort((a, b) => Math.abs(b.changePct) - Math.abs(a.changePct))
       .slice(0, 5)
       .map(r => ({ name: r.name, image: r.image, change: r.changePct, category: r.category, price: r.currentValue }));
   }, [inventoryRace]);
+
+  const [moversSnapshot, setMoversSnapshot] = useState<{ price: MoverItem[]; inventory: MoverItem[] }>({ price: [], inventory: [] });
+
+  useEffect(() => {
+    if (moversSnapshot.price.length === 0 && topPriceMoversRaw.length > 0) {
+      setMoversSnapshot({ price: topPriceMoversRaw, inventory: topInventoryMoversRaw });
+    }
+    const interval = setInterval(() => {
+      setMoversSnapshot({ price: topPriceMoversRaw, inventory: topInventoryMoversRaw });
+    }, 60_000);
+    return () => clearInterval(interval);
+  }, [topPriceMoversRaw, topInventoryMoversRaw]);
+
+  const topPriceMovers = moversSnapshot.price;
+  const topInventoryMovers = moversSnapshot.inventory;
 
   const currentRace = cycle.activeTrack === "price" ? priceRace : inventoryRace;
   const isRacing = cycle.phase === "racing";
