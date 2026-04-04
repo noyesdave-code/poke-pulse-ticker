@@ -318,8 +318,8 @@ const PokeRaceSection = () => {
     });
   };
 
-  // Top movers from race data — throttled to refresh every 60s for readability
-  type MoverItem = { name: string; image: string; change: number; category: string; price: number };
+  const [moversSnapshot, setMoversSnapshot] = useState<{ price: MoverItem[]; inventory: MoverItem[] }>({ price: [], inventory: [] });
+
   const topPriceMoversRaw = useMemo<MoverItem[]>(() => {
     if (!priceRace) return [];
     return [...priceRace.racers]
@@ -335,8 +335,6 @@ const PokeRaceSection = () => {
       .slice(0, 5)
       .map(r => ({ name: r.name, image: r.image, change: r.changePct, category: r.category, price: r.currentValue }));
   }, [inventoryRace]);
-
-  const [moversSnapshot, setMoversSnapshot] = useState<{ price: MoverItem[]; inventory: MoverItem[] }>({ price: [], inventory: [] });
 
   useEffect(() => {
     if (moversSnapshot.price.length === 0 && topPriceMoversRaw.length > 0) {
