@@ -12,7 +12,7 @@ import {
   ChevronRight, Zap, Crown, Medal, Star, Clock
 } from "lucide-react";
 
-/* ─── Countdown Display ─── */
+type MoverItem = { name: string; image: string; change: number; category: string; price: number };
 const CountdownTimer = ({ ms, label, variant = "default" }: {
   ms: number;
   label: string;
