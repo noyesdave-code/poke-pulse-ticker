@@ -392,47 +392,37 @@ const Index = () => {
         <FinancialDisclaimer />
 
         {/* Footer */}
-        <footer className="border-t border-border/50 pt-8 pb-6">
-          <div className="flex flex-col items-center gap-6">
-            <div className="flex items-center gap-3">
-              <div className="flex flex-col leading-none select-none">
-                <span className="font-display font-black text-[16px] tracking-tight text-foreground" style={{ textShadow: '0 0 10px hsl(210 20% 98% / 0.5)' }}>
-                  Poke-Pulse-
-                </span>
-                <span className="font-display font-extrabold text-[13px] tracking-[0.06em] text-primary uppercase" style={{ textShadow: '0 0 12px hsl(160 84% 50% / 0.35)' }}>
-                  Market Terminal
-                </span>
-              </div>
+        <footer className="border-t border-border/50 pt-4 pb-3">
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex items-center gap-2">
+              <span className="font-display font-black text-[13px] tracking-tight text-foreground">Poke-Pulse-</span>
+              <span className="font-display font-extrabold text-[11px] tracking-[0.06em] text-primary uppercase">Market Terminal</span>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
-              <a href="https://poke-pulse-ticker.com" className="text-sm text-primary font-semibold hover:underline transition-colors">
-                poke-pulse-ticker.com
-              </a>
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+              <a href="https://poke-pulse-ticker.com" className="text-[11px] text-primary font-semibold hover:underline transition-colors">poke-pulse-ticker.com</a>
               <span className="text-border/50 hidden sm:inline">|</span>
-              <span className="text-xs text-muted-foreground tracking-wide">
-                Live Poké TCG Market Data
-              </span>
+              <span className="text-[10px] text-muted-foreground">Live Poké TCG Market Data</span>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
               {[
                 { href: "/pokemon-kids", label: "Poké Adventure Land" },
                 { href: "#poke-race", label: "Poké Race" },
                 { href: "/arena", label: "Arena" },
-                { href: "/videos", label: "Video Library" },
-                { href: "/terms", label: "Terms of Service" },
-                { href: "/privacy", label: "Privacy Policy" },
+                { href: "/videos", label: "Videos" },
+                { href: "/terms", label: "Terms" },
+                { href: "/privacy", label: "Privacy" },
                 { href: "/methodology", label: "Methodology" },
                 { href: "mailto:contact@poke-pulse-ticker.com", label: "Contact" },
-              ].map((link, i) => (
-                <a key={link.href} href={link.href} className="text-xs text-muted-foreground hover:text-primary transition-colors duration-200">
+              ].map((link) => (
+                <a key={link.href} href={link.href} className="text-[10px] text-muted-foreground hover:text-primary transition-colors duration-200">
                   {link.label}
                 </a>
               ))}
             </div>
-            <p className="text-[11px] text-muted-foreground/70 text-center max-w-lg leading-relaxed">
+            <p className="text-[9px] text-muted-foreground/60 text-center max-w-md leading-snug">
               Poké is a trademark of Nintendo/Creatures Inc./GAME FREAK inc. Not affiliated with The Poké Company International. Data powered by pokemontcg.io. Not financial advice.
             </p>
-            <p className="text-xs text-muted-foreground/60 font-mono">
+            <p className="text-[10px] text-muted-foreground/50 font-mono">
               © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved.
             </p>
           </div>
