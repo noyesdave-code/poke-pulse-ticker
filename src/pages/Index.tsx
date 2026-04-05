@@ -418,7 +418,7 @@ const Index = () => {
         <FinancialDisclaimer />
 
         {/* Footer */}
-        <footer className="border-t border-border/50 pt-4 pb-3">
+        <footer className="border-t border-border/30 pt-3 pb-2">
           <div className="flex flex-col items-center gap-2">
             <div className="flex items-center gap-2">
               <span className="font-display font-black text-[13px] tracking-tight text-foreground">Poke-Pulse-</span>
