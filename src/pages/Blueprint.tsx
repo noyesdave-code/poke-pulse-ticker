@@ -223,7 +223,7 @@ const Blueprint = () => {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}
             className="flex flex-wrap gap-2 justify-center">
             {[
-              { icon: Globe, text: "12 Verticals" },
+              { icon: Globe, text: "5 Tiers" },
               { icon: DollarSign, text: `$${totalTAM.toFixed(0)}B+ TAM` },
               { icon: Shield, text: "Patent Pending" },
               { icon: Cpu, text: "AI-Powered" },
