@@ -131,7 +131,7 @@ const Privacy = () => (
       </section>
 
       <section className="space-y-3">
-        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">13. Contact & Data Protection Inquiries</h2>
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">15. Contact & Data Protection Inquiries</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
           For privacy-related inquiries, data access requests, or to exercise your rights, contact us at <a href="mailto:contact@poke-pulse-ticker.com" className="text-primary hover:underline">contact@poke-pulse-ticker.com</a>.
         </p>
