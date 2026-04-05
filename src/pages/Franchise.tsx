@@ -26,16 +26,16 @@ const demoRoutes: Record<string, string> = {
 
 const terminals = [
   { name: "Poké TCG", terminal: "Poke-Pulse-Engine", status: "live", tam: "$15.4B", emoji: "⚡", color: "from-yellow-500 to-amber-600" },
-  { name: "Magic: The Gathering", terminal: "MTG Pulse Engine", status: "demo", tam: "$8.2B", emoji: "🧙", color: "from-indigo-500 to-purple-600" },
-  { name: "Yu-Gi-Oh!", terminal: "YuGiOh Pulse Engine", status: "demo", tam: "$5.1B", emoji: "🃏", color: "from-red-500 to-orange-600" },
-  { name: "Lorcana", terminal: "Lorcana Pulse Engine", status: "demo", tam: "$1.8B", emoji: "✨", color: "from-sky-400 to-blue-600" },
-  { name: "Major League Baseball", terminal: "MLB Pulse Engine", status: "demo", tam: "$12.6B", emoji: "⚾", color: "from-red-600 to-red-800" },
-  { name: "National Football League", terminal: "NFL Pulse Engine", status: "demo", tam: "$18.3B", emoji: "🏈", color: "from-green-600 to-green-800" },
-  { name: "National Basketball Association", terminal: "NBA Pulse Engine", status: "demo", tam: "$14.7B", emoji: "🏀", color: "from-orange-500 to-red-600" },
-  { name: "National Hockey League", terminal: "NHL Pulse Engine", status: "demo", tam: "$4.2B", emoji: "🏒", color: "from-blue-600 to-blue-800" },
-  { name: "DragonBall Z", terminal: "DBZ Pulse Engine", status: "demo", tam: "$6.8B", emoji: "🐉", color: "from-orange-400 to-yellow-500" },
-  { name: "Star Wars", terminal: "Star Wars Pulse Engine", status: "demo", tam: "$9.5B", emoji: "⭐", color: "from-gray-600 to-gray-900" },
-  { name: "FIFA Soccer", terminal: "FIFA Pulse Engine", status: "demo", tam: "$7.3B", emoji: "⚽", color: "from-emerald-500 to-teal-600" },
+  { name: "Magic: The Gathering", terminal: "MTG Personal Pulse Engine", status: "demo", tam: "$8.2B", emoji: "🧙", color: "from-indigo-500 to-purple-600" },
+  { name: "Yu-Gi-Oh!", terminal: "YuGiOh Personal Pulse Engine", status: "demo", tam: "$5.1B", emoji: "🃏", color: "from-red-500 to-orange-600" },
+  { name: "Lorcana", terminal: "Lorcana Personal Pulse Engine", status: "demo", tam: "$1.8B", emoji: "✨", color: "from-sky-400 to-blue-600" },
+  { name: "Major League Baseball", terminal: "MLB Personal Pulse Engine", status: "demo", tam: "$12.6B", emoji: "⚾", color: "from-red-600 to-red-800" },
+  { name: "National Football League", terminal: "NFL Personal Pulse Engine", status: "demo", tam: "$18.3B", emoji: "🏈", color: "from-green-600 to-green-800" },
+  { name: "National Basketball Association", terminal: "NBA Personal Pulse Engine", status: "demo", tam: "$14.7B", emoji: "🏀", color: "from-orange-500 to-red-600" },
+  { name: "National Hockey League", terminal: "NHL Personal Pulse Engine", status: "demo", tam: "$4.2B", emoji: "🏒", color: "from-blue-600 to-blue-800" },
+  { name: "DragonBall Z", terminal: "DBZ Personal Pulse Engine", status: "demo", tam: "$6.8B", emoji: "🐉", color: "from-orange-400 to-yellow-500" },
+  { name: "Star Wars", terminal: "Star Wars Personal Pulse Engine", status: "demo", tam: "$9.5B", emoji: "⭐", color: "from-gray-600 to-gray-900" },
+  { name: "FIFA Soccer", terminal: "FIFA Personal Pulse Engine", status: "demo", tam: "$7.3B", emoji: "⚽", color: "from-emerald-500 to-teal-600" },
 ];
 
 const coreFeatures = [
@@ -243,7 +243,7 @@ const Franchise = () => {
           <h2 className="text-2xl font-bold">Investment Opportunity</h2>
           <p className="text-muted-foreground text-sm">
             PGVA Ventures, LLC is seeking a <strong className="text-foreground">$2.5M Series Seed</strong> to 
-            fund simultaneous development of the first 5 Pulse Engines.
+            fund simultaneous development of the first 5 Personal Pulse Engines.
           </p>
           <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
             <div className="text-center">
@@ -272,7 +272,7 @@ const Franchise = () => {
           <p className="font-mono text-[8px] text-muted-foreground/60 text-center">
             © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved. Patent pending.
             Protected under U.S. copyright, trademark, trade secret, and patent laws.
-            Pulse Engine™, SimTrader World™, PokéArena™, and Alpha Signals™ are trademarks of PGVA Ventures, LLC.
+            Personal Pulse Engine™, SimTrader World™, PokéArena™, and Alpha Signals™ are trademarks of PGVA Ventures, LLC.
             This document is confidential and intended solely for the named recipient. Unauthorized distribution is prohibited.
           </p>
         </div>

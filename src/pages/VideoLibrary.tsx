@@ -33,7 +33,7 @@ const videoLibrary: VideoEntry[] = [
   {
     id: "5tier-deepdive-investor",
     title: "🏛️ 5-Tier Vertical Integration™ — Deep-Dive Investor Video (VO + Music)",
-    description: "The definitive 5-minute deep-dive investor presentation covering all 5 tiers of the PGVA Ventures vertical integration system. Tier 1: PokéGarageVA™ hybrid home franchise (est. 2022). Tier 2: Poke-Pulse-Engine™ real-time analytics. Tier 3: Pulse Engine™ institutional data across 12 verticals. Tier 4: PGTV Media Hub™ streaming & media. Tier 5: Pulse Philanthropic™ National Museum in D.C. Features revenue projections ($157.8M ARR), $1.89B valuation, and $103B+ TAM. Contact: contact@poke-pulse-ticker.com | pokegarageva@gmail.com. © 2026 PGVA Ventures, LLC.",
+    description: "The definitive 5-minute deep-dive investor presentation covering all 5 tiers of the PGVA Ventures vertical integration system. Tier 1: PokéGarageVA™ hybrid home franchise (est. 2022). Tier 2: Poke-Pulse-Engine™ real-time analytics. Tier 3: Personal Pulse Engine™ institutional data across 12 verticals. Tier 4: PGTV Media Hub™ streaming & media. Tier 5: Pulse Philanthropic™ National Museum in D.C. Features revenue projections ($157.8M ARR), $1.89B valuation, and $103B+ TAM. Contact: contact@poke-pulse-ticker.com | pokegarageva@gmail.com. © 2026 PGVA Ventures, LLC.",
     file: "/videos/PGVA_5Tier_DeepDive_Investor_2026.mp4",
     aspect: "16:9",
     duration: "5:00",
@@ -76,8 +76,8 @@ const videoLibrary: VideoEntry[] = [
   },
   {
     id: "tier3-pulseengine-1min",
-    title: "Tier 3 — Pulse Engine™ Institutional Data (1-Min)",
-    description: "1-minute promo for Tier 3: Pulse Engine™ — institutional-grade data engine spanning 12 collectible verticals with $103B+ TAM, B2B licensing, and franchise blueprint. © 2026 PGVA Ventures, LLC.",
+    title: "Tier 3 — Personal Pulse Engine™ Institutional Data (1-Min)",
+    description: "1-minute promo for Tier 3: Personal Pulse Engine™ — institutional-grade data engine spanning 12 collectible verticals with $103B+ TAM, B2B licensing, and franchise blueprint. © 2026 PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier3_PulseEngine_1min_2026.mp4",
     aspect: "16:9",
     duration: "1:00",
@@ -252,8 +252,8 @@ const videoLibrary: VideoEntry[] = [
   },
   {
     id: "franchise-umbrella",
-    title: "Pulse Engine™ — 12-Vertical Franchise Pitch",
-    description: "27-second investor pitch showcasing the Pulse Engine expansion across 12 collectible and sports card verticals — Poké, MLB, NFL, NBA, NHL, FIFA, MTG, Yu-Gi-Oh!, Dragon Ball Z, Lorcana, and Star Wars. $103B+ combined TAM under PGVA Ventures, LLC.",
+    title: "Personal Pulse Engine™ — 12-Vertical Franchise Pitch",
+    description: "27-second investor pitch showcasing the Personal Pulse Engine expansion across 12 collectible and sports card verticals — Poké, MLB, NFL, NBA, NHL, FIFA, MTG, Yu-Gi-Oh!, Dragon Ball Z, Lorcana, and Star Wars. $103B+ combined TAM under PGVA Ventures, LLC.",
     file: "/videos/franchise-pitch-2026.mp4",
     aspect: "16:9",
     duration: "0:27",
@@ -285,7 +285,7 @@ const videoLibrary: VideoEntry[] = [
   },
   {
     id: "tier1-poke-pulse-av",
-    title: "Tier 1 — Poké Pulse Engine (VO + Music)",
+    title: "Tier 1 — Poké Personal Pulse Engine (VO + Music)",
     description: "30-second aggressive social promo with Laura AI voiceover and upbeat electronic music. Highlights live pricing for 500+ cards, SimTrader World™, Poké-Pulse Arena™, Alpha Signals, grading arbitrage, and 7-tier subscriptions. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier1_PokePulse_Promo_2026_AV.mp4",
     aspect: "16:9",
@@ -296,7 +296,7 @@ const videoLibrary: VideoEntry[] = [
   },
   {
     id: "tier2-pulse-market-av",
-    title: "Tier 2 — Pulse Engine Franchise (VO + Music)",
+    title: "Tier 2 — Personal Pulse Engine Franchise (VO + Music)",
     description: "30-second investor-focused promo with Laura AI voiceover and cinematic orchestral music. Covers $103B+ TAM, $157.8M ARR projections, 12 revenue engines, and $1.89B valuation. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier2_PulseMarket_Promo_2026_AV.mp4",
     aspect: "16:9",
@@ -330,7 +330,7 @@ const videoLibrary: VideoEntry[] = [
   {
     id: "combined-3tier-demo-av",
     title: "3-Tier Vertical Integration — Full Demo (VO + Music)",
-    description: "Nearly 2-minute cinematic demo with Laura AI voiceover and epic orchestral-electronic soundtrack. Complete walkthrough of all three vertical tiers: Poké Pulse (Data), Pulse Engine (Franchise), and PGTV Media Hub (Media). © PGVA Ventures, LLC.",
+    description: "Nearly 2-minute cinematic demo with Laura AI voiceover and epic orchestral-electronic soundtrack. Complete walkthrough of all three vertical tiers: Poké Pulse (Data), Personal Pulse Engine (Franchise), and PGTV Media Hub (Media). © PGVA Ventures, LLC.",
     file: "/videos/PGVA_3Tier_Combined_Demo_2026_AV.mp4",
     aspect: "16:9",
     duration: "1:53",
@@ -340,8 +340,8 @@ const videoLibrary: VideoEntry[] = [
   },
   {
     id: "tier1-poke-pulse",
-    title: "Tier 1 — Poké Pulse Engine Promo (Silent)",
-    description: "30-second aggressive social promo for the Poké Pulse Engine — the consumer-facing data engine. Silent version. © PGVA Ventures, LLC.",
+    title: "Tier 1 — Poké Personal Pulse Engine Promo (Silent)",
+    description: "30-second aggressive social promo for the Poké Personal Pulse Engine — the consumer-facing data engine. Silent version. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier1_PokePulse_Promo_2026.mp4",
     aspect: "16:9",
     duration: "0:30",
@@ -351,7 +351,7 @@ const videoLibrary: VideoEntry[] = [
   },
   {
     id: "tier2-pulse-market",
-    title: "Tier 2 — Pulse Engine Franchise Promo (Silent)",
+    title: "Tier 2 — Personal Pulse Engine Franchise Promo (Silent)",
     description: "30-second investor-focused promo. Silent version. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier2_PulseMarket_Promo_2026.mp4",
     aspect: "16:9",

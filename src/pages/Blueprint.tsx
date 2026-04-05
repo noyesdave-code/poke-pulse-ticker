@@ -115,7 +115,7 @@ const TerminalSimulator = () => {
         <div className="flex items-center gap-3 mb-4">
           <span className="text-3xl">{t.emoji}</span>
           <div>
-            <p className="font-bold text-sm">{t.name} Pulse Engine</p>
+            <p className="font-bold text-sm">{t.name} Personal Pulse Engine</p>
             <p className="text-[10px] text-muted-foreground font-mono">TAM: ${t.tam}B · Status: {t.status.toUpperCase()}</p>
           </div>
           <div className="ml-auto text-right">
@@ -279,7 +279,7 @@ const Blueprint = () => {
                 features: ["Real-time market indexes", "AI Alpha Signals", "SimTrader World™", "7-tier subscription model"]
               },
               {
-                tier: "TIER 3", name: "Pulse Engine™", icon: "🏗️", color: "hsl(142, 71%, 45%)",
+                tier: "TIER 3", name: "Personal Pulse Engine™", icon: "🏗️", color: "hsl(142, 71%, 45%)",
                 desc: "Institutional-grade franchise data licensing across 12 multi-billion-dollar collectible and sports memorabilia verticals. White-label terminal deployments and data API.",
                 features: ["12-vertical franchise system", "$103B+ combined TAM", "Data licensing API", "White-label deployments"]
               },
@@ -630,7 +630,7 @@ const Blueprint = () => {
             <p className="font-mono text-[7px] text-muted-foreground/60 max-w-2xl mx-auto">
               © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved. Patent pending.
               Protected under U.S. copyright, trademark, trade secret, and patent laws (DMCA, CFAA, DTSA).
-              Pulse Engine™, SimTrader World™, PokéArena™, and Alpha Signals™ are trademarks of PGVA Ventures, LLC.
+              Personal Pulse Engine™, SimTrader World™, PokéArena™, and Alpha Signals™ are trademarks of PGVA Ventures, LLC.
               This document is confidential and intended solely for the named recipient. Unauthorized distribution is strictly prohibited.
             </p>
           </div>

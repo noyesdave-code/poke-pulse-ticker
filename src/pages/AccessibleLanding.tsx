@@ -85,7 +85,7 @@ const AccessibleLanding = () => {
             className="text-4xl sm:text-5xl font-black text-foreground leading-tight"
             style={{ textShadow: "none" }}
           >
-            Poke Pulse Engine
+            Poke Personal Pulse Engine
           </h1>
 
           <p className="text-xl text-foreground max-w-2xl mx-auto leading-relaxed">
