@@ -212,11 +212,11 @@ const Blueprint = () => {
               <Lock className="w-3 h-3 mr-1" /> CONFIDENTIAL — INVESTOR BLUEPRINT
             </Badge>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
-              PULSE MARKET<br />TERMINAL™
+              5-TIER VERTICAL<br />INTEGRATION™
             </h1>
             <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mt-4">
-              A patent-pending SaaS platform delivering real-time market intelligence across
-              12 multi-billion-dollar collectibles & sports memorabilia verticals.
+              A patent-pending 5-tier ecosystem delivering garage-to-museum vertical integration across
+              consumer trading, data intelligence, franchise licensing, media production, and philanthropy.
             </p>
           </motion.div>
 
