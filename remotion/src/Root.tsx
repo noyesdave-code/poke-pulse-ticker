@@ -199,7 +199,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition
       id="five-tier-promo"
       component={FiveTierPromo}
-      durationInFrames={1900}
+      durationInFrames={3090}
       fps={30}
       width={1920}
       height={1080}
