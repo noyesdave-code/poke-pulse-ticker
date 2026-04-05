@@ -418,7 +418,7 @@ img {
 
 /* Bottom padding for fixed copyright banner */
 #root {
-  padding-bottom: 2.5rem;
+  padding-bottom: 1.25rem;
 }
 
 @media print {
