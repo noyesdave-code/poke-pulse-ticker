@@ -41,6 +41,19 @@ export const rawCards: CardData[] = [
   { name: "Rocket's Mewtwo", set: "Gym Challenge", number: "14", market: 450.96, low: 399.99, mid: 440.00, change: 0.56, _apiId: "gym2-14", _image: "https://images.pokemontcg.io/gym2/14.png" },
   { name: "Umbreon", set: "Neo Discovery", number: "13", market: 439.96, low: 375.00, mid: 410.00, change: 2.01, _apiId: "neo3-13", _image: "https://images.pokemontcg.io/neo3/13.png" },
   { name: "Blastoise", set: "Base Set", number: "2", market: 400.00, low: 299.99, mid: 375.00, change: -0.22, _apiId: "base1-2", _image: "https://images.pokemontcg.io/base1/2.png" },
+  // Modern Era cards (2017–Present)
+  { name: "Charizard VMAX", set: "Shining Fates", number: "SV107", market: 385.00, low: 320.00, mid: 360.00, change: 2.88, _apiId: "swsh45-SV107", _image: "https://images.pokemontcg.io/swsh45/SV107.png" },
+  { name: "Umbreon VMAX", set: "Evolving Skies", number: "215", market: 370.00, low: 300.00, mid: 350.00, change: 3.45, _apiId: "swsh7-215", _image: "https://images.pokemontcg.io/swsh7/215.png" },
+  { name: "Pikachu VMAX", set: "Vivid Voltage", number: "188", market: 320.00, low: 260.00, mid: 300.00, change: 1.77, _apiId: "swsh4-188", _image: "https://images.pokemontcg.io/swsh4/188.png" },
+  { name: "Moonbreon", set: "Evolving Skies", number: "203", market: 295.00, low: 240.00, mid: 280.00, change: 4.12, _apiId: "swsh7-203", _image: "https://images.pokemontcg.io/swsh7/203.png" },
+  { name: "Charizard ex", set: "Obsidian Flames", number: "234", market: 275.00, low: 220.00, mid: 260.00, change: -0.95, _apiId: "sv3-234", _image: "https://images.pokemontcg.io/sv3/234.png" },
+  { name: "Giratina VSTAR", set: "Lost Origin", number: "TG30", market: 260.00, low: 210.00, mid: 245.00, change: 1.33, _apiId: "swsh11-TG30", _image: "https://images.pokemontcg.io/swsh11/TG30.png" },
+  { name: "Rayquaza VMAX", set: "Evolving Skies", number: "218", market: 240.00, low: 195.00, mid: 225.00, change: 0.67, _apiId: "swsh7-218", _image: "https://images.pokemontcg.io/swsh7/218.png" },
+  { name: "Mew VMAX", set: "Fusion Strike", number: "269", market: 210.00, low: 170.00, mid: 200.00, change: -1.55, _apiId: "swsh8-269", _image: "https://images.pokemontcg.io/swsh8/269.png" },
+  { name: "Lugia V", set: "Silver Tempest", number: "186", market: 185.00, low: 150.00, mid: 175.00, change: 2.22, _apiId: "swsh12-186", _image: "https://images.pokemontcg.io/swsh12/186.png" },
+  { name: "Charizard ex", set: "Paldea Evolved", number: "228", market: 165.00, low: 130.00, mid: 155.00, change: -0.44, _apiId: "sv2-228", _image: "https://images.pokemontcg.io/sv2/228.png" },
+  { name: "Miraidon ex", set: "Scarlet & Violet", number: "244", market: 145.00, low: 115.00, mid: 135.00, change: 1.88, _apiId: "sv1-244", _image: "https://images.pokemontcg.io/sv1/244.png" },
+  { name: "Gengar VMAX", set: "Fusion Strike", number: "271", market: 130.00, low: 100.00, mid: 120.00, change: 0.95, _apiId: "swsh8-271", _image: "https://images.pokemontcg.io/swsh8/271.png" },
 ];
 
 export const gradedCards: CardData[] = [

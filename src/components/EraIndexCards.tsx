@@ -32,7 +32,7 @@ const ERAS: Era[] = [
   {
     label: "MODERN",
     tag: "2017–Present",
-    sets: [], // catch-all for anything not matched above
+    sets: ["Shining Fates", "Evolving Skies", "Vivid Voltage", "Obsidian Flames", "Lost Origin", "Fusion Strike", "Silver Tempest", "Paldea Evolved", "Scarlet & Violet", "Brilliant Stars", "Astral Radiance", "Crown Zenith", "Paldean Fates", "Surging Sparks", "Prismatic Evolutions", "151", "Temporal Forces", "Twilight Masquerade", "Shrouded Fable"],
     color: "text-primary",
     glowClass: "glow-green",
   },
@@ -42,8 +42,9 @@ function categorizeCards(cards: CardData[]): { era: Era; cards: CardData[] }[] {
   const matched = new Set<number>();
   const result: { era: Era; cards: CardData[] }[] = [];
 
+  // Match Vintage and EX eras first
   for (const era of ERAS) {
-    if (era.sets.length === 0) continue;
+    if (era.label === "MODERN") continue;
     const eraCards: CardData[] = [];
     cards.forEach((card, idx) => {
       if (!matched.has(idx) && era.sets.some(s => card.set.includes(s))) {
@@ -54,9 +55,13 @@ function categorizeCards(cards: CardData[]): { era: Era; cards: CardData[] }[] {
     result.push({ era, cards: eraCards });
   }
 
-  // Modern = everything unmatched
-  const modernEra = ERAS.find(e => e.sets.length === 0)!;
-  const modernCards = cards.filter((_, idx) => !matched.has(idx));
+  // Modern = explicitly matched modern sets + everything unmatched
+  const modernEra = ERAS.find(e => e.label === "MODERN")!;
+  const modernCards = cards.filter((card, idx) => {
+    if (matched.has(idx)) return false;
+    // Match explicit modern sets OR treat as catch-all
+    return true;
+  });
   result.push({ era: modernEra, cards: modernCards });
 
   return result.filter(r => r.cards.length > 0);
