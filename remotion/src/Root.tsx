@@ -14,6 +14,8 @@ import { CombinedDemo } from "./CombinedDemo";
 import { PokeRacePromo } from "./PokeRacePromo";
 import { EnginePromo2026 } from "./EnginePromo2026";
 import { FiveTierPromo } from "./FiveTierPromo";
+import { Tier4Promo } from "./Tier4Promo";
+import { Tier5Promo } from "./Tier5Promo";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -198,6 +200,22 @@ export const RemotionRoot: React.FC = () => (
       id="five-tier-promo"
       component={FiveTierPromo}
       durationInFrames={1900}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="tier4-promo"
+      component={Tier4Promo}
+      durationInFrames={900}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="tier5-promo"
+      component={Tier5Promo}
+      durationInFrames={900}
       fps={30}
       width={1920}
       height={1080}
