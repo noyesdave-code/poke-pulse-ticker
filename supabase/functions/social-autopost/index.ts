@@ -63,7 +63,7 @@ Deno.serve(async (req) => {
 
     // --- TELEGRAM ---
     // Post to Telegram channel (set your channel ID/username below)
-    const TELEGRAM_CHANNEL = Deno.env.get('TELEGRAM_CHANNEL_ID') || '@pokegarageva';
+    const TELEGRAM_CHANNEL = Deno.env.get('TELEGRAM_CHANNEL_ID') || '@pokepulseengine';
 
     const tgResponse = await fetch(`${TELEGRAM_GATEWAY_URL}/sendMessage`, {
       method: 'POST',
