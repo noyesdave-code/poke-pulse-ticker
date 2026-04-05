@@ -78,6 +78,7 @@ import PokeRaceSection from "@/components/PokeRaceSection";
 import GradingROICalculator from "@/components/GradingROICalculator";
 import AIMarketInsights from "@/components/AIMarketInsights";
 import LiveFreshnessIndicator from "@/components/LiveFreshnessIndicator";
+import ProductAdBanner from "@/components/ProductAdBanner";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
