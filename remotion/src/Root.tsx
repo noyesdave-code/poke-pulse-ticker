@@ -193,5 +193,13 @@ export const RemotionRoot: React.FC = () => (
       width={1920}
       height={1080}
     />
+    <Composition
+      id="five-tier-promo"
+      component={FiveTierPromo}
+      durationInFrames={1900}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
   </>
 );
