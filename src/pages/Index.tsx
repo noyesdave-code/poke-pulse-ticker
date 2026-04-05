@@ -78,6 +78,7 @@ import PokeRaceSection from "@/components/PokeRaceSection";
 import GradingROICalculator from "@/components/GradingROICalculator";
 import AIMarketInsights from "@/components/AIMarketInsights";
 import LiveFreshnessIndicator from "@/components/LiveFreshnessIndicator";
+import ProductAdBanner from "@/components/ProductAdBanner";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
@@ -203,6 +204,9 @@ const Index = () => {
         {/* 4. Trending Cards — dopamine hit */}
         <TrendingCards cards={displayCards} isLoading={isLoading} />
 
+        {/* Product Ad Strip — after trending */}
+        <ProductAdBanner variant="strip" count={4} />
+
         {/* 4b. AI Market Insights — killer feature */}
         <LazySection minHeight="200px">
           <AIMarketInsights cards={displayCards} />
@@ -242,6 +246,9 @@ const Index = () => {
         </LazySection>
 
         <InlineUpgradeNudge variant="savings" />
+
+        {/* Product Ad — inline after upgrade nudge */}
+        <ProductAdBanner variant="inline" />
 
         {/* 10. Prediction Game */}
         <LazySection minHeight="200px">
@@ -395,6 +402,9 @@ const Index = () => {
 
         {/* 20. Campaigns — lower priority, still visible */}
         <PromoStack />
+
+        {/* Product Ad Strip — before monetization */}
+        <ProductAdBanner variant="strip" count={4} />
 
         <LazySection minHeight="80px">
           <ImportFromTCGPlayer />
