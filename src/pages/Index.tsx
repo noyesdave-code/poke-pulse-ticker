@@ -403,6 +403,9 @@ const Index = () => {
         {/* 20. Campaigns — lower priority, still visible */}
         <PromoStack />
 
+        {/* Product Ad Strip — before monetization */}
+        <ProductAdBanner variant="strip" count={4} />
+
         <LazySection minHeight="80px">
           <ImportFromTCGPlayer />
         </LazySection>
