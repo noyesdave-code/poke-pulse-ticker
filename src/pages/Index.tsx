@@ -151,7 +151,7 @@ const Index = () => {
       <TickerBar cards={displayCards} isLive={isLive} lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined} />
 
       <main id="main-content" className="max-w-7xl mx-auto px-4 lg:px-6 py-3 sm:py-5 space-y-3 sm:space-y-4">
-        {/* 1. Hero with urgency hook */}
+        {/* 1. Hero — urgency hook */}
         <HeroSection
           onSearchFocus={handleSearchFocus}
           topMoverName={topMover?.name}
@@ -160,8 +160,6 @@ const Index = () => {
 
         <LaunchCountdown />
 
-        <PromoStack />
-
         <SocialProofBar
           totalMarketValue={totalMarketValue}
           isLive={isLive}
@@ -169,10 +167,7 @@ const Index = () => {
           cardCount={displayCards.length}
         />
 
-        {/* POKÉ RACE — Live alternating 2-min card racing game */}
-        <PokeRaceSection />
-
-        {/* 3. Market Index Cards — show the money right away */}
+        {/* 2. Market Indexes — show the money */}
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <SkeletonIndexCard />
@@ -187,7 +182,7 @@ const Index = () => {
           </div>
         )}
 
-        {/* Daily Index Charts — always visible, "Market Closed" overlay outside NYSE hours */}
+        {/* 3. Intraday Charts */}
         {(() => {
           const isNYSE = marketOpen;
           return (
@@ -202,20 +197,26 @@ const Index = () => {
           );
         })()}
 
-
-        {/* 4. Trending Cards with images — above the fold dopamine hit */}
+        {/* 4. Trending Cards — dopamine hit */}
         <TrendingCards cards={displayCards} isLoading={isLoading} />
 
-        {/* Quick Collection Value Calculator — instant engagement hook */}
-        <QuickValueCalculator />
+        {/* 5. Era-Based Market Indexes — show all eras */}
+        <LazySection minHeight="150px">
+          <EraIndexCards cards={displayCards} />
+        </LazySection>
 
-        {/* Poké Adventure Land Game Promo */}
-        <GamePromo />
+        {/* 6. POKÉ RACE — high engagement game */}
+        <PokeRaceSection />
 
-        {/* Inline upgrade nudge — after first value moment */}
-        <InlineUpgradeNudge variant="savings" />
+        {/* 7. Top Movers side-by-side */}
+        <LazySection minHeight="300px">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" isLoading={isLoading} />
+            <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" isLoading={isLoading} />
+          </div>
+        </LazySection>
 
-        {/* === LAZY-LOADED BELOW-THE-FOLD SECTIONS === */}
+        {/* 8. Daily Spotlight + Live Pulse */}
         <LazySection minHeight="200px">
           <DailySpotlight cards={displayCards} />
         </LazySection>
@@ -224,31 +225,17 @@ const Index = () => {
           <LiveMarketPulse cards={displayCards} />
         </LazySection>
 
-        <LazySection minHeight="120px">
-          <ValueUnlockPreview />
-        </LazySection>
+        {/* 9. Quick Value Calculator — engagement */}
+        <QuickValueCalculator />
 
+        <InlineUpgradeNudge variant="savings" />
+
+        {/* 10. Prediction Game */}
         <LazySection minHeight="200px">
           <PricePredictionGame cards={displayCards} />
         </LazySection>
 
-        <InlineUpgradeNudge variant="trust" />
-
-        <LazySection minHeight="80px">
-          <MarketUpdateBanner cards={displayCards} />
-        </LazySection>
-
-        <LazySection minHeight="300px">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" isLoading={isLoading} />
-            <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" isLoading={isLoading} />
-          </div>
-        </LazySection>
-
-        <LazySection minHeight="150px">
-          <EraIndexCards cards={displayCards} />
-        </LazySection>
-
+        {/* 11. Market Trend + Intel */}
         <LazySection minHeight="150px">
           <MarketTrendSummary cards={displayCards} />
         </LazySection>
@@ -258,13 +245,23 @@ const Index = () => {
         </LazySection>
 
         <LazySection minHeight="80px">
-          <TrustSignals />
+          <MarketUpdateBanner cards={displayCards} />
         </LazySection>
 
-        <LazySection minHeight="60px">
-          <SystemStatusIndicator />
+        {/* 12. Search + Charts */}
+        <div ref={searchRef}>
+          <LazySection minHeight="100px">
+            <CardSearch />
+          </LazySection>
+        </div>
+
+        <LazySection minHeight="300px">
+          <ProGate feature="Historical price charts" blur>
+            <PriceChart cards={displayCards} />
+          </ProGate>
         </LazySection>
 
+        {/* 13. Pro-gated analytics */}
         <LazySection minHeight="200px">
           <ProGate feature="Predictive Alpha Signals" blur>
             <AlphaSignals signals={alphaSignals} />
@@ -272,31 +269,9 @@ const Index = () => {
         </LazySection>
 
         <LazySection minHeight="200px">
-          <ProGate feature="Grading Arbitrage Scanner" blur>
-            <GradingArbitrage />
+          <ProGate feature="AI signal analysis" blur>
+            <SignalSummary cards={displayCards} />
           </ProGate>
-        </LazySection>
-
-        <LazySection minHeight="200px">
-          <ProGate feature="Grade Ratio Arbitrage Bot" blur>
-            <GradeRatioArbitrageBot />
-          </ProGate>
-        </LazySection>
-
-        <LazySection minHeight="250px">
-          <ProGate feature="Pop Report Δ — Supply Pressure" blur>
-            <PopReportDelta cards={displayCards} />
-          </ProGate>
-        </LazySection>
-
-        <LazySection minHeight="200px">
-          <ProGate feature="Alpha Signal Accuracy Metrics" blur>
-            <AlphaAccuracy />
-          </ProGate>
-        </LazySection>
-
-        <LazySection minHeight="200px">
-          <RecentNotableSales cards={displayCards} />
         </LazySection>
 
         <LazySection minHeight="250px">
@@ -311,22 +286,47 @@ const Index = () => {
           </ProGate>
         </LazySection>
 
-        <div ref={searchRef}>
-          <LazySection minHeight="100px">
-            <CardSearch />
-          </LazySection>
-        </div>
+        <LazySection minHeight="250px">
+          <ProGate feature="Pop Report Δ — Supply Pressure" blur>
+            <PopReportDelta cards={displayCards} />
+          </ProGate>
+        </LazySection>
 
-        <LazySection minHeight="300px">
-          <ProGate feature="Historical price charts" blur>
-            <PriceChart cards={displayCards} />
+        <InlineUpgradeNudge variant="trust" />
+
+        <LazySection minHeight="200px">
+          <ProGate feature="Grading Arbitrage Scanner" blur>
+            <GradingArbitrage />
           </ProGate>
         </LazySection>
 
         <LazySection minHeight="200px">
-          <ProGate feature="AI signal analysis" blur>
-            <SignalSummary cards={displayCards} />
+          <ProGate feature="Grade Ratio Arbitrage Bot" blur>
+            <GradeRatioArbitrageBot />
           </ProGate>
+        </LazySection>
+
+        <LazySection minHeight="200px">
+          <ProGate feature="Alpha Signal Accuracy Metrics" blur>
+            <AlphaAccuracy />
+          </ProGate>
+        </LazySection>
+
+        <LazySection minHeight="200px">
+          <ProGate feature="Real-Time Arbitrage Finder" blur>
+            <ArbitrageFinder />
+          </ProGate>
+        </LazySection>
+
+        <LazySection minHeight="200px">
+          <ProGate feature="JP → EN Precursor Tracker" blur>
+            <JPtoENTracker />
+          </ProGate>
+        </LazySection>
+
+        {/* 14. Notable Sales + Market Board */}
+        <LazySection minHeight="200px">
+          <RecentNotableSales cards={displayCards} />
         </LazySection>
 
         <LazySection minHeight="400px">
@@ -347,35 +347,48 @@ const Index = () => {
           <WhaleReport cards={displayCards} />
         </LazySection>
 
-        <LazySection minHeight="200px">
-          <ProGate feature="Real-Time Arbitrage Finder" blur>
-            <ArbitrageFinder />
-          </ProGate>
+        {/* 15. Engagement + Value unlock */}
+        <LazySection minHeight="120px">
+          <ValueUnlockPreview />
         </LazySection>
 
-        <LazySection minHeight="200px">
-          <ProGate feature="JP → EN Precursor Tracker" blur>
-            <JPtoENTracker />
-          </ProGate>
+        {/* 16. Poké Adventure Land game */}
+        <GamePromo />
+
+        {/* 17. SimTrader promo */}
+        <SimTraderPromo />
+
+        {/* 18. Trust + Status */}
+        <LazySection minHeight="80px">
+          <TrustSignals />
+        </LazySection>
+
+        <LazySection minHeight="60px">
+          <SystemStatusIndicator />
         </LazySection>
 
         <LazySection minHeight="150px">
           <DataHealthDashboard />
         </LazySection>
 
+        {/* 19. Social proof + testimonials */}
         <LazySection minHeight="150px">
           <WallOfLove />
         </LazySection>
-
-        <InlineUpgradeNudge variant="default" />
 
         <LazySection minHeight="150px">
           <Testimonials />
         </LazySection>
 
+        {/* 20. Campaigns — lower priority, still visible */}
+        <PromoStack />
+
         <LazySection minHeight="80px">
           <ImportFromTCGPlayer />
         </LazySection>
+
+        {/* 21. Monetization CTAs */}
+        <InlineUpgradeNudge variant="default" />
 
         <LazySection minHeight="300px">
           <SubscriptionTiers />
