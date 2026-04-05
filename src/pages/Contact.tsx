@@ -147,12 +147,20 @@ const Contact = () => {
           </button>
         </motion.form>
 
-        <p className="font-mono text-[10px] text-muted-foreground text-center">
-          Or email us directly at{" "}
-          <a href="mailto:contact@poke-pulse-engine.com" className="text-primary hover:underline">
-            contact@poke-pulse-engine.com
-          </a>
-        </p>
+        <div className="font-mono text-[10px] text-muted-foreground text-center space-y-1">
+          <p>
+            Email us directly at{" "}
+            <a href="mailto:contact@poke-pulse-ticker.com" className="text-primary hover:underline">
+              contact@poke-pulse-ticker.com
+            </a>
+          </p>
+          <p>
+            Or{" "}
+            <a href="mailto:pokegarageva@gmail.com" className="text-primary hover:underline">
+              pokegarageva@gmail.com
+            </a>
+          </p>
+        </div>
         <FinancialDisclaimer compact />
       </main>
     </div>
