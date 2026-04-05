@@ -247,6 +247,9 @@ const Index = () => {
 
         <InlineUpgradeNudge variant="savings" />
 
+        {/* Product Ad — inline after upgrade nudge */}
+        <ProductAdBanner variant="inline" />
+
         {/* 10. Prediction Game */}
         <LazySection minHeight="200px">
           <PricePredictionGame cards={displayCards} />
