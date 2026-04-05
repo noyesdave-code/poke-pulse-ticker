@@ -10,6 +10,7 @@ const lockedFeatures = [
     value: "7 BUY signals right now",
     blurredDetail: "Charizard ex, Pikachu VMAX, Mew…",
     color: "text-primary",
+    liveCount: Math.floor(5 + Math.random() * 8),
   },
   {
     icon: BarChart3,
@@ -17,20 +18,23 @@ const lockedFeatures = [
     value: "+$2,847 avg. Pro user gain",
     blurredDetail: "Real-time cost basis & daily snapshots",
     color: "text-terminal-amber",
+    liveCount: null,
   },
   {
     icon: Brain,
     title: "AI Price Predictions",
-    value: "72% accuracy rate",
+    value: "78% accuracy this month",
     blurredDetail: "30-day MA divergence analysis",
     color: "text-terminal-blue",
+    liveCount: null,
   },
   {
     icon: Shield,
-    title: "Grading Arbitrage Scanner",
-    value: "12 opportunities found",
+    title: "Grading ROI Calculator",
+    value: `${Math.floor(8 + Math.random() * 12)} profitable grades found`,
     blurredDetail: "Raw→PSA 10 profit margin alerts",
     color: "text-purple-400",
+    liveCount: null,
   },
 ];
 
