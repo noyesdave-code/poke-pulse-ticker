@@ -588,11 +588,16 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
                 const holdingPnl = (currentPrice - h.avg_cost) * h.quantity;
                 return (
                   <div key={h.id} onClick={() => card && setSelectedCard(card)} className="grid grid-cols-[1fr_60px_80px_80px] gap-2 px-4 py-3 border-b border-border/30 hover:bg-muted/40 cursor-pointer transition-all items-center">
-                    <div>
-                      <p className="font-mono text-xs font-semibold truncate text-foreground">{h.card_name}</p>
-                      <p className={`font-mono text-[9px] font-semibold ${holdingPnl >= 0 ? "text-green-400" : "text-red-400"}`}>
-                        {holdingPnl >= 0 ? "+" : ""}{formatUSD(holdingPnl)}
-                      </p>
+                    <div className="flex items-center gap-2">
+                      <div className="h-10 w-8 rounded overflow-hidden bg-muted flex-shrink-0 ring-1 ring-border/50">
+                        <img src={h.card_image || card?._image || "/icon-192.png"} alt="" className="h-full w-full object-cover" loading="lazy" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-mono text-xs font-semibold truncate text-foreground">{h.card_name}</p>
+                        <p className={`font-mono text-[9px] font-semibold ${holdingPnl >= 0 ? "text-green-400" : "text-red-400"}`}>
+                          {holdingPnl >= 0 ? "+" : ""}{formatUSD(holdingPnl)}
+                        </p>
+                      </div>
                     </div>
                     <span className="font-mono text-xs text-right">{h.quantity}</span>
                     <span className="font-mono text-[10px] text-right text-muted-foreground">{formatUSD(h.avg_cost)}</span>
