@@ -203,6 +203,11 @@ const Index = () => {
         {/* 4. Trending Cards — dopamine hit */}
         <TrendingCards cards={displayCards} isLoading={isLoading} />
 
+        {/* 4b. AI Market Insights — killer feature */}
+        <LazySection minHeight="200px">
+          <AIMarketInsights cards={displayCards} />
+        </LazySection>
+
         {/* 5. Era-Based Market Indexes — show all eras */}
         <LazySection minHeight="150px">
           <EraIndexCards cards={displayCards} />
