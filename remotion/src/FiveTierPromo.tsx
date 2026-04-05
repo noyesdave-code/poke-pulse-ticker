@@ -27,9 +27,18 @@ const Glow: React.FC<{ color: string; x?: string; y?: string; size?: number }> =
   <div style={{ position: "absolute", left: x, top: y, transform: "translate(-50%,-50%)", width: size, height: size, borderRadius: "50%", background: `radial-gradient(circle, ${color} 0%, transparent 70%)`, filter: "blur(60px)", opacity: 0.15 }} />
 );
 
+// VO timing (seconds → frames at 30fps):
+// Intro: 0–8s (0–240)
+// Tier1: 8–22s (240–660)
+// Tier2: 22–40s (660–1200)
+// Tier3: 40–58s (1200–1740)
+// Tier4: 58–74s (1740–2220)
+// Tier5: 74–90s (2220–2700)
+// Outro: 90–103s (2700–3090)
+
 const IntroScene: React.FC = () => {
   const frame = useCurrentFrame();
-  const exitOp = interpolate(frame, [170, 195], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const exitOp = interpolate(frame, [210, 240], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
     <AbsoluteFill style={{ opacity: exitOp, background: `radial-gradient(ellipse at 50% 30%, ${NAVY}, ${BG})` }}>
       <Glow color={GOLD} x="35%" y="35%" size={700} />
@@ -65,13 +74,13 @@ const TierScene: React.FC<{ tier: string; name: string; color: string; icon: str
     const frame = useCurrentFrame();
     const { fps } = useVideoConfig();
     const enterS = spring({ frame, fps, config: { damping: 14, stiffness: 160 } });
-    const exitOp = interpolate(frame, [265, 290], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+    const { durationInFrames } = useVideoConfig();
+    const exitOp = interpolate(frame, [durationInFrames - 30, durationInFrames], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
     return (
       <AbsoluteFill style={{ opacity: exitOp, background: `radial-gradient(ellipse at 40% 40%, ${color}12, ${BG})` }}>
         <Glow color={color} x="30%" y="40%" size={800} />
         <div style={{ position: "absolute", inset: 0, display: "flex", padding: 60, gap: 60 }}>
-          {/* Left side */}
           <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <div style={{ fontFamily: inter, fontSize: 12, color: "rgba(255,255,255,0.3)", letterSpacing: 6, marginBottom: 8, opacity: enterS }}>{tier}</div>
             <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
@@ -80,7 +89,6 @@ const TierScene: React.FC<{ tier: string; name: string; color: string; icon: str
             </div>
             <div style={{ fontFamily: inter, fontSize: 18, color: "rgba(255,255,255,0.7)", lineHeight: 1.6, opacity: interpolate(frame, [15, 30], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), maxWidth: 600 }}>{desc}</div>
           </div>
-          {/* Right side - features */}
           <div style={{ flex: 0.8, display: "flex", flexDirection: "column", justifyContent: "center", gap: 12 }}>
             {features.map((f, i) => {
               const fS = spring({ frame: frame - 25 - i * 8, fps, config: { damping: 15 } });
@@ -97,7 +105,6 @@ const TierScene: React.FC<{ tier: string; name: string; color: string; icon: str
             </div>
           </div>
         </div>
-        {/* Bottom bar */}
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 4, background: `linear-gradient(90deg, transparent, ${color}, transparent)`, opacity: interpolate(frame, [0, 20], [0, 0.6], { extrapolateRight: "clamp" }) }} />
       </AbsoluteFill>
     );
@@ -153,38 +160,45 @@ const OutroScene: React.FC = () => {
 export const FiveTierPromo: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: BG }}>
-      <Sequence from={0} durationInFrames={200}><IntroScene /></Sequence>
-      <Sequence from={200} durationInFrames={300}>
+      {/* Intro: 0-8s = 0-240 frames */}
+      <Sequence from={0} durationInFrames={240}><IntroScene /></Sequence>
+      {/* Tier 1: 8-22s = 240-660 = 420 frames */}
+      <Sequence from={240} durationInFrames={420}>
         <TierScene tier="TIER 1 — THE FOUNDATION" name="PokéGarageVA™" color={ORANGE} icon="🏠"
           desc="The grassroots foundation. Home-based franchise hybrid trading card garage sale and vending model operating since 2022. AI-guided sourcing and pricing intelligence."
           features={["Home-based franchise model", "AI-powered card sourcing", "Vending machine network", "Community trading events", "Integration with Poke-Pulse-Engine"]}
           stat="EST. 2022" statLabel="OPERATING" />
       </Sequence>
-      <Sequence from={500} durationInFrames={300}>
+      {/* Tier 2: 22-40s = 660-1200 = 540 frames */}
+      <Sequence from={660} durationInFrames={540}>
         <TierScene tier="TIER 2 — DATA ENGINE" name="Poke-Pulse-Engine™" color={GOLD} icon="📊"
           desc="Consumer-facing real-time market data terminal. 500+ cards, AI Alpha Signals, SimTrader World, Arena wagering, and 7-tier subscriptions."
           features={["Real-time market indexes (RAW, GRADED, SEALED)", "AI Alpha Signals™", "SimTrader World™ paper trading", "Poké-Pulse Arena™ wagering", "7-tier subscription model"]}
           stat="$25M+" statLabel="2028 ARR TARGET" />
       </Sequence>
-      <Sequence from={800} durationInFrames={300}>
+      {/* Tier 3: 40-58s = 1200-1740 = 540 frames */}
+      <Sequence from={1200} durationInFrames={540}>
         <TierScene tier="TIER 3 — FRANCHISE" name="Pulse Engine™" color={GREEN} icon="🏗️"
           desc="Institutional-grade franchise data licensing across 12 multi-billion-dollar verticals. White-label deployments and enterprise data API."
           features={["12 vertical markets", "$103B+ combined TAM", "White-label terminal licensing", "Institutional data API", "$157.8M 2030 ARR projection"]}
           stat="$103B+" statLabel="TOTAL ADDRESSABLE MARKET" />
       </Sequence>
-      <Sequence from={1100} durationInFrames={300}>
+      {/* Tier 4: 58-74s = 1740-2220 = 480 frames */}
+      <Sequence from={1740} durationInFrames={480}>
         <TierScene tier="TIER 4 — MEDIA" name="PGTV Media Hub™" color={RED} icon="📺"
           desc="Full-scale media production, creator networks, and streaming content hub. AI-powered video production and multi-platform distribution."
           features={["Branded streaming content", "AI voiceover production", "Creator network partnerships", "Multi-platform distribution", "Campaign asset management"]}
           stat="$15M+" statLabel="MEDIA ARR TARGET" />
       </Sequence>
-      <Sequence from={1400} durationInFrames={300}>
+      {/* Tier 5: 74-90s = 2220-2700 = 480 frames */}
+      <Sequence from={2220} durationInFrames={480}>
         <TierScene tier="TIER 5 — THE PINNACLE" name="Pulse Philanthropic™" color={PURPLE} icon="🏛️"
           desc="The National Museum of Trading Cards & Collectibles in Washington, D.C. Free to the public forever. Physical and digital collections. Private and government funding."
           features={["National Museum — Washington, D.C.", "FREE public admission forever", "Physical & digital collections", "Government & private funding", "AI agent army sourcing opportunities"]}
           stat="FOREVER" statLabel="FREE TO THE PUBLIC" />
       </Sequence>
-      <Sequence from={1700} durationInFrames={200}><OutroScene /></Sequence>
+      {/* Outro: 90-103s = 2700-3090 = 390 frames */}
+      <Sequence from={2700} durationInFrames={390}><OutroScene /></Sequence>
     </AbsoluteFill>
   );
 };
