@@ -12,6 +12,7 @@ import { Tier2Promo } from "./Tier2Promo";
 import { Tier3Promo } from "./Tier3Promo";
 import { CombinedDemo } from "./CombinedDemo";
 import { PokeRacePromo } from "./PokeRacePromo";
+import { EnginePromo2026 } from "./EnginePromo2026";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -180,6 +181,14 @@ export const RemotionRoot: React.FC = () => (
       id="poke-race-promo"
       component={PokeRacePromo}
       durationInFrames={900}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="engine-promo-2026"
+      component={EnginePromo2026}
+      durationInFrames={1800}
       fps={30}
       width={1920}
       height={1080}
