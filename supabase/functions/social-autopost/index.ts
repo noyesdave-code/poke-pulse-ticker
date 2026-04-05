@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
     if (!TELEGRAM_API_KEY) throw new Error('TELEGRAM_API_KEY is not configured');
 
     const promo = getCurrentPromo();
-    const message = `<b>${promo.title}</b>\n\n${promo.body}`;
+    const message = `<b>${promo.title}</b>\n\n${promo.body}\n\n🎬 Watch the promo → ${promo.videoUrl}`;
     const results: Record<string, any> = {};
 
     // --- TELEGRAM ---
