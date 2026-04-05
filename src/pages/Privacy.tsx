@@ -110,7 +110,21 @@ const Privacy = () => (
       </section>
 
       <section className="space-y-3">
-        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">12. Changes to This Policy</h2>
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">12. Automated Data Processing & Market Intelligence</h2>
+        <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+          We employ automated systems that continuously process publicly available market data, competitor platform information, and industry trends to improve our Service. This includes: automated price validation and anomaly detection; cross-source data reconciliation; predictive analytics using proprietary algorithms; and competitive benchmarking against industry standards. All automated processing is conducted on aggregate, non-personal data and does not involve profiling of individual users for automated decision-making that produces legal or similarly significant effects. Our market data engine operates with a target accuracy of 98–100% through multi-layer validation, redundant data sources, and automated error correction pipelines that refresh at minimum every 60 minutes.
+        </p>
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">13. Security Monitoring & Threat Detection</h2>
+        <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+          To protect the Service and your data, we monitor for: unauthorized access attempts and brute force attacks; API abuse and rate limit violations; automated scraping and data extraction; cross-site scripting (XSS) and injection attacks; session hijacking and token theft; and suspicious behavioral patterns. This monitoring generates server logs containing IP addresses, request patterns, user agent strings, and timing data. These logs are retained for security analysis and may be shared with law enforcement if required. We do not use this monitoring data for marketing or advertising purposes.
+        </p>
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">14. Changes to This Policy</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
           We may update this Privacy Policy from time to time. Material changes will be posted on the Service with an updated effective date. Continued use after changes constitutes acceptance. We will notify registered users of significant changes via email.
         </p>
