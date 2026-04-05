@@ -12,6 +12,7 @@ import { Tier2Promo } from "./Tier2Promo";
 import { Tier3Promo } from "./Tier3Promo";
 import { CombinedDemo } from "./CombinedDemo";
 import { PokeRacePromo } from "./PokeRacePromo";
+import { EnginePromo2026 } from "./EnginePromo2026";
 
 export const RemotionRoot: React.FC = () => (
   <>
