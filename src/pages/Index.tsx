@@ -448,7 +448,7 @@ const Index = () => {
                 { href: "/terms", label: "Terms" },
                 { href: "/privacy", label: "Privacy" },
                 { href: "/methodology", label: "Methodology" },
-                { href: "mailto:contact@poke-pulse-engine.com", label: "Contact" },
+                { href: "mailto:contact@poke-pulse-ticker.com", label: "Contact" },
               ].map((link) => (
                 <a key={link.href} href={link.href} className="text-[10px] text-muted-foreground hover:text-primary transition-colors duration-200">
                   {link.label}

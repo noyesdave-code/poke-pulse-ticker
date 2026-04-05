@@ -84,14 +84,14 @@ const Privacy = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">8. Your Rights</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          Depending on your jurisdiction, you may have the right to: (a) access the personal data we hold about you; (b) request correction of inaccurate or incomplete data; (c) request deletion of your account and associated data ("right to be forgotten"); (d) export your portfolio data in machine-readable format (data portability); (e) object to or restrict certain processing activities; (f) withdraw consent for optional data processing; (g) lodge a complaint with your local data protection authority. To exercise these rights, contact us at contact@poke-pulse-engine.com.
+          Depending on your jurisdiction, you may have the right to: (a) access the personal data we hold about you; (b) request correction of inaccurate or incomplete data; (c) request deletion of your account and associated data ("right to be forgotten"); (d) export your portfolio data in machine-readable format (data portability); (e) object to or restrict certain processing activities; (f) withdraw consent for optional data processing; (g) lodge a complaint with your local data protection authority. To exercise these rights, contact us at contact@poke-pulse-ticker.com.
         </p>
       </section>
 
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">9. California Privacy Rights (CCPA/CPRA)</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          California residents have the right to: know what personal information is collected and how it is used; request deletion of personal information; opt out of the sale of personal information (we do not sell personal information); non-discrimination for exercising privacy rights. To submit a verifiable consumer request, contact us at contact@poke-pulse-engine.com.
+          California residents have the right to: know what personal information is collected and how it is used; request deletion of personal information; opt out of the sale of personal information (we do not sell personal information); non-discrimination for exercising privacy rights. To submit a verifiable consumer request, contact us at contact@poke-pulse-ticker.com.
         </p>
       </section>
 
@@ -133,7 +133,7 @@ const Privacy = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">15. Contact & Data Protection Inquiries</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          For privacy-related inquiries, data access requests, or to exercise your rights, contact us at <a href="mailto:contact@poke-pulse-engine.com" className="text-primary hover:underline">contact@poke-pulse-engine.com</a>.
+          For privacy-related inquiries, data access requests, or to exercise your rights, contact us at <a href="mailto:contact@poke-pulse-ticker.com" className="text-primary hover:underline">contact@poke-pulse-ticker.com</a>.
         </p>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
           PGVA Ventures, LLC · Delaware LLC · Managed by David Noyes

@@ -137,7 +137,7 @@ const Terms = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">14. DMCA & Takedown Procedures</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          If you believe your copyrighted work has been infringed on the Service, send a written DMCA notice to our designated agent at contact@poke-pulse-engine.com with: (a) identification of the copyrighted work; (b) identification of the infringing material; (c) your contact information; (d) a good-faith statement; (e) a statement of accuracy under penalty of perjury; (f) your physical or electronic signature.
+          If you believe your copyrighted work has been infringed on the Service, send a written DMCA notice to our designated agent at contact@poke-pulse-ticker.com with: (a) identification of the copyrighted work; (b) identification of the infringing material; (c) your contact information; (d) a good-faith statement; (e) a statement of accuracy under penalty of perjury; (f) your physical or electronic signature.
         </p>
       </section>
 
@@ -192,7 +192,7 @@ const Terms = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">19. Contact</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          For questions about these Terms, contact us at <a href="mailto:contact@poke-pulse-engine.com" className="text-primary hover:underline">contact@poke-pulse-engine.com</a>.
+          For questions about these Terms, contact us at <a href="mailto:contact@poke-pulse-ticker.com" className="text-primary hover:underline">contact@poke-pulse-ticker.com</a>.
         </p>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
           PGVA Ventures, LLC · Managed by David Noyes · Delaware LLC · Patent Pending

@@ -373,7 +373,7 @@ const PromoAssets = () => {
                     and claims for statutory damages up to $150,000 per infringement under 17 U.S.C. § 504(c).
                   </p>
                   <p className="text-muted-foreground">
-                    To request a license or report infringement: contact@poke-pulse-engine.com
+                    To request a license or report infringement: contact@poke-pulse-ticker.com
                   </p>
                 </div>
               </div>
