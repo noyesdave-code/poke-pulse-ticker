@@ -42,7 +42,7 @@ const AuthModal = ({ onClose }: { onClose: () => void }) => {
           {isSignUp ? "Create Account" : "Sign In"}
         </h2>
         <p className="text-xs text-muted-foreground mb-6">
-          {isSignUp ? "Join POKÉGARAGEVA Market Terminal" : "Access your terminal"}
+          {isSignUp ? "Join POKÉGARAGEVA Engine" : "Access your terminal"}
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -79,7 +79,7 @@ const AuthModal = ({ onClose }: { onClose: () => void }) => {
         {!isSignUp && (
           <button
             type="button"
-            onClick={() => { setEmail("demo@poke-pulse-ticker.com"); setPassword("Demo2026!"); }}
+            onClick={() => { setEmail("demo@poke-pulse-engine.com"); setPassword("Demo2026!"); }}
             className="mt-3 w-full rounded border border-dashed border-secondary py-2 font-mono text-[10px] font-semibold uppercase tracking-wider text-secondary hover:bg-secondary/10 transition-colors"
           >
             ⚡ Demo Login

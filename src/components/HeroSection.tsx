@@ -114,7 +114,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
                   Poke-Pulse-
                 </span>
                 <span className="font-display font-extrabold text-[18px] md:text-[22px] tracking-[0.04em] text-primary uppercase" style={{ textShadow: '0 0 12px hsl(158 72% 46% / 0.4)' }}>
-                  Market Terminal
+                  Engine™
                 </span>
               </motion.div>
               <div className="space-y-3 flex-1">

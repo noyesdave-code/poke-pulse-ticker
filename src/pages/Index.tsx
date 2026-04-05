@@ -432,10 +432,10 @@ const Index = () => {
           <div className="flex flex-col items-center gap-2">
             <div className="flex items-center gap-2">
               <span className="font-display font-black text-[13px] tracking-tight text-foreground">Poke-Pulse-</span>
-              <span className="font-display font-extrabold text-[11px] tracking-[0.06em] text-primary uppercase">Market Terminal</span>
+              <span className="font-display font-extrabold text-[11px] tracking-[0.06em] text-primary uppercase">Engine</span>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-              <a href="https://poke-pulse-ticker.com" className="text-[11px] text-primary font-semibold hover:underline transition-colors">poke-pulse-ticker.com</a>
+              <a href="https://poke-pulse-engine.com" className="text-[11px] text-primary font-semibold hover:underline transition-colors">poke-pulse-engine.com</a>
               <span className="text-border/50 hidden sm:inline">|</span>
               <span className="text-[10px] text-muted-foreground">Live Poké TCG Market Data</span>
             </div>
@@ -448,7 +448,7 @@ const Index = () => {
                 { href: "/terms", label: "Terms" },
                 { href: "/privacy", label: "Privacy" },
                 { href: "/methodology", label: "Methodology" },
-                { href: "mailto:contact@poke-pulse-ticker.com", label: "Contact" },
+                { href: "mailto:contact@poke-pulse-engine.com", label: "Contact" },
               ].map((link) => (
                 <a key={link.href} href={link.href} className="text-[10px] text-muted-foreground hover:text-primary transition-colors duration-200">
                   {link.label}

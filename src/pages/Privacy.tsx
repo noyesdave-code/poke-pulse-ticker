@@ -8,7 +8,7 @@ const Privacy = () => (
       <h1 className="font-mono text-2xl font-bold text-foreground tracking-wider">Privacy Policy</h1>
       <p className="font-mono text-xs text-muted-foreground">Effective Date: March 31, 2026 · Last Updated: April 1, 2026</p>
       <p className="font-mono text-xs text-muted-foreground leading-relaxed italic">
-        This Privacy Policy ("Policy") describes how PGVA Ventures, LLC ("Company," "we," "us"), a Delaware limited liability company, collects, uses, stores, and protects your personal information when you use the Poke-Pulse-Ticker platform at poke-pulse-ticker.com ("the Service").
+        This Privacy Policy ("Policy") describes how PGVA Ventures, LLC ("Company," "we," "us"), a Delaware limited liability company, collects, uses, stores, and protects your personal information when you use the Poke-Pulse-Engine platform at poke-pulse-engine.com ("the Service").
       </p>
 
       <section className="space-y-3">
@@ -84,14 +84,14 @@ const Privacy = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">8. Your Rights</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          Depending on your jurisdiction, you may have the right to: (a) access the personal data we hold about you; (b) request correction of inaccurate or incomplete data; (c) request deletion of your account and associated data ("right to be forgotten"); (d) export your portfolio data in machine-readable format (data portability); (e) object to or restrict certain processing activities; (f) withdraw consent for optional data processing; (g) lodge a complaint with your local data protection authority. To exercise these rights, contact us at contact@poke-pulse-ticker.com.
+          Depending on your jurisdiction, you may have the right to: (a) access the personal data we hold about you; (b) request correction of inaccurate or incomplete data; (c) request deletion of your account and associated data ("right to be forgotten"); (d) export your portfolio data in machine-readable format (data portability); (e) object to or restrict certain processing activities; (f) withdraw consent for optional data processing; (g) lodge a complaint with your local data protection authority. To exercise these rights, contact us at contact@poke-pulse-engine.com.
         </p>
       </section>
 
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">9. California Privacy Rights (CCPA/CPRA)</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          California residents have the right to: know what personal information is collected and how it is used; request deletion of personal information; opt out of the sale of personal information (we do not sell personal information); non-discrimination for exercising privacy rights. To submit a verifiable consumer request, contact us at contact@poke-pulse-ticker.com.
+          California residents have the right to: know what personal information is collected and how it is used; request deletion of personal information; opt out of the sale of personal information (we do not sell personal information); non-discrimination for exercising privacy rights. To submit a verifiable consumer request, contact us at contact@poke-pulse-engine.com.
         </p>
       </section>
 
@@ -133,7 +133,7 @@ const Privacy = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">15. Contact & Data Protection Inquiries</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          For privacy-related inquiries, data access requests, or to exercise your rights, contact us at <a href="mailto:contact@poke-pulse-ticker.com" className="text-primary hover:underline">contact@poke-pulse-ticker.com</a>.
+          For privacy-related inquiries, data access requests, or to exercise your rights, contact us at <a href="mailto:contact@poke-pulse-engine.com" className="text-primary hover:underline">contact@poke-pulse-engine.com</a>.
         </p>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
           PGVA Ventures, LLC · Delaware LLC · Managed by David Noyes

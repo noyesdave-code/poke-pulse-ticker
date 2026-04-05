@@ -53,7 +53,7 @@ const DailySpotlight = ({ cards }: { cards: CardData[] }) => {
               onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; }}
             />
           ) : (
-            <img src="/icon-192.png" alt="Pulse Market Terminal" className="w-36 h-48 rounded-lg object-contain bg-muted p-4" />
+            <img src="/icon-192.png" alt="Pulse Engine" className="w-36 h-48 rounded-lg object-contain bg-muted p-4" />
           )}
         </div>
 

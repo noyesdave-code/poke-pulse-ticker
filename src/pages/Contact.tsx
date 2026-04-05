@@ -149,8 +149,8 @@ const Contact = () => {
 
         <p className="font-mono text-[10px] text-muted-foreground text-center">
           Or email us directly at{" "}
-          <a href="mailto:contact@poke-pulse-ticker.com" className="text-primary hover:underline">
-            contact@poke-pulse-ticker.com
+          <a href="mailto:contact@poke-pulse-engine.com" className="text-primary hover:underline">
+            contact@poke-pulse-engine.com
           </a>
         </p>
         <FinancialDisclaimer compact />

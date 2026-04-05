@@ -8,7 +8,7 @@ import {
   Rocket, Play, BarChart3, Shield, DollarSign, Sparkles, ArrowLeftRight,
 } from "lucide-react";
 
-const DEMO_EMAIL = "demo@poke-pulse-ticker.com";
+const DEMO_EMAIL = "demo@poke-pulse-engine.com";
 
 interface TourStep {
   title: string;
@@ -21,7 +21,7 @@ interface TourStep {
 
 const TOUR_STEPS: TourStep[] = [
   {
-    title: "Live Market Terminal",
+    title: "Live Engine",
     description:
       "Real-time Poké TCG pricing powered by hourly market scans. Track 500+ cards across Raw, Graded & Sealed indexes with institutional-grade data.",
     icon: LayoutDashboard,

@@ -9,7 +9,7 @@ const ReferralCTA = () => {
 
   if (!user) return null;
 
-  const referralLink = `https://poke-pulse-ticker.com/go?ref=${user.id.slice(0, 8)}`;
+  const referralLink = `https://poke-pulse-engine.com/go?ref=${user.id.slice(0, 8)}`;
 
   const copyLink = () => {
     navigator.clipboard.writeText(referralLink);

@@ -21,7 +21,7 @@ import HighStakesArenaBanner from "@/components/campaign/HighStakesArenaBanner";
 import DoublePokeCoinBanner from "@/components/campaign/DoublePokeCoinBanner";
 
 // Admin emails allowed to see GO LIVE switch
-const ADMIN_EMAILS = ["david@poke-pulse-ticker.com", "demo@poke-pulse-ticker.com", "davidnoyes@me.com"];
+const ADMIN_EMAILS = ["david@poke-pulse-engine.com", "demo@poke-pulse-engine.com", "davidnoyes@me.com"];
 
 const RARITY_COLORS: Record<string, string> = {
   common: "text-muted-foreground",
@@ -195,7 +195,7 @@ const Arena = () => {
             <AlertTriangle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
             <div className="text-xs text-destructive space-y-1">
               <p className="font-bold">⚠️ REAL MONEY MODE ENABLED (DEMO ONLY)</p>
-              <p>This mode is for investor demonstrations only. Real-money gambling requires state/federal gaming licenses, KYC/AML compliance, and a licensed 3rd-party prize partner. Contact legal@poke-pulse-ticker.com before activating in production.</p>
+              <p>This mode is for investor demonstrations only. Real-money gambling requires state/federal gaming licenses, KYC/AML compliance, and a licensed 3rd-party prize partner. Contact legal@poke-pulse-engine.com before activating in production.</p>
             </div>
           </div>
         )}

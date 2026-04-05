@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Heart, Twitter, MessageCircle } from "lucide-react";
 
 const MENTIONS = [
-  { user: "@PokéInvestor_Pro", platform: "X", text: "Just hit 43% ROI using Poke-Pulse-Ticker signals this quarter. The Alpha Algorithm is legit 🔥", time: "2h ago", verified: true },
+  { user: "@PokéInvestor_Pro", platform: "X", text: "Just hit 43% ROI using Poke-Pulse-Engine signals this quarter. The Alpha Algorithm is legit 🔥", time: "2h ago", verified: true },
   { user: "@TCGAnalytics", platform: "X", text: "Poke-Pulse is what TCGPlayer's pricing SHOULD be. The consensus engine is chef's kiss.", time: "5h ago", verified: true },
   { user: "@CardShopOwner_TX", platform: "X", text: "We use PPT to value bulk buys at our LGS. Can't wait for the Team Plan launch!", time: "8h ago", verified: false },
   { user: "@GradedGems", platform: "X", text: "The Grade Ratio Arbitrage Bot caught a PSA 10/9 compression on Moonbreon before anyone else. Saved me $2K.", time: "12h ago", verified: true },

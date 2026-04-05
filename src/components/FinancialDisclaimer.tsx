@@ -25,7 +25,7 @@ const FinancialDisclaimer = ({ compact = false }: FinancialDisclaimerProps) => {
             Not Financial Advice
           </p>
           <p className="font-mono text-[10px] text-muted-foreground leading-relaxed">
-            All market data, price indexes, and analytics on Poke-Pulse-Ticker are for informational
+            All market data, price indexes, and analytics on Poke-Pulse-Engine are for informational
             and educational purposes only. This platform does not provide financial, investment, or
             trading advice. Past performance does not guarantee future results. Always do your own
             research before making any purchase decisions.

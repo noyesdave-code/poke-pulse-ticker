@@ -115,7 +115,7 @@ const TerminalSimulator = () => {
         <div className="flex items-center gap-3 mb-4">
           <span className="text-3xl">{t.emoji}</span>
           <div>
-            <p className="font-bold text-sm">{t.name} Pulse Market Terminal Ticker</p>
+            <p className="font-bold text-sm">{t.name} Pulse Engine</p>
             <p className="text-[10px] text-muted-foreground font-mono">TAM: ${t.tam}B · Status: {t.status.toUpperCase()}</p>
           </div>
           <div className="ml-auto text-right">
@@ -212,18 +212,18 @@ const Blueprint = () => {
               <Lock className="w-3 h-3 mr-1" /> CONFIDENTIAL — INVESTOR BLUEPRINT
             </Badge>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
-              PULSE MARKET<br />TERMINAL™
+              5-TIER VERTICAL<br />INTEGRATION™
             </h1>
             <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mt-4">
-              A patent-pending SaaS platform delivering real-time market intelligence across
-              12 multi-billion-dollar collectibles & sports memorabilia verticals.
+              A patent-pending 5-tier ecosystem delivering garage-to-museum vertical integration across
+              consumer trading, data intelligence, franchise licensing, media production, and philanthropy.
             </p>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}
             className="flex flex-wrap gap-2 justify-center">
             {[
-              { icon: Globe, text: "12 Verticals" },
+              { icon: Globe, text: "5 Tiers" },
               { icon: DollarSign, text: `$${totalTAM.toFixed(0)}B+ TAM` },
               { icon: Shield, text: "Patent Pending" },
               { icon: Cpu, text: "AI-Powered" },
@@ -251,6 +251,75 @@ const Blueprint = () => {
               </div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* ═══ 5-TIER VERTICAL INTEGRATION ═══ */}
+      <section className="py-12 px-4 border-t border-border/40 bg-muted/10">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <Badge variant="outline" className="mb-3 text-xs font-mono tracking-widest border-primary/30 text-primary">
+              NOYES FAMILY TRUST — PGVA VENTURES, LLC
+            </Badge>
+            <h2 className="text-2xl md:text-3xl font-bold">5-Tier Vertical Integration™</h2>
+            <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto">
+              From garage to museum — a complete ecosystem designed to run indefinitely
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            {[
+              {
+                tier: "TIER 1", name: "PokéGarageVA™", icon: "🏠", color: "hsl(25, 95%, 53%)",
+                desc: "Individual from-home franchise hybrid trading card garage sale & vending model. Est. 2022. The grassroots foundation — buy, sell, grade, and flip collectibles from your own home with AI-guided sourcing and pricing intelligence.",
+                features: ["Home-based franchise model", "AI-powered card sourcing", "Vending machine network", "Local community trading events"]
+              },
+              {
+                tier: "TIER 2", name: "Poke-Pulse-Engine™", icon: "📊", color: "hsl(48, 96%, 53%)",
+                desc: "Consumer-facing real-time market data terminal. Track 500+ cards, AI Alpha Signals, SimTrader World™, Poké-Pulse Arena™, grading ROI calculators, and 7-tier subscriptions.",
+                features: ["Real-time market indexes", "AI Alpha Signals", "SimTrader World™", "7-tier subscription model"]
+              },
+              {
+                tier: "TIER 3", name: "Pulse Engine™", icon: "🏗️", color: "hsl(142, 71%, 45%)",
+                desc: "Institutional-grade franchise data licensing across 12 multi-billion-dollar collectible and sports memorabilia verticals. White-label terminal deployments and data API.",
+                features: ["12-vertical franchise system", "$103B+ combined TAM", "Data licensing API", "White-label deployments"]
+              },
+              {
+                tier: "TIER 4", name: "PGTV Media Hub™", icon: "📺", color: "hsl(0, 84%, 60%)",
+                desc: "Full-scale media production, creator networks, and streaming content hub. Campaign assets, investor demos, promotional videos, and branded entertainment content.",
+                features: ["Branded streaming content", "Creator network", "Campaign asset production", "Multi-platform distribution"]
+              },
+              {
+                tier: "TIER 5", name: "Pulse Philanthropic Project™", icon: "🏛️", color: "hsl(263, 90%, 51%)",
+                desc: "The pinnacle tier under the Noyes Family Trust. Mission: Build the National Museum of Trading Cards & Collectibles in Washington, D.C. — free to the public forever. Accepts private and government funding, physical and digital collection donations.",
+                features: ["National Museum of Trading Cards", "Free public admission forever", "Physical & digital collections", "Government & private funding"]
+              },
+            ].map((t, i) => (
+              <motion.div key={t.name} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.08 * i }}>
+                <Card className="bg-card border-border/40 hover:border-primary/30 transition-all h-full">
+                  <div className="h-1.5" style={{ background: t.color }} />
+                  <CardContent className="p-4 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">{t.icon}</span>
+                      <div>
+                        <p className="text-[9px] font-mono text-muted-foreground tracking-widest">{t.tier}</p>
+                        <p className="font-bold text-xs">{t.name}</p>
+                      </div>
+                    </div>
+                    <p className="text-[10px] text-muted-foreground leading-relaxed">{t.desc}</p>
+                    <div className="space-y-1">
+                      {t.features.map(f => (
+                        <div key={f} className="flex items-center gap-1.5 text-[9px] text-muted-foreground">
+                          <div className="w-1 h-1 rounded-full" style={{ background: t.color }} />
+                          {f}
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -561,7 +630,7 @@ const Blueprint = () => {
             <p className="font-mono text-[7px] text-muted-foreground/60 max-w-2xl mx-auto">
               © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved. Patent pending.
               Protected under U.S. copyright, trademark, trade secret, and patent laws (DMCA, CFAA, DTSA).
-              Pulse Market Terminal Ticker™, SimTrader World™, PokéArena™, and Alpha Signals™ are trademarks of PGVA Ventures, LLC.
+              Pulse Engine™, SimTrader World™, PokéArena™, and Alpha Signals™ are trademarks of PGVA Ventures, LLC.
               This document is confidential and intended solely for the named recipient. Unauthorized distribution is strictly prohibited.
             </p>
           </div>
