@@ -204,6 +204,9 @@ const Index = () => {
         {/* 4. Trending Cards — dopamine hit */}
         <TrendingCards cards={displayCards} isLoading={isLoading} />
 
+        {/* Product Ad Strip — after trending */}
+        <ProductAdBanner variant="strip" count={4} />
+
         {/* 4b. AI Market Insights — killer feature */}
         <LazySection minHeight="200px">
           <AIMarketInsights cards={displayCards} />
