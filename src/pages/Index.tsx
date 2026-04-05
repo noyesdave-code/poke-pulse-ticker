@@ -75,6 +75,9 @@ import CorrelationMatrix from "@/components/CorrelationMatrix";
 import PopReportDelta from "@/components/PopReportDelta";
 import GamePromo from "@/components/GamePromo";
 import PokeRaceSection from "@/components/PokeRaceSection";
+import GradingROICalculator from "@/components/GradingROICalculator";
+import AIMarketInsights from "@/components/AIMarketInsights";
+import LiveFreshnessIndicator from "@/components/LiveFreshnessIndicator";
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
@@ -200,6 +203,11 @@ const Index = () => {
         {/* 4. Trending Cards — dopamine hit */}
         <TrendingCards cards={displayCards} isLoading={isLoading} />
 
+        {/* 4b. AI Market Insights — killer feature */}
+        <LazySection minHeight="200px">
+          <AIMarketInsights cards={displayCards} />
+        </LazySection>
+
         {/* 5. Era-Based Market Indexes — show all eras */}
         <LazySection minHeight="150px">
           <EraIndexCards cards={displayCards} />
@@ -227,6 +235,11 @@ const Index = () => {
 
         {/* 9. Quick Value Calculator — engagement */}
         <QuickValueCalculator />
+
+        {/* 9b. Grading ROI Calculator — killer feature */}
+        <LazySection minHeight="200px">
+          <GradingROICalculator cards={displayCards} />
+        </LazySection>
 
         <InlineUpgradeNudge variant="savings" />
 

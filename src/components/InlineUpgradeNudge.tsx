@@ -16,16 +16,16 @@ const InlineUpgradeNudge = ({ variant = "default" }: { variant?: "default" | "sa
 
   const messages = {
     default: {
-      text: "Pro users see 5x more data, AI signals & real-time alerts",
+      text: "Pro users see 5x more data, AI insights & real-time alerts",
       cta: "Try Free for 14 Days",
     },
     savings: {
-      text: "Pro users save avg. $340/yr by timing purchases with our signals",
-      cta: "Start Saving Now",
+      text: "Collectors using our signals save avg. $340/yr on purchases",
+      cta: "Start Saving Now →",
     },
     trust: {
       text: "Join 2,400+ collectors who track their portfolio here daily",
-      cta: "Join Free",
+      cta: "Join Free — No Card Needed",
     },
   };
 
