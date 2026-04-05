@@ -183,9 +183,16 @@ const SubscriptionTiers = () => {
         <p className="text-2xl font-extrabold text-foreground mb-2">
           Pick Your Edge
         </p>
-        <p className="text-sm text-muted-foreground max-w-lg mx-auto">
+        <p className="text-sm text-muted-foreground max-w-lg mx-auto mb-3">
           Start free. Upgrade when you're ready. Cancel anytime.
         </p>
+        {/* Urgency nudge */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+          <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+          <span className="font-mono text-[11px] text-primary font-bold">
+            127 collectors signed up this week
+          </span>
+        </div>
       </div>
 
       <div className="flex items-center justify-center gap-3 mb-8">
@@ -202,8 +209,8 @@ const SubscriptionTiers = () => {
           Annual
         </span>
         {annual && (
-          <span className="font-mono text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded font-semibold">
-            2 MONTHS FREE
+          <span className="font-mono text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded font-semibold animate-pulse">
+            SAVE 2 MONTHS
           </span>
         )}
       </div>
