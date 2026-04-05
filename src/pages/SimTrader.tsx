@@ -626,9 +626,14 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
               <div className="max-h-[400px] overflow-y-auto">
                 {orders.map(o => (
                   <div key={o.id} className="grid grid-cols-[1fr_50px_60px_60px_60px] gap-1 px-4 py-3 border-b border-border/30 items-center">
-                    <div>
-                      <p className="font-mono text-[10px] font-semibold truncate text-foreground">{o.card_name}</p>
-                      <p className="font-mono text-[8px] text-muted-foreground">{new Date(o.created_at).toLocaleTimeString()}</p>
+                    <div className="flex items-center gap-1.5">
+                      <div className="h-8 w-6 rounded overflow-hidden bg-muted flex-shrink-0 ring-1 ring-border/50">
+                        <img src={(o as any).card_image || "/icon-192.png"} alt="" className="h-full w-full object-cover" loading="lazy" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-mono text-[10px] font-semibold truncate text-foreground">{o.card_name}</p>
+                        <p className="font-mono text-[8px] text-muted-foreground">{new Date(o.created_at).toLocaleTimeString()}</p>
+                      </div>
                     </div>
                     <span className={`font-mono text-[10px] font-bold ${o.side === "buy" ? "text-green-400" : "text-red-400"}`}>{o.side.toUpperCase()}</span>
                     <span className="font-mono text-[10px] text-right">{o.quantity}</span>

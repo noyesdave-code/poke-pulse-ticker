@@ -1,16 +1,14 @@
 import { Link } from "react-router-dom";
 import { Gamepad2, Swords, Trophy, Star, Coins } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import pokeAdventureLogo from "@/assets/poke-adventure-land-logo.png";
-
 const ARTWORK_IDS = [25, 6, 9, 150];
 const ARTWORK_BASE = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork";
 
 const GamePromo = () => (
   <section className="terminal-card p-4 sm:p-6 md:p-8 border-t-2 border-t-primary bg-gradient-to-br from-primary/5 to-transparent overflow-hidden">
-    {/* Branded logo */}
+    {/* Branded Poke Pulse logo */}
     <div className="flex justify-center mb-3">
-      <img src={pokeAdventureLogo} alt="Poké Adventure Land" className="w-20 h-20 sm:w-24 sm:h-24 object-contain" />
+      <img src="/icon-192.png" alt="Poke Pulse Market Terminal" className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-[0_0_12px_hsl(var(--primary)/0.4)]" />
     </div>
     {/* Poké artwork banner */}
     <div className="flex justify-center gap-3 sm:gap-4 mb-4 -mt-1">
