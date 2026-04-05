@@ -31,6 +31,17 @@ Track your entire collection with our precision Portfolio Tracking suite and wat
 
 const videoLibrary: VideoEntry[] = [
   {
+    id: "5tier-promo-2026",
+    title: "🏛️ 5-Tier Vertical Integration™ — Investor Promo (VO + Music)",
+    description: "The complete 63-second investor showcase of PGVA Ventures' 5-Tier Vertical Integration system — from PokéGarageVA™ grassroots franchise to the Pulse Philanthropic™ National Museum in Washington, D.C. Features professional female AI voiceover, upbeat electronic background music with sidechain ducking, and high-production Remotion visuals covering all five tiers, revenue projections, and $1.89B valuation target. © 2026 PGVA Ventures, LLC. All rights reserved. Protected under U.S. Patent, Trademark & Copyright law.",
+    file: "/videos/PGVA_5Tier_Promo_2026.mp4",
+    aspect: "16:9",
+    duration: "1:03",
+    category: "Campaign",
+    date: "2026-04-05",
+    views: 0,
+  },
+  {
     id: "engine-promo-2026",
     title: "🔥 Poké Pulse Market Engine — 60s Promo (VO + Music)",
     description: "The definitive 60-second showcase of the Poké Pulse Market Engine — the world's first institutional-grade Pokémon TCG market analytics platform. Features professional female AI voiceover, upbeat electronic background music with sidechain ducking, and cinematic Remotion visuals covering live indexes, SimTrader World™, Poké-Pulse Arena™, Grading ROI Calculator, AI Alpha Signals, and the full pro tool suite. Engineered for social media, investor presentations, and PGTV broadcast. © 2026 PGVA Ventures, LLC. All rights reserved. Protected under U.S. Patent, Trademark & Copyright law.",
