@@ -236,6 +236,11 @@ const Index = () => {
         {/* 9. Quick Value Calculator — engagement */}
         <QuickValueCalculator />
 
+        {/* 9b. Grading ROI Calculator — killer feature */}
+        <LazySection minHeight="200px">
+          <GradingROICalculator cards={displayCards} />
+        </LazySection>
+
         <InlineUpgradeNudge variant="savings" />
 
         {/* 10. Prediction Game */}
