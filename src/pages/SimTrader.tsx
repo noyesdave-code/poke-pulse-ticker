@@ -545,9 +545,14 @@ const TradingDashboard = ({ isTrader, onUpgrade, upgradeLoading, onShowLimitModa
                 onClick={() => setSelectedCard(card)}
                 className="grid grid-cols-[1fr_80px_70px_60px] gap-2 px-4 py-3 border-b border-border/30 hover:bg-muted/40 cursor-pointer transition-all items-center group"
               >
-                <div>
-                  <p className="font-mono text-xs font-semibold text-foreground truncate group-hover:text-primary transition-colors">{card.name}</p>
-                  <p className="font-mono text-[9px] text-muted-foreground">{card.set}</p>
+                <div className="flex items-center gap-2">
+                  <div className="h-10 w-8 rounded overflow-hidden bg-muted flex-shrink-0 ring-1 ring-border/50">
+                    <img src={card._image || "/icon-192.png"} alt="" className="h-full w-full object-cover" loading="lazy" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-mono text-xs font-semibold text-foreground truncate group-hover:text-primary transition-colors">{card.name}</p>
+                    <p className="font-mono text-[9px] text-muted-foreground">{card.set}</p>
+                  </div>
                 </div>
                 <span className="font-mono text-xs text-right text-foreground font-semibold">{formatUSD(card.market)}</span>
                 <span className={`font-mono text-[10px] text-right font-bold ${card.change >= 0 ? "text-green-400" : "text-red-400"}`}>
