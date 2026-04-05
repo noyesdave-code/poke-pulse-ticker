@@ -163,7 +163,27 @@ const Terms = () => (
       </section>
 
       <section className="space-y-3">
-        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">18. Severability</h2>
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">18. Competitive Intelligence & Market Monitoring</h2>
+        <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+          PGVA Ventures, LLC employs continuous automated and manual competitive intelligence monitoring to track market developments, competitor product launches, feature releases, pricing changes, and emerging technologies across the collectible trading card market ecosystem. This monitoring includes but is not limited to: analysis of competitor platforms, APIs, data feeds, public filings, patent applications, trademark registrations, social media activity, and industry publications.
+        </p>
+        <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+          When a competitor introduces a new feature, data source, algorithm, or service improvement that PGVA Ventures, LLC determines to be material, the Company will: (a) analyze the competitive impact within 48 hours; (b) evaluate whether implementation or adaptation is warranted; (c) if warranted, develop and deploy a superior proprietary implementation within a commercially reasonable timeframe; and (d) document the competitive analysis for internal strategic planning purposes. All competitive intelligence activities are conducted in compliance with applicable laws and regulations, including the Economic Espionage Act (18 U.S.C. § 1831), the Computer Fraud and Abuse Act, and applicable state trade secret laws. PGVA Ventures, LLC does not engage in unauthorized access, reverse engineering, or misappropriation of competitor trade secrets.
+        </p>
+        <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+          The Company's proprietary market data engine is designed to provide 98–100% factual accuracy for live market pricing data sourced from third-party APIs, with automated validation, error correction, and fallback systems operating continuously. Data freshness is maintained through automated refresh cycles no less frequent than every 60 minutes, with higher-frequency updates for real-time features. The Company invests in redundant data pipelines, circuit-breaker patterns, stale-while-revalidate caching, and offline fallback systems to ensure maximum uptime and data reliability.
+        </p>
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">19. Cybersecurity & Data Integrity</h2>
+        <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+          The Service implements enterprise-grade cybersecurity measures including but not limited to: IP-based rate limiting with configurable thresholds; request timestamp integrity validation (rejecting requests older than 5 minutes); Content Security Policy (CSP) headers for XSS prevention; Zod-based input sanitization with HTML stripping; 30-minute idle session timeout with automatic logout; WebAuthn/FIDO2 passkey support; forensic watermarking of proprietary content; clipboard copy-hijack with legal notice injection; anti-iframe frame-busting with production allowlist; developer tool detection and blocking; print event interception; and continuous security auditing with automated scoring. PGVA Ventures, LLC maintains a target security posture of 95/100 as measured by internal security auditing tools and reserves the right to implement additional security measures at any time without notice.
+        </p>
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">20. Severability</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
           If any provision of these Terms is held invalid or unenforceable, the remaining provisions shall continue in full force and effect. The invalid provision shall be modified to the minimum extent necessary to make it valid and enforceable. The liability limitations, indemnification obligations, intellectual property protections, family/trust liability shield, and dispute resolution provisions shall survive any termination.
         </p>
