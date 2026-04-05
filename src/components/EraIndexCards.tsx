@@ -32,7 +32,7 @@ const ERAS: Era[] = [
   {
     label: "MODERN",
     tag: "2017–Present",
-    sets: [], // catch-all for anything not matched above
+    sets: ["Shining Fates", "Evolving Skies", "Vivid Voltage", "Obsidian Flames", "Lost Origin", "Fusion Strike", "Silver Tempest", "Paldea Evolved", "Scarlet & Violet", "Brilliant Stars", "Astral Radiance", "Crown Zenith", "Paldean Fates", "Surging Sparks", "Prismatic Evolutions", "151", "Temporal Forces", "Twilight Masquerade", "Shrouded Fable"],
     color: "text-primary",
     glowClass: "glow-green",
   },
