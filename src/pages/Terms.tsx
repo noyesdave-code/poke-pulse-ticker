@@ -14,14 +14,14 @@ const Terms = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">1. Acceptance of Terms</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          By accessing, browsing, or using Poke-Pulse-Ticker at poke-pulse-ticker.com ("the Service"), including all associated sub-domains, APIs, mobile applications, and affiliated digital properties, you acknowledge that you have read, understood, and agree to be bound by these Terms, our Privacy Policy, and all applicable laws and regulations. If you do not agree, you must immediately discontinue use of the Service.
+          By accessing, browsing, or using Poke-Pulse-Engine at poke-pulse-engine.com ("the Service"), including all associated sub-domains, APIs, mobile applications, and affiliated digital properties, you acknowledge that you have read, understood, and agree to be bound by these Terms, our Privacy Policy, and all applicable laws and regulations. If you do not agree, you must immediately discontinue use of the Service.
         </p>
       </section>
 
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">2. Description of Service</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          Poke-Pulse-Ticker is a proprietary digital platform providing live Poké TCG market data, proprietary market indexes, portfolio tracking, simulated trading games, price alert systems, AI-powered market analytics, and related financial technology tools. The Service is operated exclusively by PGVA Ventures, LLC. Data is sourced from third-party APIs and proprietary algorithms and is provided "as-is" for informational and entertainment purposes only.
+          Poke-Pulse-Engine is a proprietary digital platform providing live Poké TCG market data, proprietary market indexes, portfolio tracking, simulated trading games, price alert systems, AI-powered market analytics, and related financial technology tools. The Service is operated exclusively by PGVA Ventures, LLC. Data is sourced from third-party APIs and proprietary algorithms and is provided "as-is" for informational and entertainment purposes only.
         </p>
       </section>
 
@@ -42,7 +42,7 @@ const Terms = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">5. Intellectual Property — General</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          All content, design, source code, object code, algorithms, databases, user interfaces, visual elements, branding, logos, trade dress, and documentation on Poke-Pulse-Ticker are the exclusive intellectual property of PGVA Ventures, LLC, protected under United States and international copyright, trademark, trade secret, and patent laws. You may not copy, reproduce, modify, distribute, transmit, display, perform, publish, license, create derivative works from, or exploit any content without prior express written permission from PGVA Ventures, LLC.
+          All content, design, source code, object code, algorithms, databases, user interfaces, visual elements, branding, logos, trade dress, and documentation on Poke-Pulse-Engine are the exclusive intellectual property of PGVA Ventures, LLC, protected under United States and international copyright, trademark, trade secret, and patent laws. You may not copy, reproduce, modify, distribute, transmit, display, perform, publish, license, create derivative works from, or exploit any content without prior express written permission from PGVA Ventures, LLC.
         </p>
       </section>
 
@@ -65,7 +65,7 @@ const Terms = () => (
           The name "SimTrader World™" is a branded extension of the original SimTrader™ trademark. All rights are reserved under United States and international copyright, trade secret, patent, and intellectual property law. The SimTrader™ brand, including all associated marks, logos, and trade dress, constitutes protectable intellectual property with first use in commerce established as of the date of initial public deployment.
         </p>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          No individual, entity, corporation, partnership, LLC, trust, nonprofit, government agency, or organization may copy, reproduce, reverse-engineer, decompile, disassemble, emulate, clone, create derivative works from, or otherwise replicate any aspect of SimTrader™, SimTrader World™, or the Poke-Pulse-Ticker platform without prior express written consent from PGVA Ventures, LLC. This prohibition extends to but is not limited to: the simulated stock market concept as applied to trading card games; the virtual currency and token trading mechanics; the daily contest and tournament systems; the integration of live market data into simulated trading; all proprietary algorithms governing price simulation, order matching, and portfolio valuation; and the Daily Price Predictions game system.
+          No individual, entity, corporation, partnership, LLC, trust, nonprofit, government agency, or organization may copy, reproduce, reverse-engineer, decompile, disassemble, emulate, clone, create derivative works from, or otherwise replicate any aspect of SimTrader™, SimTrader World™, or the Poke-Pulse-Engine platform without prior express written consent from PGVA Ventures, LLC. This prohibition extends to but is not limited to: the simulated stock market concept as applied to trading card games; the virtual currency and token trading mechanics; the daily contest and tournament systems; the integration of live market data into simulated trading; all proprietary algorithms governing price simulation, order matching, and portfolio valuation; and the Daily Price Predictions game system.
         </p>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
           Unauthorized reproduction or distribution of SimTrader™, SimTrader World™, or any component thereof constitutes willful infringement and will be prosecuted to the fullest extent of applicable law, including but not limited to claims under the Digital Millennium Copyright Act (DMCA, 17 U.S.C. § 512), the Computer Fraud and Abuse Act (CFAA, 18 U.S.C. § 1030), the Defend Trade Secrets Act (DTSA, 18 U.S.C. § 1836), the Lanham Act (15 U.S.C. § 1125), and applicable state trade secret statutes. PGVA Ventures, LLC reserves the right to seek temporary restraining orders, preliminary and permanent injunctive relief, actual damages, statutory damages, treble damages, disgorgement of profits, attorneys' fees, and any other remedies available at law or in equity.
@@ -75,7 +75,7 @@ const Terms = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">6B. Ownership Chain & Legal Entity Structure</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          All intellectual property rights in and to Poke-Pulse-Ticker (poke-pulse-ticker.com), SimTrader™, SimTrader World™, Pokegarageva, Poke Pulse Market Ticker, the Daily Price Predictions game, the Card of the Day system, the Live Market Pulse feed, and all associated trademarks, trade names, service marks, copyrights, trade secrets, patents (pending and granted), domain names, social media accounts, and proprietary technology are owned exclusively by PGVA Ventures, LLC.
+          All intellectual property rights in and to Poke-Pulse-Engine (poke-pulse-engine.com), SimTrader™, SimTrader World™, Pokegarageva, Poke Pulse Market Ticker, the Daily Price Predictions game, the Card of the Day system, the Live Market Pulse feed, and all associated trademarks, trade names, service marks, copyrights, trade secrets, patents (pending and granted), domain names, social media accounts, and proprietary technology are owned exclusively by PGVA Ventures, LLC.
         </p>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
           PGVA Ventures, LLC is wholly owned by the Noyes Family Trust. The Noyes Family Trust is managed by David Noyes, who serves as the ultimate beneficial owner, Trustee, and controlling party of all aforementioned intellectual property, both digital and physical. This ownership structure is established and maintained under the laws of the United States of America. The physical and digital assets of PGVA Ventures, LLC — including but not limited to servers, source code repositories, domain registrations, API keys, database contents, marketing materials, video assets, audio recordings, and all creative works — are held in trust for the benefit of the Noyes Family Trust beneficiaries.
@@ -109,7 +109,7 @@ const Terms = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">10. Fair Use & Trademark Notice</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          Poké, Poké TCG, and all related trademarks, logos, and card images are the property of Nintendo, Creatures Inc., GAME FREAK inc., and The Poké Company International. Poke-Pulse-Ticker is not affiliated with, sponsored by, or endorsed by The Poké Company, Nintendo, or any official entity. All Poké card images are used under fair use for informational, educational, and commentary purposes pursuant to 17 U.S.C. § 107. Market data is sourced from public third-party APIs including pokemontcg.io.
+          Poké, Poké TCG, and all related trademarks, logos, and card images are the property of Nintendo, Creatures Inc., GAME FREAK inc., and The Poké Company International. Poke-Pulse-Engine is not affiliated with, sponsored by, or endorsed by The Poké Company, Nintendo, or any official entity. All Poké card images are used under fair use for informational, educational, and commentary purposes pursuant to 17 U.S.C. § 107. Market data is sourced from public third-party APIs including pokemontcg.io.
         </p>
       </section>
 
@@ -137,7 +137,7 @@ const Terms = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">14. DMCA & Takedown Procedures</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          If you believe your copyrighted work has been infringed on the Service, send a written DMCA notice to our designated agent at contact@poke-pulse-ticker.com with: (a) identification of the copyrighted work; (b) identification of the infringing material; (c) your contact information; (d) a good-faith statement; (e) a statement of accuracy under penalty of perjury; (f) your physical or electronic signature.
+          If you believe your copyrighted work has been infringed on the Service, send a written DMCA notice to our designated agent at contact@poke-pulse-engine.com with: (a) identification of the copyrighted work; (b) identification of the infringing material; (c) your contact information; (d) a good-faith statement; (e) a statement of accuracy under penalty of perjury; (f) your physical or electronic signature.
         </p>
       </section>
 
@@ -192,7 +192,7 @@ const Terms = () => (
       <section className="space-y-3">
         <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">19. Contact</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          For questions about these Terms, contact us at <a href="mailto:contact@poke-pulse-ticker.com" className="text-primary hover:underline">contact@poke-pulse-ticker.com</a>.
+          For questions about these Terms, contact us at <a href="mailto:contact@poke-pulse-engine.com" className="text-primary hover:underline">contact@poke-pulse-engine.com</a>.
         </p>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
           PGVA Ventures, LLC · Managed by David Noyes · Delaware LLC · Patent Pending

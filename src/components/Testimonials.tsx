@@ -5,7 +5,7 @@ const testimonials = [
   {
     name: "Jake M.",
     role: "Collector & Investor",
-    quote: "Poke-Pulse-Ticker changed how I buy cards. The 30-day MA signals saved me from overpaying on multiple occasions.",
+    quote: "Poke-Pulse-Engine changed how I buy cards. The 30-day MA signals saved me from overpaying on multiple occasions.",
     rating: 5,
     verified: true,
   },

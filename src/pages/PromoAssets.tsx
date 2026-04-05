@@ -178,7 +178,7 @@ const PromoAssets = () => {
                 </p>
                 <p>
                   <strong>SimTrader™</strong> is a trademark of PGVA Ventures, LLC. The website
-                  poke-pulse-ticker.com and all content published therein are protected under U.S. and
+                  poke-pulse-engine.com and all content published therein are protected under U.S. and
                   international copyright law (17 U.S.C. §§ 101 et seq.) and the Digital Millennium Copyright Act (DMCA).
                 </p>
                 <div className="border-t border-destructive/20 pt-3">
@@ -344,7 +344,7 @@ const PromoAssets = () => {
                 </a>
               </div>
               <p className="text-xs text-muted-foreground">
-                When uploading, include: "© PGVA Ventures, LLC — poke-pulse-ticker.com" in the description.
+                When uploading, include: "© PGVA Ventures, LLC — poke-pulse-engine.com" in the description.
               </p>
             </CardContent>
           </Card>
@@ -362,7 +362,7 @@ const PromoAssets = () => {
                     of <strong>PGVA Ventures, LLC</strong>.
                   </p>
                   <p>
-                    SimTrader™ is a trademark of PGVA Ventures, LLC. poke-pulse-ticker.com is the official
+                    SimTrader™ is a trademark of PGVA Ventures, LLC. poke-pulse-engine.com is the official
                     platform. These materials are protected under the Digital Millennium Copyright Act (DMCA),
                     17 U.S.C. § 512, and applicable international copyright treaties.
                   </p>
@@ -373,7 +373,7 @@ const PromoAssets = () => {
                     and claims for statutory damages up to $150,000 per infringement under 17 U.S.C. § 504(c).
                   </p>
                   <p className="text-muted-foreground">
-                    To request a license or report infringement: contact@poke-pulse-ticker.com
+                    To request a license or report infringement: contact@poke-pulse-engine.com
                   </p>
                 </div>
               </div>

@@ -120,7 +120,7 @@ const TerminalHeader = () => {
                   Poke-Pulse-
                 </span>
                 <span className="font-display font-extrabold text-[11px] sm:text-[13px] tracking-[0.06em] text-primary uppercase" style={{ textShadow: '0 0 10px hsl(158 72% 46% / 0.4)' }}>
-                  Market Terminal
+                  Engine
                 </span>
               </div>
             </div>

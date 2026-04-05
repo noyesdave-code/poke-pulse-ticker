@@ -76,7 +76,7 @@ const Unsubscribe = () => {
             <MailX className="w-10 h-10 text-terminal-amber mx-auto" />
             <h1 className="font-mono text-lg font-bold text-foreground">Unsubscribe</h1>
             <p className="font-mono text-sm text-muted-foreground">
-              Are you sure you want to unsubscribe from Poke-Pulse-Ticker email notifications?
+              Are you sure you want to unsubscribe from Poke-Pulse-Engine email notifications?
             </p>
             <button
               onClick={handleConfirm}
@@ -129,7 +129,7 @@ const Unsubscribe = () => {
         )}
 
         <Link to="/" className="inline-block font-mono text-xs text-primary hover:underline mt-4">
-          ← Back to Poke-Pulse-Ticker
+          ← Back to Poke-Pulse-Engine
         </Link>
         <FinancialDisclaimer compact />
       </div>

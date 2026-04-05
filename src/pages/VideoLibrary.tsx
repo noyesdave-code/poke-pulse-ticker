@@ -19,7 +19,7 @@ interface VideoEntry {
   views: number;
 }
 
-const SOCIAL_HIGHLIGHT_DESC = `The wait is finally over. PGVA Ventures, LLC officially presents the Poke-Pulse-Ticker Market Terminal—the most sophisticated data engine ever built for the Poké TCG ecosystem. Stop guessing and start dominating with the professional-grade tools used by the world's top high-velocity collectors.
+const SOCIAL_HIGHLIGHT_DESC = `The wait is finally over. PGVA Ventures, LLC officially presents the Poke-Pulse-Engine—the most sophisticated data engine ever built for the Poké TCG ecosystem. Stop guessing and start dominating with the professional-grade tools used by the world's top high-velocity collectors.
 
 This isn't just a tracker; it's a command center. Gain a competitive edge with real-time live pricing for 500+ high-liquidity cards, updated every second. Our proprietary AI-powered market signals alert you to breakouts before they hit social media, while our advanced grading arbitrage tools identify the exact spreads between raw and slabbed assets to maximize your ROI.
 
@@ -44,7 +44,7 @@ const videoLibrary: VideoEntry[] = [
   {
     id: "combined-gl-sh",
     title: "Grand Launch × Social Highlight — Full 3-Minute Experience",
-    description: "The definitive 3-minute cinematic presentation combining the Grand Launch and Social Highlight promos. Features VO-synced transitions, sidechain-ducked audio, and transition SFX. The complete story of Poke-Pulse-Ticker in one video.",
+    description: "The definitive 3-minute cinematic presentation combining the Grand Launch and Social Highlight promos. Features VO-synced transitions, sidechain-ducked audio, and transition SFX. The complete story of Poke-Pulse-Engine in one video.",
     file: "/videos/combined-gl-sh-3min.mp4",
     aspect: "16:9",
     duration: "3:28",
@@ -175,8 +175,8 @@ const videoLibrary: VideoEntry[] = [
   },
   {
     id: "franchise-umbrella",
-    title: "Pulse Market Terminal™ — 12-Vertical Franchise Pitch",
-    description: "27-second investor pitch showcasing the Pulse Market Terminal expansion across 12 collectible and sports card verticals — Poké, MLB, NFL, NBA, NHL, FIFA, MTG, Yu-Gi-Oh!, Dragon Ball Z, Lorcana, and Star Wars. $103B+ combined TAM under PGVA Ventures, LLC.",
+    title: "Pulse Engine™ — 12-Vertical Franchise Pitch",
+    description: "27-second investor pitch showcasing the Pulse Engine expansion across 12 collectible and sports card verticals — Poké, MLB, NFL, NBA, NHL, FIFA, MTG, Yu-Gi-Oh!, Dragon Ball Z, Lorcana, and Star Wars. $103B+ combined TAM under PGVA Ventures, LLC.",
     file: "/videos/franchise-pitch-2026.mp4",
     aspect: "16:9",
     duration: "0:27",
@@ -198,7 +198,7 @@ const videoLibrary: VideoEntry[] = [
   {
     id: "investor-12-engines",
     title: "12 Revenue Engines — Investor Social Pitch",
-    description: "59-second polished investor pitch highlighting all 12 revenue-generating market engines: Live Indexes, Growth Charts, SimTrader World™, Poké-Pulse Arena™, Poké Adventure Land, Alpha Signals, Grading Arbitrage, Portfolio Tracking, Whale Reports, Data API, Franchise Blueprint, and Subscription Tiers. Female voiceover, upbeat background music, large-frame imagery. Optimized for social media. Contact: contact@poke-pulse-ticker.com. © PGVA Ventures, LLC. All rights reserved. Protected under U.S. Patent, Trademark & Copyright law.",
+    description: "59-second polished investor pitch highlighting all 12 revenue-generating market engines: Live Indexes, Growth Charts, SimTrader World™, Poké-Pulse Arena™, Poké Adventure Land, Alpha Signals, Grading Arbitrage, Portfolio Tracking, Whale Reports, Data API, Franchise Blueprint, and Subscription Tiers. Female voiceover, upbeat background music, large-frame imagery. Optimized for social media. Contact: contact@poke-pulse-engine.com. © PGVA Ventures, LLC. All rights reserved. Protected under U.S. Patent, Trademark & Copyright law.",
     file: "/videos/PGVA_Investor_Pitch_59s_2026.mp4",
     aspect: "16:9",
     duration: "0:59",
@@ -208,7 +208,7 @@ const videoLibrary: VideoEntry[] = [
   },
   {
     id: "tier1-poke-pulse-av",
-    title: "Tier 1 — Poké Pulse Market Terminal (VO + Music)",
+    title: "Tier 1 — Poké Pulse Engine (VO + Music)",
     description: "30-second aggressive social promo with Laura AI voiceover and upbeat electronic music. Highlights live pricing for 500+ cards, SimTrader World™, Poké-Pulse Arena™, Alpha Signals, grading arbitrage, and 7-tier subscriptions. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier1_PokePulse_Promo_2026_AV.mp4",
     aspect: "16:9",
@@ -219,7 +219,7 @@ const videoLibrary: VideoEntry[] = [
   },
   {
     id: "tier2-pulse-market-av",
-    title: "Tier 2 — Pulse Market Terminal Franchise (VO + Music)",
+    title: "Tier 2 — Pulse Engine Franchise (VO + Music)",
     description: "30-second investor-focused promo with Laura AI voiceover and cinematic orchestral music. Covers $103B+ TAM, $157.8M ARR projections, 12 revenue engines, and $1.89B valuation. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier2_PulseMarket_Promo_2026_AV.mp4",
     aspect: "16:9",
@@ -253,7 +253,7 @@ const videoLibrary: VideoEntry[] = [
   {
     id: "combined-3tier-demo-av",
     title: "3-Tier Vertical Integration — Full Demo (VO + Music)",
-    description: "Nearly 2-minute cinematic demo with Laura AI voiceover and epic orchestral-electronic soundtrack. Complete walkthrough of all three vertical tiers: Poké Pulse (Data), Pulse Market Terminal (Franchise), and PGTV Media Hub (Media). © PGVA Ventures, LLC.",
+    description: "Nearly 2-minute cinematic demo with Laura AI voiceover and epic orchestral-electronic soundtrack. Complete walkthrough of all three vertical tiers: Poké Pulse (Data), Pulse Engine (Franchise), and PGTV Media Hub (Media). © PGVA Ventures, LLC.",
     file: "/videos/PGVA_3Tier_Combined_Demo_2026_AV.mp4",
     aspect: "16:9",
     duration: "1:53",
@@ -263,8 +263,8 @@ const videoLibrary: VideoEntry[] = [
   },
   {
     id: "tier1-poke-pulse",
-    title: "Tier 1 — Poké Pulse Market Terminal Promo (Silent)",
-    description: "30-second aggressive social promo for the Poké Pulse Market Terminal — the consumer-facing data engine. Silent version. © PGVA Ventures, LLC.",
+    title: "Tier 1 — Poké Pulse Engine Promo (Silent)",
+    description: "30-second aggressive social promo for the Poké Pulse Engine — the consumer-facing data engine. Silent version. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier1_PokePulse_Promo_2026.mp4",
     aspect: "16:9",
     duration: "0:30",
@@ -274,7 +274,7 @@ const videoLibrary: VideoEntry[] = [
   },
   {
     id: "tier2-pulse-market",
-    title: "Tier 2 — Pulse Market Terminal Franchise Promo (Silent)",
+    title: "Tier 2 — Pulse Engine Franchise Promo (Silent)",
     description: "30-second investor-focused promo. Silent version. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier2_PulseMarket_Promo_2026.mp4",
     aspect: "16:9",

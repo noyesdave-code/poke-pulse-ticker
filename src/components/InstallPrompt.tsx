@@ -68,7 +68,7 @@ const InstallPrompt = () => {
           </div>
           <div className="flex-1 min-w-0">
             <p className="font-mono text-sm font-semibold text-foreground">
-              Install Poké TCG Market Terminal
+              Install Poké TCG Engine
             </p>
             {isIOS ? (
               <p className="text-xs text-muted-foreground mt-1">

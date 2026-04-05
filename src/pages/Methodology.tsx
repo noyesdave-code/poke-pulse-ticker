@@ -60,7 +60,7 @@ const Methodology = () => (
           Index Methodology
         </h1>
         <p className="font-mono text-sm text-muted-foreground leading-relaxed max-w-2xl">
-          Full transparency on how Poke-Pulse-Ticker calculates the RAW 500, GRADED 1000, and SEALED 1000 market indexes.
+          Full transparency on how Poke-Pulse-Engine calculates the RAW 500, GRADED 1000, and SEALED 1000 market indexes.
         </p>
       </div>
 

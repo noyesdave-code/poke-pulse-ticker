@@ -69,7 +69,7 @@ const Guides = () => {
         {/* Footer */}
         <footer className="border-t border-border pt-6 pb-4">
           <p className="font-mono text-[10px] text-muted-foreground text-center">
-            © {new Date().getFullYear()} Poke-Pulse-Ticker. Educational content only — not financial advice.
+            © {new Date().getFullYear()} Poke-Pulse-Engine. Educational content only — not financial advice.
           </p>
         </footer>
       </main>

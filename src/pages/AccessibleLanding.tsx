@@ -40,7 +40,7 @@ const features = [
 ];
 
 const quickLinks = [
-  { path: "/", label: "Market Terminal — Live card prices" },
+  { path: "/", label: "Engine — Live card prices" },
   { path: "/sets", label: "Set Browser — Browse all sets" },
   { path: "/portfolio", label: "Portfolio — Track your collection" },
   { path: "/guides", label: "Guides — Learn card investing" },
@@ -85,7 +85,7 @@ const AccessibleLanding = () => {
             className="text-4xl sm:text-5xl font-black text-foreground leading-tight"
             style={{ textShadow: "none" }}
           >
-            Poke Pulse Market Terminal
+            Poke Pulse Engine
           </h1>
 
           <p className="text-xl text-foreground max-w-2xl mx-auto leading-relaxed">
@@ -99,7 +99,7 @@ const AccessibleLanding = () => {
               onClick={() => navigate("/")}
               className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold text-lg rounded-lg px-8 py-4 hover:opacity-90 transition-opacity border-2 border-primary"
             >
-              Enter Market Terminal
+              Enter Engine
               <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </button>
             <button
