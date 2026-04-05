@@ -6,36 +6,39 @@ const corsHeaders = {
 
 const TELEGRAM_GATEWAY_URL = 'https://connector-gateway.lovable.dev/telegram';
 
+const SITE = 'https://poke-pulse-ticker.lovable.app';
+const CONTACT = 'contact@poke-pulse-ticker.com | pokegarageva@gmail.com';
+
 const PROMOS = [
   {
     tier: 1,
     title: "🎯 Pulse Market Terminal — FREE Tier",
-    body: "Real-time Pokémon TCG price tracking, portfolio management, and market signals.\n\nStart for FREE → pulsemarketindex.com\n\n#PokemonTCG #CardInvesting #PulseMarketTerminal #Pokemon #TradingCards",
-    videoUrl: "https://poke-pulse-ticker.lovable.app/videos#tier1",
+    body: `Real-time Pokémon TCG price tracking, portfolio management, and market signals.\n\nStart for FREE → ${SITE}\n\n📩 ${CONTACT}\n\n#PokemonTCG #CardInvesting #PulseMarketTerminal #Pokemon #TradingCards`,
+    videoUrl: `${SITE}/videos#tier1`,
   },
   {
     tier: 2,
     title: "📊 Pulse Pro — Advanced Analytics",
-    body: "Alpha signals, arbitrage finder, whale reports & AI insights. Level up your card investing game.\n\npulsemarketindex.com\n\n#PokemonCards #CardMarket #PulsePro #Investing #TCG",
-    videoUrl: "https://poke-pulse-ticker.lovable.app/videos#tier2",
+    body: `Alpha signals, arbitrage finder, whale reports & AI insights. Level up your card investing game.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#PokemonCards #CardMarket #PulsePro #Investing #TCG`,
+    videoUrl: `${SITE}/videos#tier2`,
   },
   {
     tier: 3,
     title: "🏟️ Pulse Arena — Compete & Earn",
-    body: "PokéCoin wagering, prediction duels, tournaments & leaderboards. The ultimate card trading arena.\n\npulsemarketindex.com\n\n#PulseArena #PokemonCompetitive #TradingCards #Gaming",
-    videoUrl: "https://poke-pulse-ticker.lovable.app/videos#tier3",
+    body: `PokéCoin wagering, prediction duels, tournaments & leaderboards. The ultimate card trading arena.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#PulseArena #PokemonCompetitive #TradingCards #Gaming`,
+    videoUrl: `${SITE}/videos#tier3`,
   },
   {
     tier: 4,
     title: "🏢 Pulse Franchise — Own Your Market",
-    body: "White-label the entire Pulse engine for ANY collectible vertical. Sports, TCG, vintage — your brand, our tech.\n\npulsemarketindex.com\n\n#Franchise #BusinessOpportunity #Collectibles #Startup",
-    videoUrl: "https://poke-pulse-ticker.lovable.app/videos#tier4",
+    body: `White-label the entire Pulse engine for ANY collectible vertical. Sports, TCG, vintage — your brand, our tech.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#Franchise #BusinessOpportunity #Collectibles #Startup`,
+    videoUrl: `${SITE}/videos#tier4`,
   },
   {
     tier: 5,
     title: "🏛️ Pulse Philanthropic™ — The National Museum",
-    body: "The National Museum of Trading Cards & Collectibles — Washington, D.C.\nFree to the public, forever. A Noyes Family Trust venture.\n\npulsemarketindex.com\n\n#Museum #TradingCards #Culture #Philanthropy",
-    videoUrl: "https://poke-pulse-ticker.lovable.app/videos#tier5",
+    body: `The National Museum of Trading Cards & Collectibles — Washington, D.C.\nFree to the public, forever. A Noyes Family Trust venture.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#Museum #TradingCards #Culture #Philanthropy`,
+    videoUrl: `${SITE}/videos#tier5`,
   },
 ];
 
