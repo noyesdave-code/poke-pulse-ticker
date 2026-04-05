@@ -8,7 +8,7 @@ const GamePromo = () => (
   <section className="terminal-card p-4 sm:p-6 md:p-8 border-t-2 border-t-primary bg-gradient-to-br from-primary/5 to-transparent overflow-hidden">
     {/* Branded Poke Pulse logo */}
     <div className="flex justify-center mb-3">
-      <img src="/icon-192.png" alt="Poke Personal Pulse Engine" className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-[0_0_12px_hsl(var(--primary)/0.4)]" />
+      <img src="/icon-192.png" alt="Poke-Pulse-Engine" className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-[0_0_12px_hsl(var(--primary)/0.4)]" />
     </div>
     {/* Poké artwork banner */}
     <div className="flex justify-center gap-3 sm:gap-4 mb-4 -mt-1">
