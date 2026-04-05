@@ -285,7 +285,7 @@ const videoLibrary: VideoEntry[] = [
   },
   {
     id: "tier1-poke-pulse-av",
-    title: "Tier 1 — Poké Personal Pulse Engine (VO + Music)",
+    title: "Tier 1 — Poke-Pulse-Engine (VO + Music)",
     description: "30-second aggressive social promo with Laura AI voiceover and upbeat electronic music. Highlights live pricing for 500+ cards, SimTrader World™, Poké-Pulse Arena™, Alpha Signals, grading arbitrage, and 7-tier subscriptions. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier1_PokePulse_Promo_2026_AV.mp4",
     aspect: "16:9",
@@ -340,8 +340,8 @@ const videoLibrary: VideoEntry[] = [
   },
   {
     id: "tier1-poke-pulse",
-    title: "Tier 1 — Poké Personal Pulse Engine Promo (Silent)",
-    description: "30-second aggressive social promo for the Poké Personal Pulse Engine — the consumer-facing data engine. Silent version. © PGVA Ventures, LLC.",
+    title: "Tier 1 — Poke-Pulse-Engine Promo (Silent)",
+    description: "30-second aggressive social promo for the Poke-Pulse-Engine — the consumer-facing data engine. Silent version. © PGVA Ventures, LLC.",
     file: "/videos/PGVA_Tier1_PokePulse_Promo_2026.mp4",
     aspect: "16:9",
     duration: "0:30",
