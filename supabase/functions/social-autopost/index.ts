@@ -105,7 +105,7 @@ Deno.serve(async (req) => {
                 'Content-Type': 'application/x-www-form-urlencoded',
               },
               body: new URLSearchParams({
-                text: `${promo.title}\n\n${promo.body}`,
+                text: `${promo.title}\n\n${promo.body}\n\n🎬 Watch → ${promo.videoUrl}`,
                 profile_ids: profile.id,
                 now: 'true',
               }),
