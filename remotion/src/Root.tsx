@@ -270,5 +270,13 @@ export const RemotionRoot: React.FC = () => (
         defaultProps={{ episodeIndex: i }}
       />
     ))}
+    <Composition
+      id="PokeRipz3D"
+      component={PokeRipz3D}
+      durationInFrames={2970}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
   </>
 );
