@@ -17,10 +17,6 @@ const GamePromo = () => {
 
   return (
     <section className="terminal-card p-4 sm:p-6 border-t-2 border-t-primary bg-gradient-to-br from-primary/5 to-transparent overflow-hidden">
-      {/* Logo */}
-      <div className="flex justify-center mb-2">
-        <img src="/icon-192.png" alt="Personal Pulse Engine" className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-[0_0_12px_hsl(var(--primary)/0.4)]" />
-      </div>
 
       {/* Poké sprites */}
       <div className="flex justify-center gap-4 sm:gap-5 mb-3">
