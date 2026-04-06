@@ -48,6 +48,7 @@ import PokemonKidsGame from "./pages/PokemonKidsGame.tsx";
 import Franchise from "./pages/Franchise.tsx";
 import Blueprint from "./pages/Blueprint.tsx";
 import Donate from "./pages/Donate.tsx";
+import PokeRipz from "./pages/PokeRipz.tsx";
 import MLBDemo from "./pages/demos/MLBDemo.tsx";
 import NFLDemo from "./pages/demos/NFLDemo.tsx";
 import NBADemo from "./pages/demos/NBADemo.tsx";
