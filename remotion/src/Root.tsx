@@ -19,6 +19,7 @@ import { Tier5Promo } from "./Tier5Promo";
 import { PokeRipzPromo } from "./PokeRipzPromo";
 import { PokeRipzShow } from "./PokeRipzShow";
 import { PokeRipz3D } from "./PokeRipz3D";
+import { PokeRipzETB } from "./PokeRipzETB";
 
 export const RemotionRoot: React.FC = () => (
   <>
