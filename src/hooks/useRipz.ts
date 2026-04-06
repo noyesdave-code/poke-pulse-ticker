@@ -167,7 +167,7 @@ export function useRipPacks() {
       return { cards, totalValue, coinCost, session };
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["ripz-wallet"] });
+      queryClient.invalidateQueries({ queryKey: ["unified-wallet"] });
       queryClient.invalidateQueries({ queryKey: ["digital-portfolio"] });
       queryClient.invalidateQueries({ queryKey: ["rip-sessions"] });
       const hitCount = data.cards.filter((c) => ['ultra_rare', 'secret_rare', 'illustration_rare', 'hyper_rare'].includes(c.card_rarity)).length;
