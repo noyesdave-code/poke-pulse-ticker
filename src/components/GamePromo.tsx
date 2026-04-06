@@ -17,12 +17,8 @@ const GamePromo = () => {
 
   return (
     <section className="terminal-card p-4 sm:p-6 border-t-2 border-t-primary bg-gradient-to-br from-primary/5 to-transparent overflow-hidden">
-      {/* Logo */}
-      <div className="flex justify-center mb-2">
-        <img src="/icon-192.png" alt="Personal Pulse Engine" className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-[0_0_12px_hsl(var(--primary)/0.4)]" />
-      </div>
 
-      {/* Pokémon sprites */}
+      {/* Poké sprites */}
       <div className="flex justify-center gap-4 sm:gap-5 mb-3">
         {POKEMON_SPRITES.map(({ id, name }) => (
           <div key={id} className="relative w-14 h-14 sm:w-18 sm:h-18 md:w-20 md:h-20 flex-shrink-0 bg-muted/30 rounded-xl flex items-center justify-center border border-border/40">
@@ -45,9 +41,10 @@ const GamePromo = () => {
 
       <div className="space-y-2.5 text-center sm:text-left">
         <div className="flex items-center justify-center sm:justify-start gap-2">
+          <img src="/poke-adventure-land-logo.png" alt="Poké Adventure Land" className="w-7 h-7 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
           <Gamepad2 className="w-5 h-5 text-primary" />
           <span className="font-mono text-[10px] tracking-widest text-primary uppercase font-bold">
-            NEW — Poké Adventure Land
+            Poké Adventure Land
           </span>
         </div>
         <h3 className="text-lg sm:text-xl font-black text-foreground leading-tight">

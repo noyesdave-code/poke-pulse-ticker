@@ -17,6 +17,7 @@ import { FiveTierPromo } from "./FiveTierPromo";
 import { Tier4Promo } from "./Tier4Promo";
 import { Tier5Promo } from "./Tier5Promo";
 import { PokeRipzPromo } from "./PokeRipzPromo";
+import { PokeRipzShow } from "./PokeRipzShow";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -224,10 +225,37 @@ export const RemotionRoot: React.FC = () => (
     <Composition
       id="poke-ripz-promo"
       component={PokeRipzPromo}
-      durationInFrames={450}
+      durationInFrames={900}
       fps={30}
       width={1920}
       height={1080}
+    />
+    <Composition
+      id="poke-ripz-show-ep1"
+      component={PokeRipzShow}
+      durationInFrames={900}
+      fps={30}
+      width={1920}
+      height={1080}
+      defaultProps={{ episodeIndex: 0 }}
+    />
+    <Composition
+      id="poke-ripz-show-ep2"
+      component={PokeRipzShow}
+      durationInFrames={900}
+      fps={30}
+      width={1920}
+      height={1080}
+      defaultProps={{ episodeIndex: 1 }}
+    />
+    <Composition
+      id="poke-ripz-show-ep3"
+      component={PokeRipzShow}
+      durationInFrames={900}
+      fps={30}
+      width={1920}
+      height={1080}
+      defaultProps={{ episodeIndex: 2 }}
     />
   </>
 );
