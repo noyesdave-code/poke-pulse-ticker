@@ -7,15 +7,17 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { usePortfolio, type PortfolioCard } from "@/hooks/usePortfolio";
 import { usePortfolioSnapshots, useSaveSnapshot } from "@/hooks/usePortfolioSnapshots";
+import { useDigitalPortfolio } from "@/hooks/useRipz";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCardById, getBestPrice } from "@/lib/pokemonTcgApi";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
-import { ArrowLeft, Loader2, TrendingUp, TrendingDown, Activity, BarChart3, PieChart as PieIcon } from "lucide-react";
+import { ArrowLeft, Loader2, TrendingUp, TrendingDown, Activity, BarChart3, PieChart as PieIcon, Sparkles, Layers } from "lucide-react";
 import ValueUnlockPreview from "@/components/ValueUnlockPreview";
 import CampaignProBanner from "@/components/campaign/CampaignProBanner";
+import { RARITY_LABELS, RARITY_COLORS } from "@/data/ripzData";
 
 const COLORS = [
   "hsl(145, 100%, 41%)", "hsl(40, 100%, 50%)", "hsl(210, 100%, 56%)",

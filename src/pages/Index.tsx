@@ -272,10 +272,35 @@ const Index = () => {
           <MarketCapSummary liveRawCards={displayCards} />
         </LazySection>
 
-        {/* 15. Poké Adventure Land */}
+        {/* 15. Poké Ripz */}
+        <LazySection minHeight="120px">
+          <div className="terminal-card p-4 sm:p-5">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <h2 className="font-mono text-sm font-bold text-foreground flex items-center gap-2">
+                  🃏 Poké Ripz™
+                </h2>
+                <p className="font-mono text-[10px] text-muted-foreground mt-0.5">Digital pack ripping — every era, every set</p>
+              </div>
+              <a href="/ripz" className="font-mono text-xs font-semibold bg-primary text-primary-foreground rounded px-4 py-1.5 hover:opacity-90">
+                RIP NOW →
+              </a>
+            </div>
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+              {['🏆 Vintage','🔴 EX','💠 DP/Plat','⚫ BW/XY','☀️ S&M/SwSh','🔮 Modern'].map((era) => (
+                <div key={era} className="terminal-card p-2 text-center">
+                  <p className="text-lg">{era.split(' ')[0]}</p>
+                  <p className="font-mono text-[8px] text-muted-foreground">{era.split(' ').slice(1).join(' ')}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </LazySection>
+
+        {/* 16. Poké Adventure Land */}
         <GamePromo />
 
-        {/* 16. SimTrader */}
+        {/* 17. SimTrader */}
         <SimTraderPromo />
 
         {/* 17. Trust + Status */}
