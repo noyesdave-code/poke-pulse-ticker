@@ -32,15 +32,10 @@ await renderMedia({
   composition,
   serveUrl: bundled,
   codec: "h264",
-  outputLocation: "/mnt/documents/PokeRipz_3D_EP1.mp4",
+  outputLocation: "/tmp/ripz3d_raw.mp4",
   puppeteerInstance: browser,
   muted: true,
   concurrency: 1,
-  onProgress: ({ progress }) => {
-    if (Math.round(progress * 100) % 10 === 0) {
-      process.stdout.write(`\r  Progress: ${Math.round(progress * 100)}%`);
-    }
-  },
 });
 
 console.log("\n✅ Render complete!");
