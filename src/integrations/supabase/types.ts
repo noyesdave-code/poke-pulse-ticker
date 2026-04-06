@@ -1979,7 +1979,6 @@ export type Database = {
       }
       game_pvp_leaderboard: {
         Row: {
-          avatar_url: string | null
           display_name: string | null
           level: number | null
           player_id: string | null
@@ -1987,7 +1986,24 @@ export type Database = {
           starter_pokemon_image: string | null
           total_losses: number | null
           total_wins: number | null
-          user_id: string | null
+        }
+        Insert: {
+          display_name?: string | null
+          level?: number | null
+          player_id?: string | null
+          starter_pokemon?: string | null
+          starter_pokemon_image?: string | null
+          total_losses?: number | null
+          total_wins?: number | null
+        }
+        Update: {
+          display_name?: string | null
+          level?: number | null
+          player_id?: string | null
+          starter_pokemon?: string | null
+          starter_pokemon_image?: string | null
+          total_losses?: number | null
+          total_wins?: number | null
         }
         Relationships: []
       }
