@@ -87,7 +87,7 @@ export function useCopyProtection() {
           parentOrigin.includes("lovable.app") ||
           parentOrigin.includes("lovable.dev") ||
           parentOrigin.includes("lovableproject.com") ||
-          parentOrigin.includes("poke-pulse-engine.com") ||
+          parentOrigin.includes("poke-pulse-ticker.lovable.app") ||
           parentOrigin.includes("localhost");
 
         if (!isAllowedPreview) {
