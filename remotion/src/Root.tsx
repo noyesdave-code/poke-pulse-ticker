@@ -18,6 +18,7 @@ import { Tier4Promo } from "./Tier4Promo";
 import { Tier5Promo } from "./Tier5Promo";
 import { PokeRipzPromo } from "./PokeRipzPromo";
 import { PokeRipzShow } from "./PokeRipzShow";
+import { PokeRipz3D } from "./PokeRipz3D";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -269,5 +270,13 @@ export const RemotionRoot: React.FC = () => (
         defaultProps={{ episodeIndex: i }}
       />
     ))}
+    <Composition
+      id="PokeRipz3D"
+      component={PokeRipz3D}
+      durationInFrames={2970}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
   </>
 );
