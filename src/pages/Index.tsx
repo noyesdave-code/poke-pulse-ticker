@@ -11,7 +11,6 @@ import SocialProofBar from "@/components/SocialProofBar";
 import MarketIndexCard from "@/components/MarketIndexCard";
 import TrendingCards from "@/components/TrendingCards";
 import LaunchCountdown from "@/components/LaunchCountdown";
-import QuickValueCalculator from "@/components/QuickValueCalculator";
 import InlineUpgradeNudge from "@/components/InlineUpgradeNudge";
 import StickyUpgradeBanner from "@/components/StickyUpgradeBanner";
 import IndexDayChart from "@/components/IndexDayChart";
@@ -26,11 +25,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
-// Campaign banners
 import PromoStack from "@/components/PromoStack";
 import ShareButton from "@/components/ShareButton";
-
-// Lazy-loaded below-the-fold components
 
 import DailySpotlight from "@/components/DailySpotlight";
 import LiveMarketPulse from "@/components/LiveMarketPulse";
@@ -58,8 +54,6 @@ import WhaleReport from "@/components/WhaleReport";
 import ArbitrageFinder from "@/components/ArbitrageFinder";
 import JPtoENTracker from "@/components/JPtoENTracker";
 import DataHealthDashboard from "@/components/DataHealthDashboard";
-import WallOfLove from "@/components/WallOfLove";
-import Testimonials from "@/components/Testimonials";
 import ImportFromTCGPlayer from "@/components/ImportFromTCGPlayer";
 import SubscriptionTiers from "@/components/SubscriptionTiers";
 import TeamPlanCTA from "@/components/TeamPlanCTA";
@@ -88,7 +82,6 @@ const Index = () => {
   const { toast } = useToast();
   const { checkSubscription } = useAuth();
 
-  // Refresh key increments every 60 minutes to force chart data regeneration
   const [chartRefreshKey, setChartRefreshKey] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -130,15 +123,16 @@ const Index = () => {
 
   const alphaSignals = useAlphaSignals(displayCards);
 
-  // Get top mover for hero urgency hook
   const topMover = useMemo(() => {
     const sorted = [...displayCards].sort((a, b) => Math.abs(b.change) - Math.abs(a.change));
     return sorted[0] || null;
   }, [displayCards]);
 
-  // Prefetch trending + top mover cards for instant navigation
   const prefetchIds = useMemo(() => displayCards.slice(0, 10).map((c) => c._apiId).filter(Boolean) as string[], [displayCards]);
   usePrefetchCards(prefetchIds);
+
+  // Filter cards with images for DailySpotlight
+  const cardsWithImages = useMemo(() => displayCards.filter(c => c._image), [displayCards]);
 
   const handleSearchFocus = () => {
     searchRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -154,8 +148,8 @@ const Index = () => {
       <TerminalHeader />
       <TickerBar cards={displayCards} isLive={isLive} lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined} />
 
-      <main id="main-content" className="max-w-7xl mx-auto px-4 lg:px-6 py-3 sm:py-5 space-y-3 sm:space-y-4">
-        {/* 1. Hero — urgency hook */}
+      <main id="main-content" className="max-w-7xl mx-auto px-4 lg:px-6 py-2 sm:py-4 space-y-2.5 sm:space-y-3">
+        {/* 1. Hero */}
         <HeroSection
           onSearchFocus={handleSearchFocus}
           topMoverName={topMover?.name}
@@ -171,18 +165,18 @@ const Index = () => {
           cardCount={displayCards.length}
         />
 
-        {/* 2. Market Indexes — show the money */}
+        {/* 2. Market Indexes */}
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
             <SkeletonIndexCard />
             <SkeletonIndexCard />
             <SkeletonIndexCard />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <MarketIndexCard title="RAW 500 INDEX" value={rawIndex} change={rawChange} count={500} description="Average tracked raw card market value" variant="green" />
-            <MarketIndexCard title="GRADED 1000 INDEX" value={gradedIndex} change={gradedChange} count={750} description="Average tracked graded card market value (PSA/CGC/BGS/TAG)" variant="amber" />
-            <MarketIndexCard title="SEALED 1000 INDEX" value={sealedIndex} change={sealedChange} count={1000} description="Average tracked sealed product value (Boxes/Packs/ETBs)" variant="blue" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+            <MarketIndexCard title="RAW 500 INDEX" value={rawIndex} change={rawChange} count={500} description="500+ raw cards tracked" variant="green" />
+            <MarketIndexCard title="GRADED 1000 INDEX" value={gradedIndex} change={gradedChange} count={1000} description="1,000+ graded cards tracked (PSA/CGC/BGS/TAG)" variant="amber" />
+            <MarketIndexCard title="SEALED 1000 INDEX" value={sealedIndex} change={sealedChange} count={1000} description="1,000+ sealed products tracked (Boxes/Packs/ETBs)" variant="blue" />
           </div>
         )}
 
@@ -192,7 +186,7 @@ const Index = () => {
           return (
             <div className="relative">
               {!isNYSE && <MarketClosedOverlay />}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
                 <IndexDayChart title="RAW 500 INDEX" indexValue={rawIndex} indexChange={rawChange} variant="green" refreshKey={chartRefreshKey} />
                 <IndexDayChart title="GRADED 1000 INDEX" indexValue={gradedIndex} indexChange={gradedChange} variant="amber" refreshKey={chartRefreshKey} />
                 <IndexDayChart title="SEALED 1000 INDEX" indexValue={sealedIndex} indexChange={sealedChange} variant="blue" refreshKey={chartRefreshKey} />
@@ -201,87 +195,113 @@ const Index = () => {
           );
         })()}
 
-        {/* 4. Trending Cards — dopamine hit */}
+        {/* 4. Trending Cards */}
         <TrendingCards cards={displayCards} isLoading={isLoading} />
 
-        {/* Product Ad Strip — after trending */}
         <ProductAdBanner variant="strip" count={4} />
 
-        {/* 4b. AI Market Insights — killer feature */}
+        {/* 5. AI Market Insights */}
         <LazySection minHeight="200px">
           <AIMarketInsights cards={displayCards} />
         </LazySection>
 
-        {/* 5. Era-Based Market Indexes — show all eras */}
+        {/* 6. Era Indexes */}
         <LazySection minHeight="150px">
           <EraIndexCards cards={displayCards} />
         </LazySection>
 
-        {/* 6. POKÉ RACE — high engagement game */}
+        {/* 7. Poké Race */}
         <PokeRaceSection />
 
-        {/* 7. Top Movers side-by-side */}
-        <LazySection minHeight="300px">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* 8. Top Movers */}
+        <LazySection minHeight="280px">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5">
             <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" isLoading={isLoading} />
             <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" isLoading={isLoading} />
           </div>
         </LazySection>
 
-        {/* 8. Daily Spotlight + Live Pulse */}
+        {/* 9. Daily Spotlight */}
         <LazySection minHeight="200px">
-          <DailySpotlight cards={displayCards} />
+          <DailySpotlight cards={cardsWithImages.length > 0 ? cardsWithImages : displayCards} />
         </LazySection>
 
-        <LazySection minHeight="200px">
+        <LazySection minHeight="180px">
           <LiveMarketPulse cards={displayCards} />
         </LazySection>
 
-        {/* 9. Quick Value Calculator — engagement */}
-        <QuickValueCalculator />
-
-        {/* 9b. Grading ROI Calculator — killer feature */}
+        {/* 10. Grading ROI Calculator */}
         <LazySection minHeight="200px">
           <GradingROICalculator cards={displayCards} />
         </LazySection>
 
         <InlineUpgradeNudge variant="savings" />
-
-        {/* Product Ad — inline after upgrade nudge */}
         <ProductAdBanner variant="inline" />
 
-        {/* 10. Prediction Game */}
+        {/* 11. Prediction Game */}
         <LazySection minHeight="200px">
           <PricePredictionGame cards={displayCards} />
         </LazySection>
 
-        {/* 11. Market Trend + Intel */}
+        {/* 12. Market Trend + Intel */}
         <LazySection minHeight="150px">
           <MarketTrendSummary cards={displayCards} />
         </LazySection>
 
-        <LazySection minHeight="200px">
+        <LazySection minHeight="180px">
           <MarketIntelWidget cards={displayCards} />
         </LazySection>
 
-        <LazySection minHeight="80px">
+        <LazySection minHeight="70px">
           <MarketUpdateBanner cards={displayCards} />
         </LazySection>
 
-        {/* 12. Search + Charts */}
+        {/* 13. Search */}
         <div ref={searchRef}>
           <LazySection minHeight="100px">
             <CardSearch />
           </LazySection>
         </div>
 
-        <LazySection minHeight="300px">
+        {/* 14. Notable Sales */}
+        <LazySection minHeight="200px">
+          <RecentNotableSales cards={displayCards} />
+        </LazySection>
+
+        <LazySection minHeight="100px">
+          <MarketCapSummary liveRawCards={displayCards} />
+        </LazySection>
+
+        {/* 15. Poké Adventure Land */}
+        <GamePromo />
+
+        {/* 16. SimTrader */}
+        <SimTraderPromo />
+
+        {/* 17. Trust + Status */}
+        <LazySection minHeight="70px">
+          <TrustSignals />
+        </LazySection>
+
+        <LazySection minHeight="50px">
+          <SystemStatusIndicator />
+        </LazySection>
+
+        <LazySection minHeight="150px">
+          <DataHealthDashboard />
+        </LazySection>
+
+        {/* === PRO-GATED FEATURES — blurred sign-in sections below === */}
+        <div className="relative">
+          <div className="absolute inset-x-0 -top-8 h-16 bg-gradient-to-b from-background to-transparent z-10 pointer-events-none" />
+        </div>
+
+        <LazySection minHeight="280px">
           <ProGate feature="Historical price charts" blur>
             <PriceChart cards={displayCards} />
           </ProGate>
         </LazySection>
 
-        {/* 13. Pro-gated analytics */}
         <LazySection minHeight="200px">
           <ProGate feature="Predictive Alpha Signals" blur>
             <AlphaSignals signals={alphaSignals} />
@@ -294,19 +314,19 @@ const Index = () => {
           </ProGate>
         </LazySection>
 
-        <LazySection minHeight="250px">
+        <LazySection minHeight="220px">
           <ProGate feature="Pulse Score™ Analysis" blur>
             <PulseScore cards={displayCards} />
           </ProGate>
         </LazySection>
 
-        <LazySection minHeight="250px">
+        <LazySection minHeight="220px">
           <ProGate feature="Correlation Matrix" blur>
             <CorrelationMatrix cards={displayCards} />
           </ProGate>
         </LazySection>
 
-        <LazySection minHeight="250px">
+        <LazySection minHeight="220px">
           <ProGate feature="Pop Report Δ — Supply Pressure" blur>
             <PopReportDelta cards={displayCards} />
           </ProGate>
@@ -344,19 +364,10 @@ const Index = () => {
           </ProGate>
         </LazySection>
 
-        {/* 14. Notable Sales + Market Board */}
-        <LazySection minHeight="200px">
-          <RecentNotableSales cards={displayCards} />
-        </LazySection>
-
-        <LazySection minHeight="400px">
+        <LazySection minHeight="350px">
           <ProGate feature="Full card board (500+ cards)" blur>
             <MarketTabs liveCards={displayCards} liveGradedCards={displayGraded} liveSealedProducts={displaySealed} />
           </ProGate>
-        </LazySection>
-
-        <LazySection minHeight="100px">
-          <MarketCapSummary liveRawCards={displayCards} />
         </LazySection>
 
         <LazySection minHeight="200px">
@@ -367,79 +378,48 @@ const Index = () => {
           <WhaleReport cards={displayCards} />
         </LazySection>
 
-        {/* 15. Engagement + Value unlock */}
-        <LazySection minHeight="120px">
+        <LazySection minHeight="100px">
           <ValueUnlockPreview />
         </LazySection>
 
-        {/* 16. Poké Adventure Land game */}
-        <GamePromo />
-
-        {/* 17. SimTrader promo */}
-        <SimTraderPromo />
-
-        {/* 18. Trust + Status */}
-        <LazySection minHeight="80px">
-          <TrustSignals />
-        </LazySection>
-
-        <LazySection minHeight="60px">
-          <SystemStatusIndicator />
-        </LazySection>
-
-        <LazySection minHeight="150px">
-          <DataHealthDashboard />
-        </LazySection>
-
-        {/* 19. Social proof + testimonials */}
-        <LazySection minHeight="150px">
-          <WallOfLove />
-        </LazySection>
-
-        <LazySection minHeight="150px">
-          <Testimonials />
-        </LazySection>
-
-        {/* 20. Campaigns — lower priority, still visible */}
+        {/* Campaigns */}
         <PromoStack />
-
-        {/* Product Ad Strip — before monetization */}
         <ProductAdBanner variant="strip" count={4} />
 
         <LazySection minHeight="80px">
           <ImportFromTCGPlayer />
         </LazySection>
 
-        {/* 21. Monetization CTAs */}
+        {/* Monetization CTAs */}
         <InlineUpgradeNudge variant="default" />
 
-        <LazySection minHeight="300px">
+        <LazySection minHeight="280px">
           <SubscriptionTiers />
         </LazySection>
 
-        <LazySection minHeight="100px">
+        <LazySection minHeight="90px">
           <TeamPlanCTA />
         </LazySection>
 
-        <LazySection minHeight="80px">
+        <LazySection minHeight="70px">
           <ReferralCTA />
         </LazySection>
 
         <FinancialDisclaimer />
 
         {/* Footer */}
-        <footer className="border-t border-border/30 pt-3 pb-2">
-          <div className="flex flex-col items-center gap-2">
+        <footer className="border-t border-border/30 pt-2 pb-1.5">
+          <div className="flex flex-col items-center gap-1.5">
             <div className="flex items-center gap-2">
               <span className="font-display font-black text-[13px] tracking-tight text-foreground">Poke-Pulse-</span>
               <span className="font-display font-extrabold text-[11px] tracking-[0.06em] text-primary uppercase">Engine</span>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-              <a href="https://poke-pulse-engine.com" className="text-[11px] text-primary font-semibold hover:underline transition-colors">poke-pulse-engine.com</a>
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-0.5">
+              <a href="https://poke-pulse-ticker.lovable.app" className="text-[11px] text-primary font-semibold hover:underline transition-colors">poke-pulse-ticker.lovable.app</a>
               <span className="text-border/50 hidden sm:inline">|</span>
               <span className="text-[10px] text-muted-foreground">Live Poké TCG Market Data</span>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-0.5">
               {[
                 { href: "/pokemon-kids", label: "Poké Adventure Land" },
                 { href: "#poke-race", label: "Poké Race" },

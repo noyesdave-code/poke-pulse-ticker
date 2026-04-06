@@ -17,9 +17,9 @@ const MarketCapSummary = ({ liveRawCards }: MarketCapSummaryProps) => {
   const rawData = liveRawCards && liveRawCards.length > 0 ? liveRawCards : rawCards;
 
   const segments = [
-    { label: "Raw Cards", items: rawData, color: "bg-terminal-green" },
-    { label: "Graded Cards", items: gradedCards, color: "bg-terminal-amber" },
-    { label: "Sealed Products", items: sealedProducts, color: "bg-terminal-blue" },
+    { label: "Raw Cards (500+)", items: rawData, color: "bg-terminal-green" },
+    { label: "Graded Cards (1,000+)", items: gradedCards, color: "bg-terminal-amber" },
+    { label: "Sealed Products (1,000+)", items: sealedProducts, color: "bg-terminal-blue" },
   ];
 
   const totalCap = segments.reduce((s, seg) => s + calcMarketCap(seg.items), 0);
