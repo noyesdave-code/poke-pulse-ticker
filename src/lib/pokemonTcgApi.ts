@@ -243,6 +243,11 @@ export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]
 /**
  * Get the best available price from a card's tcgplayer data
  */
+/**
+ * Get the best available price from a card's tcgplayer data.
+ * Selects the HIGHEST market-priced variant to ensure alt arts,
+ * secret rares, and premium variants show their true value.
+ */
 export function getBestPrice(card: PokemonTCGCard): {
   market: number;
   low: number;
@@ -252,7 +257,7 @@ export function getBestPrice(card: PokemonTCGCard): {
 } | null {
   if (!card.tcgplayer?.prices) return null;
 
-  const priorities = [
+  const variants = [
     "1stEditionHolofoil",
     "holofoil",
     "1stEditionNormal",
@@ -260,10 +265,12 @@ export function getBestPrice(card: PokemonTCGCard): {
     "normal",
   ] as const;
 
-  for (const variant of priorities) {
+  let best: { market: number; low: number; mid: number; high: number; variant: string } | null = null;
+
+  for (const variant of variants) {
     const p = card.tcgplayer.prices[variant];
-    if (p?.market) {
-      return {
+    if (p?.market && (!best || p.market > best.market)) {
+      best = {
         market: p.market,
         low: p.low ?? p.market * 0.8,
         mid: p.mid ?? p.market,
@@ -272,7 +279,7 @@ export function getBestPrice(card: PokemonTCGCard): {
       };
     }
   }
-  return null;
+  return best;
 }
 
 /**
