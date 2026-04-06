@@ -342,11 +342,11 @@ const Blueprint = () => {
                     <Cpu className="w-4 h-4 text-primary" /> Architecture Overview
                   </p>
                   <div className="space-y-2">
-                    {[
-                      { label: "Data Ingestion", desc: "Multi-marketplace price aggregation (60-90 min cycles)", pct: 100 },
-                      { label: "AI Signal Engine", desc: "ML buy/sell/hold with RSI/SMA overlays", pct: 85 },
-                      { label: "Gamification Layer", desc: "SimTrader, Arena, PvP challenges", pct: 90 },
-                      { label: "Community Intel", desc: "Consensus pricing, sentiment polls", pct: 75 },
+                     {[
+                      { label: "Data Ingestion", desc: "Multi-marketplace price aggregation from TCGPlayer, eBay, and live APIs (60-min refresh cycles)", pct: 100 },
+                      { label: "AI Signal Engine", desc: "ML-driven buy/sell/hold signals with RSI, SMA, volume divergence, and 78%+ accuracy", pct: 85 },
+                      { label: "Profit Strategies", desc: "Cross-marketplace arbitrage, grading ROI, PSA 10 ratio bots, and delta price alerts", pct: 90 },
+                      { label: "Gamification Layer", desc: "SimTrader World™, Arena wagering, Poké Ripz™ digital rips, and PvP tournaments", pct: 75 },
                     ].map(a => (
                       <div key={a.label}>
                         <div className="flex justify-between text-xs">

@@ -280,7 +280,7 @@ const Index = () => {
                 <h2 className="font-mono text-sm font-bold text-foreground flex items-center gap-2">
                   🃏 Poké Ripz™
                 </h2>
-                <p className="font-mono text-[10px] text-muted-foreground mt-0.5">Digital pack ripping — every era, every set</p>
+                <p className="font-mono text-[10px] text-muted-foreground mt-0.5">Digital pack ripping — watch, bet, and rip across every era. Buy in with PokéCoins.</p>
               </div>
               <a href="/ripz" className="font-mono text-xs font-semibold bg-primary text-primary-foreground rounded px-4 py-1.5 hover:opacity-90">
                 RIP NOW →
