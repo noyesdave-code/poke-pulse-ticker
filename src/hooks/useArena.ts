@@ -98,12 +98,12 @@ export const useArena = () => {
     if (!user) return;
     setLoading(true);
     try {
-      const { data: existing } = await (supabase.from("arena_wallets") as any)
+      const { data: existing } = await (supabase.from("unified_wallets") as any)
         .select("*").eq("user_id", user.id).maybeSingle();
       if (existing) {
         setWallet(existing as ArenaWallet);
       } else {
-        const { data: created, error } = await (supabase.from("arena_wallets") as any)
+        const { data: created, error } = await (supabase.from("unified_wallets") as any)
           .insert({ user_id: user.id }).select().single();
         if (error) throw error;
         setWallet(created as ArenaWallet);
@@ -165,7 +165,7 @@ export const useArena = () => {
 
         if (won && wallet) {
           const newBal = wallet.balance + payout;
-          await (supabase.from("arena_wallets") as any).update({
+          await (supabase.from("unified_wallets") as any).update({
             balance: newBal,
             lifetime_won: wallet.lifetime_won + payout,
             updated_at: new Date().toISOString(),
@@ -211,7 +211,7 @@ export const useArena = () => {
       });
 
       const newBal = wallet.balance - wager;
-      await (supabase.from("arena_wallets") as any).update({
+      await (supabase.from("unified_wallets") as any).update({
         balance: newBal,
         lifetime_wagered: wallet.lifetime_wagered + wager,
         updated_at: new Date().toISOString(),
@@ -268,7 +268,7 @@ export const useArena = () => {
       });
 
       const newBal = wallet.balance - pack.cost + totalValue;
-      await (supabase.from("arena_wallets") as any).update({
+      await (supabase.from("unified_wallets") as any).update({
         balance: newBal,
         lifetime_wagered: wallet.lifetime_wagered + pack.cost,
         lifetime_won: totalValue > pack.cost ? wallet.lifetime_won + (totalValue - pack.cost) : wallet.lifetime_won,

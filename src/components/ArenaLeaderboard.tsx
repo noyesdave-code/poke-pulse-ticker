@@ -32,7 +32,7 @@ const ArenaLeaderboard = () => {
       setLoading(true);
 
       // Fetch arena wallet leaderboard
-      const { data: wallets } = await (supabase.from("arena_wallets") as any)
+      const { data: wallets } = await (supabase.from("unified_wallets") as any)
         .select("user_id, lifetime_won, lifetime_wagered")
         .order("lifetime_won", { ascending: false })
         .limit(50);

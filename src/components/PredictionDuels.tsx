@@ -101,7 +101,7 @@ export default function PredictionDuels({ tradableCards, walletBalance, onBalanc
     try {
       // Deduct wager from wallet
       const { error: walletErr } = await supabase
-        .from("arena_wallets")
+        .from("unified_wallets")
         .update({
           balance: walletBalance - wager,
           lifetime_wagered: (walletBalance + wager), // approximate
@@ -145,7 +145,7 @@ export default function PredictionDuels({ tradableCards, walletBalance, onBalanc
     try {
       // Deduct wager
       await supabase
-        .from("arena_wallets")
+        .from("unified_wallets")
         .update({ balance: walletBalance - duel.wager })
         .eq("user_id", user.id);
 
