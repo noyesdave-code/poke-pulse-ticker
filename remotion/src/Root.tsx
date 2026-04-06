@@ -19,6 +19,7 @@ import { Tier5Promo } from "./Tier5Promo";
 import { PokeRipzPromo } from "./PokeRipzPromo";
 import { PokeRipzShow } from "./PokeRipzShow";
 import { PokeRipz3D } from "./PokeRipz3D";
+import { PokeRipzETB } from "./PokeRipzETB";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -274,6 +275,14 @@ export const RemotionRoot: React.FC = () => (
       id="PokeRipz3D"
       component={PokeRipz3D}
       durationInFrames={1440}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="PokeRipzETB"
+      component={PokeRipzETB}
+      durationInFrames={5400}
       fps={30}
       width={1920}
       height={1080}
