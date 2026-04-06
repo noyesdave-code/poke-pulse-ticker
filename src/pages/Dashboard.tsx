@@ -32,6 +32,7 @@ const Dashboard = () => {
   const [range, setRange] = useState<"30D" | "90D" | "1Y" | "ALL">("90D");
   const [portfolioView, setPortfolioView] = useState<"physical" | "digital">("physical");
   const { data: portfolio, isLoading: portfolioLoading } = usePortfolio();
+  const { data: digitalPortfolio, isLoading: digitalLoading } = useDigitalPortfolio();
   const saveSnapshot = useSaveSnapshot();
 
   const rangeDays = range === "30D" ? 30 : range === "90D" ? 90 : range === "1Y" ? 365 : 9999;
