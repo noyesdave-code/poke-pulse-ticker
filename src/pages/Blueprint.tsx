@@ -330,7 +330,7 @@ const Blueprint = () => {
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold">Live Terminal Engine</h2>
             <p className="text-sm text-muted-foreground mt-1">
-              Interactive demonstration of the core data engine powering every vertical
+              See how the engine pinpoints card prices across marketplaces, predicts price trajectories, and surfaces actionable arbitrage strategies — all in real time
             </p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
