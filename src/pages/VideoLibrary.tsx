@@ -29,7 +29,64 @@ Track your entire collection with our precision Portfolio Tracking suite and wat
 
 🚀 JOIN THE REVOLUTION: Sign up today and claim your 14-day FREE TRIAL to experience the full power of the Terminal. The era of the "uninformed collector" is over. Welcome to the future of Poké-Economics.`;
 
+const STORAGE_BASE = 'https://eikhrxplszgnmgzsktdl.supabase.co/storage/v1/object/public/investor-assets/videos';
+
 const videoLibrary: VideoEntry[] = [
+  {
+    id: "tier1-vo-promo",
+    title: "🎯 Tier 1 — PokéGarageVA™ Promo (VO + Music)",
+    description: "30-second promo for Tier 1: PokéGarageVA™ — the hybrid home-based franchise model est. 2022. Features professional AI voiceover with upbeat electronic background music and sidechain ducking. © 2026 PGVA Ventures, LLC. Protected under U.S. Patent, Trademark & Copyright law. 18 U.S.C. § 1832.",
+    file: `${STORAGE_BASE}/PGVA_Tier1_PokeGarageVA_Promo_VO.mp4`,
+    aspect: "16:9",
+    duration: "0:30",
+    category: "Campaign",
+    date: "2026-04-06",
+    views: 0,
+  },
+  {
+    id: "tier2-vo-promo",
+    title: "📊 Tier 2 — Poke-Pulse-Engine™ Promo (VO + Music)",
+    description: "30-second promo for Tier 2: Poke-Pulse-Engine™ — 12 franchise engines, $103B+ TAM, 7 revenue streams, $1.89B valuation target. Professional AI voiceover with upbeat electronic music. © 2026 PGVA Ventures, LLC. 18 U.S.C. § 1832.",
+    file: `${STORAGE_BASE}/PGVA_Tier2_PokePulseEngine_Promo_VO.mp4`,
+    aspect: "16:9",
+    duration: "0:30",
+    category: "Campaign",
+    date: "2026-04-06",
+    views: 0,
+  },
+  {
+    id: "tier3-vo-promo",
+    title: "🏗️ Tier 3 — Personal Pulse Engine™ Promo (VO + Music)",
+    description: "30-second promo for Tier 3: Personal Pulse Engine™ — enterprise-grade analytics, white-labeled for institutions. 12 verticals, $103B+ TAM, $38M IP portfolio. AI voiceover + music. © 2026 PGVA Ventures, LLC. 18 U.S.C. § 1832.",
+    file: `${STORAGE_BASE}/PGVA_Tier3_PersonalPulseEngine_Promo_VO.mp4`,
+    aspect: "16:9",
+    duration: "0:30",
+    category: "Campaign",
+    date: "2026-04-06",
+    views: 0,
+  },
+  {
+    id: "tier4-vo-promo",
+    title: "🎬 Tier 4 — PGTV Media Hub™ Promo (VO + Music)",
+    description: "30-second promo for Tier 4: PGTV Media Hub™ — live streaming, VOD, interactive tournaments, community entertainment. AI voiceover + music. © 2026 PGVA Ventures, LLC. 18 U.S.C. § 1832.",
+    file: `${STORAGE_BASE}/PGVA_Tier4_PGTVMediaHub_Promo_VO.mp4`,
+    aspect: "16:9",
+    duration: "0:30",
+    category: "Campaign",
+    date: "2026-04-06",
+    views: 0,
+  },
+  {
+    id: "tier5-vo-promo",
+    title: "🏛️ Tier 5 — Pulse Philanthropic™ Promo (VO + Music)",
+    description: "30-second promo for Tier 5: Pulse Philanthropic Project™ — STEM education, community access, scholarship funds, sustainability. AI voiceover + music. © 2026 PGVA Ventures, LLC. 18 U.S.C. § 1832.",
+    file: `${STORAGE_BASE}/PGVA_Tier5_PulsePhilanthropic_Promo_VO.mp4`,
+    aspect: "16:9",
+    duration: "0:30",
+    category: "Campaign",
+    date: "2026-04-06",
+    views: 0,
+  },
   {
     id: "5tier-deepdive-investor",
     title: "🏛️ 5-Tier Vertical Integration™ — Deep-Dive Investor Video (VO + Music)",
