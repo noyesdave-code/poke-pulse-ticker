@@ -4,33 +4,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
 import { RARITY_WEIGHTS, RARITY_VALUES, type ProductType } from "@/data/ripzData";
 
-// Wallet
-export function useRipzWallet() {
-  const { user } = useAuth();
-  return useQuery({
-    queryKey: ["ripz-wallet", user?.id],
-    queryFn: async () => {
-      if (!user) return null;
-      const { data, error } = await supabase
-        .from("ripz_wallets" as any)
-        .select("*")
-        .eq("user_id", user.id)
-        .maybeSingle();
-      if (error) throw error;
-      if (!data) {
-        const { data: newWallet, error: insertErr } = await supabase
-          .from("ripz_wallets" as any)
-          .insert({ user_id: user.id })
-          .select()
-          .single();
-        if (insertErr) throw insertErr;
-        return newWallet as any;
-      }
-      return data as any;
-    },
-    enabled: !!user,
-  });
-}
+// Wallet — now uses unified_wallets
+export { useUnifiedWallet as useRipzWallet } from "@/hooks/useUnifiedWallet";
 
 // Digital portfolio
 export function useDigitalPortfolio() {
