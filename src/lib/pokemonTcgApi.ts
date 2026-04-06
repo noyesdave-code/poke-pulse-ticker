@@ -243,6 +243,11 @@ export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]
 /**
  * Get the best available price from a card's tcgplayer data
  */
+/**
+ * Get the best available price from a card's tcgplayer data.
+ * Selects the HIGHEST market-priced variant to ensure alt arts,
+ * secret rares, and premium variants show their true value.
+ */
 export function getBestPrice(card: PokemonTCGCard): {
   market: number;
   low: number;
@@ -252,7 +257,7 @@ export function getBestPrice(card: PokemonTCGCard): {
 } | null {
   if (!card.tcgplayer?.prices) return null;
 
-  const priorities = [
+  const variants = [
     "1stEditionHolofoil",
     "holofoil",
     "1stEditionNormal",
@@ -260,10 +265,12 @@ export function getBestPrice(card: PokemonTCGCard): {
     "normal",
   ] as const;
 
-  for (const variant of priorities) {
+  let best: { market: number; low: number; mid: number; high: number; variant: string } | null = null;
+
+  for (const variant of variants) {
     const p = card.tcgplayer.prices[variant];
-    if (p?.market) {
-      return {
+    if (p?.market && (!best || p.market > best.market)) {
+      best = {
         market: p.market,
         low: p.low ?? p.market * 0.8,
         mid: p.mid ?? p.market,
@@ -272,18 +279,28 @@ export function getBestPrice(card: PokemonTCGCard): {
       };
     }
   }
-  return null;
+  return best;
 }
 
 /**
- * Convert a PokemonTCGCard into our local CardData format
+ * Convert a PokemonTCGCard into our local CardData format.
+ * Uses actual TCGPlayer price spread (mid vs market) for change signal
+ * instead of a fake hash-based value.
  */
 export function toCardData(card: PokemonTCGCard): CardData | null {
   const price = getBestPrice(card);
   if (!price) return null;
 
-  const hash = card.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  const change = ((hash % 1000) / 100 - 5);
+  // Derive a realistic "change" from the spread between mid and market price.
+  // A positive spread (market > mid) signals upward momentum; negative = downward.
+  // Also incorporate low/high range for volatility context.
+  const midDelta = price.mid > 0 ? ((price.market - price.mid) / price.mid) * 100 : 0;
+  // Clamp to ±25% to avoid outliers
+  const change = Math.round(Math.max(-25, Math.min(25, midDelta)) * 100) / 100;
+
+  // Volume estimate from price spread width (wider spread = more volatile = more volume)
+  const spreadPct = price.high > 0 ? ((price.high - price.low) / price.high) * 100 : 0;
+  const volume = Math.floor(Math.max(5, Math.min(500, spreadPct * 8)));
 
   return {
     name: card.name,
@@ -293,8 +310,8 @@ export function toCardData(card: PokemonTCGCard): CardData | null {
     market: price.market,
     low: price.low,
     mid: price.mid,
-    change: Math.round(change * 100) / 100,
-    volume: Math.floor((hash % 50) + 5),
+    change,
+    volume,
     _apiId: card.id,
     _image: card.images.small,
     _variant: price.variant,
