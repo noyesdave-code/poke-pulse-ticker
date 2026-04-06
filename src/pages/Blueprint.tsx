@@ -215,8 +215,9 @@ const Blueprint = () => {
               5-TIER VERTICAL<br />INTEGRATION™
             </h1>
             <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mt-4">
-              A patent-pending 5-tier ecosystem delivering garage-to-museum vertical integration across
-              consumer trading, data intelligence, franchise licensing, media production, and philanthropy.
+              A patent-pending ecosystem that pinpoints collectible price points across 12 verticals,
+              predicts their futures with AI-driven signals, and deploys automated strategies to
+              generate revenue — from garage-scale trading to museum-grade philanthropy.
             </p>
           </motion.div>
 
