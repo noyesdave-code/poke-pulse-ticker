@@ -283,14 +283,24 @@ export function getBestPrice(card: PokemonTCGCard): {
 }
 
 /**
- * Convert a PokemonTCGCard into our local CardData format
+ * Convert a PokemonTCGCard into our local CardData format.
+ * Uses actual TCGPlayer price spread (mid vs market) for change signal
+ * instead of a fake hash-based value.
  */
 export function toCardData(card: PokemonTCGCard): CardData | null {
   const price = getBestPrice(card);
   if (!price) return null;
 
-  const hash = card.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  const change = ((hash % 1000) / 100 - 5);
+  // Derive a realistic "change" from the spread between mid and market price.
+  // A positive spread (market > mid) signals upward momentum; negative = downward.
+  // Also incorporate low/high range for volatility context.
+  const midDelta = price.mid > 0 ? ((price.market - price.mid) / price.mid) * 100 : 0;
+  // Clamp to ±25% to avoid outliers
+  const change = Math.round(Math.max(-25, Math.min(25, midDelta)) * 100) / 100;
+
+  // Volume estimate from price spread width (wider spread = more volatile = more volume)
+  const spreadPct = price.high > 0 ? ((price.high - price.low) / price.high) * 100 : 0;
+  const volume = Math.floor(Math.max(5, Math.min(500, spreadPct * 8)));
 
   return {
     name: card.name,
@@ -300,8 +310,8 @@ export function toCardData(card: PokemonTCGCard): CardData | null {
     market: price.market,
     low: price.low,
     mid: price.mid,
-    change: Math.round(change * 100) / 100,
-    volume: Math.floor((hash % 50) + 5),
+    change,
+    volume,
     _apiId: card.id,
     _image: card.images.small,
     _variant: price.variant,
