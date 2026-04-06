@@ -46,10 +46,10 @@ const SceneHero: React.FC = () => {
     <AbsoluteFill style={{ opacity: exitOp, background: `radial-gradient(ellipse at 50% 30%, ${NAVY}, ${BG})` }}>
       <Glow color={GOLD} x="50%" y="40%" size={800} />
       <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 60 }}>
-        <FadeText text="POKÉ PULSE" delay={5} size={90} color={GOLD} weight={900} />
-        <FadeText text="MARKET TERMINAL TICKER™" delay={15} size={44} color="white" weight={700} />
+        <FadeText text="PokéGarageVA™" delay={5} size={80} color={GOLD} weight={900} />
+        <FadeText text="TIER 1 — HYBRID FRANCHISE" delay={15} size={32} color="white" weight={700} />
         <div style={{ height: 30 }} />
-        <FadeText text="Real-Time Market Intelligence for Collectors" delay={30} size={22} color="rgba(255,255,255,0.5)" weight={500} family={inter} />
+        <FadeText text="The Original Home-Based Franchise Model — Est. 2022" delay={30} size={22} color="rgba(255,255,255,0.5)" weight={500} family={inter} />
         <div style={{ height: 20 }} />
         <div style={{ opacity: interpolate(frame, [45, 60], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), transform: `scale(${pulse})` }}>
           <div style={{ fontFamily: inter, fontSize: 14, color: GOLD, border: `1px solid ${GOLD}40`, borderRadius: 20, padding: "8px 24px", background: `${GOLD}10` }}>⚡ LIVE NOW — 14-DAY FREE TRIAL</div>
