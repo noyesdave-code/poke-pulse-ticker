@@ -4,33 +4,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
 import { RARITY_WEIGHTS, RARITY_VALUES, type ProductType } from "@/data/ripzData";
 
-// Wallet
-export function useRipzWallet() {
-  const { user } = useAuth();
-  return useQuery({
-    queryKey: ["ripz-wallet", user?.id],
-    queryFn: async () => {
-      if (!user) return null;
-      const { data, error } = await supabase
-        .from("ripz_wallets" as any)
-        .select("*")
-        .eq("user_id", user.id)
-        .maybeSingle();
-      if (error) throw error;
-      if (!data) {
-        const { data: newWallet, error: insertErr } = await supabase
-          .from("ripz_wallets" as any)
-          .insert({ user_id: user.id })
-          .select()
-          .single();
-        if (insertErr) throw insertErr;
-        return newWallet as any;
-      }
-      return data as any;
-    },
-    enabled: !!user,
-  });
-}
+// Wallet — now uses unified_wallets
+export { useUnifiedWallet as useRipzWallet } from "@/hooks/useUnifiedWallet";
 
 // Digital portfolio
 export function useDigitalPortfolio() {
@@ -132,9 +107,9 @@ export function useRipPacks() {
     }) => {
       if (!user) throw new Error("Not authenticated");
 
-      // Check wallet balance
+      // Check unified wallet balance
       const { data: wallet } = await supabase
-        .from("ripz_wallets" as any)
+        .from("unified_wallets" as any)
         .select("*")
         .eq("user_id", user.id)
         .single();
@@ -147,9 +122,9 @@ export function useRipPacks() {
       const cards = simulateRip(cardsPerPack, packCount, setName, setId);
       const totalValue = cards.reduce((s, c) => s + c.rip_value, 0);
 
-      // Deduct coins
+      // Deduct coins from unified wallet
       await supabase
-        .from("ripz_wallets" as any)
+        .from("unified_wallets" as any)
         .update({
           balance: (wallet as any).balance - coinCost,
           lifetime_spent: (wallet as any).lifetime_spent + coinCost,
@@ -192,7 +167,7 @@ export function useRipPacks() {
       return { cards, totalValue, coinCost, session };
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["ripz-wallet"] });
+      queryClient.invalidateQueries({ queryKey: ["unified-wallet"] });
       queryClient.invalidateQueries({ queryKey: ["digital-portfolio"] });
       queryClient.invalidateQueries({ queryKey: ["rip-sessions"] });
       const hitCount = data.cards.filter((c) => ['ultra_rare', 'secret_rare', 'illustration_rare', 'hyper_rare'].includes(c.card_rarity)).length;

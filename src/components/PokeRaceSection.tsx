@@ -272,14 +272,14 @@ const PokeRaceSection = () => {
     if (!user) return;
     const loadWallet = async () => {
       const { data } = await supabase
-        .from("race_wallets")
+        .from("unified_wallets")
         .select("*")
         .eq("user_id", user.id)
         .maybeSingle();
       if (data) {
         setWallet({ balance: data.balance, lifetime_won: data.lifetime_won });
       } else {
-        await supabase.from("race_wallets").insert({ user_id: user.id });
+        await supabase.from("unified_wallets").insert({ user_id: user.id });
         setWallet({ balance: 1000, lifetime_won: 0 });
       }
     };
@@ -306,7 +306,7 @@ const PokeRaceSection = () => {
     setWallet(w => ({ ...w, balance: newBalance }));
     setUserBets(prev => [...prev, racer.id]);
 
-    await supabase.from("race_wallets").update({
+    await supabase.from("unified_wallets").update({
       balance: newBalance,
       lifetime_wagered: wallet.balance - newBalance,
       updated_at: new Date().toISOString(),
