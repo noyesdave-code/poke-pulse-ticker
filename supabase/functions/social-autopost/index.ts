@@ -8,6 +8,8 @@ const TELEGRAM_GATEWAY_URL = 'https://connector-gateway.lovable.dev/telegram';
 
 const SITE = 'https://poke-pulse-ticker.lovable.app';
 const CONTACT = 'contact@poke-pulse-ticker.com | pokegarageva@gmail.com';
+const STORAGE_BASE = 'https://eikhrxplszgnmgzsktdl.supabase.co/storage/v1/object/public/investor-assets/videos';
+const LEGAL = '\n\n© 2026 PGVA Ventures, LLC. All rights reserved.\nProtected under U.S. Patent, Trademark & Copyright law.\n18 U.S.C. § 1832 — Trade Secret Protection Act';
 
 const PROMOS = [
   {
@@ -15,30 +17,35 @@ const PROMOS = [
     title: "🎯 PokéGarageVA™ — Tier 1 Franchise",
     body: `The original hybrid home-based franchise model est. 2022. Real-time Pokémon TCG price tracking, portfolio management, and market signals.\n\nStart for FREE → ${SITE}\n\n📩 ${CONTACT}\n\n#PokemonTCG #CardInvesting #PokéGarageVA #Pokemon #TradingCards #pokegarageva`,
     videoUrl: `${SITE}/videos#tier1`,
+    videoFile: `${STORAGE_BASE}/PGVA_Tier1_PokeGarageVA_Promo_VO.mp4`,
   },
   {
     tier: 2,
     title: "📊 Poke-Pulse-Engine™ — Consumer Terminal",
     body: `Alpha signals, arbitrage finder, whale reports & AI insights. The most sophisticated data engine ever built for the Poké TCG ecosystem.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#PokemonCards #CardMarket #PokePulseEngine #Investing #TCG #pokegarageva`,
     videoUrl: `${SITE}/videos#tier2`,
+    videoFile: `${STORAGE_BASE}/PGVA_Tier2_PokePulseEngine_Promo_VO.mp4`,
   },
   {
     tier: 3,
     title: "🏗️ Personal Pulse Engine™ — Institutional Data",
     body: `Institutional-grade franchise data licensing across 12 multi-billion-dollar collectible verticals. White-label terminal deployments & data API.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#PersonalPulseEngine #DataLicensing #Franchise #Collectibles #pokegarageva`,
     videoUrl: `${SITE}/videos#tier3`,
+    videoFile: `${STORAGE_BASE}/PGVA_Tier3_PersonalPulseEngine_Promo_VO.mp4`,
   },
   {
     tier: 4,
     title: "🎬 PGTV Media Hub™ — Media Production",
     body: `Branded media production and streaming center. High-fidelity campaign assets, investor demos, and vertical-specific highlights.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#PGTVMediaHub #MediaProduction #Streaming #Content #pokegarageva`,
     videoUrl: `${SITE}/videos#tier4`,
+    videoFile: `${STORAGE_BASE}/PGVA_Tier4_PGTVMediaHub_Promo_VO.mp4`,
   },
   {
     tier: 5,
     title: "🏛️ Pulse Philanthropic Project™ — National Museum",
     body: `The National Museum of Trading Cards & Collectibles — Washington, D.C.\nFree to the public, forever. A Noyes Family Trust venture.\n\n${SITE}/donate\n\n📩 ${CONTACT}\n\n#Museum #TradingCards #Culture #Philanthropy #pokegarageva`,
     videoUrl: `${SITE}/videos#tier5`,
+    videoFile: `${STORAGE_BASE}/PGVA_Tier5_PulsePhilanthropic_Promo_VO.mp4`,
   },
 ];
 
@@ -61,14 +68,14 @@ Deno.serve(async (req) => {
     if (!TELEGRAM_API_KEY) throw new Error('TELEGRAM_API_KEY is not configured');
 
     const promo = getCurrentPromo();
-    const message = `<b>${promo.title}</b>\n\n${promo.body}\n\n🎬 Watch the promo → ${promo.videoUrl}`;
+    const message = `<b>${promo.title}</b>\n\n${promo.body}\n\n🎬 Watch → ${promo.videoUrl}\n📥 Video → ${promo.videoFile}${LEGAL}`;
     const results: Record<string, any> = {};
 
     // --- TELEGRAM ---
-    // Post to Telegram channel (set your channel ID/username below)
     const TELEGRAM_CHANNEL = Deno.env.get('TELEGRAM_CHANNEL_ID') || '@pokepulseengine';
 
-    const tgResponse = await fetch(`${TELEGRAM_GATEWAY_URL}/sendMessage`, {
+    // Send video with caption via Telegram
+    const tgVideoResponse = await fetch(`${TELEGRAM_GATEWAY_URL}/sendVideo`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${LOVABLE_API_KEY}`,
@@ -77,23 +84,48 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         chat_id: TELEGRAM_CHANNEL,
-        text: message,
+        video: promo.videoFile,
+        caption: `${promo.title}\n\n${promo.body}\n\n🎬 ${promo.videoUrl}${LEGAL}`,
         parse_mode: 'HTML',
       }),
     });
 
-    const tgData = await tgResponse.json();
-    results.telegram = {
-      success: tgResponse.ok,
-      message_id: tgData?.result?.message_id,
-      error: tgResponse.ok ? null : tgData,
-    };
+    const tgData = await tgVideoResponse.json();
+    
+    // Fallback to text if video send fails
+    if (!tgVideoResponse.ok) {
+      const tgTextResponse = await fetch(`${TELEGRAM_GATEWAY_URL}/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+          'X-Connection-Api-Key': TELEGRAM_API_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHANNEL,
+          text: message,
+          parse_mode: 'HTML',
+        }),
+      });
+      const tgTextData = await tgTextResponse.json();
+      results.telegram = {
+        success: tgTextResponse.ok,
+        type: 'text_fallback',
+        message_id: tgTextData?.result?.message_id,
+        error: tgTextResponse.ok ? null : tgTextData,
+      };
+    } else {
+      results.telegram = {
+        success: true,
+        type: 'video',
+        message_id: tgData?.result?.message_id,
+      };
+    }
 
-    // --- BUFFER (if configured) ---
+    // --- BUFFER (YouTube, Instagram, TikTok) ---
     const BUFFER_API_KEY = Deno.env.get('BUFFER_API_KEY');
     if (BUFFER_API_KEY) {
       try {
-        // Get Buffer profiles
         const profilesRes = await fetch('https://api.bufferapp.com/1/profiles.json', {
           headers: { 'Authorization': `Bearer ${BUFFER_API_KEY}` },
         });
@@ -101,6 +133,7 @@ Deno.serve(async (req) => {
 
         if (Array.isArray(profiles)) {
           for (const profile of profiles) {
+            const postText = `${promo.title}\n\n${promo.body}\n\n🎬 Watch → ${promo.videoUrl}${LEGAL}`;
             const postRes = await fetch('https://api.bufferapp.com/1/updates/create.json', {
               method: 'POST',
               headers: {
@@ -108,9 +141,11 @@ Deno.serve(async (req) => {
                 'Content-Type': 'application/x-www-form-urlencoded',
               },
               body: new URLSearchParams({
-                text: `${promo.title}\n\n${promo.body}\n\n🎬 Watch → ${promo.videoUrl}`,
+                text: postText,
                 profile_ids: profile.id,
                 now: 'true',
+                'media[video]': promo.videoFile,
+                'media[thumbnail]': `${SITE}/icon-192.png`,
               }),
             });
             const postData = await postRes.json();
