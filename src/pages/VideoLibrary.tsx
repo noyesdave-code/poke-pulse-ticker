@@ -88,6 +88,17 @@ const videoLibrary: VideoEntry[] = [
     views: 0,
   },
   {
+    id: "poke-ripz-promo-30s",
+    title: "🃏 Poké Ripz™ — 30s Promo (VO + Music)",
+    description: "30-second showcase of the Poké Ripz™ digital pack ripping experience. Features all 6 eras, 7 product types, fan voting system, digital portfolio tracking, coin economy, and PGTV show previews. AI voiceover + upbeat electronic music. © 2026 PGVA Ventures, LLC. Protected under 18 U.S.C. § 1832.",
+    file: "/videos/PGVA_PokeRipz_Promo_30s.mp4",
+    aspect: "16:9",
+    duration: "0:30",
+    category: "Campaign",
+    date: "2026-04-06",
+    views: 0,
+  },
+  {
     id: "5tier-deepdive-investor",
     title: "🏛️ 5-Tier Vertical Integration™ — Deep-Dive Investor Video (VO + Music)",
     description: "The definitive 5-minute deep-dive investor presentation covering all 5 tiers of the PGVA Ventures vertical integration system. Tier 1: PokéGarageVA™ hybrid home franchise (est. 2022). Tier 2: Poke-Pulse-Engine™ real-time analytics. Tier 3: Personal Pulse Engine™ institutional data across 12 verticals. Tier 4: PGTV Media Hub™ streaming & media. Tier 5: Pulse Philanthropic™ National Museum in D.C. Features revenue projections ($157.8M ARR), $1.89B valuation, and $103B+ TAM. Contact: contact@poke-pulse-ticker.com | pokegarageva@gmail.com. © 2026 PGVA Ventures, LLC.",
