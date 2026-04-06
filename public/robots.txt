@@ -16,4 +16,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://poke-pulse-engine.com/sitemap.xml
+Sitemap: https://poke-pulse-ticker.lovable.app/sitemap.xml
