@@ -37,10 +37,10 @@ const SceneHero: React.FC = () => {
         <div style={{ fontFamily: inter, fontSize: 14, color: GOLD, border: `1px solid ${GOLD}40`, borderRadius: 20, padding: "6px 20px", background: `${GOLD}08`, marginBottom: 20, opacity: interpolate(frame, [0, 15], [0, 1], { extrapolateRight: "clamp" }) }}>
           🔒 CONFIDENTIAL — INVESTOR MATERIALS
         </div>
-        <FadeText text="PULSE MARKET" delay={10} size={80} color={GOLD} weight={900} />
-        <FadeText text="TERMINAL TICKER™" delay={20} size={50} color="white" weight={700} />
+        <FadeText text="POKE-PULSE" delay={10} size={80} color={GOLD} weight={900} />
+        <FadeText text="ENGINE™" delay={20} size={60} color="white" weight={700} />
         <div style={{ height: 24 }} />
-        <FadeText text="12 Multi-Billion-Dollar Markets. One Platform." delay={35} size={22} color="rgba(255,255,255,0.5)" weight={500} family={inter} />
+        <FadeText text="Consumer-Facing Real-Time Analytics Terminal" delay={35} size={22} color="rgba(255,255,255,0.5)" weight={500} family={inter} />
         <div style={{ height: 12 }} />
         <FadeText text="PGVA Ventures, LLC" delay={45} size={16} color="rgba(255,255,255,0.3)" weight={400} family={inter} />
       </div>
