@@ -30,6 +30,7 @@ const Dashboard = () => {
   const { user } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
   const [range, setRange] = useState<"30D" | "90D" | "1Y" | "ALL">("90D");
+  const [portfolioView, setPortfolioView] = useState<"physical" | "digital">("physical");
   const { data: portfolio, isLoading: portfolioLoading } = usePortfolio();
   const saveSnapshot = useSaveSnapshot();
 
