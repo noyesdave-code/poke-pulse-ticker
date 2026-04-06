@@ -273,7 +273,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition
       id="PokeRipz3D"
       component={PokeRipz3D}
-      durationInFrames={2970}
+      durationInFrames={1440}
       fps={30}
       width={1920}
       height={1080}
