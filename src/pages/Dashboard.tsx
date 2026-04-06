@@ -7,15 +7,17 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { usePortfolio, type PortfolioCard } from "@/hooks/usePortfolio";
 import { usePortfolioSnapshots, useSaveSnapshot } from "@/hooks/usePortfolioSnapshots";
+import { useDigitalPortfolio } from "@/hooks/useRipz";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCardById, getBestPrice } from "@/lib/pokemonTcgApi";
 import TerminalHeader from "@/components/TerminalHeader";
 import TickerBar from "@/components/TickerBar";
 import AuthModal from "@/components/AuthModal";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
-import { ArrowLeft, Loader2, TrendingUp, TrendingDown, Activity, BarChart3, PieChart as PieIcon } from "lucide-react";
+import { ArrowLeft, Loader2, TrendingUp, TrendingDown, Activity, BarChart3, PieChart as PieIcon, Sparkles, Layers } from "lucide-react";
 import ValueUnlockPreview from "@/components/ValueUnlockPreview";
 import CampaignProBanner from "@/components/campaign/CampaignProBanner";
+import { RARITY_LABELS, RARITY_COLORS } from "@/data/ripzData";
 
 const COLORS = [
   "hsl(145, 100%, 41%)", "hsl(40, 100%, 50%)", "hsl(210, 100%, 56%)",
@@ -28,7 +30,9 @@ const Dashboard = () => {
   const { user } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
   const [range, setRange] = useState<"30D" | "90D" | "1Y" | "ALL">("90D");
+  const [portfolioView, setPortfolioView] = useState<"physical" | "digital">("physical");
   const { data: portfolio, isLoading: portfolioLoading } = usePortfolio();
+  const { data: digitalPortfolio, isLoading: digitalLoading } = useDigitalPortfolio();
   const saveSnapshot = useSaveSnapshot();
 
   const rangeDays = range === "30D" ? 30 : range === "90D" ? 90 : range === "1Y" ? 365 : 9999;
@@ -191,6 +195,22 @@ const Dashboard = () => {
           <ArrowLeft className="w-3.5 h-3.5" /> Back to Portfolio
         </button>
 
+        {/* Portfolio Type Toggle */}
+        <div className="flex items-center gap-1 p-1 bg-accent/10 rounded-lg w-fit">
+          <button
+            onClick={() => setPortfolioView("physical")}
+            className={`font-mono text-xs px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors ${portfolioView === "physical" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            <Layers className="w-3 h-3" /> Physical
+          </button>
+          <button
+            onClick={() => setPortfolioView("digital")}
+            className={`font-mono text-xs px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors ${portfolioView === "digital" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            <Sparkles className="w-3 h-3" /> Digital (Ripz)
+          </button>
+        </div>
+
         <div className="terminal-card p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h1 className="font-mono text-lg font-bold text-foreground flex items-center gap-2">
@@ -214,7 +234,54 @@ const Dashboard = () => {
           )}
         </div>
 
-        {isLoading ? (
+        {portfolioView === "digital" ? (
+          /* Digital Portfolio View */
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <StatCard label="Digital Cards" value={String(digitalPortfolio?.length || 0)} icon={<Sparkles className="w-4 h-4 text-terminal-amber" />} />
+              <StatCard label="Total Rip Value" value={`${(digitalPortfolio || []).reduce((s: number, c: any) => s + (c.rip_value || 0), 0).toLocaleString()}`} icon={<TrendingUp className="w-4 h-4 text-terminal-green" />} />
+              <StatCard label="Sets Ripped" value={String(new Set((digitalPortfolio || []).map((c: any) => c.card_set)).size)} icon={<BarChart3 className="w-4 h-4 text-terminal-blue" />} />
+            </div>
+
+            <div className="terminal-card overflow-hidden">
+              <div className="border-b border-border px-4 py-3">
+                <h2 className="font-mono text-xs tracking-widest text-secondary uppercase font-semibold">
+                  Digital Collection (Poké Ripz™)
+                </h2>
+              </div>
+              {digitalLoading ? (
+                <div className="flex items-center justify-center py-12 gap-2">
+                  <Loader2 className="w-5 h-5 text-primary animate-spin" />
+                </div>
+              ) : !digitalPortfolio || digitalPortfolio.length === 0 ? (
+                <div className="p-8 text-center">
+                  <Sparkles className="w-8 h-8 text-terminal-amber mx-auto mb-2" />
+                  <p className="font-mono text-sm text-muted-foreground">No digital cards yet.</p>
+                  <a href="/ripz" className="font-mono text-xs text-primary hover:underline mt-2 inline-block">Start ripping →</a>
+                </div>
+              ) : (
+                <div className="divide-y divide-border max-h-96 overflow-y-auto">
+                  {digitalPortfolio.slice(0, 50).map((card: any) => (
+                    <div key={card.id} className="flex items-center justify-between px-4 py-2.5">
+                      <div className="min-w-0">
+                        <p className="font-mono text-xs text-foreground font-medium truncate">{card.card_name}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="font-mono text-[9px] text-muted-foreground">{card.card_set}</p>
+                          <span className={`font-mono text-[9px] font-semibold ${RARITY_COLORS[card.card_rarity] || 'text-muted-foreground'}`}>
+                            {RARITY_LABELS[card.card_rarity] || card.card_rarity}
+                          </span>
+                        </div>
+                      </div>
+                      <span className="font-mono text-xs font-bold text-terminal-green ml-2">
+                        {(card.rip_value || 0).toLocaleString()}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        ) : isLoading ? (
           <div className="flex items-center justify-center py-12 gap-2">
             <Loader2 className="w-5 h-5 text-primary animate-spin" />
             <span className="font-mono text-xs text-muted-foreground">Loading dashboard…</span>
