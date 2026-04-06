@@ -67,7 +67,7 @@ const Franchise = () => {
               <Lock className="w-3 h-3 mr-1" /> CONFIDENTIAL — INVESTOR MATERIALS
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-              PULSE ENGINE™
+              PERSONAL PULSE ENGINE™
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto mt-4">
               A patent-pending SaaS platform delivering real-time market intelligence across

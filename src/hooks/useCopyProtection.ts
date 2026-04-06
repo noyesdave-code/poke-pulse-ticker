@@ -39,7 +39,7 @@ export function useCopyProtection() {
       e.preventDefault();
       e.clipboardData?.setData(
         "text/plain",
-        "© 2026 PGVA Ventures, LLC. Content copying is prohibited. All rights reserved. Visit poke-pulse-engine.com"
+        "© 2026 PGVA Ventures, LLC. Content copying is prohibited. All rights reserved. Visit poke-pulse-ticker.lovable.app"
       );
       return false;
     };

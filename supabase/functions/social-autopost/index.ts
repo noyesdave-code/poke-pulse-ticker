@@ -31,7 +31,7 @@ const PROMOS = [
   {
     tier: 4,
     title: "🏢 Pulse Franchise — Own Your Market",
-    body: `White-label the entire Pulse engine for ANY collectible vertical. Sports, TCG, vintage — your brand, our tech.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#Franchise #BusinessOpportunity #Collectibles #Startup`,
+    body: `White-label the entire Personal Pulse Engine for ANY collectible vertical. Sports, TCG, vintage — your brand, our tech.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#Franchise #BusinessOpportunity #Collectibles #Startup`,
     videoUrl: `${SITE}/videos#tier4`,
   },
   {

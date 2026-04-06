@@ -126,7 +126,7 @@ const PulseTerminalDemo = ({ config }: { config: FranchiseConfig }) => {
           <div className="flex items-center gap-3 mb-3">
             <span className="text-4xl">{config.logoEmoji}</span>
             <Badge variant="outline" className="border-white/30 text-white/80 text-xs">
-              PULSE ENGINE
+              PERSONAL PULSE ENGINE
             </Badge>
           </div>
           <h1 className="text-3xl md:text-5xl font-bold text-white mb-3 tracking-tight">
