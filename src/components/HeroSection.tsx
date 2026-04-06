@@ -8,25 +8,25 @@ const actions = [
   {
     icon: Search,
     label: "Price Check",
-    desc: "Look up any card's live market value",
+    desc: "Pinpoint any card's live market value instantly",
     action: "search",
   },
   {
     icon: Briefcase,
     label: "My Portfolio",
-    desc: "Track your collection & see gains",
+    desc: "Track holdings, P&L, and cost basis in real time",
     path: "/portfolio",
   },
   {
     icon: Layers,
     label: "Browse Sets",
-    desc: "Explore every set from Base to current",
+    desc: "Explore every set — Base through Prismatic Evolutions",
     path: "/sets",
   },
   {
     icon: TrendingUp,
     label: "Dashboard",
-    desc: "Portfolio analytics & performance",
+    desc: "AI signals, arbitrage alerts, and grading ROI",
     path: "/dashboard",
   },
 ];
