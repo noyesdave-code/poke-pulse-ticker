@@ -24,15 +24,8 @@ type EpisodeProps = {
 
 const defaultEpisodes: EpisodeProps[] = [
   {
-    setName: "Evolving Skies",
-    setEra: "Sword & Shield",
-    hostName: "DJ Spark",
-    hostEmoji: "⚡",
-    products: [
-      { name: "ETB Case #1", icon: "🎁" },
-      { name: "ETB Case #2", icon: "🎁" },
-      { name: "ETB Case #3", icon: "🎁" },
-    ],
+    setName: "Evolving Skies", setEra: "Sword & Shield", hostName: "DJ Spark", hostEmoji: "⚡",
+    products: [{ name: "ETB Case #1", icon: "🎁" }, { name: "ETB Case #2", icon: "🎁" }, { name: "ETB Case #3", icon: "🎁" }],
     pulls: [
       { name: "Umbreon VMAX Alt Art", rarity: "HYPER RARE", value: "$312.50", emoji: "🌙" },
       { name: "Rayquaza VMAX Alt Art", rarity: "ULTRA RARE", value: "$189.00", emoji: "🐉" },
@@ -42,15 +35,8 @@ const defaultEpisodes: EpisodeProps[] = [
     accentColor: CYAN,
   },
   {
-    setName: "Prismatic Evolutions",
-    setEra: "Modern",
-    hostName: "Luna Blaze",
-    hostEmoji: "🔮",
-    products: [
-      { name: "ETB Case #1", icon: "🎁" },
-      { name: "ETB Case #2", icon: "🎁" },
-      { name: "ETB Case #3", icon: "🎁" },
-    ],
+    setName: "Prismatic Evolutions", setEra: "Modern", hostName: "Luna Blaze", hostEmoji: "🔮",
+    products: [{ name: "ETB Case #1", icon: "🎁" }, { name: "ETB Case #2", icon: "🎁" }, { name: "ETB Case #3", icon: "🎁" }],
     pulls: [
       { name: "Eevee Full Art", rarity: "HYPER RARE", value: "$245.00", emoji: "✨" },
       { name: "Sylveon EX", rarity: "ULTRA RARE", value: "$156.00", emoji: "🎀" },
@@ -60,15 +46,8 @@ const defaultEpisodes: EpisodeProps[] = [
     accentColor: PINK,
   },
   {
-    setName: "Ascended Heroes",
-    setEra: "Modern",
-    hostName: "Rex Thunder",
-    hostEmoji: "🦖",
-    products: [
-      { name: "ETB Case #1", icon: "🎁" },
-      { name: "ETB Case #2", icon: "🎁" },
-      { name: "ETB Case #3", icon: "🎁" },
-    ],
+    setName: "Ascended Heroes", setEra: "Modern", hostName: "Rex Thunder", hostEmoji: "🦖",
+    products: [{ name: "ETB Case #1", icon: "🎁" }, { name: "ETB Case #2", icon: "🎁" }, { name: "ETB Case #3", icon: "🎁" }],
     pulls: [
       { name: "Charizard EX SAR", rarity: "HYPER RARE", value: "$425.00", emoji: "🔥" },
       { name: "Mewtwo EX Alt Art", rarity: "ULTRA RARE", value: "$215.00", emoji: "🧠" },
@@ -76,6 +55,83 @@ const defaultEpisodes: EpisodeProps[] = [
       { name: "Gengar EX", rarity: "RARE", value: "$89.00", emoji: "👻" },
     ],
     accentColor: GOLD,
+  },
+  {
+    setName: "Obsidian Flames", setEra: "Scarlet & Violet", hostName: "Blaze Runner", hostEmoji: "🔥",
+    products: [{ name: "Booster Box", icon: "📦" }, { name: "ETB", icon: "🎁" }, { name: "UPC", icon: "👑" }],
+    pulls: [
+      { name: "Charizard ex SAR", rarity: "HYPER RARE", value: "$385.00", emoji: "🔥" },
+      { name: "Tyranitar ex", rarity: "ULTRA RARE", value: "$95.00", emoji: "🗿" },
+      { name: "Dragonite ex", rarity: "ULTRA RARE", value: "$72.00", emoji: "🐉" },
+      { name: "Eevee Illustration", rarity: "RARE", value: "$45.00", emoji: "🌟" },
+    ],
+    accentColor: "#FF6B35",
+  },
+  {
+    setName: "Crown Zenith", setEra: "Sword & Shield", hostName: "Nova Crystal", hostEmoji: "💎",
+    products: [{ name: "ETB Case #1", icon: "🎁" }, { name: "ETB Case #2", icon: "🎁" }, { name: "Tin Case", icon: "🥫" }],
+    pulls: [
+      { name: "Giratina VSTAR Gold", rarity: "HYPER RARE", value: "$275.00", emoji: "👻" },
+      { name: "Pikachu VMAX TG", rarity: "ULTRA RARE", value: "$165.00", emoji: "⚡" },
+      { name: "Mewtwo VSTAR", rarity: "ULTRA RARE", value: "$88.00", emoji: "🧠" },
+      { name: "Leafeon VSTAR", rarity: "RARE", value: "$38.00", emoji: "🍃" },
+    ],
+    accentColor: "#9B59B6",
+  },
+  {
+    setName: "151", setEra: "Scarlet & Violet", hostName: "Retro Rick", hostEmoji: "🕹️",
+    products: [{ name: "ETB Case", icon: "🎁" }, { name: "UPC", icon: "👑" }, { name: "Booster Bundle", icon: "📦" }],
+    pulls: [
+      { name: "Charizard ex SAR", rarity: "HYPER RARE", value: "$520.00", emoji: "🔥" },
+      { name: "Mew ex SAR", rarity: "HYPER RARE", value: "$310.00", emoji: "✨" },
+      { name: "Alakazam ex", rarity: "ULTRA RARE", value: "$125.00", emoji: "🔮" },
+      { name: "Snorlax Illustration", rarity: "RARE", value: "$55.00", emoji: "😴" },
+    ],
+    accentColor: "#E74C3C",
+  },
+  {
+    setName: "Paldea Evolved", setEra: "Scarlet & Violet", hostName: "Pixel Sage", hostEmoji: "🧙",
+    products: [{ name: "Booster Box", icon: "📦" }, { name: "ETB", icon: "🎁" }, { name: "3-Pack Blister", icon: "🃏" }],
+    pulls: [
+      { name: "Iono SAR", rarity: "HYPER RARE", value: "$445.00", emoji: "⚡" },
+      { name: "Tinkaton ex", rarity: "ULTRA RARE", value: "$78.00", emoji: "🔨" },
+      { name: "Gardevoir ex", rarity: "ULTRA RARE", value: "$92.00", emoji: "💃" },
+      { name: "Quaquaval ex", rarity: "RARE", value: "$35.00", emoji: "💧" },
+    ],
+    accentColor: "#2ECC71",
+  },
+  {
+    setName: "Temporal Forces", setEra: "Scarlet & Violet", hostName: "Chrono Kai", hostEmoji: "⏰",
+    products: [{ name: "Booster Box", icon: "📦" }, { name: "ETB", icon: "🎁" }, { name: "Elite Box", icon: "🎁" }],
+    pulls: [
+      { name: "Walking Wake ex", rarity: "HYPER RARE", value: "$195.00", emoji: "🌊" },
+      { name: "Iron Leaves ex", rarity: "ULTRA RARE", value: "$112.00", emoji: "🍃" },
+      { name: "Raging Bolt ex", rarity: "ULTRA RARE", value: "$88.00", emoji: "⚡" },
+      { name: "Farigiraf ex", rarity: "RARE", value: "$42.00", emoji: "🦒" },
+    ],
+    accentColor: "#3498DB",
+  },
+  {
+    setName: "Stellar Crown", setEra: "Scarlet & Violet", hostName: "Stella Vex", hostEmoji: "⭐",
+    products: [{ name: "ETB Case", icon: "🎁" }, { name: "Booster Box", icon: "📦" }, { name: "SPC", icon: "🏆" }],
+    pulls: [
+      { name: "Terapagos ex SAR", rarity: "HYPER RARE", value: "$350.00", emoji: "🌈" },
+      { name: "Arceus VSTAR", rarity: "ULTRA RARE", value: "$145.00", emoji: "✨" },
+      { name: "Lapras ex", rarity: "ULTRA RARE", value: "$78.00", emoji: "🐢" },
+      { name: "Briar SAR", rarity: "RARE", value: "$62.00", emoji: "🌹" },
+    ],
+    accentColor: "#F39C12",
+  },
+  {
+    setName: "Surging Sparks", setEra: "Scarlet & Violet", hostName: "Volt Viper", hostEmoji: "🐍",
+    products: [{ name: "Booster Box", icon: "📦" }, { name: "ETB", icon: "🎁" }, { name: "Collection Box", icon: "📦" }],
+    pulls: [
+      { name: "Pikachu ex SAR", rarity: "HYPER RARE", value: "$480.00", emoji: "⚡" },
+      { name: "Miraidon ex", rarity: "ULTRA RARE", value: "$165.00", emoji: "🤖" },
+      { name: "Koraidon ex", rarity: "ULTRA RARE", value: "$135.00", emoji: "🦎" },
+      { name: "Entei Illustration", rarity: "RARE", value: "$58.00", emoji: "🦁" },
+    ],
+    accentColor: "#E67E22",
   },
 ];
 
