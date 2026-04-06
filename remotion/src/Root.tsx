@@ -257,5 +257,17 @@ export const RemotionRoot: React.FC = () => (
       height={1080}
       defaultProps={{ episodeIndex: 2 }}
     />
+    {[3,4,5,6,7,8,9].map((i) => (
+      <Composition
+        key={`ep${i+1}`}
+        id={`poke-ripz-show-ep${i+1}`}
+        component={PokeRipzShow}
+        durationInFrames={900}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{ episodeIndex: i }}
+      />
+    ))}
   </>
 );
