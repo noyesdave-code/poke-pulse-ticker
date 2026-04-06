@@ -34,14 +34,14 @@ const terminals = [
 const totalTAM = terminals.reduce((s, t) => s + t.tam, 0);
 
 const coreFeatures = [
-  { icon: BarChart3, name: "Real-Time Indexes", desc: "RAW, Graded, & Sealed market indexes per vertical" },
-  { icon: Brain, name: "AI Alpha Signals", desc: "ML buy/sell/hold indicators with confidence scores" },
-  { icon: TrendingUp, name: "Portfolio Tracker", desc: "P&L analytics, snapshots, cost basis tracking" },
-  { icon: Gamepad2, name: "SimTrader World™", desc: "Paper trading with AI bots & PvP contests" },
-  { icon: Trophy, name: "Arena™ Wagering", desc: "Prediction markets with virtual PokéCoins" },
-  { icon: Users, name: "Community Intel", desc: "Consensus pricing, sentiment, leaderboards" },
-  { icon: Database, name: "Data API", desc: "Institutional-grade data licensing endpoints" },
-  { icon: Eye, name: "Watchlists & Alerts", desc: "Price alerts, delta monitoring, notifications" },
+  { icon: BarChart3, name: "Real-Time Indexes", desc: "RAW 500, GRADED 1000, SEALED 1000 — live market heartbeat refreshed every 60 min" },
+  { icon: Brain, name: "AI Alpha Signals", desc: "Machine-learning buy/sell/hold indicators with RSI/SMA overlays and confidence scoring" },
+  { icon: TrendingUp, name: "Portfolio Tracker", desc: "Real-time P&L, cost-basis tracking, daily snapshots, and capital-gains tax reports" },
+  { icon: Gamepad2, name: "SimTrader World™", desc: "$100K virtual portfolio, 10 AI bots, limit/stop orders, and PvP trading contests" },
+  { icon: Trophy, name: "Arena™ Wagering", desc: "Price prediction markets, 1v1 duels, and tournament brackets — all on PokéCoins" },
+  { icon: Users, name: "Community Intel", desc: "Consensus pricing, crowd sentiment polls, verified leaderboards, and whale reports" },
+  { icon: Database, name: "Data API", desc: "Institutional-grade REST endpoints for bulk price, index, and signal data licensing" },
+  { icon: Eye, name: "Arbitrage & Alerts", desc: "Cross-marketplace arbitrage scanner, grading ROI calculator, and delta price alerts" },
 ];
 
 const revenueStreams = [
