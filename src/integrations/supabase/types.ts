@@ -667,6 +667,13 @@ export type Database = {
             foreignKeyName: "game_achievements_player_id_fkey"
             columns: ["player_id"]
             isOneToOne: false
+            referencedRelation: "game_players_leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_achievements_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
             referencedRelation: "game_pvp_leaderboard"
             referencedColumns: ["player_id"]
           },
@@ -733,6 +740,13 @@ export type Database = {
             foreignKeyName: "game_battles_opponent_id_fkey"
             columns: ["opponent_id"]
             isOneToOne: false
+            referencedRelation: "game_players_leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_battles_opponent_id_fkey"
+            columns: ["opponent_id"]
+            isOneToOne: false
             referencedRelation: "game_pvp_leaderboard"
             referencedColumns: ["player_id"]
           },
@@ -741,6 +755,13 @@ export type Database = {
             columns: ["player_id"]
             isOneToOne: false
             referencedRelation: "game_players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_battles_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "game_players_leaderboard"
             referencedColumns: ["id"]
           },
           {
@@ -798,6 +819,13 @@ export type Database = {
             foreignKeyName: "game_collected_cards_player_id_fkey"
             columns: ["player_id"]
             isOneToOne: false
+            referencedRelation: "game_players_leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_collected_cards_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
             referencedRelation: "game_pvp_leaderboard"
             referencedColumns: ["player_id"]
           },
@@ -834,6 +862,13 @@ export type Database = {
             columns: ["player_id"]
             isOneToOne: false
             referencedRelation: "game_players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_collected_pokemon_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "game_players_leaderboard"
             referencedColumns: ["id"]
           },
           {
@@ -993,6 +1028,13 @@ export type Database = {
             foreignKeyName: "game_pvp_challenges_challenger_id_fkey"
             columns: ["challenger_id"]
             isOneToOne: false
+            referencedRelation: "game_players_leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_pvp_challenges_challenger_id_fkey"
+            columns: ["challenger_id"]
+            isOneToOne: false
             referencedRelation: "game_pvp_leaderboard"
             referencedColumns: ["player_id"]
           },
@@ -1007,6 +1049,13 @@ export type Database = {
             foreignKeyName: "game_pvp_challenges_opponent_id_fkey"
             columns: ["opponent_id"]
             isOneToOne: false
+            referencedRelation: "game_players_leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_pvp_challenges_opponent_id_fkey"
+            columns: ["opponent_id"]
+            isOneToOne: false
             referencedRelation: "game_pvp_leaderboard"
             referencedColumns: ["player_id"]
           },
@@ -1015,6 +1064,13 @@ export type Database = {
             columns: ["winner_id"]
             isOneToOne: false
             referencedRelation: "game_players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_pvp_challenges_winner_id_fkey"
+            columns: ["winner_id"]
+            isOneToOne: false
+            referencedRelation: "game_players_leaderboard"
             referencedColumns: ["id"]
           },
           {
@@ -1974,6 +2030,39 @@ export type Database = {
           lifetime_wagered: number | null
           lifetime_won: number | null
           user_id: string | null
+        }
+        Relationships: []
+      }
+      game_players_leaderboard: {
+        Row: {
+          display_name: string | null
+          id: string | null
+          level: number | null
+          starter_pokemon: string | null
+          starter_pokemon_image: string | null
+          total_losses: number | null
+          total_wins: number | null
+          xp: number | null
+        }
+        Insert: {
+          display_name?: string | null
+          id?: string | null
+          level?: number | null
+          starter_pokemon?: string | null
+          starter_pokemon_image?: string | null
+          total_losses?: number | null
+          total_wins?: number | null
+          xp?: number | null
+        }
+        Update: {
+          display_name?: string | null
+          id?: string | null
+          level?: number | null
+          starter_pokemon?: string | null
+          starter_pokemon_image?: string | null
+          total_losses?: number | null
+          total_wins?: number | null
+          xp?: number | null
         }
         Relationships: []
       }
