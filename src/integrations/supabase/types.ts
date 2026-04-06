@@ -507,6 +507,48 @@ export type Database = {
         }
         Relationships: []
       }
+      digital_portfolio_cards: {
+        Row: {
+          card_api_id: string
+          card_image: string | null
+          card_name: string
+          card_number: string
+          card_rarity: string | null
+          card_set: string
+          id: string
+          rip_session_id: string | null
+          rip_value: number
+          ripped_at: string
+          user_id: string
+        }
+        Insert: {
+          card_api_id: string
+          card_image?: string | null
+          card_name: string
+          card_number: string
+          card_rarity?: string | null
+          card_set: string
+          id?: string
+          rip_session_id?: string | null
+          rip_value?: number
+          ripped_at?: string
+          user_id: string
+        }
+        Update: {
+          card_api_id?: string
+          card_image?: string | null
+          card_name?: string
+          card_number?: string
+          card_rarity?: string | null
+          card_set?: string
+          id?: string
+          rip_session_id?: string | null
+          rip_value?: number
+          ripped_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       email_send_log: {
         Row: {
           created_at: string
@@ -1383,6 +1425,102 @@ export type Database = {
           lifetime_earned?: number
           lifetime_wagered?: number
           lifetime_won?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      rip_sessions: {
+        Row: {
+          cards_pulled: Json
+          coin_cost: number
+          created_at: string
+          era: string
+          id: string
+          product_type: string
+          set_id: string
+          set_name: string
+          total_rip_value: number
+          user_id: string
+        }
+        Insert: {
+          cards_pulled?: Json
+          coin_cost?: number
+          created_at?: string
+          era?: string
+          id?: string
+          product_type?: string
+          set_id: string
+          set_name: string
+          total_rip_value?: number
+          user_id: string
+        }
+        Update: {
+          cards_pulled?: Json
+          coin_cost?: number
+          created_at?: string
+          era?: string
+          id?: string
+          product_type?: string
+          set_id?: string
+          set_name?: string
+          total_rip_value?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ripz_ratings: {
+        Row: {
+          comment: string | null
+          created_at: string
+          episode_id: string
+          id: string
+          rating: number
+          user_id: string
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          episode_id: string
+          id?: string
+          rating?: number
+          user_id: string
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          episode_id?: string
+          id?: string
+          rating?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ripz_wallets: {
+        Row: {
+          balance: number
+          created_at: string
+          id: string
+          lifetime_ripped: number
+          lifetime_spent: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          id?: string
+          lifetime_ripped?: number
+          lifetime_spent?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          id?: string
+          lifetime_ripped?: number
+          lifetime_spent?: number
           updated_at?: string
           user_id?: string
         }
