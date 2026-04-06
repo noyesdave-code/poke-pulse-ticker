@@ -383,7 +383,7 @@ const Blueprint = () => {
       <section className="py-12 px-4 bg-muted/20 border-t border-border/40">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-2">Replicable Core Platform</h2>
-          <p className="text-sm text-muted-foreground text-center mb-8">Every terminal ships with these features on day one</p>
+          <p className="text-sm text-muted-foreground text-center mb-8">Every terminal ships with these features on day one — pinpoint pricing, predictive signals, and profit-deployment tools</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {coreFeatures.map((f, i) => (
               <motion.div key={f.name} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
