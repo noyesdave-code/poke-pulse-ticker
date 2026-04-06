@@ -30,8 +30,24 @@ Track your entire collection with our precision Portfolio Tracking suite and wat
 🚀 JOIN THE REVOLUTION: Sign up today and claim your 14-day FREE TRIAL to experience the full power of the Terminal. The era of the "uninformed collector" is over. Welcome to the future of Poké-Economics.`;
 
 const STORAGE_BASE = 'https://eikhrxplszgnmgzsktdl.supabase.co/storage/v1/object/public/investor-assets/videos';
+const RIPZ_BASE = 'https://eikhrxplszgnmgzsktdl.supabase.co/storage/v1/object/public/investor-assets';
+
+const RIPZ_EPISODES: VideoEntry[] = [
+  { id: "ripz-promo-45s", title: "🔥 Poké Ripz™ — Sizzle Reel (45s)", description: "45-second highlight reel featuring scenes from 5 different Poké Ripz episodes. Hosts DJ Spark, Rex Thunder, Retro Rick, Volt Viper & Stella Vex showcase the best pulls across Evolving Skies, Ascended Heroes, 151, Surging Sparks & Stellar Crown. © 2026 PGVA Ventures, LLC. 18 U.S.C. § 1832.", file: `${RIPZ_BASE}/PokeRipz_Promo_45s.mp4`, aspect: "16:9", duration: "0:45", category: "Poké Ripz", date: "2026-04-06", views: 0 },
+  { id: "ripz-ep1", title: "⚡ Poké Ripz EP1 — Evolving Skies w/ DJ Spark", description: "DJ Spark rips 3 ETB cases of Sword & Shield Evolving Skies. Features Umbreon VMAX Alt Art ($312), Rayquaza VMAX Alt Art ($189), and more. Total pull value: $622. © 2026 PGVA Ventures, LLC.", file: `${RIPZ_BASE}/PokeRipz_EP1.mp4`, aspect: "16:9", duration: "0:45", category: "Poké Ripz", date: "2026-04-06", views: 0 },
+  { id: "ripz-ep2", title: "🔮 Poké Ripz EP2 — Prismatic Evolutions w/ Luna Blaze", description: "Luna Blaze opens 3 ETB cases of Prismatic Evolutions. Eevee Full Art ($245), Umbreon EX ($198), Sylveon EX ($156). Total: $666. © 2026 PGVA Ventures, LLC.", file: `${RIPZ_BASE}/PokeRipz_EP2.mp4`, aspect: "16:9", duration: "0:45", category: "Poké Ripz", date: "2026-04-06", views: 0 },
+  { id: "ripz-ep3", title: "🦖 Poké Ripz EP3 — Ascended Heroes w/ Rex Thunder", description: "Rex Thunder rips Ascended Heroes. Charizard EX SAR ($425), Mewtwo EX Alt Art ($215). Total: $863. © 2026 PGVA Ventures, LLC.", file: `${RIPZ_BASE}/PokeRipz_EP3.mp4`, aspect: "16:9", duration: "0:45", category: "Poké Ripz", date: "2026-04-06", views: 0 },
+  { id: "ripz-ep4", title: "🔥 Poké Ripz EP4 — Obsidian Flames w/ Blaze Runner", description: "Blaze Runner opens a Booster Box, ETB & UPC of Obsidian Flames. Charizard ex SAR ($385). Total: $597. © 2026 PGVA Ventures, LLC.", file: `${RIPZ_BASE}/PokeRipz_EP4.mp4`, aspect: "16:9", duration: "0:45", category: "Poké Ripz", date: "2026-04-06", views: 0 },
+  { id: "ripz-ep5", title: "💎 Poké Ripz EP5 — Crown Zenith w/ Nova Crystal", description: "Nova Crystal hunts Crown Zenith's Galarian Gallery. Giratina VSTAR Gold ($275), Pikachu VMAX TG ($165). Total: $566. © 2026 PGVA Ventures, LLC.", file: `${RIPZ_BASE}/PokeRipz_EP5.mp4`, aspect: "16:9", duration: "0:45", category: "Poké Ripz", date: "2026-04-06", views: 0 },
+  { id: "ripz-ep6", title: "🕹️ Poké Ripz EP6 — 151 w/ Retro Rick", description: "Retro Rick goes old school with 151. Charizard EX SAR ($520), Mew ex SAR ($310). Total: $1,010! © 2026 PGVA Ventures, LLC.", file: `${RIPZ_BASE}/PokeRipz_EP6.mp4`, aspect: "16:9", duration: "0:45", category: "Poké Ripz", date: "2026-04-06", views: 0 },
+  { id: "ripz-ep7", title: "🧙 Poké Ripz EP7 — Paldea Evolved w/ Pixel Sage", description: "Pixel Sage chases Paldea Evolved's trainers. Iono SAR ($445), Gardevoir ex ($92). Total: $650. © 2026 PGVA Ventures, LLC.", file: `${RIPZ_BASE}/PokeRipz_EP7.mp4`, aspect: "16:9", duration: "0:45", category: "Poké Ripz", date: "2026-04-06", views: 0 },
+  { id: "ripz-ep8", title: "⏰ Poké Ripz EP8 — Temporal Forces w/ Chrono Kai", description: "Chrono Kai bends time with Temporal Forces. Walking Wake ex ($195), Iron Leaves ex ($112). Total: $437. © 2026 PGVA Ventures, LLC.", file: `${RIPZ_BASE}/PokeRipz_EP8.mp4`, aspect: "16:9", duration: "0:45", category: "Poké Ripz", date: "2026-04-06", views: 0 },
+  { id: "ripz-ep9", title: "⭐ Poké Ripz EP9 — Stellar Crown w/ Stella Vex", description: "Stella Vex reaches for Stellar Crown. Terapagos ex SAR ($350), Arceus VSTAR ($145). Total: $635. © 2026 PGVA Ventures, LLC.", file: `${RIPZ_BASE}/PokeRipz_EP9.mp4`, aspect: "16:9", duration: "0:45", category: "Poké Ripz", date: "2026-04-06", views: 0 },
+  { id: "ripz-ep10", title: "🐍 Poké Ripz EP10 — Surging Sparks w/ Volt Viper", description: "Volt Viper electrifies with Surging Sparks. Pikachu ex SAR ($480), Miraidon ex ($165). Total: $838. © 2026 PGVA Ventures, LLC.", file: `${RIPZ_BASE}/PokeRipz_EP10.mp4`, aspect: "16:9", duration: "0:45", category: "Poké Ripz", date: "2026-04-06", views: 0 },
+];
 
 const videoLibrary: VideoEntry[] = [
+  ...RIPZ_EPISODES,
   {
     id: "tier1-vo-promo",
     title: "🎯 Tier 1 — PokéGarageVA™ Promo (VO + Music)",
