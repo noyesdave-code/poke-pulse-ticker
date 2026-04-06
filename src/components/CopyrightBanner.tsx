@@ -2,18 +2,12 @@ import { Shield, AlertTriangle, Scale } from "lucide-react";
 
 const CopyrightBanner = () => {
   return (
-    <div data-demo-hide className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-t border-border/40">
-      <div className="max-w-7xl mx-auto px-2 py-0.5 flex flex-col items-center gap-0">
-        <div className="flex items-center justify-center gap-1.5">
-          <Shield className="w-2 h-2 text-primary flex-shrink-0" />
-          <p className="font-mono text-[7px] text-muted-foreground tracking-wide text-center leading-tight">
-            © {new Date().getFullYear()} PGVA Ventures, LLC. All rights reserved. Patent pending.
-          </p>
-          <AlertTriangle className="w-2 h-2 text-terminal-amber flex-shrink-0" />
-          <p className="font-mono text-[6px] text-muted-foreground/70 tracking-wide text-center leading-tight">
-            Not financial advice. Poké™ Nintendo/Creatures/GAME FREAK.
-          </p>
-        </div>
+    <div data-demo-hide className="fixed bottom-0 left-0 right-0 z-50 bg-card/90 backdrop-blur-sm border-t border-border/30">
+      <div className="max-w-7xl mx-auto px-2 py-px flex items-center justify-center gap-1">
+        <Shield className="w-1.5 h-1.5 text-primary flex-shrink-0" />
+        <p className="font-mono text-[5px] text-muted-foreground tracking-wide leading-none">
+          © {new Date().getFullYear()} PGVA Ventures, LLC • Patent pending • Not financial advice • Poké™ Nintendo/Creatures/GAME FREAK
+        </p>
       </div>
     </div>
   );
