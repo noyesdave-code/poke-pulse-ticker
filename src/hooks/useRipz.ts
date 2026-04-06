@@ -107,9 +107,9 @@ export function useRipPacks() {
     }) => {
       if (!user) throw new Error("Not authenticated");
 
-      // Check wallet balance
+      // Check unified wallet balance
       const { data: wallet } = await supabase
-        .from("ripz_wallets" as any)
+        .from("unified_wallets" as any)
         .select("*")
         .eq("user_id", user.id)
         .single();
@@ -122,9 +122,9 @@ export function useRipPacks() {
       const cards = simulateRip(cardsPerPack, packCount, setName, setId);
       const totalValue = cards.reduce((s, c) => s + c.rip_value, 0);
 
-      // Deduct coins
+      // Deduct coins from unified wallet
       await supabase
-        .from("ripz_wallets" as any)
+        .from("unified_wallets" as any)
         .update({
           balance: (wallet as any).balance - coinCost,
           lifetime_spent: (wallet as any).lifetime_spent + coinCost,
