@@ -1469,6 +1469,51 @@ export type Database = {
         }
         Relationships: []
       }
+      ripz_episode_bets: {
+        Row: {
+          bet_type: string
+          created_at: string
+          episode_id: string
+          id: string
+          odds: number
+          pack_index: number | null
+          payout: number | null
+          prediction: string
+          resolved_at: string | null
+          status: string
+          user_id: string
+          wager: number
+        }
+        Insert: {
+          bet_type?: string
+          created_at?: string
+          episode_id: string
+          id?: string
+          odds?: number
+          pack_index?: number | null
+          payout?: number | null
+          prediction: string
+          resolved_at?: string | null
+          status?: string
+          user_id: string
+          wager?: number
+        }
+        Update: {
+          bet_type?: string
+          created_at?: string
+          episode_id?: string
+          id?: string
+          odds?: number
+          pack_index?: number | null
+          payout?: number | null
+          prediction?: string
+          resolved_at?: string | null
+          status?: string
+          user_id?: string
+          wager?: number
+        }
+        Relationships: []
+      }
       ripz_ratings: {
         Row: {
           comment: string | null
@@ -1812,6 +1857,45 @@ export type Database = {
           prize_description?: string | null
           starts_at?: string
           status?: string
+        }
+        Relationships: []
+      }
+      unified_wallets: {
+        Row: {
+          balance: number
+          created_at: string
+          id: string
+          lifetime_earned: number
+          lifetime_ripped: number
+          lifetime_spent: number
+          lifetime_wagered: number
+          lifetime_won: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          id?: string
+          lifetime_earned?: number
+          lifetime_ripped?: number
+          lifetime_spent?: number
+          lifetime_wagered?: number
+          lifetime_won?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          id?: string
+          lifetime_earned?: number
+          lifetime_ripped?: number
+          lifetime_spent?: number
+          lifetime_wagered?: number
+          lifetime_won?: number
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
