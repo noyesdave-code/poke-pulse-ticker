@@ -224,7 +224,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition
       id="poke-ripz-promo"
       component={PokeRipzPromo}
-      durationInFrames={450}
+      durationInFrames={900}
       fps={30}
       width={1920}
       height={1080}
