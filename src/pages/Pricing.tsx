@@ -41,13 +41,13 @@ const features = [
 type TierDef = { key: string; name: string; icon: React.ReactNode; description: string };
 
 const tiers: TierDef[] = [
-  { key: "free", name: "FREE", icon: <Minus className="h-5 w-5" />, description: "Explore the market" },
-  { key: "arena", name: "ARENA", icon: <Crown className="h-5 w-5" />, description: "Arena access" },
-  { key: "starter", name: "STARTER", icon: <Sparkles className="h-5 w-5" />, description: "For casual collectors" },
-  { key: "pro", name: "PRO", icon: <Zap className="h-5 w-5" />, description: "For active collectors" },
-  { key: "premium", name: "PREMIUM", icon: <Gem className="h-5 w-5" />, description: "For serious investors" },
-  { key: "team", name: "TEAM", icon: <Store className="h-5 w-5" />, description: "For local game stores" },
-  { key: "whale", name: "WHALE", icon: <Anchor className="h-5 w-5" />, description: "Ultimate tier" },
+  { key: "free", name: "FREE", icon: <Minus className="h-5 w-5" />, description: "Browse live prices — see what your cards are worth" },
+  { key: "arena", name: "ARENA", icon: <Crown className="h-5 w-5" />, description: "Predict prices & win PokéCoins" },
+  { key: "starter", name: "STARTER", icon: <Sparkles className="h-5 w-5" />, description: "Real-time alerts when your cards move" },
+  { key: "pro", name: "PRO", icon: <Zap className="h-5 w-5" />, description: "AI signals & strategies that make money" },
+  { key: "premium", name: "PREMIUM", icon: <Gem className="h-5 w-5" />, description: "Arbitrage scanner & institutional tools" },
+  { key: "team", name: "TEAM", icon: <Store className="h-5 w-5" />, description: "Multi-seat for game stores & shops" },
+  { key: "whale", name: "WHALE", icon: <Anchor className="h-5 w-5" />, description: "White-glove service & custom API" },
 ];
 
 const Pricing = () => {
