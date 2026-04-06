@@ -125,7 +125,7 @@ const Donate = () => {
                 We accept physical and digital collection donations for permanent exhibition.
               </p>
               <div className="space-y-2 text-[10px] text-muted-foreground">
-                <div className="flex items-center gap-2"><Star className="w-3 h-3 text-primary" /> Pokémon TCG collections</div>
+                <div className="flex items-center gap-2"><Star className="w-3 h-3 text-primary" /> Poké TCG collections</div>
                 <div className="flex items-center gap-2"><Star className="w-3 h-3 text-primary" /> Sports memorabilia</div>
                 <div className="flex items-center gap-2"><Star className="w-3 h-3 text-primary" /> Vintage & rare card sets</div>
                 <div className="flex items-center gap-2"><Star className="w-3 h-3 text-primary" /> Digital NFT collections</div>

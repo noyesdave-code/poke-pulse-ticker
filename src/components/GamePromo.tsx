@@ -22,7 +22,7 @@ const GamePromo = () => {
         <img src="/icon-192.png" alt="Personal Pulse Engine" className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-[0_0_12px_hsl(var(--primary)/0.4)]" />
       </div>
 
-      {/* Pokémon sprites */}
+      {/* Poké sprites */}
       <div className="flex justify-center gap-4 sm:gap-5 mb-3">
         {POKEMON_SPRITES.map(({ id, name }) => (
           <div key={id} className="relative w-14 h-14 sm:w-18 sm:h-18 md:w-20 md:h-20 flex-shrink-0 bg-muted/30 rounded-xl flex items-center justify-center border border-border/40">

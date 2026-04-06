@@ -167,7 +167,7 @@ const videoLibrary: VideoEntry[] = [
   {
     id: "engine-promo-2026",
     title: "🔥 Poké Pulse Market Engine — 60s Promo (VO + Music)",
-    description: "The definitive 60-second showcase of the Poké Pulse Market Engine — the world's first institutional-grade Pokémon TCG market analytics platform. Features professional female AI voiceover, upbeat electronic background music with sidechain ducking, and cinematic Remotion visuals covering live indexes, SimTrader World™, Poké-Pulse Arena™, Grading ROI Calculator, AI Alpha Signals, and the full pro tool suite. Engineered for social media, investor presentations, and PGTV broadcast. © 2026 PGVA Ventures, LLC. All rights reserved. Protected under U.S. Patent, Trademark & Copyright law.",
+    description: "The definitive 60-second showcase of the Poké Pulse Market Engine — the world's first institutional-grade Poké TCG market analytics platform. Features professional female AI voiceover, upbeat electronic background music with sidechain ducking, and cinematic Remotion visuals covering live indexes, SimTrader World™, Poké-Pulse Arena™, Grading ROI Calculator, AI Alpha Signals, and the full pro tool suite. Engineered for social media, investor presentations, and PGTV broadcast. © 2026 PGVA Ventures, LLC. All rights reserved. Protected under U.S. Patent, Trademark & Copyright law.",
     file: "/videos/PGVA_Engine_Promo_2026_v3.mp4",
     aspect: "16:9",
     duration: "1:00",
