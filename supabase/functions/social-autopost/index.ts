@@ -12,32 +12,32 @@ const CONTACT = 'contact@poke-pulse-ticker.com | pokegarageva@gmail.com';
 const PROMOS = [
   {
     tier: 1,
-    title: "🎯 Pulse Market Terminal — FREE Tier",
-    body: `Real-time Pokémon TCG price tracking, portfolio management, and market signals.\n\nStart for FREE → ${SITE}\n\n📩 ${CONTACT}\n\n#PokemonTCG #CardInvesting #PulseMarketTerminal #Pokemon #TradingCards`,
+    title: "🎯 PokéGarageVA™ — Tier 1 Franchise",
+    body: `The original hybrid home-based franchise model est. 2022. Real-time Pokémon TCG price tracking, portfolio management, and market signals.\n\nStart for FREE → ${SITE}\n\n📩 ${CONTACT}\n\n#PokemonTCG #CardInvesting #PokéGarageVA #Pokemon #TradingCards #pokegarageva`,
     videoUrl: `${SITE}/videos#tier1`,
   },
   {
     tier: 2,
-    title: "📊 Pulse Pro — Advanced Analytics",
-    body: `Alpha signals, arbitrage finder, whale reports & AI insights. Level up your card investing game.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#PokemonCards #CardMarket #PulsePro #Investing #TCG`,
+    title: "📊 Poke-Pulse-Engine™ — Consumer Terminal",
+    body: `Alpha signals, arbitrage finder, whale reports & AI insights. The most sophisticated data engine ever built for the Poké TCG ecosystem.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#PokemonCards #CardMarket #PokePulseEngine #Investing #TCG #pokegarageva`,
     videoUrl: `${SITE}/videos#tier2`,
   },
   {
     tier: 3,
-    title: "🏟️ Pulse Arena — Compete & Earn",
-    body: `PokéCoin wagering, prediction duels, tournaments & leaderboards. The ultimate card trading arena.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#PulseArena #PokemonCompetitive #TradingCards #Gaming`,
+    title: "🏗️ Personal Pulse Engine™ — Institutional Data",
+    body: `Institutional-grade franchise data licensing across 12 multi-billion-dollar collectible verticals. White-label terminal deployments & data API.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#PersonalPulseEngine #DataLicensing #Franchise #Collectibles #pokegarageva`,
     videoUrl: `${SITE}/videos#tier3`,
   },
   {
     tier: 4,
-    title: "🏢 Pulse Franchise — Own Your Market",
-    body: `White-label the entire Personal Pulse Engine for ANY collectible vertical. Sports, TCG, vintage — your brand, our tech.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#Franchise #BusinessOpportunity #Collectibles #Startup`,
+    title: "🎬 PGTV Media Hub™ — Media Production",
+    body: `Branded media production and streaming center. High-fidelity campaign assets, investor demos, and vertical-specific highlights.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#PGTVMediaHub #MediaProduction #Streaming #Content #pokegarageva`,
     videoUrl: `${SITE}/videos#tier4`,
   },
   {
     tier: 5,
-    title: "🏛️ Pulse Philanthropic™ — The National Museum",
-    body: `The National Museum of Trading Cards & Collectibles — Washington, D.C.\nFree to the public, forever. A Noyes Family Trust venture.\n\n${SITE}\n\n📩 ${CONTACT}\n\n#Museum #TradingCards #Culture #Philanthropy`,
+    title: "🏛️ Pulse Philanthropic Project™ — National Museum",
+    body: `The National Museum of Trading Cards & Collectibles — Washington, D.C.\nFree to the public, forever. A Noyes Family Trust venture.\n\n${SITE}/donate\n\n📩 ${CONTACT}\n\n#Museum #TradingCards #Culture #Philanthropy #pokegarageva`,
     videoUrl: `${SITE}/videos#tier5`,
   },
 ];
