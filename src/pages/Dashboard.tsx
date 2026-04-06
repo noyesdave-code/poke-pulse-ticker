@@ -195,6 +195,22 @@ const Dashboard = () => {
           <ArrowLeft className="w-3.5 h-3.5" /> Back to Portfolio
         </button>
 
+        {/* Portfolio Type Toggle */}
+        <div className="flex items-center gap-1 p-1 bg-accent/10 rounded-lg w-fit">
+          <button
+            onClick={() => setPortfolioView("physical")}
+            className={`font-mono text-xs px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors ${portfolioView === "physical" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            <Layers className="w-3 h-3" /> Physical
+          </button>
+          <button
+            onClick={() => setPortfolioView("digital")}
+            className={`font-mono text-xs px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors ${portfolioView === "digital" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            <Sparkles className="w-3 h-3" /> Digital (Ripz)
+          </button>
+        </div>
+
         <div className="terminal-card p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h1 className="font-mono text-lg font-bold text-foreground flex items-center gap-2">
