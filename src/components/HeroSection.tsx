@@ -8,25 +8,25 @@ const actions = [
   {
     icon: Search,
     label: "Price Check",
-    desc: "Look up any card's live market value",
+    desc: "Pinpoint any card's live market value instantly",
     action: "search",
   },
   {
     icon: Briefcase,
     label: "My Portfolio",
-    desc: "Track your collection & see gains",
+    desc: "Track holdings, P&L, and cost basis in real time",
     path: "/portfolio",
   },
   {
     icon: Layers,
     label: "Browse Sets",
-    desc: "Explore every set from Base to current",
+    desc: "Explore every set — Base through Prismatic Evolutions",
     path: "/sets",
   },
   {
     icon: TrendingUp,
     label: "Dashboard",
-    desc: "Portfolio analytics & performance",
+    desc: "AI signals, arbitrage alerts, and grading ROI",
     path: "/dashboard",
   },
 ];
@@ -118,14 +118,15 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
                 </span>
               </motion.div>
               <div className="space-y-3 flex-1">
-            <motion.h1
+    <motion.h1
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
               className="font-display text-xl sm:text-3xl font-extrabold tracking-tight text-foreground"
             >
-              Poké TCG{" "}
-              <span className="text-primary bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">Live Data</span>
+              Pinpoint Price.{" "}
+              <span className="text-primary bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">Predict Futures.</span>{" "}
+              <span className="text-secondary">Profit.</span>
             </motion.h1>
 
             {/* Dynamic urgency hook */}
@@ -144,7 +145,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
               transition={{ delay: 0.4, duration: 0.5 }}
               className="text-xs sm:text-sm text-muted-foreground max-w-lg leading-relaxed"
             >
-              Real-time prices for <span className="text-foreground font-medium">500+ cards</span>, graded values & sealed products — updated hourly from live market data.
+              The <span className="text-foreground font-medium">Poke-Pulse-Engine™</span> tracks <span className="text-foreground font-medium">500+ cards</span> in real time, surfaces AI-powered buy/sell signals, and deploys grading & arbitrage strategies — so you know exactly what your collectibles are worth, where they're heading, and how to profit.
             </motion.p>
 
             {/* CTA Buttons */}

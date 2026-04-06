@@ -34,14 +34,14 @@ const terminals = [
 const totalTAM = terminals.reduce((s, t) => s + t.tam, 0);
 
 const coreFeatures = [
-  { icon: BarChart3, name: "Real-Time Indexes", desc: "RAW, Graded, & Sealed market indexes per vertical" },
-  { icon: Brain, name: "AI Alpha Signals", desc: "ML buy/sell/hold indicators with confidence scores" },
-  { icon: TrendingUp, name: "Portfolio Tracker", desc: "P&L analytics, snapshots, cost basis tracking" },
-  { icon: Gamepad2, name: "SimTrader World™", desc: "Paper trading with AI bots & PvP contests" },
-  { icon: Trophy, name: "Arena™ Wagering", desc: "Prediction markets with virtual PokéCoins" },
-  { icon: Users, name: "Community Intel", desc: "Consensus pricing, sentiment, leaderboards" },
-  { icon: Database, name: "Data API", desc: "Institutional-grade data licensing endpoints" },
-  { icon: Eye, name: "Watchlists & Alerts", desc: "Price alerts, delta monitoring, notifications" },
+  { icon: BarChart3, name: "Real-Time Indexes", desc: "RAW 500, GRADED 1000, SEALED 1000 — live market heartbeat refreshed every 60 min" },
+  { icon: Brain, name: "AI Alpha Signals", desc: "Machine-learning buy/sell/hold indicators with RSI/SMA overlays and confidence scoring" },
+  { icon: TrendingUp, name: "Portfolio Tracker", desc: "Real-time P&L, cost-basis tracking, daily snapshots, and capital-gains tax reports" },
+  { icon: Gamepad2, name: "SimTrader World™", desc: "$100K virtual portfolio, 10 AI bots, limit/stop orders, and PvP trading contests" },
+  { icon: Trophy, name: "Arena™ Wagering", desc: "Price prediction markets, 1v1 duels, and tournament brackets — all on PokéCoins" },
+  { icon: Users, name: "Community Intel", desc: "Consensus pricing, crowd sentiment polls, verified leaderboards, and whale reports" },
+  { icon: Database, name: "Data API", desc: "Institutional-grade REST endpoints for bulk price, index, and signal data licensing" },
+  { icon: Eye, name: "Arbitrage & Alerts", desc: "Cross-marketplace arbitrage scanner, grading ROI calculator, and delta price alerts" },
 ];
 
 const revenueStreams = [
@@ -215,8 +215,9 @@ const Blueprint = () => {
               5-TIER VERTICAL<br />INTEGRATION™
             </h1>
             <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mt-4">
-              A patent-pending 5-tier ecosystem delivering garage-to-museum vertical integration across
-              consumer trading, data intelligence, franchise licensing, media production, and philanthropy.
+              A patent-pending ecosystem that pinpoints collectible price points across 12 verticals,
+              predicts their futures with AI-driven signals, and deploys automated strategies to
+              generate revenue — from garage-scale trading to museum-grade philanthropy.
             </p>
           </motion.div>
 
@@ -270,27 +271,27 @@ const Blueprint = () => {
             {[
               {
                 tier: "TIER 1", name: "PokéGarageVA™", icon: "🏠", color: "hsl(25, 95%, 53%)",
-                desc: "Individual from-home franchise hybrid trading card garage sale & vending model. Est. 2022. The grassroots foundation — buy, sell, grade, and flip collectibles from your own home with AI-guided sourcing and pricing intelligence.",
-                features: ["Home-based franchise model", "AI-powered card sourcing", "Vending machine network", "Local community trading events"]
+                desc: "The grassroots foundation. AI-guided sourcing tells you exactly which cards to buy below market, when to flip, and which to send to grading — turning any home into a profitable trading operation with vending machine distribution.",
+                features: ["AI-powered buy-below-market sourcing", "Grading ROI profit alerts", "Vending machine revenue network", "Local community trading events"]
               },
               {
                 tier: "TIER 2", name: "Poke-Pulse-Engine™", icon: "📊", color: "hsl(48, 96%, 53%)",
-                desc: "Consumer-facing real-time market data terminal. Track 500+ cards, AI Alpha Signals, SimTrader World™, Poké-Pulse Arena™, grading ROI calculators, and 7-tier subscriptions.",
-                features: ["Real-time market indexes", "AI Alpha Signals", "SimTrader World™", "7-tier subscription model"]
+                desc: "The consumer data terminal. Pinpoints live market prices for 500+ cards, predicts price trajectories with AI Alpha Signals, and deploys arbitrage & grading strategies — so collectors always know what to buy, hold, or sell.",
+                features: ["Live RAW/GRADED/SEALED indexes", "AI buy/sell/hold signals (78%+ accuracy)", "Cross-marketplace arbitrage scanner", "7-tier subscription revenue model"]
               },
               {
                 tier: "TIER 3", name: "Personal Pulse Engine™", icon: "🏗️", color: "hsl(142, 71%, 45%)",
-                desc: "Institutional-grade franchise data licensing across 12 multi-billion-dollar collectible and sports memorabilia verticals. White-label terminal deployments and data API.",
-                features: ["12-vertical franchise system", "$103B+ combined TAM", "Data licensing API", "White-label deployments"]
+                desc: "Institutional-grade franchise licensing. The same data engine that powers Poké TCG is white-labeled across 12 multi-billion-dollar collectible verticals — MLB, NFL, NBA, MTG, Yu-Gi-Oh!, and more — each generating independent subscription and API revenue.",
+                features: ["12-vertical franchise system ($103B+ TAM)", "White-label terminal deployments", "REST data API licensing ($0.01/call)", "Per-vertical subscription revenue"]
               },
               {
                 tier: "TIER 4", name: "PGTV Media Hub™", icon: "📺", color: "hsl(0, 84%, 60%)",
-                desc: "Full-scale media production, creator networks, and streaming content hub. Campaign assets, investor demos, promotional videos, and branded entertainment content.",
-                features: ["Branded streaming content", "Creator network", "Campaign asset production", "Multi-platform distribution"]
+                desc: "Full-scale branded media production. Poké Ripz™ digital pack-ripping shows, investor pitch videos, promotional campaigns, and creator network content — all monetized through ad revenue, sponsorships, and in-show betting.",
+                features: ["Poké Ripz™ pack-ripping shows", "In-video betting with PokéCoins", "Multi-platform distribution", "Ad & sponsorship revenue"]
               },
               {
                 tier: "TIER 5", name: "Pulse Philanthropic Project™", icon: "🏛️", color: "hsl(263, 90%, 51%)",
-                desc: "The pinnacle tier under the Noyes Family Trust. Mission: Build the National Museum of Trading Cards & Collectibles in Washington, D.C. — free to the public forever. Accepts private and government funding, physical and digital collection donations.",
+                desc: "The legacy tier. Building the National Museum of Trading Cards & Collectibles in Washington, D.C. — free to the public forever. Funded by platform revenue, government grants, and collector donations. The ultimate brand halo for investor and public trust.",
                 features: ["National Museum of Trading Cards", "Free public admission forever", "Physical & digital collections", "Government & private funding"]
               },
             ].map((t, i) => (
@@ -329,7 +330,7 @@ const Blueprint = () => {
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold">Live Terminal Engine</h2>
             <p className="text-sm text-muted-foreground mt-1">
-              Interactive demonstration of the core data engine powering every vertical
+              See how the engine pinpoints card prices across marketplaces, predicts price trajectories, and surfaces actionable arbitrage strategies — all in real time
             </p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -341,11 +342,11 @@ const Blueprint = () => {
                     <Cpu className="w-4 h-4 text-primary" /> Architecture Overview
                   </p>
                   <div className="space-y-2">
-                    {[
-                      { label: "Data Ingestion", desc: "Multi-marketplace price aggregation (60-90 min cycles)", pct: 100 },
-                      { label: "AI Signal Engine", desc: "ML buy/sell/hold with RSI/SMA overlays", pct: 85 },
-                      { label: "Gamification Layer", desc: "SimTrader, Arena, PvP challenges", pct: 90 },
-                      { label: "Community Intel", desc: "Consensus pricing, sentiment polls", pct: 75 },
+                     {[
+                      { label: "Data Ingestion", desc: "Multi-marketplace price aggregation from TCGPlayer, eBay, and live APIs (60-min refresh cycles)", pct: 100 },
+                      { label: "AI Signal Engine", desc: "ML-driven buy/sell/hold signals with RSI, SMA, volume divergence, and 78%+ accuracy", pct: 85 },
+                      { label: "Profit Strategies", desc: "Cross-marketplace arbitrage, grading ROI, PSA 10 ratio bots, and delta price alerts", pct: 90 },
+                      { label: "Gamification Layer", desc: "SimTrader World™, Arena wagering, Poké Ripz™ digital rips, and PvP tournaments", pct: 75 },
                     ].map(a => (
                       <div key={a.label}>
                         <div className="flex justify-between text-xs">
@@ -382,7 +383,7 @@ const Blueprint = () => {
       <section className="py-12 px-4 bg-muted/20 border-t border-border/40">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-2">Replicable Core Platform</h2>
-          <p className="text-sm text-muted-foreground text-center mb-8">Every terminal ships with these features on day one</p>
+          <p className="text-sm text-muted-foreground text-center mb-8">Every terminal ships with these features on day one — pinpoint pricing, predictive signals, and profit-deployment tools</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {coreFeatures.map((f, i) => (
               <motion.div key={f.name} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
