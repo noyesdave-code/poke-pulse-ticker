@@ -271,27 +271,27 @@ const Blueprint = () => {
             {[
               {
                 tier: "TIER 1", name: "PokéGarageVA™", icon: "🏠", color: "hsl(25, 95%, 53%)",
-                desc: "Individual from-home franchise hybrid trading card garage sale & vending model. Est. 2022. The grassroots foundation — buy, sell, grade, and flip collectibles from your own home with AI-guided sourcing and pricing intelligence.",
-                features: ["Home-based franchise model", "AI-powered card sourcing", "Vending machine network", "Local community trading events"]
+                desc: "The grassroots foundation. AI-guided sourcing tells you exactly which cards to buy below market, when to flip, and which to send to grading — turning any home into a profitable trading operation with vending machine distribution.",
+                features: ["AI-powered buy-below-market sourcing", "Grading ROI profit alerts", "Vending machine revenue network", "Local community trading events"]
               },
               {
                 tier: "TIER 2", name: "Poke-Pulse-Engine™", icon: "📊", color: "hsl(48, 96%, 53%)",
-                desc: "Consumer-facing real-time market data terminal. Track 500+ cards, AI Alpha Signals, SimTrader World™, Poké-Pulse Arena™, grading ROI calculators, and 7-tier subscriptions.",
-                features: ["Real-time market indexes", "AI Alpha Signals", "SimTrader World™", "7-tier subscription model"]
+                desc: "The consumer data terminal. Pinpoints live market prices for 500+ cards, predicts price trajectories with AI Alpha Signals, and deploys arbitrage & grading strategies — so collectors always know what to buy, hold, or sell.",
+                features: ["Live RAW/GRADED/SEALED indexes", "AI buy/sell/hold signals (78%+ accuracy)", "Cross-marketplace arbitrage scanner", "7-tier subscription revenue model"]
               },
               {
                 tier: "TIER 3", name: "Personal Pulse Engine™", icon: "🏗️", color: "hsl(142, 71%, 45%)",
-                desc: "Institutional-grade franchise data licensing across 12 multi-billion-dollar collectible and sports memorabilia verticals. White-label terminal deployments and data API.",
-                features: ["12-vertical franchise system", "$103B+ combined TAM", "Data licensing API", "White-label deployments"]
+                desc: "Institutional-grade franchise licensing. The same data engine that powers Poké TCG is white-labeled across 12 multi-billion-dollar collectible verticals — MLB, NFL, NBA, MTG, Yu-Gi-Oh!, and more — each generating independent subscription and API revenue.",
+                features: ["12-vertical franchise system ($103B+ TAM)", "White-label terminal deployments", "REST data API licensing ($0.01/call)", "Per-vertical subscription revenue"]
               },
               {
                 tier: "TIER 4", name: "PGTV Media Hub™", icon: "📺", color: "hsl(0, 84%, 60%)",
-                desc: "Full-scale media production, creator networks, and streaming content hub. Campaign assets, investor demos, promotional videos, and branded entertainment content.",
-                features: ["Branded streaming content", "Creator network", "Campaign asset production", "Multi-platform distribution"]
+                desc: "Full-scale branded media production. Poké Ripz™ digital pack-ripping shows, investor pitch videos, promotional campaigns, and creator network content — all monetized through ad revenue, sponsorships, and in-show betting.",
+                features: ["Poké Ripz™ pack-ripping shows", "In-video betting with PokéCoins", "Multi-platform distribution", "Ad & sponsorship revenue"]
               },
               {
                 tier: "TIER 5", name: "Pulse Philanthropic Project™", icon: "🏛️", color: "hsl(263, 90%, 51%)",
-                desc: "The pinnacle tier under the Noyes Family Trust. Mission: Build the National Museum of Trading Cards & Collectibles in Washington, D.C. — free to the public forever. Accepts private and government funding, physical and digital collection donations.",
+                desc: "The legacy tier. Building the National Museum of Trading Cards & Collectibles in Washington, D.C. — free to the public forever. Funded by platform revenue, government grants, and collector donations. The ultimate brand halo for investor and public trust.",
                 features: ["National Museum of Trading Cards", "Free public admission forever", "Physical & digital collections", "Government & private funding"]
               },
             ].map((t, i) => (
