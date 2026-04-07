@@ -86,7 +86,7 @@ const Index = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setChartRefreshKey(k => k + 1);
-    }, 60 * 60 * 1000);
+    }, 60 * 1000); // Refresh charts every 60 seconds
     return () => clearInterval(interval);
   }, []);
 
