@@ -26,10 +26,14 @@ const MarketIntelWidget = ({ cards }: MarketIntelWidgetProps) => {
       transition={{ duration: 0.5 }}
       className="terminal-card overflow-hidden"
     >
-      <div className="border-b border-border px-4 py-3">
+      <div className="border-b border-border px-4 py-3 flex items-center justify-between">
         <h3 className="text-sm font-bold tracking-wide text-secondary uppercase flex items-center gap-2">
           <Calendar className="w-3.5 h-3.5" /> Market Intelligence
         </h3>
+        <div className="flex items-center gap-1.5">
+          <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+          <span className="font-mono text-[9px] text-primary font-bold uppercase tracking-wider">LIVE</span>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-border">
@@ -79,7 +83,7 @@ const MarketIntelWidget = ({ cards }: MarketIntelWidgetProps) => {
             </div>
             <div className="flex justify-between">
               <span className="font-mono text-[10px] text-muted-foreground">Refresh Cycle</span>
-              <span className="font-mono text-[10px] text-foreground font-semibold">60 min</span>
+              <span className="font-mono text-[10px] text-primary font-semibold">60s live</span>
             </div>
           </div>
           <p className="font-mono text-[9px] text-muted-foreground">New sets auto-detected from pokemontcg.io API</p>

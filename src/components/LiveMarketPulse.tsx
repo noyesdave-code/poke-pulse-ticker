@@ -109,6 +109,11 @@ const LiveMarketPulse = ({ cards }: { cards: CardData[] }) => {
                 <span className="font-bold">{e.card}</span>{" "}
                 <span className="text-muted-foreground">— {e.detail}</span>
               </p>
+              {/* Show set name if available */}
+              {(() => {
+                const match = cards.find(c => c.name === e.card);
+                return match?.set ? <p className="font-mono text-[9px] text-muted-foreground/70">{match.set}</p> : null;
+              })()}
             </div>
             <span className="font-mono text-[9px] text-muted-foreground shrink-0 mt-0.5">
               {timeAgo(e.timestamp)}

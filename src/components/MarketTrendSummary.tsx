@@ -43,9 +43,18 @@ const MarketTrendSummary = ({ cards }: MarketTrendSummaryProps) => {
         <h2 className="text-sm font-bold tracking-wide text-secondary uppercase flex items-center gap-2">
           <BarChart3 className="w-3.5 h-3.5" /> Market Trend Summary
         </h2>
-        <span className="font-mono text-[9px] text-muted-foreground uppercase tracking-wider">
-          Predictability Index
-        </span>
+        <div className="flex items-center gap-2">
+          <span className={`font-mono text-[10px] font-bold px-2 py-0.5 rounded-full ${
+            overallSentiment === "BULLISH" ? "bg-terminal-green/15 text-terminal-green" :
+            overallSentiment === "BEARISH" ? "bg-terminal-red/15 text-terminal-red" :
+            "bg-terminal-amber/15 text-terminal-amber"
+          }`}>
+            {overallSentiment}
+          </span>
+          <span className="font-mono text-[9px] text-muted-foreground uppercase tracking-wider">
+            Predictability Index
+          </span>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-border">
