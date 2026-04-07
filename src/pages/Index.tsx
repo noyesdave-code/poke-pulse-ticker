@@ -187,7 +187,7 @@ const Index = () => {
             <div className="relative">
               {!isNYSE && <MarketClosedOverlay />}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
-                <IndexDayChart title="RAW 500 INDEX" indexValue={rawIndex} indexChange={rawChange} variant="green" refreshKey={chartRefreshKey} />
+                <IndexDayChart title="RAW 1000 INDEX" indexValue={rawIndex} indexChange={rawChange} variant="green" refreshKey={chartRefreshKey} />
                 <IndexDayChart title="GRADED 1000 INDEX" indexValue={gradedIndex} indexChange={gradedChange} variant="amber" refreshKey={chartRefreshKey} />
                 <IndexDayChart title="SEALED 1000 INDEX" indexValue={sealedIndex} indexChange={sealedChange} variant="blue" refreshKey={chartRefreshKey} />
               </div>
