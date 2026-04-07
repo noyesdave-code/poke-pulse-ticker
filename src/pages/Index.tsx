@@ -195,25 +195,17 @@ const Index = () => {
           );
         })()}
 
-        {/* 4. Trending Cards */}
-        <TrendingCards cards={displayCards} isLoading={isLoading} />
+        {/* 4. Daily Spotlight — Card of the Day */}
+        <LazySection minHeight="200px">
+          <DailySpotlight cards={cardsWithImages.length > 0 ? cardsWithImages : displayCards} />
+        </LazySection>
 
-        <ProductAdBanner variant="strip" count={4} />
-
-        {/* 5. AI Market Insights */}
+        {/* 5. AI Market Insights — Smart Money Signals */}
         <LazySection minHeight="200px">
           <AIMarketInsights cards={displayCards} />
         </LazySection>
 
-        {/* 6. Era Indexes */}
-        <LazySection minHeight="150px">
-          <EraIndexCards cards={displayCards} />
-        </LazySection>
-
-        {/* 7. Poké Race */}
-        <PokeRaceSection />
-
-        {/* 8. Top Movers */}
+        {/* 6. Top Movers — Biggest gainers/losers */}
         <LazySection minHeight="280px">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5">
             <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" isLoading={isLoading} />
@@ -221,35 +213,40 @@ const Index = () => {
           </div>
         </LazySection>
 
-        {/* 9. Daily Spotlight */}
-        <LazySection minHeight="200px">
-          <DailySpotlight cards={cardsWithImages.length > 0 ? cardsWithImages : displayCards} />
-        </LazySection>
+        {/* 7. Trending Cards */}
+        <TrendingCards cards={displayCards} isLoading={isLoading} />
 
-        <LazySection minHeight="180px">
-          <LiveMarketPulse cards={displayCards} />
-        </LazySection>
-
-        {/* 10. Grading ROI Calculator */}
-        <LazySection minHeight="200px">
-          <GradingROICalculator cards={displayCards} />
-        </LazySection>
-
-        <InlineUpgradeNudge variant="savings" />
-        <ProductAdBanner variant="inline" />
-
-        {/* 11. Prediction Game */}
-        <LazySection minHeight="200px">
-          <PricePredictionGame cards={displayCards} />
-        </LazySection>
-
-        {/* 12. Market Trend + Intel */}
+        {/* 8. Market Trend + Intel */}
         <LazySection minHeight="150px">
           <MarketTrendSummary cards={displayCards} />
         </LazySection>
 
         <LazySection minHeight="180px">
           <MarketIntelWidget cards={displayCards} />
+        </LazySection>
+
+        {/* 9. Era Indexes */}
+        <LazySection minHeight="150px">
+          <EraIndexCards cards={displayCards} />
+        </LazySection>
+
+        {/* 10. Live Market Pulse */}
+        <LazySection minHeight="180px">
+          <LiveMarketPulse cards={displayCards} />
+        </LazySection>
+
+        {/* 11. Grading ROI Calculator */}
+        <LazySection minHeight="200px">
+          <GradingROICalculator cards={displayCards} />
+        </LazySection>
+
+        {/* 12. Notable Sales */}
+        <LazySection minHeight="200px">
+          <RecentNotableSales cards={displayCards} />
+        </LazySection>
+
+        <LazySection minHeight="100px">
+          <MarketCapSummary liveRawCards={displayCards} />
         </LazySection>
 
         <LazySection minHeight="70px">
@@ -263,14 +260,14 @@ const Index = () => {
           </LazySection>
         </div>
 
-        {/* 14. Notable Sales */}
+        <ProductAdBanner variant="strip" count={4} />
+
+        {/* 14. Prediction Game */}
         <LazySection minHeight="200px">
-          <RecentNotableSales cards={displayCards} />
+          <PricePredictionGame cards={displayCards} />
         </LazySection>
 
-        <LazySection minHeight="100px">
-          <MarketCapSummary liveRawCards={displayCards} />
-        </LazySection>
+        <InlineUpgradeNudge variant="savings" />
 
         {/* 15. Poké Ripz */}
         <LazySection minHeight="120px">
@@ -297,13 +294,16 @@ const Index = () => {
           </div>
         </LazySection>
 
-        {/* 16. Poké Adventure Land */}
+        {/* 16. Poké Race */}
+        <PokeRaceSection />
+
+        {/* 17. Poké Adventure Land */}
         <GamePromo />
 
-        {/* 17. SimTrader */}
+        {/* 18. SimTrader */}
         <SimTraderPromo />
 
-        {/* 17. Trust + Status */}
+        {/* 19. Trust + Status */}
         <LazySection minHeight="70px">
           <TrustSignals />
         </LazySection>
