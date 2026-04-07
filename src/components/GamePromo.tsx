@@ -41,7 +41,7 @@ const GamePromo = () => {
 
       <div className="space-y-2.5 text-center sm:text-left">
         <div className="flex items-center justify-center sm:justify-start gap-2">
-          <img src="/poke-adventure-land-logo.png" alt="Poké Adventure Land" className="w-7 h-7 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+          <img src="/poke-adventure-land-logo.png" alt="Poké Adventure Land" className="w-12 h-12 sm:w-14 sm:h-14 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
           <Gamepad2 className="w-5 h-5 text-primary" />
           <span className="font-mono text-[10px] tracking-widest text-primary uppercase font-bold">
             Poké Adventure Land
