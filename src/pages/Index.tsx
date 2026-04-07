@@ -174,9 +174,9 @@ const Index = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
-            <MarketIndexCard title="RAW 500 INDEX" value={rawIndex} change={rawChange} count={500} description="500+ raw cards tracked" variant="green" />
-            <MarketIndexCard title="GRADED 1000 INDEX" value={gradedIndex} change={gradedChange} count={1000} description="1,000+ graded cards tracked (PSA/CGC/BGS/TAG)" variant="amber" />
-            <MarketIndexCard title="SEALED 1000 INDEX" value={sealedIndex} change={sealedChange} count={1000} description="1,000+ sealed products tracked (Boxes/Packs/ETBs)" variant="blue" />
+            <MarketIndexCard title="RAW 1000 INDEX" value={rawIndex} change={rawChange} count={1000} description="1,000+ raw cards — live TCGPlayer pricing" variant="green" />
+            <MarketIndexCard title="GRADED 1000 INDEX" value={gradedIndex} change={gradedChange} count={1000} description="1,000+ graded cards (PSA/CGC/BGS/TAG)" variant="amber" />
+            <MarketIndexCard title="SEALED 1000 INDEX" value={sealedIndex} change={sealedChange} count={1000} description="1,000+ sealed products (Boxes/Packs/ETBs)" variant="blue" />
           </div>
         )}
 
