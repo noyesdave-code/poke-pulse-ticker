@@ -97,7 +97,7 @@ const GradingROICalculator = ({ cards }: GradingROIProps) => {
             <label className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider mb-1 block">
               Grading Service
             </label>
-            <div className="grid grid-cols-2 gap-1.5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
               {Object.entries(GRADING_COSTS).map(([name, info]) => (
                 <button
                   key={name}
