@@ -1,20 +1,28 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CardData } from "@/data/marketData";
 import { getCardToken } from "@/lib/tokenSymbols";
 
 interface TickerBarProps {
   cards?: CardData[];
   isLive?: boolean;
-  lastUpdated?: number; // timestamp ms
+  lastUpdated?: number;
 }
 
 const TickerBar = ({ cards = [], isLive = false, lastUpdated }: TickerBarProps) => {
-  const tickerItems = [...cards, ...cards]; // duplicate for seamless loop
   const [countdown, setCountdown] = useState("");
+
+  const tickerCards = useMemo(() => {
+    const sorted = [...cards]
+      .sort((a, b) => Math.abs(b.change) - Math.abs(a.change))
+      .slice(0, 16);
+
+    return [...sorted, ...sorted];
+  }, [cards]);
 
   useEffect(() => {
     if (!lastUpdated) return;
-    const REFRESH_MS = 60 * 60 * 1000; // 60 min
+
+    const REFRESH_MS = 60 * 60 * 1000;
 
     const tick = () => {
       const elapsed = Date.now() - lastUpdated;
@@ -29,10 +37,11 @@ const TickerBar = ({ cards = [], isLive = false, lastUpdated }: TickerBarProps) 
     return () => clearInterval(id);
   }, [lastUpdated]);
 
+  if (!tickerCards.length) return null;
+
   return (
     <div className="border-b border-border/40 bg-terminal-header overflow-hidden">
       <div className="flex items-center">
-        {/* Refresh countdown badge */}
         {isLive && countdown && (
           <div className="flex-shrink-0 px-2.5 py-1.5 border-r border-border/40 bg-terminal-header z-10 relative shadow-[6px_0_12px_4px_hsl(var(--terminal-header))]">
             <span className="font-mono text-[9px] text-secondary uppercase tracking-wider font-bold">
@@ -40,16 +49,22 @@ const TickerBar = ({ cards = [], isLive = false, lastUpdated }: TickerBarProps) 
             </span>
           </div>
         )}
-        <div className="ticker-scroll flex whitespace-nowrap py-1.5" style={{ animationDuration: `${Math.max(80, cards.length * 6.4)}s` }}>
-          {tickerItems.map((card, i) => (
-            <span key={i} className="inline-flex items-center gap-2 px-4 font-mono text-xs">
+
+        <div
+          className="ticker-scroll flex whitespace-nowrap py-1.5"
+          style={{ animationDuration: `${Math.max(70, tickerCards.length * 5.5)}s` }}
+        >
+          {tickerCards.map((card, i) => (
+            <span key={`${card.name}-${i}`} className="inline-flex items-center gap-2 px-4 font-mono text-xs">
               <span className="text-primary font-bold text-[10px]">{getCardToken(card)}</span>
               <span className="text-foreground/80 font-medium">{card.name}</span>
-              <span className="text-foreground font-semibold">${card.market.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+              <span className="text-foreground font-semibold">
+                ${card.market.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+              </span>
               <span className={card.change >= 0 ? "text-terminal-green" : "text-terminal-red"}>
                 {card.change >= 0 ? "▲" : "▼"} {Math.abs(card.change).toFixed(2)}%
               </span>
-              <span className="text-border/40">·</span>
+              <span className="text-border/40">•</span>
             </span>
           ))}
         </div>
