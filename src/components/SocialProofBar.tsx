@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Users, Star, Shield, DollarSign, CheckCircle, Clock } from "lucide-react";
+import { Users, Star, Shield, DollarSign, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface SocialProofBarProps {
@@ -15,7 +14,12 @@ const formatValue = (value: number) => {
   return `$${value.toFixed(0)}`;
 };
 
-const SocialProofBar = ({ totalMarketValue = 0, isLive, lastUpdated, cardCount }: SocialProofBarProps) => {
+const SocialProofBar = ({
+  totalMarketValue = 0,
+  isLive,
+  lastUpdated,
+  cardCount,
+}: SocialProofBarProps) => {
   const displayValue = totalMarketValue > 0 ? formatValue(totalMarketValue) : "$2.4M+";
   const minutesAgo = lastUpdated ? Math.floor((Date.now() - lastUpdated) / 60000) : null;
 
@@ -23,7 +27,7 @@ const SocialProofBar = ({ totalMarketValue = 0, isLive, lastUpdated, cardCount }
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.3, duration: 0.5 }}
+      transition={{ delay: 0.25, duration: 0.45 }}
       className="terminal-card overflow-hidden"
     >
       <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-border/50">
@@ -32,8 +36,12 @@ const SocialProofBar = ({ totalMarketValue = 0, isLive, lastUpdated, cardCount }
             <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
           </div>
           <div className="min-w-0">
-            <p className="font-mono text-xs sm:text-sm font-extrabold text-foreground truncate">{displayValue}</p>
-            <p className="font-mono text-[8px] sm:text-[9px] text-muted-foreground uppercase tracking-wider">Market Tracked</p>
+            <p className="font-mono text-xs sm:text-sm font-extrabold text-foreground truncate">
+              {displayValue}
+            </p>
+            <p className="font-mono text-[8px] sm:text-[9px] text-muted-foreground uppercase tracking-wider">
+              Market Tracked
+            </p>
           </div>
         </div>
 
@@ -42,8 +50,12 @@ const SocialProofBar = ({ totalMarketValue = 0, isLive, lastUpdated, cardCount }
             <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
           </div>
           <div className="min-w-0">
-            <p className="font-mono text-xs sm:text-sm font-extrabold text-foreground">2,400+</p>
-            <p className="font-mono text-[8px] sm:text-[9px] text-muted-foreground uppercase tracking-wider">Active Users</p>
+            <p className="font-mono text-xs sm:text-sm font-extrabold text-foreground">
+              {cardCount ? `${cardCount}+` : "2,400+"}
+            </p>
+            <p className="font-mono text-[8px] sm:text-[9px] text-muted-foreground uppercase tracking-wider">
+              Active Listings
+            </p>
           </div>
         </div>
 
@@ -52,8 +64,10 @@ const SocialProofBar = ({ totalMarketValue = 0, isLive, lastUpdated, cardCount }
             <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary" />
           </div>
           <div className="min-w-0">
-            <p className="font-mono text-xs sm:text-sm font-extrabold text-foreground">4.8/5</p>
-            <p className="font-mono text-[8px] sm:text-[9px] text-muted-foreground uppercase tracking-wider">User Rating</p>
+            <p className="font-mono text-xs sm:text-sm font-extrabold text-foreground">Top 5</p>
+            <p className="font-mono text-[8px] sm:text-[9px] text-muted-foreground uppercase tracking-wider">
+              Movers & Sales
+            </p>
           </div>
         </div>
 
@@ -77,13 +91,14 @@ const SocialProofBar = ({ totalMarketValue = 0, isLive, lastUpdated, cardCount }
                 </p>
                 <p className="font-mono text-[8px] sm:text-[9px] text-muted-foreground uppercase tracking-wider">
                   {minutesAgo !== null ? `${minutesAgo}m ago` : "Real-time"}
-                  {cardCount ? ` · ${cardCount}` : ""}
                 </p>
               </>
             ) : (
               <>
                 <p className="font-mono text-xs sm:text-sm font-extrabold text-foreground">Secure</p>
-                <p className="font-mono text-[8px] sm:text-[9px] text-muted-foreground uppercase tracking-wider">Encrypted</p>
+                <p className="font-mono text-[8px] sm:text-[9px] text-muted-foreground uppercase tracking-wider">
+                  Encrypted
+                </p>
               </>
             )}
           </div>
