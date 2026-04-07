@@ -56,68 +56,133 @@ const LiveMarketPulse = ({ cards }: { cards: CardData[] }) => {
       initial.push({ ...t, id: i, timestamp: new Date(Date.now() - (5 - i) * 8000) });
     }
     counterRef.current = 5;
-    setEvents(initial);
+import { useMemo } from "react";
+import {
+  Activity,
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+  Volume2,
+  Flame,
+} from "lucide-react";
+import type { CardData } from "@/data/marketData";
 
-    const interval = setInterval(() => {
-      const t = templates[counterRef.current % templates.length];
-      counterRef.current++;
-      setEvents((prev) => {
-        const next = [...prev, { ...t, id: counterRef.current, timestamp: new Date() }];
-        return next.slice(-15);
-      });
-    }, 6000);
+type PulseRow = {
+  id: string;
+  card: string;
+  detail: string;
+  meta: string;
+  icon: "up" | "down" | "volume" | "sale" | "fire";
+  accent: string;
+};
 
-    return () => clearInterval(interval);
-  }, [templates]);
+const ICONS = {
+  up: <TrendingUp className="w-3.5 h-3.5 text-primary" />,
+  down: <TrendingDown className="w-3.5 h-3.5 text-destructive" />,
+  volume: <Volume2 className="w-3.5 h-3.5 text-terminal-amber" />,
+  sale: <DollarSign className="w-3.5 h-3.5 text-primary" />,
+  fire: <Flame className="w-3.5 h-3.5 text-orange-400" />,
+};
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [events]);
+const LiveMarketPulse = ({ cards }: { cards: CardData[] }) => {
+  const rows = useMemo(() => {
+    if (!cards.length) return [] as PulseRow[];
 
-  const timeAgo = (d: Date) => {
-    const s = Math.floor((Date.now() - d.getTime()) / 1000);
-    if (s < 60) return `${s}s ago`;
-    return `${Math.floor(s / 60)}m ago`;
-  };
+    const topMoves = [...cards]
+      .sort((a, b) => Math.abs(b.change) - Math.abs(a.change))
+      .slice(0, 5);
+
+    return topMoves.map((card, i) => {
+      const seed = Math.floor(card.market * 100) + card.name.length * 11 + i;
+      const pattern = seed % 5;
+
+      if (pattern === 0) {
+        return {
+          id: `pulse-${i}-${card.name}`,
+          card: card.name,
+          detail: `${card.change >= 0 ? "+" : ""}${card.change.toFixed(1)}% to $${card.market.toFixed(2)}`,
+          meta: `${card.set} • momentum`,
+          icon: card.change >= 0 ? "up" : "down",
+          accent: card.change >= 0 ? "text-primary" : "text-destructive",
+        } satisfies PulseRow;
+      }
+
+      if (pattern === 1) {
+        return {
+          id: `pulse-${i}-${card.name}`,
+          card: card.name,
+          detail: `Volume up ${80 + (seed % 120)}% in 1h`,
+          meta: `${card.set} • activity spike`,
+          icon: "volume",
+          accent: "text-terminal-amber",
+        } satisfies PulseRow;
+      }
+
+      if (pattern === 2) {
+        return {
+          id: `pulse-${i}-${card.name}`,
+          card: card.name,
+          detail: `Sold near $${(card.market * (1 + ((seed % 8) + 1) / 100)).toFixed(2)}`,
+          meta: `${card.set} • notable sale`,
+          icon: "sale",
+          accent: "text-primary",
+        } satisfies PulseRow;
+      }
+
+      if (pattern === 3) {
+        return {
+          id: `pulse-${i}-${card.name}`,
+          card: card.name,
+          detail: `Trending in ${12 + (seed % 40)} watchlists`,
+          meta: `${card.set} • collector attention`,
+          icon: "fire",
+          accent: "text-orange-400",
+        } satisfies PulseRow;
+      }
+
+      return {
+        id: `pulse-${i}-${card.name}`,
+        card: card.name,
+        detail: `${card.change >= 0 ? "+" : ""}${card.change.toFixed(1)}% with strong repricing`,
+        meta: `${card.set} • live pulse`,
+        icon: card.change >= 0 ? "up" : "down",
+        accent: card.change >= 0 ? "text-primary" : "text-destructive",
+      } satisfies PulseRow;
+    });
+  }, [cards]);
 
   if (!cards.length) return null;
 
   return (
-    <section className="terminal-card p-0 overflow-hidden">
-      <div className="flex items-center gap-2 px-4 pt-3 pb-2">
+    <section className="terminal-card p-0 overflow-hidden h-full">
+      <div className="flex items-center gap-2 px-4 pt-3 pb-2 border-b border-border">
         <div className="relative">
           <Activity className="w-4 h-4 text-primary" />
           <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-primary animate-pulse" />
         </div>
         <h2 className="font-mono text-xs font-bold tracking-widest text-foreground uppercase">
-          LIVE MARKET PULSE
+          Live Market Pulse
         </h2>
-        <span className="ml-auto font-mono text-[9px] text-muted-foreground animate-pulse">● LIVE</span>
+        <span className="ml-auto font-mono text-[9px] text-muted-foreground animate-pulse">
+          ● LIVE
+        </span>
       </div>
 
-      <div ref={scrollRef} className="max-h-[260px] overflow-y-auto px-3 pb-3 space-y-1.5 scrollbar-thin">
-        {events.map((e) => (
+      <div className="divide-y divide-border">
+        {rows.slice(0, 5).map((row) => (
           <div
-            key={e.id}
-            className="flex items-start gap-2.5 py-1.5 px-2 rounded bg-muted/30 hover:bg-muted/60 transition-colors animate-in slide-in-from-bottom-2 duration-300"
+            key={row.id}
+            className="flex items-start gap-2.5 py-3 px-4 hover:bg-muted/30 transition-colors"
           >
-            <div className="mt-0.5 shrink-0">{ICONS[e.icon]}</div>
+            <div className="mt-0.5 shrink-0">{ICONS[row.icon]}</div>
+
             <div className="flex-1 min-w-0">
               <p className="font-mono text-[11px] text-foreground leading-snug">
-                <span className="font-bold">{e.card}</span>{" "}
-                <span className="text-muted-foreground">— {e.detail}</span>
+                <span className="font-bold">{row.card}</span>{" "}
+                <span className="text-muted-foreground">— {row.detail}</span>
               </p>
-              {/* Show set name if available */}
-              {(() => {
-                const match = cards.find(c => c.name === e.card);
-                return match?.set ? <p className="font-mono text-[9px] text-muted-foreground/70">{match.set}</p> : null;
-              })()}
+              <p className={`font-mono text-[9px] mt-1 ${row.accent}`}>{row.meta}</p>
             </div>
-            <span className="font-mono text-[9px] text-muted-foreground shrink-0 mt-0.5">
-              {timeAgo(e.timestamp)}
-            </span>
           </div>
         ))}
       </div>
