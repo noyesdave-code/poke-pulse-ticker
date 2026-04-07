@@ -97,7 +97,7 @@ export function useUpdatePortfolioCard() {
 
   return useMutation({
     mutationFn: async ({ id, quantity, purchase_price }: { id: string; quantity?: number; purchase_price?: number }) => {
-      const updates: Record<string, unknown> = {};
+      const updates: { quantity?: number; purchase_price?: number } = {};
       if (quantity !== undefined) updates.quantity = quantity;
       if (purchase_price !== undefined) updates.purchase_price = purchase_price;
       const { error } = await supabase.from("portfolio_cards").update(updates).eq("id", id);

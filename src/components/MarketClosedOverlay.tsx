@@ -60,16 +60,19 @@ const MarketClosedOverlay = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/60 backdrop-blur-[2px] rounded-lg pointer-events-none">
-      <div className="terminal-card px-4 py-2.5 border-primary/30 text-center">
-        <span className="font-mono text-xs font-bold text-primary tracking-widest uppercase">
-          Market Closed
-        </span>
+    <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-center py-1 pointer-events-none">
+      <div className="terminal-card px-4 py-2 border-primary/30 text-center bg-background/90 backdrop-blur-sm shadow-lg">
+        <div className="flex items-center gap-2 justify-center">
+          <div className="h-2 w-2 rounded-full bg-terminal-amber animate-pulse" />
+          <span className="font-mono text-[10px] font-bold text-terminal-amber tracking-widest uppercase">
+            Market Closed
+          </span>
+        </div>
         <p className="font-mono text-[9px] text-muted-foreground mt-0.5">
           NYSE Hours: Mon–Fri 9:30 AM – 4:30 PM ET
         </p>
-        <p className="font-mono text-sm font-bold text-foreground mt-1.5 tabular-nums">
-          Opens in {countdown}
+        <p className="font-mono text-sm font-bold text-primary mt-1 tabular-nums">
+          ⏱ Opens in {countdown}
         </p>
       </div>
     </div>

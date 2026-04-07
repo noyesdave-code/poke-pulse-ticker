@@ -156,7 +156,7 @@ const CommandCenter = () => {
 
   const updateActionStatus = useMutation({
     mutationFn: async ({ id, status }: { id: string; status: string }) => {
-      const updates: Record<string, unknown> = { status };
+      const updates: { status: string; completed_at?: string } = { status };
       if (status === "completed") updates.completed_at = new Date().toISOString();
       const { error } = await supabase.from("audit_actions").update(updates).eq("id", id);
       if (error) throw error;
