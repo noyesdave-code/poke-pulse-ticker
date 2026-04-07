@@ -125,7 +125,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
               className="font-display text-xl sm:text-3xl font-extrabold tracking-tight text-foreground"
             >
               Pinpoint Price.{" "}
-              <span className="text-primary bg-gradient-to-r from-primary to-[hsl(var(--primary-glow))] bg-clip-text text-transparent">Predict Futures.</span>{" "}
+              <span className="text-primary font-black" style={{ color: 'hsl(158, 72%, 46%)' }}>Predict Futures.</span>{" "}
               <span className="text-secondary">Profit.</span>
             </motion.h1>
 
@@ -145,7 +145,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
               transition={{ delay: 0.4, duration: 0.5 }}
               className="text-xs sm:text-sm text-muted-foreground max-w-lg leading-relaxed"
             >
-              The <span className="text-foreground font-medium">Poke-Pulse-Engine™</span> tracks <span className="text-foreground font-medium">500+ cards</span> in real time, surfaces AI-powered buy/sell signals, and deploys grading & arbitrage strategies — so you know exactly what your collectibles are worth, where they're heading, and how to profit.
+              The <span className="text-foreground font-medium">Poke-Pulse-Engine™</span> tracks <span className="text-foreground font-medium">1,000+ cards</span> in real time, surfaces AI-powered buy/sell signals, and deploys grading & arbitrage strategies — so you know exactly what your collectibles are worth, where they're heading, and how to profit.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -157,7 +157,8 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
             >
               <button
                 onClick={() => navigate("/pricing")}
-                className="group relative inline-flex items-center gap-2 px-7 py-3 sm:py-2.5 rounded-lg font-mono text-sm font-bold bg-gradient-to-r from-primary to-[hsl(158_90%_42%)] text-primary-foreground hover:shadow-[0_0_30px_hsl(158_72%_46%/0.3)] transition-all duration-300 overflow-hidden min-h-[48px] shadow-[0_2px_12px_hsl(158_72%_46%/0.15)]"
+                className="group relative inline-flex items-center gap-2 px-7 py-3 sm:py-2.5 rounded-lg font-mono text-sm font-bold text-primary-foreground hover:shadow-[0_0_30px_hsl(158_72%_46%/0.3)] transition-all duration-300 overflow-hidden min-h-[48px] shadow-[0_2px_12px_hsl(158_72%_46%/0.15)]"
+                style={{ background: 'hsl(158, 72%, 46%)' }}
               >
                 <div className="absolute inset-0 shimmer-sweep opacity-40" />
                 <Zap className="relative w-4 h-4" />

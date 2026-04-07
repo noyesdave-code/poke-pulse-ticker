@@ -12,9 +12,13 @@ const GRADING_COSTS: Record<string, { cost: number; turnaround: string }> = {
   "PSA Economy": { cost: 20, turnaround: "150+ days" },
   "PSA Regular": { cost: 50, turnaround: "65 business days" },
   "PSA Express": { cost: 100, turnaround: "15 business days" },
+  "PSA Super Exp.": { cost: 200, turnaround: "5 business days" },
   "CGC Standard": { cost: 18, turnaround: "120+ days" },
   "CGC Express": { cost: 50, turnaround: "10 business days" },
   "BGS Standard": { cost: 25, turnaround: "90+ days" },
+  "BGS Express": { cost: 150, turnaround: "10 business days" },
+  "TAG Standard": { cost: 15, turnaround: "60+ days" },
+  "ACE Economy": { cost: 12, turnaround: "90+ days" },
 };
 
 const GRADE_MULTIPLIERS: Record<string, number> = {

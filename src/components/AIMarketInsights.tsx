@@ -114,7 +114,40 @@ function generateInsights(cards: CardData[]): AIInsight[] {
     });
   }
 
-  return insights.slice(0, 5);
+  // Cross-era price correlation insight
+  const modernCards = cards.filter(c => ["Scarlet & Violet", "Paldea Evolved", "Obsidian Flames", "151", "Prismatic Evolutions", "Journey Together", "Surging Sparks"].some(s => c.set.includes(s)));
+  const vintageCards = cards.filter(c => ["Base Set", "Jungle", "Fossil", "Team Rocket"].some(s => c.set.includes(s)));
+  if (modernCards.length > 0 && vintageCards.length > 0) {
+    const modernAvg = modernCards.reduce((s, c) => s + c.change, 0) / modernCards.length;
+    const vintageAvg = vintageCards.reduce((s, c) => s + c.change, 0) / vintageCards.length;
+    insights.push({
+      id: id++,
+      type: modernAvg > vintageAvg ? "opportunity" : "alert",
+      title: "Cross-Era Price Correlation",
+      detail: `Modern era avg ${modernAvg >= 0 ? "+" : ""}${modernAvg.toFixed(1)}% vs Vintage avg ${vintageAvg >= 0 ? "+" : ""}${vintageAvg.toFixed(1)}%. ${modernAvg > vintageAvg ? "Capital flowing into Modern — chase momentum or accumulate undervalued Vintage." : "Vintage outperforming Modern — flight to quality assets. Consider blue-chip WOTC positions."}`,
+      confidence: 76,
+      cards: [...modernCards.slice(0, 2), ...vintageCards.slice(0, 1)].map(c => c.name),
+      timestamp: new Date(),
+    });
+  }
+
+  // Rarity premium insight
+  const ultraRares = cards.filter(c => c.market > 50);
+  const commons = cards.filter(c => c.market < 10 && c.market > 1);
+  if (ultraRares.length > 3 && commons.length > 3) {
+    const premiumSpread = (ultraRares.reduce((s, c) => s + c.change, 0) / ultraRares.length) - (commons.reduce((s, c) => s + c.change, 0) / commons.length);
+    insights.push({
+      id: id++,
+      type: premiumSpread > 0 ? "bullish" : "bearish",
+      title: "Rarity Premium Spread",
+      detail: `Ultra Rare premium ${premiumSpread >= 0 ? "widening" : "compressing"} (${premiumSpread >= 0 ? "+" : ""}${premiumSpread.toFixed(1)}% spread). ${premiumSpread > 0 ? "Premium cards gaining relative value — collectors prioritizing chase cards." : "Commons outperforming — value hunters driving budget-tier demand."}`,
+      confidence: 71,
+      cards: ultraRares.slice(0, 2).map(c => c.name),
+      timestamp: new Date(),
+    });
+  }
+
+  return insights.slice(0, 7);
 }
 
 const AIMarketInsights = ({ cards }: { cards: CardData[] }) => {
