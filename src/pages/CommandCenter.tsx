@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import AuthModal from "@/components/AuthModal";
 import AffiliateAnalytics from "@/components/AffiliateAnalytics";
+import AISalesAgentWidget from "@/components/AISalesAgentWidget";
 
 interface AuditCategory {
   name: string;
