@@ -10,7 +10,6 @@ import HeroSection from "@/components/HeroSection";
 import SocialProofBar from "@/components/SocialProofBar";
 import MarketIndexCard from "@/components/MarketIndexCard";
 import TrendingCards from "@/components/TrendingCards";
-import LaunchCountdown from "@/components/LaunchCountdown";
 import InlineUpgradeNudge from "@/components/InlineUpgradeNudge";
 import StickyUpgradeBanner from "@/components/StickyUpgradeBanner";
 import IndexDayChart from "@/components/IndexDayChart";
