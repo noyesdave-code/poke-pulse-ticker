@@ -59,8 +59,7 @@ const PulseWalletWidget = () => {
         winRate: Math.min(99, Math.round(winRate + accuracyBoost)),
         poolSize,
         dividends: Math.round(dailyPnL * 0.15 * returnMultiplier * 100) / 100,
-        enginePower: Math.min(99.9, 89 + cycle * 0.25), // visible strength metric
-      },
+        enginePower: Math.min(99.9, 89 + cycle * 0.25),
       },
     };
   }, [displayCards, cycle]);
