@@ -60,8 +60,6 @@ import TeamPlanCTA from "@/components/TeamPlanCTA";
 import ReferralCTA from "@/components/ReferralCTA";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import InstallPrompt from "@/components/InstallPrompt";
-import FomoPopup from "@/components/FomoPopup";
-import ExitIntentPopup from "@/components/ExitIntentPopup";
 import SimTraderPromo from "@/components/SimTraderPromo";
 import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
 import PulseScore from "@/components/PulseScore";
