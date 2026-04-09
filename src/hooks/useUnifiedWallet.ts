@@ -16,12 +16,19 @@ export function useUnifiedWallet() {
         .maybeSingle();
       if (error) throw error;
       if (!data) {
-        const { data: newWallet, error: insertErr } = await supabase
+        // Use RPC to create wallet (it handles insert if not found)
+        const { data: result, error: rpcErr } = await supabase.rpc("adjust_wallet_balance", {
+          _amount: 0,
+          _reason: "init",
+        });
+        if (rpcErr) throw rpcErr;
+        // Re-fetch the wallet
+        const { data: newWallet, error: fetchErr } = await supabase
           .from("unified_wallets" as any)
-          .insert({ user_id: user.id })
-          .select()
+          .select("*")
+          .eq("user_id", user.id)
           .single();
-        if (insertErr) throw insertErr;
+        if (fetchErr) throw fetchErr;
         return newWallet as any;
       }
       return data as any;
@@ -37,29 +44,12 @@ export function useDeductCoins() {
   return useMutation({
     mutationFn: async ({ amount, reason }: { amount: number; reason: string }) => {
       if (!user) throw new Error("Not authenticated");
-      const { data: wallet } = await supabase
-        .from("unified_wallets" as any)
-        .select("*")
-        .eq("user_id", user.id)
-        .single();
-      if (!wallet || (wallet as any).balance < amount) {
-        throw new Error("Insufficient coins!");
-      }
-      const updates: any = {
-        balance: (wallet as any).balance - amount,
-        updated_at: new Date().toISOString(),
-      };
-      if (reason === "rip") {
-        updates.lifetime_spent = (wallet as any).lifetime_spent + amount;
-      } else if (reason === "wager") {
-        updates.lifetime_wagered = (wallet as any).lifetime_wagered + amount;
-      }
-      const { error } = await supabase
-        .from("unified_wallets" as any)
-        .update(updates)
-        .eq("user_id", user.id);
+      const { data, error } = await supabase.rpc("adjust_wallet_balance", {
+        _amount: -Math.abs(amount),
+        _reason: reason,
+      });
       if (error) throw error;
-      return { newBalance: updates.balance };
+      return data as any;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["unified-wallet"] });
@@ -77,26 +67,12 @@ export function useAddCoins() {
   return useMutation({
     mutationFn: async ({ amount, reason }: { amount: number; reason: string }) => {
       if (!user) throw new Error("Not authenticated");
-      const { data: wallet } = await supabase
-        .from("unified_wallets" as any)
-        .select("*")
-        .eq("user_id", user.id)
-        .single();
-      if (!wallet) throw new Error("Wallet not found");
-      const updates: any = {
-        balance: (wallet as any).balance + amount,
-        lifetime_earned: (wallet as any).lifetime_earned + amount,
-        updated_at: new Date().toISOString(),
-      };
-      if (reason === "win") {
-        updates.lifetime_won = (wallet as any).lifetime_won + amount;
-      }
-      const { error } = await supabase
-        .from("unified_wallets" as any)
-        .update(updates)
-        .eq("user_id", user.id);
+      const { data, error } = await supabase.rpc("adjust_wallet_balance", {
+        _amount: Math.abs(amount),
+        _reason: reason,
+      });
       if (error) throw error;
-      return { newBalance: updates.balance };
+      return data as any;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["unified-wallet"] });

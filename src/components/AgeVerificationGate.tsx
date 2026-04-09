@@ -22,37 +22,26 @@ export default function AgeVerificationGate({ onVerified }: Props) {
   const handleVerify = async () => {
     if (!user || !dob || !confirmed) return;
 
-    const birthDate = new Date(dob);
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-
-    if (age < 18) {
-      toast({
-        title: "Age Requirement Not Met",
-        description: "You must be 18 or older to use the chat feature.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setSubmitting(true);
     try {
-      const { error } = await supabase
-        .from("profiles")
-        .update({
-          date_of_birth: dob,
-          chat_age_verified: true,
-        } as any)
-        .eq("id", user.id);
+      // Use server-side RPC for age verification — prevents bypass
+      const { data, error } = await supabase.rpc("verify_chat_age", {
+        _date_of_birth: dob,
+      });
       if (error) throw error;
       toast({ title: "✅ Age verified!", description: "You now have access to chat." });
       onVerified();
     } catch (err: any) {
-      toast({ title: "Error", description: err.message, variant: "destructive" });
+      const msg = err.message || "Verification failed";
+      if (msg.includes("18 or older")) {
+        toast({
+          title: "Age Requirement Not Met",
+          description: "You must be 18 or older to use the chat feature.",
+          variant: "destructive",
+        });
+      } else {
+        toast({ title: "Error", description: msg, variant: "destructive" });
+      }
     } finally {
       setSubmitting(false);
     }
