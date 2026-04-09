@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Calculator, TrendingUp, Gem, BarChart3 } from "lucide-react";
+import { Calculator, TrendingUp, Gem, BarChart3, Search } from "lucide-react";
 import type { CardData } from "@/data/marketData";
 
 interface GradingROIProps {
@@ -28,17 +28,27 @@ const GRADE_MULTIPLIERS: Record<string, number> = {
   "8": 1.15,
 };
 
+const DISPLAY_LIMIT = 50;
+
 const GradingROICalculator = ({ cards }: GradingROIProps) => {
   const [selectedCard, setSelectedCard] = useState(0);
   const [gradingService, setGradingService] = useState("PSA Economy");
   const [expectedGrade, setExpectedGrade] = useState("10");
+  const [searchFilter, setSearchFilter] = useState("");
 
   const pool = useMemo(() => {
     return cards
-      .filter((c) => c.market >= 5 && c._image)
-      .sort((a, b) => b.market - a.market)
-      .slice(0, 20);
+      .filter((c) => c.market >= 5)
+      .sort((a, b) => b.market - a.market);
   }, [cards]);
+
+  const filteredPool = useMemo(() => {
+    if (!searchFilter.trim()) return pool.slice(0, DISPLAY_LIMIT);
+    const q = searchFilter.toLowerCase();
+    return pool
+      .filter((c) => c.name.toLowerCase().includes(q) || c.set.toLowerCase().includes(q))
+      .slice(0, DISPLAY_LIMIT);
+  }, [pool, searchFilter]);
 
   const card = pool[selectedCard] || pool[0];
   const service = GRADING_COSTS[gradingService];
@@ -67,7 +77,7 @@ const GradingROICalculator = ({ cards }: GradingROIProps) => {
           Grading ROI Calculator
         </h2>
         <span className="ml-auto font-mono text-[9px] bg-terminal-amber/15 text-terminal-amber px-2 py-0.5 rounded-full font-bold">
-          ROI TOOL
+          {pool.length.toLocaleString()}+ CARDS
         </span>
       </div>
 
@@ -98,20 +108,37 @@ const GradingROICalculator = ({ cards }: GradingROIProps) => {
               </div>
             </div>
 
-            <div>
-              <label className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider mb-1 block">
-                Select Card
+            <div className="space-y-1.5">
+              <label className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider block">
+                Search Card ({pool.length.toLocaleString()} available)
               </label>
+              <div className="relative">
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground" />
+                <input
+                  type="text"
+                  value={searchFilter}
+                  onChange={(e) => setSearchFilter(e.target.value)}
+                  placeholder="Filter by name or set..."
+                  className="w-full bg-muted/50 border border-border rounded px-3 py-1.5 pl-7 font-mono text-xs text-foreground focus:border-primary/50 focus:outline-none transition-colors"
+                />
+              </div>
               <select
                 value={selectedCard}
-                onChange={(e) => setSelectedCard(Number(e.target.value))}
-                className="w-full bg-muted/50 border border-border rounded px-3 py-2 font-mono text-xs text-foreground focus:border-primary/50 focus:outline-none transition-colors"
+                onChange={(e) => {
+                  setSelectedCard(Number(e.target.value));
+                  setSearchFilter("");
+                }}
+                className="w-full bg-muted/50 border border-border rounded px-3 py-2 font-mono text-xs text-foreground focus:border-primary/50 focus:outline-none transition-colors max-h-48"
+                size={1}
               >
-                {pool.map((c, i) => (
-                  <option key={i} value={i}>
-                    {c.name} — ${c.market.toFixed(2)}
-                  </option>
-                ))}
+                {filteredPool.map((c) => {
+                  const idx = pool.indexOf(c);
+                  return (
+                    <option key={idx} value={idx}>
+                      {c.name} — {c.set} — ${c.market.toFixed(2)}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           </div>
