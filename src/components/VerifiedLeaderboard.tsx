@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { Trophy, TrendingUp, Crown, Medal, Award } from "lucide-react";
-import { useMemo } from "react";
+import { Trophy, TrendingUp, Crown, Medal, Award, EyeOff } from "lucide-react";
+import { useMemo, useState } from "react";
 
 interface LeaderboardEntry {
   rank: number;
@@ -46,6 +46,7 @@ const rankColors: Record<number, string> = {
 
 const VerifiedLeaderboard = () => {
   const leaderboard = useMemo(() => generateLeaderboard(), []);
+  const [obfuscate, setObfuscate] = useState(false);
 
   return (
     <motion.section
