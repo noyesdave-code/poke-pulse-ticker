@@ -10,7 +10,7 @@ import { useSessionTimeout } from "@/hooks/useSessionTimeout";
 import Watermark from "@/components/Watermark";
 import InvestorTour from "@/components/InvestorTour";
 import CopyrightBanner from "@/components/CopyrightBanner";
-import CookieConsent from "@/components/CookieConsent";
+// CookieConsent removed — popups disabled except install prompt
 import { AnimatePresence, motion } from "framer-motion";
 import Index from "./pages/Index.tsx";
 import CardDetail from "./pages/CardDetail.tsx";
@@ -146,7 +146,7 @@ const App = () => {
             <AnimatedRoutes />
             <InvestorTour />
             <CopyrightBanner />
-            <CookieConsent />
+            {/* Popups removed except InstallPrompt */}
           </AccessibilityProvider>
         </AuthProvider>
       </BrowserRouter>

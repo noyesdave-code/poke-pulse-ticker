@@ -161,7 +161,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <StickyUpgradeBanner />
+      {/* StickyUpgradeBanner removed — popups disabled */}
       <TerminalHeader />
       <TickerBar
         cards={displayCards}
