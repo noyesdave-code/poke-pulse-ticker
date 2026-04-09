@@ -183,7 +183,14 @@ const Terms = () => (
       </section>
 
       <section className="space-y-3">
-        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">20. Severability</h2>
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">20. Personal Pulse Engine Wallet™ — Automated Trading Disclaimer</h2>
+        <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+          The Personal Pulse Engine Wallet™ ("Engine Wallet") is a proprietary automated market analysis and simulated trading system developed by PGVA Ventures, LLC. The Engine Wallet utilizes the Radar Pulse Technique™ to scan live market data and generate buy/sell/hold signals for collectible trading cards. ALL Engine Wallet activity during BETA mode is SIMULATED. No real financial transactions, purchases, or sales of physical or digital trading cards are executed. PokéCoin balances are virtual, non-redeemable digital tokens used exclusively within the Poke-Pulse-Engine™ ecosystem. Users acknowledge that: (a) past simulated performance does not guarantee future results; (b) the Engine Wallet is not a registered investment vehicle, fund, or financial instrument; (c) "dividends," "returns," and "P&L" referenced within the Engine Wallet interface refer exclusively to simulated virtual currency outcomes; (d) PGVA Ventures, LLC bears no liability for decisions made based on Engine Wallet signals; (e) transitioning from BETA simulation to live trading mode requires explicit user consent and may be subject to additional regulatory compliance requirements. The Engine Wallet, its algorithms, signal generation methodology, Radar Pulse Technique™, and all associated intellectual property are trade secrets of PGVA Ventures, LLC, protected under 18 U.S.C. § 1832. Unauthorized reverse-engineering, scraping, or redistribution of Engine Wallet signals shall be subject to liquidated damages of $500,000 per incident plus injunctive relief.
+        </p>
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="font-mono text-sm font-semibold text-foreground uppercase tracking-wider">21. Severability</h2>
         <p className="font-mono text-xs text-muted-foreground leading-relaxed">
           If any provision of these Terms is held invalid or unenforceable, the remaining provisions shall continue in full force and effect. The invalid provision shall be modified to the minimum extent necessary to make it valid and enforceable. The liability limitations, indemnification obligations, intellectual property protections, family/trust liability shield, and dispute resolution provisions shall survive any termination.
         </p>
