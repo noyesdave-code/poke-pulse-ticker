@@ -181,8 +181,6 @@ const Index = () => {
           topMoverChange={topMover?.change}
         />
 
-        <LaunchCountdown />
-
         <SocialProofBar
           totalMarketValue={totalMarketValue}
           isLive={isLive}
@@ -190,6 +188,13 @@ const Index = () => {
           cardCount={displayCards.length}
         />
 
+        {/* === MARKET PULSE + NOTABLE SALES — TOP === */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-2.5">
+          <LiveMarketPulse cards={displayCards} />
+          <RecentNotableSales cards={displayCards} />
+        </div>
+
+        {/* === MARKET INDEXES === */}
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
             <SkeletonIndexCard />
@@ -224,20 +229,6 @@ const Index = () => {
             />
           </div>
         )}
-
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-2.5">
-          <LazySection minHeight="220px">
-            <LiveMarketPulse cards={displayCards} />
-          </LazySection>
-
-          <LazySection minHeight="220px">
-            <RecentNotableSales cards={displayCards} />
-          </LazySection>
-        </div>
-
-        <LazySection minHeight="210px">
-          <GradingROICalculator cards={displayCards} />
-        </LazySection>
 
         <LazySection minHeight="70px">
           <LiveFreshnessIndicator
@@ -321,8 +312,6 @@ const Index = () => {
           </LazySection>
         </div>
 
-        <ProductAdBanner variant="strip" count={4} />
-
         <LazySection minHeight="200px">
           <PricePredictionGame cards={displayCards} />
         </LazySection>
@@ -358,6 +347,11 @@ const Index = () => {
               ))}
             </div>
           </div>
+        </LazySection>
+
+        {/* === GRADING ROI CALCULATOR — ABOVE GAMES === */}
+        <LazySection minHeight="210px">
+          <GradingROICalculator cards={displayCards} />
         </LazySection>
 
         <PokeRaceSection />
@@ -471,7 +465,6 @@ const Index = () => {
         </LazySection>
 
         <PromoStack />
-        <ProductAdBanner variant="strip" count={4} />
 
         <LazySection minHeight="80px">
           <ImportFromTCGPlayer />
@@ -547,8 +540,6 @@ const Index = () => {
       <InstallPrompt />
       <OnboardingWalkthrough />
       <ShareButton />
-      <FomoPopup />
-      <ExitIntentPopup />
     </div>
   );
 };
