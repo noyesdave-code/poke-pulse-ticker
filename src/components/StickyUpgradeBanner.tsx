@@ -29,7 +29,7 @@ const StickyUpgradeBanner = () => {
   };
 
   return (
-    <div className="sticky top-0 z-40 bg-gradient-to-r from-primary via-primary to-emerald-500 text-primary-foreground py-2 px-4 flex items-center justify-center gap-3 font-mono text-xs font-semibold">
+    <div className="sticky top-0 z-40 bg-gradient-to-r from-primary via-primary to-emerald-500 text-primary-foreground py-1.5 px-3 flex items-center justify-center gap-2 font-mono text-[10px] sm:text-xs font-semibold">
       <Zap className="w-3.5 h-3.5 flex-shrink-0 animate-pulse" />
       <span className="hidden sm:inline">
         {user

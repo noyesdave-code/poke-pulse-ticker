@@ -10,7 +10,6 @@ import HeroSection from "@/components/HeroSection";
 import SocialProofBar from "@/components/SocialProofBar";
 import MarketIndexCard from "@/components/MarketIndexCard";
 import TrendingCards from "@/components/TrendingCards";
-import LaunchCountdown from "@/components/LaunchCountdown";
 import InlineUpgradeNudge from "@/components/InlineUpgradeNudge";
 import StickyUpgradeBanner from "@/components/StickyUpgradeBanner";
 import IndexDayChart from "@/components/IndexDayChart";
@@ -60,8 +59,6 @@ import TeamPlanCTA from "@/components/TeamPlanCTA";
 import ReferralCTA from "@/components/ReferralCTA";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import InstallPrompt from "@/components/InstallPrompt";
-import FomoPopup from "@/components/FomoPopup";
-import ExitIntentPopup from "@/components/ExitIntentPopup";
 import SimTraderPromo from "@/components/SimTraderPromo";
 import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
 import PulseScore from "@/components/PulseScore";
@@ -72,7 +69,7 @@ import PokeRaceSection from "@/components/PokeRaceSection";
 import GradingROICalculator from "@/components/GradingROICalculator";
 import AIMarketInsights from "@/components/AIMarketInsights";
 import LiveFreshnessIndicator from "@/components/LiveFreshnessIndicator";
-import ProductAdBanner from "@/components/ProductAdBanner";
+
 
 const Index = () => {
   const { data: liveCards, isLoading, dataUpdatedAt } = useLiveCards();
@@ -181,8 +178,6 @@ const Index = () => {
           topMoverChange={topMover?.change}
         />
 
-        <LaunchCountdown />
-
         <SocialProofBar
           totalMarketValue={totalMarketValue}
           isLive={isLive}
@@ -190,6 +185,13 @@ const Index = () => {
           cardCount={displayCards.length}
         />
 
+        {/* === MARKET PULSE + NOTABLE SALES — TOP === */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-2.5">
+          <LiveMarketPulse cards={displayCards} />
+          <RecentNotableSales cards={displayCards} />
+        </div>
+
+        {/* === MARKET INDEXES === */}
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
             <SkeletonIndexCard />
@@ -224,20 +226,6 @@ const Index = () => {
             />
           </div>
         )}
-
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-2.5">
-          <LazySection minHeight="220px">
-            <LiveMarketPulse cards={displayCards} />
-          </LazySection>
-
-          <LazySection minHeight="220px">
-            <RecentNotableSales cards={displayCards} />
-          </LazySection>
-        </div>
-
-        <LazySection minHeight="210px">
-          <GradingROICalculator cards={displayCards} />
-        </LazySection>
 
         <LazySection minHeight="70px">
           <LiveFreshnessIndicator
@@ -321,8 +309,6 @@ const Index = () => {
           </LazySection>
         </div>
 
-        <ProductAdBanner variant="strip" count={4} />
-
         <LazySection minHeight="200px">
           <PricePredictionGame cards={displayCards} />
         </LazySection>
@@ -358,6 +344,11 @@ const Index = () => {
               ))}
             </div>
           </div>
+        </LazySection>
+
+        {/* === GRADING ROI CALCULATOR — ABOVE GAMES === */}
+        <LazySection minHeight="210px">
+          <GradingROICalculator cards={displayCards} />
         </LazySection>
 
         <PokeRaceSection />
@@ -471,7 +462,6 @@ const Index = () => {
         </LazySection>
 
         <PromoStack />
-        <ProductAdBanner variant="strip" count={4} />
 
         <LazySection minHeight="80px">
           <ImportFromTCGPlayer />
@@ -547,8 +537,6 @@ const Index = () => {
       <InstallPrompt />
       <OnboardingWalkthrough />
       <ShareButton />
-      <FomoPopup />
-      <ExitIntentPopup />
     </div>
   );
 };
