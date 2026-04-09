@@ -69,6 +69,7 @@ import PokeRaceSection from "@/components/PokeRaceSection";
 import GradingROICalculator from "@/components/GradingROICalculator";
 import AIMarketInsights from "@/components/AIMarketInsights";
 import LiveFreshnessIndicator from "@/components/LiveFreshnessIndicator";
+import PulseWalletWidget from "@/components/PulseWalletWidget";
 
 
 const Index = () => {
