@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState, useEffect, useMemo } from "react";
 import type { CardData } from "@/data/marketData";
 import { getCardSignal } from "@/hooks/useSignalIndicator";
 import { getCardToken } from "@/lib/tokenSymbols";
@@ -12,9 +13,30 @@ interface TrendingCardsProps {
   isLoading?: boolean;
 }
 
+const TRENDING_DISPLAY = 6;
+const ROTATE_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
 const TrendingCards = ({ cards, isLoading }: TrendingCardsProps) => {
   const navigate = useNavigate();
-  const trending = [...cards].sort((a, b) => b.market - a.market).slice(0, 6);
+  const [rotationKey, setRotationKey] = useState(0);
+
+  // Rotate trending cards every 5 minutes
+  useEffect(() => {
+    const interval = setInterval(() => setRotationKey((k) => k + 1), ROTATE_INTERVAL);
+    return () => clearInterval(interval);
+  }, []);
+
+  const trending = useMemo(() => {
+    const withImages = cards.filter((c) => c._image);
+    const pool = withImages.length > 0 ? withImages : cards;
+    if (pool.length <= TRENDING_DISPLAY) return pool;
+
+    // Use rotation key to pick a different slice from the top cards
+    const sorted = [...pool].sort((a, b) => b.market - a.market);
+    const topPool = sorted.slice(0, Math.min(sorted.length, 100)); // top 100 candidates
+    const offset = (rotationKey * TRENDING_DISPLAY) % Math.max(1, topPool.length - TRENDING_DISPLAY);
+    return topPool.slice(offset, offset + TRENDING_DISPLAY);
+  }, [cards, rotationKey]);
 
   if (isLoading) {
     return (

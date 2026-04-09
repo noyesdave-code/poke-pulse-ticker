@@ -35,9 +35,8 @@ const GradingROICalculator = ({ cards }: GradingROIProps) => {
 
   const pool = useMemo(() => {
     return cards
-      .filter((c) => c.market >= 5 && c._image)
-      .sort((a, b) => b.market - a.market)
-      .slice(0, 20);
+      .filter((c) => c.market >= 5)
+      .sort((a, b) => b.market - a.market);
   }, [cards]);
 
   const card = pool[selectedCard] || pool[0];
