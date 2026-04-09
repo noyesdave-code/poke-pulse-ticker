@@ -76,9 +76,9 @@ const AISalesAgentWidget = () => {
             AI SALES AGENT — LIVE
           </h3>
         </div>
-        <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1">
           <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-          <span className="font-mono text-[9px] text-green-400">ACTIVE</span>
+          <span className="font-mono text-[9px] text-green-400">AUTO-PILOT</span>
         </div>
       </div>
 
@@ -174,9 +174,12 @@ const AISalesAgentWidget = () => {
         </div>
       )}
 
-      <p className="font-mono text-[7px] text-muted-foreground/40 mt-2 text-center">
-        © PGVA Ventures, LLC · AI Sales Agent™ · Patent Pending · 18 U.S.C. § 1832
-      </p>
+      <div className="mt-2 border-t border-border/20 pt-1.5">
+        <p className="font-mono text-[8px] text-green-400 text-center mb-0.5">⚡ AUTO-PILOT: Leads @ 9AM/2PM · Outreach @ 9:30AM/2:30PM/6:30PM UTC</p>
+        <p className="font-mono text-[7px] text-muted-foreground/40 text-center">
+          © PGVA Ventures, LLC · AI Sales Agent™ · Patent Pending · 18 U.S.C. § 1832
+        </p>
+      </div>
     </div>
   );
 };
