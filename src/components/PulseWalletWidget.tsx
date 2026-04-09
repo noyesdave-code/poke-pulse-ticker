@@ -90,9 +90,9 @@ const PulseWalletWidget = () => {
       </div>
 
       {/* Metrics Row */}
-      <div className="grid grid-cols-4 gap-2 mb-3">
+      <div className="grid grid-cols-5 gap-2 mb-3">
         <div className="text-center">
-          <p className="font-mono text-xs font-bold text-foreground">${metrics.balance.toFixed(0)}</p>
+          <p className="font-mono text-xs font-bold text-foreground">${metrics.balance}</p>
           <p className="font-mono text-[7px] text-muted-foreground uppercase">Balance</p>
         </div>
         <div className="text-center">
@@ -108,6 +108,10 @@ const PulseWalletWidget = () => {
         <div className="text-center">
           <p className="font-mono text-xs font-bold text-green-500">+${metrics.dividends}</p>
           <p className="font-mono text-[7px] text-muted-foreground uppercase">Dividends</p>
+        </div>
+        <div className="text-center">
+          <p className="font-mono text-xs font-bold text-primary">{metrics.enginePower.toFixed(1)}%</p>
+          <p className="font-mono text-[7px] text-muted-foreground uppercase">Engine Power</p>
         </div>
       </div>
 
@@ -138,7 +142,7 @@ const PulseWalletWidget = () => {
 
       <p className="font-mono text-[7px] text-muted-foreground text-center mt-2">
         <Activity className="w-2.5 h-2.5 inline mr-0.5" />
-        Engine auto-reinvests dividends · Refreshes every 60s · Pool grows each cycle
+        Engine compounds strength each 60s cycle · Accuracy, pool, & returns grow infinitely · Cycle #{cycle + 1}
       </p>
     </div>
   );
