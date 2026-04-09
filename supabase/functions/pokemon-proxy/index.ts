@@ -8,10 +8,9 @@ const corsHeaders = {
 
 const POKEMON_TCG_BASE = "https://api.pokemontcg.io/v2";
 
-// Simple in-memory rate limiter per IP
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 100; // requests per window (increased for concurrent card queries)
-const RATE_WINDOW_MS = 60_000; // 1 minute
+const RATE_LIMIT = 100;
+const RATE_WINDOW_MS = 60_000;
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
@@ -24,8 +23,14 @@ function isRateLimited(ip: string): boolean {
   return entry.count > RATE_LIMIT;
 }
 
-// Allowed endpoints to prevent arbitrary URL access
 const ALLOWED_PATHS = ["/cards", "/sets"];
+
+function respond(ok: boolean, payload: Record<string, unknown>, status = 200): Response {
+  return new Response(JSON.stringify({ ok, ...payload }), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -33,35 +38,33 @@ serve(async (req) => {
   }
 
   try {
-    // Rate limit by IP
     const ip =
       req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
       req.headers.get("cf-connecting-ip") ||
       "unknown";
     if (isRateLimited(ip)) {
-      return new Response(
-        JSON.stringify({ error: "Rate limit exceeded. Please try again later." }),
-        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return respond(false, { error: "Rate limit exceeded. Please try again later." });
     }
 
-    // Request integrity: reject stale requests (>5 min old)
     const reqTimestamp = req.headers.get("x-request-timestamp");
     if (reqTimestamp) {
       const age = Date.now() - Number(reqTimestamp);
       if (age > 300_000 || age < -60_000) {
-        return new Response(
-          JSON.stringify({ error: "Request expired. Please refresh and try again." }),
-          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
+        return respond(false, { error: "Request expired. Please refresh and try again." });
       }
     }
 
-    const { path, params } = await req.json();
+    let body: { path?: string; params?: Record<string, string> };
+    try {
+      body = await req.json();
+    } catch {
+      return respond(false, { error: "Invalid request body" });
+    }
 
-    // Validate the requested path
+    const { path, params } = body;
+
     if (!path || typeof path !== "string") {
-      throw new Error("Missing 'path' parameter");
+      return respond(false, { error: "Missing 'path' parameter" });
     }
 
     const basePath = path.split("?")[0].replace(/\/[^/]+$/, "") || path.split("?")[0];
@@ -70,20 +73,18 @@ serve(async (req) => {
       (allowed) => normalizedBase === allowed || normalizedBase.startsWith(allowed + "/")
     );
     if (!isAllowed) {
-      throw new Error("Invalid API path");
+      return respond(false, { error: "Invalid API path" });
     }
 
-    // Validate params are safe (only allow known query params)
     const allowedParams = ["q", "pageSize", "page", "orderBy", "select"];
     if (params && typeof params === "object") {
       for (const key of Object.keys(params)) {
         if (!allowedParams.includes(key)) {
-          throw new Error(`Invalid query parameter: ${key}`);
+          return respond(false, { error: `Invalid query parameter: ${key}` });
         }
       }
     }
 
-    // Build the URL
     const url = new URL(`${POKEMON_TCG_BASE}${path}`);
     if (params && typeof params === "object") {
       for (const [key, value] of Object.entries(params)) {
@@ -91,7 +92,6 @@ serve(async (req) => {
       }
     }
 
-    // Forward to Pokémon TCG API with optional server-side API key and retry
     const apiHeaders: Record<string, string> = {};
     const apiKey = Deno.env.get("POKEMON_TCG_API_KEY");
     if (apiKey) {
@@ -100,27 +100,71 @@ serve(async (req) => {
 
     let apiRes: Response | null = null;
     for (let attempt = 0; attempt < 3; attempt++) {
-      apiRes = await fetch(url.toString(), { headers: apiHeaders });
+      try {
+        apiRes = await fetch(url.toString(), { headers: apiHeaders });
+      } catch (fetchErr) {
+        // Network-level failure (connection reset, DNS, etc.)
+        if (attempt === 2) {
+          return respond(false, {
+            error: "Upstream API connection failed",
+            diagnostics: { error_stage: "fetch", attempt },
+          });
+        }
+        await new Promise((r) => setTimeout(r, (attempt + 1) * 2000));
+        continue;
+      }
+
       if (apiRes.status === 429) {
-        // Rate limited — wait and retry
         const retryAfter = Number(apiRes.headers.get("Retry-After") || "2");
-        await new Promise(r => setTimeout(r, retryAfter * 1000));
+        // Consume body to prevent resource leak
+        await apiRes.text();
+        await new Promise((r) => setTimeout(r, retryAfter * 1000));
         continue;
       }
       break;
     }
 
-    const data = await apiRes!.json();
+    if (!apiRes) {
+      return respond(false, { error: "Upstream API unreachable after retries" });
+    }
 
+    // Read the upstream response as text first to avoid connection read errors
+    let rawText: string;
+    try {
+      rawText = await apiRes.text();
+    } catch {
+      return respond(false, {
+        error: "Failed to read upstream response body",
+        diagnostics: { error_stage: "body_read", status: apiRes.status },
+      });
+    }
+
+    // For non-2xx from upstream, wrap in our envelope
+    if (!apiRes.ok) {
+      return respond(false, {
+        error: `Upstream API error: ${apiRes.status}`,
+        diagnostics: { status: apiRes.status, body_preview: rawText.slice(0, 200) },
+      });
+    }
+
+    // Parse and re-serialize to ensure valid JSON
+    let data: unknown;
+    try {
+      data = JSON.parse(rawText);
+    } catch {
+      return respond(false, {
+        error: "Upstream returned invalid JSON",
+        diagnostics: { error_stage: "json_parse", body_preview: rawText.slice(0, 200) },
+      });
+    }
+
+    // Return the upstream data directly (matches existing client expectations)
     return new Response(JSON.stringify(data), {
-      status: apiRes!.status,
+      status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
-    return new Response(JSON.stringify({ error: msg }), {
-      status: 400,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return respond(false, { error: msg, diagnostics: { error_stage: "unhandled" } });
   }
 });
