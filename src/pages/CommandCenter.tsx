@@ -218,6 +218,9 @@ const CommandCenter = () => {
           </Button>
         </div>
 
+        {/* AI Sales Agent */}
+        <AISalesAgentWidget />
+
         {/* Action Tracker Summary */}
         {activeActions.length > 0 && (
           <Card className="border-primary/20">
