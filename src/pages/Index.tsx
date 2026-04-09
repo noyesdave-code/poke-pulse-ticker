@@ -186,6 +186,9 @@ const Index = () => {
           cardCount={displayCards.length}
         />
 
+        {/* === PULSE ENGINE WALLET — PRO USERS ONLY === */}
+        <PulseWalletWidget />
+
         {/* === MARKET PULSE + NOTABLE SALES — TOP === */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-2.5">
           <LiveMarketPulse cards={displayCards} />
