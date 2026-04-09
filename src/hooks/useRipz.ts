@@ -107,31 +107,16 @@ export function useRipPacks() {
     }) => {
       if (!user) throw new Error("Not authenticated");
 
-      // Check unified wallet balance
-      const { data: wallet } = await supabase
-        .from("unified_wallets" as any)
-        .select("*")
-        .eq("user_id", user.id)
-        .single();
-
-      if (!wallet || (wallet as any).balance < coinCost) {
-        throw new Error("Insufficient coins! Buy more to keep ripping.");
-      }
-
       // Simulate the rip
       const cards = simulateRip(cardsPerPack, packCount, setName, setId);
       const totalValue = cards.reduce((s, c) => s + c.rip_value, 0);
 
-      // Deduct coins from unified wallet
-      await supabase
-        .from("unified_wallets" as any)
-        .update({
-          balance: (wallet as any).balance - coinCost,
-          lifetime_spent: (wallet as any).lifetime_spent + coinCost,
-          lifetime_ripped: (wallet as any).lifetime_ripped + cards.length,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("user_id", user.id);
+      // Deduct coins via secure server-side RPC
+      const { error: deductErr } = await supabase.rpc("adjust_wallet_balance", {
+        _amount: -coinCost,
+        _reason: "rip",
+      });
+      if (deductErr) throw new Error(deductErr.message.includes("Insufficient") ? "Insufficient coins! Buy more to keep ripping." : deductErr.message);
 
       // Save rip session
       const { data: session } = await supabase
