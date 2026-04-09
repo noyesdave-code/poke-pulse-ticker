@@ -32,11 +32,11 @@ const PulseWalletWidget = () => {
   const { signals, metrics } = useMemo(() => {
     const poolSize = Math.min(displayCards.length, 500 + cycle * 10); // grows each cycle
     const pool = displayCards.slice(0, poolSize);
-    const viable = pool.filter(c => c.price > 1 && c.change !== 0);
+    const viable = pool.filter(c => c.market > 1 && c.change !== 0);
     const sorted = [...viable].sort((a, b) => Math.abs(b.change) - Math.abs(a.change));
     const top = sorted.slice(0, 8).map((c): Signal => {
       const action: "BUY" | "SELL" | "HOLD" = c.change < -3 ? "BUY" : c.change > 5 ? "SELL" : "HOLD";
-      const confidence = Math.min(97, 72 + Math.abs(c.change) * 1.8 + (Math.sin(cycle + c.price) + 1) * 4);
+      const confidence = Math.min(97, 72 + Math.abs(c.change) * 1.8 + (Math.sin(cycle + c.market) + 1) * 4);
       const expectedReturn = action === "BUY" ? Math.abs(c.change) * 0.6 + 2 : action === "SELL" ? c.change * 0.4 : 0;
       return { cardName: c.name, action, confidence: Math.round(confidence * 10) / 10, expectedReturn: Math.round(expectedReturn * 100) / 100 };
     });
