@@ -1627,6 +1627,137 @@ export type Database = {
         }
         Relationships: []
       }
+      sales_leads: {
+        Row: {
+          ai_personalization: Json | null
+          company: string | null
+          converted_at: string | null
+          created_at: string | null
+          email: string
+          id: string
+          last_contacted_at: string | null
+          name: string
+          next_followup_at: string | null
+          notes: string | null
+          score: number | null
+          source: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          ai_personalization?: Json | null
+          company?: string | null
+          converted_at?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          last_contacted_at?: string | null
+          name: string
+          next_followup_at?: string | null
+          notes?: string | null
+          score?: number | null
+          source?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          ai_personalization?: Json | null
+          company?: string | null
+          converted_at?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          last_contacted_at?: string | null
+          name?: string
+          next_followup_at?: string | null
+          notes?: string | null
+          score?: number | null
+          source?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      sales_outreach_log: {
+        Row: {
+          ai_model_used: string | null
+          body: string | null
+          created_at: string | null
+          id: string
+          lead_id: string | null
+          outreach_type: string | null
+          response: string | null
+          status: string | null
+          subject: string | null
+        }
+        Insert: {
+          ai_model_used?: string | null
+          body?: string | null
+          created_at?: string | null
+          id?: string
+          lead_id?: string | null
+          outreach_type?: string | null
+          response?: string | null
+          status?: string | null
+          subject?: string | null
+        }
+        Update: {
+          ai_model_used?: string | null
+          body?: string | null
+          created_at?: string | null
+          id?: string
+          lead_id?: string | null
+          outreach_type?: string | null
+          response?: string | null
+          status?: string | null
+          subject?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sales_outreach_log_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "sales_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sales_pipeline_metrics: {
+        Row: {
+          conversions: number | null
+          created_at: string | null
+          demos_scheduled: number | null
+          emails_sent: number | null
+          id: string
+          leads_generated: number | null
+          metric_date: string
+          responses_received: number | null
+          revenue_generated: number | null
+        }
+        Insert: {
+          conversions?: number | null
+          created_at?: string | null
+          demos_scheduled?: number | null
+          emails_sent?: number | null
+          id?: string
+          leads_generated?: number | null
+          metric_date?: string
+          responses_received?: number | null
+          revenue_generated?: number | null
+        }
+        Update: {
+          conversions?: number | null
+          created_at?: string | null
+          demos_scheduled?: number | null
+          emails_sent?: number | null
+          id?: string
+          leads_generated?: number | null
+          metric_date?: string
+          responses_received?: number | null
+          revenue_generated?: number | null
+        }
+        Relationships: []
+      }
       sentiment_votes: {
         Row: {
           card_api_id: string

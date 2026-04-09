@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import AuthModal from "@/components/AuthModal";
 import AffiliateAnalytics from "@/components/AffiliateAnalytics";
+import AISalesAgentWidget from "@/components/AISalesAgentWidget";
 
 interface AuditCategory {
   name: string;
@@ -216,6 +217,9 @@ const CommandCenter = () => {
             )}
           </Button>
         </div>
+
+        {/* AI Sales Agent */}
+        <AISalesAgentWidget />
 
         {/* Action Tracker Summary */}
         {activeActions.length > 0 && (
