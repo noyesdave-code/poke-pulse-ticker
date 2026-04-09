@@ -69,6 +69,7 @@ import PokeRaceSection from "@/components/PokeRaceSection";
 import GradingROICalculator from "@/components/GradingROICalculator";
 import AIMarketInsights from "@/components/AIMarketInsights";
 import LiveFreshnessIndicator from "@/components/LiveFreshnessIndicator";
+import PulseWalletWidget from "@/components/PulseWalletWidget";
 
 
 const Index = () => {
@@ -184,6 +185,9 @@ const Index = () => {
           lastUpdated={isLive ? (dataUpdatedAt || Date.now()) : undefined}
           cardCount={displayCards.length}
         />
+
+        {/* === PULSE ENGINE WALLET — PRO USERS ONLY === */}
+        <PulseWalletWidget />
 
         {/* === MARKET PULSE + NOTABLE SALES — TOP === */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-2.5">
