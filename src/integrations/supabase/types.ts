@@ -2240,6 +2240,22 @@ export type Database = {
       }
     }
     Functions: {
+      adjust_arena_wallet: {
+        Args: { _amount: number; _reason: string }
+        Returns: Json
+      }
+      adjust_race_wallet: {
+        Args: { _amount: number; _reason: string }
+        Returns: Json
+      }
+      adjust_ripz_wallet: {
+        Args: { _amount: number; _reason: string }
+        Returns: Json
+      }
+      adjust_wallet_balance: {
+        Args: { _amount: number; _reason: string }
+        Returns: Json
+      }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
@@ -2265,6 +2281,7 @@ export type Database = {
           read_ct: number
         }[]
       }
+      verify_chat_age: { Args: { _date_of_birth: string }; Returns: Json }
     }
     Enums: {
       [_ in never]: never
