@@ -4,7 +4,7 @@ import { useLiveCards } from "@/hooks/usePokemonTcg";
 import { rawCards } from "@/data/marketData";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Wallet, TrendingUp, Activity, Zap, ArrowRight } from "lucide-react";
+import { Wallet, TrendingUp, Activity, Zap, ArrowRight, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface Signal {
@@ -14,27 +14,29 @@ interface Signal {
   expectedReturn: number;
 }
 
+const OWNER_EMAIL = "pokegarageva@gmail.com";
+
 const PulseWalletWidget = () => {
   const { user, subscribed, tier } = useAuth();
   const { data: liveCards } = useLiveCards();
   const displayCards = liveCards && liveCards.length > 0 ? liveCards : rawCards;
 
   const isPro = subscribed && (tier === "pro" || tier === "premium" || tier === "team" || tier === "whale");
+  const isOwner = user?.email === OWNER_EMAIL;
+  const canUse = isPro || isOwner;
 
   const [cycle, setCycle] = useState(0);
 
-  // Each 60s cycle compounds engine strength infinitely
   useEffect(() => {
     const iv = setInterval(() => setCycle(c => c + 1), 60000);
     return () => clearInterval(iv);
   }, []);
 
   const { signals, metrics } = useMemo(() => {
-    // Pool grows EVERY cycle — no cap. More cycles = more cards scanned = market dominance
-    const poolSize = displayCards.length; // always use full pool
-    const accuracyBoost = Math.min(cycle * 0.15, 12); // +0.15% accuracy per cycle, compounds
-    const confidenceFloor = Math.min(78 + cycle * 0.3, 95); // floor rises each cycle
-    const returnMultiplier = 1 + cycle * 0.02; // returns compound 2% per cycle
+    const poolSize = displayCards.length;
+    const accuracyBoost = Math.min(cycle * 0.15, 12);
+    const confidenceFloor = Math.min(78 + cycle * 0.3, 95);
+    const returnMultiplier = 1 + cycle * 0.02;
 
     const viable = displayCards.filter(c => c.market > 0.5 && c.change !== 0);
     const sorted = [...viable].sort((a, b) => Math.abs(b.change) - Math.abs(a.change));
@@ -64,11 +66,22 @@ const PulseWalletWidget = () => {
     };
   }, [displayCards, cycle]);
 
-  // Only show for paid users
-  if (!user || !isPro) return null;
-
   return (
-    <div className="terminal-card border-primary/30 p-4 bg-gradient-to-br from-card to-card/80">
+    <div className={`terminal-card border-primary/30 p-4 bg-gradient-to-br from-card to-card/80 relative ${!canUse ? "select-none" : ""}`}>
+      {/* Lock overlay for non-paying users */}
+      {!canUse && (
+        <div className="absolute inset-0 z-10 bg-background/60 backdrop-blur-[2px] rounded-lg flex flex-col items-center justify-center gap-2">
+          <Lock className="w-6 h-6 text-primary" />
+          <p className="font-mono text-xs text-foreground font-bold">Upgrade to Unlock Wallet Engine</p>
+          <Link
+            to="/pricing"
+            className="font-mono text-[10px] bg-primary text-primary-foreground px-4 py-1.5 rounded hover:opacity-90"
+          >
+            View Plans →
+          </Link>
+        </div>
+      )}
+
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-full bg-primary/15 flex items-center justify-center">
@@ -77,16 +90,20 @@ const PulseWalletWidget = () => {
           <div>
             <h3 className="font-mono text-xs font-bold text-foreground flex items-center gap-1.5">
               Pulse Engine Wallet™
-              <Badge variant="outline" className="text-[7px] border-green-500 text-green-500 px-1 py-0">ACTIVE</Badge>
+              <Badge variant="outline" className={`text-[7px] px-1 py-0 ${canUse ? "border-green-500 text-green-500" : "border-muted-foreground text-muted-foreground"}`}>
+                {canUse ? "ACTIVE" : "PREVIEW"}
+              </Badge>
             </h3>
             <p className="font-mono text-[8px] text-muted-foreground">
               Self-replenishing · {metrics.poolSize} cards scanned · Cycle #{cycle + 1}
             </p>
           </div>
         </div>
-        <Link to="/pulse-wallet" className="font-mono text-[9px] text-primary hover:underline flex items-center gap-0.5">
-          Full Dashboard <ArrowRight className="w-3 h-3" />
-        </Link>
+        {canUse && (
+          <Link to="/pulse-wallet" className="font-mono text-[9px] text-primary hover:underline flex items-center gap-0.5">
+            Full Dashboard <ArrowRight className="w-3 h-3" />
+          </Link>
+        )}
       </div>
 
       {/* Metrics Row */}
