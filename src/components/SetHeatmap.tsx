@@ -1,43 +1,99 @@
-import { useMemo } from "react";
-import { motion } from "framer-motion";
-import { BarChart3 } from "lucide-react";
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { BarChart3, ChevronDown, ChevronUp, TrendingUp, TrendingDown, Layers, DollarSign, Hash, X } from "lucide-react";
 import type { CardData } from "@/data/marketData";
+
+interface SetPerf {
+  set: string;
+  avgChange: number;
+  totalValue: number;
+  count: number;
+  topCard: string | null;
+  topCardPrice: number;
+  medianPrice: number;
+  highPrice: number;
+  lowPrice: number;
+  volatility: number;
+  gainers: number;
+  losers: number;
+}
 
 interface SetHeatmapProps {
   cards: CardData[];
 }
 
+const LANDING_LIMIT = 20;
+const EXPANDED_LIMIT = 60;
+
 const SetHeatmap = ({ cards }: SetHeatmapProps) => {
-  const setPerformance = useMemo(() => {
-    const map = new Map<string, { total: number; change: number; count: number }>();
+  const [expanded, setExpanded] = useState(false);
+  const [selectedSet, setSelectedSet] = useState<SetPerf | null>(null);
+
+  const allSets = useMemo(() => {
+    const map = new Map<string, { total: number; change: number; count: number; prices: number[]; changes: number[]; topCard: string | null; topCardPrice: number }>();
     for (const c of cards) {
-      const entry = map.get(c.set) || { total: 0, change: 0, count: 0 };
+      const entry = map.get(c.set) || { total: 0, change: 0, count: 0, prices: [], changes: [], topCard: null, topCardPrice: 0 };
       entry.total += c.market;
       entry.change += c.change;
       entry.count += 1;
+      entry.prices.push(c.market);
+      entry.changes.push(c.change);
+      if (c.market > entry.topCardPrice) {
+        entry.topCard = c.name;
+        entry.topCardPrice = c.market;
+      }
       map.set(c.set, entry);
     }
     return Array.from(map.entries())
-      .map(([set, data]) => ({
-        set,
-        avgChange: data.change / data.count,
-        totalValue: data.total,
-        count: data.count,
-      }))
-      .sort((a, b) => b.totalValue - a.totalValue)
-      .slice(0, 24);
+      .filter(([, d]) => d.count >= 2)
+      .map(([set, data]) => {
+        const sorted = [...data.prices].sort((a, b) => a - b);
+        const med = sorted.length % 2 === 0
+          ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2
+          : sorted[Math.floor(sorted.length / 2)];
+        const mean = data.change / data.count;
+        const variance = data.changes.reduce((s, c) => s + (c - mean) ** 2, 0) / data.count;
+        return {
+          set,
+          avgChange: mean,
+          totalValue: data.total,
+          count: data.count,
+          topCard: data.topCard,
+          topCardPrice: data.topCardPrice,
+          medianPrice: med,
+          highPrice: sorted[sorted.length - 1],
+          lowPrice: sorted[0],
+          volatility: Math.sqrt(variance),
+          gainers: data.changes.filter((c) => c > 0).length,
+          losers: data.changes.filter((c) => c < 0).length,
+        } as SetPerf;
+      })
+      .sort((a, b) => b.totalValue - a.totalValue);
   }, [cards]);
 
+  const limit = expanded ? EXPANDED_LIMIT : LANDING_LIMIT;
+  const setPerformance = allSets.slice(0, limit);
   const maxVal = Math.max(...setPerformance.map((s) => s.totalValue), 1);
 
   const getColor = (change: number) => {
-    if (change > 3) return "bg-green-500/80 text-white";
-    if (change > 1) return "bg-green-500/40 text-green-200";
-    if (change > 0) return "bg-green-500/20 text-green-300";
+    if (change > 5) return "bg-emerald-500/90 text-white";
+    if (change > 3) return "bg-emerald-500/70 text-white";
+    if (change > 1) return "bg-emerald-500/40 text-emerald-100";
+    if (change > 0) return "bg-emerald-500/20 text-emerald-300";
     if (change > -1) return "bg-red-500/20 text-red-300";
     if (change > -3) return "bg-red-500/40 text-red-200";
-    return "bg-red-500/80 text-white";
+    if (change > -5) return "bg-red-500/70 text-white";
+    return "bg-red-500/90 text-white";
   };
+
+  const getBorderColor = (change: number) => {
+    if (change > 1) return "border-emerald-500/30";
+    if (change < -1) return "border-red-500/30";
+    return "border-border/40";
+  };
+
+  const formatValue = (v: number) =>
+    v >= 1000 ? `$${(v / 1000).toFixed(1)}K` : `$${v.toFixed(0)}`;
 
   return (
     <motion.section
@@ -47,39 +103,181 @@ const SetHeatmap = ({ cards }: SetHeatmapProps) => {
       transition={{ duration: 0.4 }}
     >
       <div className="terminal-card overflow-hidden">
+        {/* Header */}
         <div className="border-b border-border px-4 py-3 flex items-center justify-between">
           <h3 className="text-sm font-bold tracking-wide text-secondary uppercase flex items-center gap-2">
             <BarChart3 className="w-3.5 h-3.5" /> Set Performance Heatmap
           </h3>
-          <span className="font-mono text-[8px] text-muted-foreground px-2 py-0.5 rounded bg-muted border border-border">
-            S&P 500 STYLE
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[8px] text-muted-foreground px-2 py-0.5 rounded bg-muted border border-border">
+              S&P 500 STYLE
+            </span>
+            <span className="font-mono text-[8px] text-primary">
+              {allSets.length} SETS
+            </span>
+          </div>
         </div>
-        <div className="p-3 grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-1">
+
+        {/* Heatmap grid */}
+        <div className="p-3 grid grid-cols-4 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-1">
           {setPerformance.map((s) => {
-            const sizeRatio = Math.max(0.6, s.totalValue / maxVal);
+            const sizeRatio = Math.max(0.5, s.totalValue / maxVal);
             return (
-              <div
+              <button
                 key={s.set}
-                className={`rounded p-1.5 flex flex-col items-center justify-center text-center cursor-default transition-transform hover:scale-105 ${getColor(s.avgChange)}`}
-                style={{ minHeight: `${40 + sizeRatio * 30}px` }}
-                title={`${s.set}: ${s.avgChange >= 0 ? "+" : ""}${s.avgChange.toFixed(1)}% | $${s.totalValue.toFixed(0)} | ${s.count} cards`}
+                onClick={() => setSelectedSet(selectedSet?.set === s.set ? null : s)}
+                className={`rounded-md border ${getBorderColor(s.avgChange)} p-1.5 flex flex-col items-center justify-center text-center transition-all hover:scale-105 hover:shadow-lg hover:z-10 relative ${getColor(s.avgChange)} ${selectedSet?.set === s.set ? "ring-1 ring-primary scale-105" : ""}`}
+                style={{ minHeight: `${44 + sizeRatio * 28}px` }}
               >
-                <span className="font-mono text-[7px] font-bold leading-tight truncate w-full">
-                  {s.set.length > 12 ? s.set.slice(0, 11) + "…" : s.set}
+                <span className="font-mono text-[6px] sm:text-[7px] font-bold leading-tight truncate w-full opacity-90">
+                  {s.set.length > 14 ? s.set.slice(0, 13) + "…" : s.set}
                 </span>
-                <span className="font-mono text-[9px] font-bold">
+                <span className="font-mono text-[9px] sm:text-[10px] font-black">
                   {s.avgChange >= 0 ? "+" : ""}{s.avgChange.toFixed(1)}%
                 </span>
-              </div>
+                <span className="font-mono text-[6px] opacity-70">
+                  {formatValue(s.totalValue)}
+                </span>
+              </button>
             );
           })}
         </div>
+
+        {/* Selected set detail panel */}
+        <AnimatePresence>
+          {selectedSet && (
+            <motion.div
+              key={selectedSet.set}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="overflow-hidden border-t border-border"
+            >
+              <div className="p-4 bg-muted/30">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h4 className="font-mono text-xs font-bold text-foreground flex items-center gap-1.5">
+                      <Layers className="w-3 h-3 text-primary" />
+                      {selectedSet.set}
+                    </h4>
+                    <p className="font-mono text-[9px] text-muted-foreground mt-0.5">
+                      {selectedSet.count} cards tracked · Tap another set to compare
+                    </p>
+                  </div>
+                  <button onClick={() => setSelectedSet(null)} className="text-muted-foreground hover:text-foreground">
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <div className="terminal-card p-2">
+                    <p className="font-mono text-[7px] text-muted-foreground uppercase">Total Value</p>
+                    <p className="font-mono text-sm font-black text-foreground">{formatValue(selectedSet.totalValue)}</p>
+                  </div>
+                  <div className="terminal-card p-2">
+                    <p className="font-mono text-[7px] text-muted-foreground uppercase">Avg Change</p>
+                    <p className={`font-mono text-sm font-black ${selectedSet.avgChange >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+                      {selectedSet.avgChange >= 0 ? "+" : ""}{selectedSet.avgChange.toFixed(2)}%
+                    </p>
+                  </div>
+                  <div className="terminal-card p-2">
+                    <p className="font-mono text-[7px] text-muted-foreground uppercase">Median Price</p>
+                    <p className="font-mono text-sm font-black text-foreground">${selectedSet.medianPrice.toFixed(2)}</p>
+                  </div>
+                  <div className="terminal-card p-2">
+                    <p className="font-mono text-[7px] text-muted-foreground uppercase">Volatility</p>
+                    <p className="font-mono text-sm font-black text-amber-400">{selectedSet.volatility.toFixed(1)}σ</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                  <div className="terminal-card p-2">
+                    <p className="font-mono text-[7px] text-muted-foreground uppercase flex items-center gap-1">
+                      <DollarSign className="w-2.5 h-2.5" /> High
+                    </p>
+                    <p className="font-mono text-xs font-bold text-foreground">{formatValue(selectedSet.highPrice)}</p>
+                  </div>
+                  <div className="terminal-card p-2">
+                    <p className="font-mono text-[7px] text-muted-foreground uppercase flex items-center gap-1">
+                      <DollarSign className="w-2.5 h-2.5" /> Low
+                    </p>
+                    <p className="font-mono text-xs font-bold text-foreground">{formatValue(selectedSet.lowPrice)}</p>
+                  </div>
+                  <div className="terminal-card p-2">
+                    <p className="font-mono text-[7px] text-muted-foreground uppercase flex items-center gap-1">
+                      <TrendingUp className="w-2.5 h-2.5 text-emerald-400" /> Gainers
+                    </p>
+                    <p className="font-mono text-xs font-bold text-emerald-400">{selectedSet.gainers}</p>
+                  </div>
+                  <div className="terminal-card p-2">
+                    <p className="font-mono text-[7px] text-muted-foreground uppercase flex items-center gap-1">
+                      <TrendingDown className="w-2.5 h-2.5 text-red-400" /> Losers
+                    </p>
+                    <p className="font-mono text-xs font-bold text-red-400">{selectedSet.losers}</p>
+                  </div>
+                </div>
+
+                {selectedSet.topCard && (
+                  <div className="mt-2 terminal-card p-2 flex items-center justify-between">
+                    <div>
+                      <p className="font-mono text-[7px] text-muted-foreground uppercase">Top Card</p>
+                      <p className="font-mono text-[10px] font-bold text-foreground">{selectedSet.topCard}</p>
+                    </div>
+                    <p className="font-mono text-xs font-black text-primary">{formatValue(selectedSet.topCardPrice)}</p>
+                  </div>
+                )}
+
+                {/* Mini distribution bar */}
+                <div className="mt-2.5">
+                  <p className="font-mono text-[7px] text-muted-foreground uppercase mb-1">Price Distribution</p>
+                  <div className="flex gap-0.5 h-3 rounded overflow-hidden">
+                    {selectedSet.count > 0 && (
+                      <>
+                        <div
+                          className="bg-emerald-500/60 rounded-l"
+                          style={{ width: `${(selectedSet.gainers / selectedSet.count) * 100}%` }}
+                          title={`${selectedSet.gainers} gainers`}
+                        />
+                        <div
+                          className="bg-muted"
+                          style={{ width: `${((selectedSet.count - selectedSet.gainers - selectedSet.losers) / selectedSet.count) * 100}%` }}
+                          title="Flat"
+                        />
+                        <div
+                          className="bg-red-500/60 rounded-r"
+                          style={{ width: `${(selectedSet.losers / selectedSet.count) * 100}%` }}
+                          title={`${selectedSet.losers} losers`}
+                        />
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Footer */}
         <div className="border-t border-border px-4 py-1.5 flex items-center justify-between">
           <span className="font-mono text-[8px] text-muted-foreground">
-            Size = total set value · Color = avg % change · {setPerformance.length} sets tracked
+            Size = value · Color = avg Δ% · {setPerformance.length}/{allSets.length} sets shown
           </span>
-          <span className="font-mono text-[8px] text-primary">PGVA Verified™</span>
+          <div className="flex items-center gap-2">
+            {allSets.length > LANDING_LIMIT && (
+              <button
+                onClick={() => { setExpanded(!expanded); setSelectedSet(null); }}
+                className="font-mono text-[9px] text-primary hover:text-primary/80 flex items-center gap-0.5 transition-colors"
+              >
+                {expanded ? (
+                  <>Show Less <ChevronUp className="w-3 h-3" /></>
+                ) : (
+                  <>Show All {allSets.length} <ChevronDown className="w-3 h-3" /></>
+                )}
+              </button>
+            )}
+            <span className="font-mono text-[8px] text-primary">PGVA Verified™</span>
+          </div>
         </div>
       </div>
     </motion.section>
