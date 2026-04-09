@@ -2,8 +2,8 @@ import { Shield, Lock } from "lucide-react";
 
 const CopyrightBanner = () => {
   return (
-    <div data-demo-hide className="fixed bottom-0 left-0 right-0 z-50 bg-card/98 backdrop-blur-sm border-t border-border/10">
-      <div className="max-w-7xl mx-auto px-2 py-px flex items-center justify-center gap-1">
+    <div data-demo-hide className="fixed bottom-0 left-0 right-0 z-50 bg-card/98 backdrop-blur-sm border-t border-border/20">
+      <div className="max-w-7xl mx-auto px-2 py-0.5 flex items-center justify-center gap-1">
         <Lock className="w-2 h-2 text-primary flex-shrink-0" />
         <p className="font-mono text-[5px] sm:text-[6px] text-muted-foreground tracking-wide leading-none">
           © {new Date().getFullYear()} PGVA Ventures, LLC · Noyes Family Trust · All Rights Reserved · Patent Pending · 18 U.S.C. § 1832 · Not Financial Advice · Pokémon™ Nintendo/Creatures/GAME FREAK

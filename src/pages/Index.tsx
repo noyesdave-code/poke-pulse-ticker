@@ -493,7 +493,7 @@ const Index = () => {
 
         <FinancialDisclaimer />
 
-        <footer className="border-t border-border/30 pt-2 pb-1.5">
+        <footer className="border-t border-border/30 pt-2 pb-6">
           <div className="flex flex-col items-center gap-1.5">
             <div className="flex items-center gap-2">
               <span className="font-display font-black text-[13px] tracking-tight text-foreground">
