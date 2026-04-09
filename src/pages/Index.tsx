@@ -51,6 +51,8 @@ import MarketCapSummary from "@/components/MarketCapSummary";
 import VerifiedLeaderboard from "@/components/VerifiedLeaderboard";
 import WhaleReport from "@/components/WhaleReport";
 import ArbitrageFinder from "@/components/ArbitrageFinder";
+import InstitutionalGate from "@/components/InstitutionalGate";
+import SetHeatmap from "@/components/SetHeatmap";
 import JPtoENTracker from "@/components/JPtoENTracker";
 import DataHealthDashboard from "@/components/DataHealthDashboard";
 import ImportFromTCGPlayer from "@/components/ImportFromTCGPlayer";
@@ -294,6 +296,10 @@ const Index = () => {
         </LazySection>
 
         <LazySection minHeight="200px">
+          <SetHeatmap cards={displayCards} />
+        </LazySection>
+
+        <LazySection minHeight="200px">
           <DailySpotlight cards={cardsWithImages.length > 0 ? cardsWithImages : displayCards} />
         </LazySection>
 
@@ -432,9 +438,9 @@ const Index = () => {
         </LazySection>
 
         <LazySection minHeight="200px">
-          <ProGate feature="Real-Time Arbitrage Finder" blur>
+          <InstitutionalGate feature="Real-Time Arbitrage Finder">
             <ArbitrageFinder />
-          </ProGate>
+          </InstitutionalGate>
         </LazySection>
 
         <LazySection minHeight="200px">
