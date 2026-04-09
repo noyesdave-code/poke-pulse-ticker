@@ -50,6 +50,13 @@ const ReferralCTA = () => {
           </button>
         </div>
       </div>
+      <div className="border-t border-border px-4 py-1.5">
+        <p className="font-mono text-[7px] text-muted-foreground text-center leading-relaxed">
+          Refer-a-Collector program compliant with CA Business & Professions Code §17539 and NY General Business Law §369-e. 
+          No purchase necessary where prohibited. Void where restricted. Subject to PGVA Ventures, LLC Terms of Service. 
+          Free month credit applied after referee completes first paid billing cycle. Not a sweepstakes or contest.
+        </p>
+      </div>
     </motion.div>
   );
 };

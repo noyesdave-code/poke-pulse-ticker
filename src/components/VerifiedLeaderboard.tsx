@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { Trophy, TrendingUp, Crown, Medal, Award } from "lucide-react";
-import { useMemo } from "react";
+import { Trophy, TrendingUp, Crown, Medal, Award, EyeOff } from "lucide-react";
+import { useMemo, useState } from "react";
 
 interface LeaderboardEntry {
   rank: number;
@@ -46,6 +46,7 @@ const rankColors: Record<number, string> = {
 
 const VerifiedLeaderboard = () => {
   const leaderboard = useMemo(() => generateLeaderboard(), []);
+  const [obfuscate, setObfuscate] = useState(false);
 
   return (
     <motion.section
@@ -59,9 +60,19 @@ const VerifiedLeaderboard = () => {
           <h3 className="text-sm font-bold tracking-wide text-secondary uppercase flex items-center gap-2">
             <Trophy className="w-3.5 h-3.5" /> Verified Portfolio Leaderboard
           </h3>
-          <span className="font-mono text-[10px] text-muted-foreground px-2 py-0.5 rounded bg-muted border border-border">
-            ANONYMOUS • LIVE ROI
-          </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setObfuscate(!obfuscate)}
+              className="font-mono text-[9px] px-2 py-0.5 rounded bg-muted border border-border text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+              title="Toggle Financial Data Obfuscation"
+            >
+              <EyeOff className="w-2.5 h-2.5" />
+              {obfuscate ? "SHOW $" : "HIDE $"}
+            </button>
+            <span className="font-mono text-[10px] text-muted-foreground px-2 py-0.5 rounded bg-muted border border-border">
+              ANONYMOUS • LIVE ROI
+            </span>
+          </div>
         </div>
 
         <div className="overflow-x-auto">
@@ -99,7 +110,7 @@ const VerifiedLeaderboard = () => {
                       </span>
                     </td>
                     <td className="px-3 py-2.5 text-right font-mono text-sm font-semibold text-foreground">
-                      ${entry.portfolioValue.toLocaleString()}
+                      {obfuscate ? "••••••" : `$${entry.portfolioValue.toLocaleString()}`}
                     </td>
                     <td className="px-3 py-2.5 text-right">
                       <span className="font-mono text-sm font-bold text-terminal-green">
