@@ -526,6 +526,7 @@ const Index = () => {
                 { href: "/videos", label: "Videos" },
                 { href: "/terms", label: "Terms" },
                 { href: "/privacy", label: "Privacy" },
+                { href: "/legal-protection", label: "Legal & IP" },
                 { href: "/methodology", label: "Methodology" },
                 { href: "mailto:contact@poke-pulse-ticker.com", label: "Contact" },
               ].map((link) => (
