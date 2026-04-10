@@ -70,6 +70,7 @@ import GamePromo from "@/components/GamePromo";
 import PokeRaceSection from "@/components/PokeRaceSection";
 import GradingROICalculator from "@/components/GradingROICalculator";
 import AIMarketInsights from "@/components/AIMarketInsights";
+import EbayLiveDeals from "@/components/EbayLiveDeals";
 import LiveFreshnessIndicator from "@/components/LiveFreshnessIndicator";
 import PulseWalletWidget from "@/components/PulseWalletWidget";
 
@@ -277,6 +278,10 @@ const Index = () => {
             <TopMoversTable cards={displayCards} title="Top Movers — Raw Cards" isLoading={isLoading} />
             <TopMoversTable cards={displayGraded} title="Top Movers — Graded Cards" isLoading={isLoading} />
           </div>
+        </LazySection>
+
+        <LazySection minHeight="200px">
+          <EbayLiveDeals />
         </LazySection>
 
         <LazySection minHeight="200px">

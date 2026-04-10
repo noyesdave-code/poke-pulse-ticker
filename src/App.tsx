@@ -50,6 +50,7 @@ import Blueprint from "./pages/Blueprint.tsx";
 import Donate from "./pages/Donate.tsx";
 import PokeRipz from "./pages/PokeRipz.tsx";
 import PulseWallet from "./pages/PulseWallet.tsx";
+import LegalProtection from "./pages/LegalProtection.tsx";
 import MLBDemo from "./pages/demos/MLBDemo.tsx";
 import NFLDemo from "./pages/demos/NFLDemo.tsx";
 import NBADemo from "./pages/demos/NBADemo.tsx";
@@ -114,6 +115,7 @@ const AnimatedRoutes = () => {
           <Route path="/ripz" element={<PokeRipz />} />
           <Route path="/donate" element={<Donate />} />
           <Route path="/pulse-wallet" element={<PulseWallet />} />
+          <Route path="/legal-protection" element={<LegalProtection />} />
           <Route path="/demo/mlb" element={<MLBDemo />} />
           <Route path="/demo/nfl" element={<NFLDemo />} />
           <Route path="/demo/nba" element={<NBADemo />} />
