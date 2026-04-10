@@ -20,6 +20,7 @@ import { PokeRipzPromo } from "./PokeRipzPromo";
 import { PokeRipzShow } from "./PokeRipzShow";
 import { PokeRipz3D } from "./PokeRipz3D";
 import { PokeRipzETB } from "./PokeRipzETB";
+import { PlatformUpdatePromo } from "./PlatformUpdatePromo";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -283,6 +284,14 @@ export const RemotionRoot: React.FC = () => (
       id="PokeRipzETB"
       component={PokeRipzETB}
       durationInFrames={5400}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="platform-update-promo"
+      component={PlatformUpdatePromo}
+      durationInFrames={540}
       fps={30}
       width={1920}
       height={1080}
