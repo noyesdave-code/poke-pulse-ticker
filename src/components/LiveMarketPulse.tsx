@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   Activity,
   TrendingUp,
@@ -27,14 +27,24 @@ const ICONS = {
 };
 
 const LiveMarketPulse = ({ cards }: { cards: CardData[] }) => {
+  const [rotationKey, setRotationKey] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => setRotationKey((k) => k + 1), 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   const rows = useMemo(() => {
     if (!cards.length) return [] as PulseRow[];
 
     const topMoves = [...cards]
-      .sort((a, b) => Math.abs(b.change) - Math.abs(a.change))
-      .slice(0, 5);
+      .sort((a, b) => Math.abs(b.change) - Math.abs(a.change));
+    
+    const poolSize = Math.min(topMoves.length, 100);
+    const offset = (rotationKey * 5) % Math.max(1, poolSize - 5);
+    const selected = topMoves.slice(offset, offset + 5);
 
-    return topMoves.map((card, i) => {
+    return selected.map((card, i) => {
       const seed = Math.floor(card.market * 100) + card.name.length * 11 + i;
       const pattern = seed % 5;
 
@@ -91,7 +101,7 @@ const LiveMarketPulse = ({ cards }: { cards: CardData[] }) => {
         accent: card.change >= 0 ? "text-primary" : "text-destructive",
       } satisfies PulseRow;
     });
-  }, [cards]);
+  }, [cards, rotationKey]);
 
   if (!cards.length) return null;
 
