@@ -7,7 +7,7 @@ interface RecentNotableSalesProps {
   cards: CardData[];
 }
 
-type SalesWindow = "minute1" | "minute5" | "minute30" | "avg";
+type SalesWindow = "minute5" | "minute30" | "avg";
 
 type SaleRow = {
   id: string;
@@ -20,7 +20,6 @@ type SaleRow = {
 };
 
 const TAB_META: { key: SalesWindow; label: string }[] = [
-  { key: "minute1", label: "1 min" },
   { key: "minute5", label: "5 min" },
   { key: "minute30", label: "30 min" },
   { key: "avg", label: "Ave" },
@@ -29,7 +28,7 @@ const TAB_META: { key: SalesWindow; label: string }[] = [
 const VENUES = ["eBay", "TCGPlayer", "CardMarket", "Marketplace", "Auction"];
 
 const RecentNotableSales = ({ cards }: RecentNotableSalesProps) => {
-  const [activeTab, setActiveTab] = useState<SalesWindow>("minute1");
+  const [activeTab, setActiveTab] = useState<SalesWindow>("minute5");
 
   const salesByBucket = useMemo(() => {
     if (!cards.length) {
