@@ -124,13 +124,18 @@ serve(async (req) => {
     }
 
     if (action === "outreach") {
-      // Get leads needing outreach
+      // Compounding outreach: increase batch size each deployment
+      const { count: outreachCount } = await supabase.from("sales_outreach_log").select("*", { count: "exact", head: true });
+      const outreachDeployments = Math.floor((outreachCount || 0) / 5);
+      const outreachMultiplier = Math.min(Math.pow(2, Math.floor(outreachDeployments / 3)), 16);
+      const outreachBatch = Math.min(5 * outreachMultiplier, 30);
+
       const { data: leads } = await supabase
         .from("sales_leads")
         .select("*")
         .in("status", ["new", "contacted"])
         .order("score", { ascending: false })
-        .limit(5);
+        .limit(outreachBatch);
 
       if (!leads || leads.length === 0) {
         return new Response(JSON.stringify({ success: true, message: "No leads to contact" }), {
