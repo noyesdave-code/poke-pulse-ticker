@@ -33,7 +33,6 @@ const RecentNotableSales = ({ cards }: RecentNotableSalesProps) => {
   const salesByBucket = useMemo(() => {
     if (!cards.length) {
       return {
-        minute1: [] as SaleRow[],
         minute5: [] as SaleRow[],
         minute30: [] as SaleRow[],
         avg: [] as SaleRow[],
@@ -47,22 +46,7 @@ const RecentNotableSales = ({ cards }: RecentNotableSalesProps) => {
 
     const formatPrice = (value: number) => Math.max(1, Number(value.toFixed(2)));
 
-    const minute1 = topCards.slice(0, 5).map((card, i) => {
-      const seed = makeSeed(card, i + 1);
-      const venue = VENUES[seed % VENUES.length];
-      const multiplier = 1 + ((seed % 9) - 2) / 100;
-      return {
-        id: `m1-${card.name}-${i}`,
-        name: card.name,
-        set: card.set,
-        venue,
-        price: formatPrice(card.market * multiplier),
-        ageLabel: `${(seed % 45) + 8}s ago`,
-        bucket: "minute1" as const,
-      };
-    });
-
-    const minute5 = topCards.slice(5, 10).map((card, i) => {
+    const minute5 = topCards.slice(0, 5).map((card, i) => {
       const seed = makeSeed(card, i + 11);
       const venue = VENUES[seed % VENUES.length];
       const multiplier = 1 + ((seed % 11) - 3) / 100;
@@ -77,7 +61,7 @@ const RecentNotableSales = ({ cards }: RecentNotableSalesProps) => {
       };
     });
 
-    const minute30 = topCards.slice(10, 15).map((card, i) => {
+    const minute30 = topCards.slice(5, 10).map((card, i) => {
       const seed = makeSeed(card, i + 21);
       const venue = VENUES[seed % VENUES.length];
       const multiplier = 1 + ((seed % 13) - 4) / 100;
@@ -144,15 +128,15 @@ const RecentNotableSales = ({ cards }: RecentNotableSalesProps) => {
         set: "Composite",
         venue: "Composite",
         price: formatPrice(
-          [...minute1, ...minute5, ...minute30].reduce((sum, row) => sum + row.price, 0) /
-            Math.max(1, [...minute1, ...minute5, ...minute30].length)
+          [...minute5, ...minute30].reduce((sum, row) => sum + row.price, 0) /
+            Math.max(1, [...minute5, ...minute30].length)
         ),
         ageLabel: "Rolling avg",
         bucket: "avg" as const,
       },
     ];
 
-    return { minute1, minute5, minute30, avg };
+    return { minute5, minute30, avg };
   }, [cards]);
 
   const currentRows = salesByBucket[activeTab];
