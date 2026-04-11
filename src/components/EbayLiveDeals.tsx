@@ -115,51 +115,75 @@ function generateDeals(
   });
 }
 
-const DealRow = ({ deal, rank }: { deal: AuctionDeal; rank: number }) => (
-  <motion.div
-    initial={{ opacity: 0, x: -10 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ delay: rank * 0.05 }}
-    className="flex items-center gap-2 py-1.5 border-b border-border/10 last:border-0"
-  >
-    <span className="font-mono text-[10px] font-bold text-primary w-4 text-center">
-      {rank}
-    </span>
-    <div className="flex-1 min-w-0">
-      <p className="font-mono text-[11px] font-semibold text-foreground truncate leading-tight">
-        {deal.title}
-      </p>
-      <div className="flex items-center gap-1.5 mt-0.5">
-        <span className="font-mono text-[9px] text-muted-foreground">
-          {deal.seller} ({deal.sellerRating}%)
-        </span>
-        <span className="text-border/40">·</span>
-        <span className="font-mono text-[9px] text-muted-foreground">
-          {deal.bids} bids
-        </span>
-      </div>
-    </div>
-    <div className="text-right flex-shrink-0">
-      <p className="font-mono text-[12px] font-bold text-primary">
-        ${deal.currentBid}
-      </p>
-      <div className="flex items-center gap-1 justify-end">
-        <span className="font-mono text-[9px] text-muted-foreground line-through">
-          ${deal.marketValue}
-        </span>
-        <span className="font-mono text-[9px] font-bold text-primary">
-          -{deal.savingsPct}%
-        </span>
-      </div>
-    </div>
-    <div className="flex items-center gap-0.5 flex-shrink-0">
-      <Clock className="w-2.5 h-2.5 text-terminal-amber" />
-      <span className="font-mono text-[9px] text-terminal-amber font-semibold">
-        {deal.timeLeft}
+const DealRow = ({ deal, rank }: { deal: AuctionDeal; rank: number }) => {
+  const ebaySearchUrl = `https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(deal.title)}&_sop=1&LH_Auction=1&LH_BIN=0&rt=nc&_udlo=&_udhi=`;
+
+  return (
+    <motion.a
+      href={ebaySearchUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: rank * 0.05 }}
+      className="flex items-center gap-2 py-1.5 border-b border-border/10 last:border-0 hover:bg-primary/5 transition-colors cursor-pointer group"
+      onClick={() => {
+        try {
+          const url = new URL(import.meta.env.VITE_SUPABASE_URL);
+          fetch(`${url.origin}/rest/v1/affiliate_clicks`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+              Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+              Prefer: "return=minimal",
+            },
+            body: JSON.stringify({ partner: "ebay", card_name: deal.title }),
+            keepalive: true,
+          });
+        } catch {}
+      }}
+    >
+      <span className="font-mono text-[10px] font-bold text-primary w-4 text-center">
+        {rank}
       </span>
-    </div>
-  </motion.div>
-);
+      <div className="flex-1 min-w-0">
+        <p className="font-mono text-[11px] font-semibold text-foreground truncate leading-tight group-hover:text-primary transition-colors">
+          {deal.title}
+        </p>
+        <div className="flex items-center gap-1.5 mt-0.5">
+          <span className="font-mono text-[9px] text-muted-foreground">
+            {deal.seller} ({deal.sellerRating}%)
+          </span>
+          <span className="text-border/40">·</span>
+          <span className="font-mono text-[9px] text-muted-foreground">
+            {deal.bids} bids
+          </span>
+        </div>
+      </div>
+      <div className="text-right flex-shrink-0">
+        <p className="font-mono text-[12px] font-bold text-primary">
+          ${deal.currentBid}
+        </p>
+        <div className="flex items-center gap-1 justify-end">
+          <span className="font-mono text-[9px] text-muted-foreground line-through">
+            ${deal.marketValue}
+          </span>
+          <span className="font-mono text-[9px] font-bold text-primary">
+            -{deal.savingsPct}%
+          </span>
+        </div>
+      </div>
+      <div className="flex items-center gap-0.5 flex-shrink-0">
+        <Clock className="w-2.5 h-2.5 text-terminal-amber" />
+        <span className="font-mono text-[9px] text-terminal-amber font-semibold">
+          {deal.timeLeft}
+        </span>
+      </div>
+      <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
+    </motion.a>
+  );
+};
 
 const DealColumn = ({
   title,
@@ -247,7 +271,7 @@ const EbayLiveDeals = () => {
       </div>
 
       <p className="font-mono text-[8px] text-muted-foreground/50 text-center mt-2">
-        Data simulated for demonstration · Market values from Poke-Pulse-Engine™ index
+        Powered by The House™ · eBay affiliate partner · Market values from Poke-Pulse-Engine™
       </p>
     </div>
   );

@@ -64,16 +64,16 @@ const AlphaSignals = ({ signals }: AlphaSignalsProps) => {
                   loading="lazy"
                   onError={(e) => { (e.target as HTMLImageElement).src = '/icon-192.png'; }}
                 />
-                <div className="flex-1 min-w-0 space-y-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${config.color}`} />
-                    <span className="font-mono text-xs font-semibold text-foreground truncate">
+                <div className="flex-1 min-w-0 space-y-1 overflow-hidden">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <Icon className={`w-3 h-3 flex-shrink-0 ${config.color}`} />
+                    <span className="font-mono text-[11px] font-semibold text-foreground truncate max-w-[120px] sm:max-w-none">
                       {signal.cardName}
                     </span>
-                    <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded border uppercase tracking-wider ${strengthBadge[signal.strength]}`}>
+                    <span className={`font-mono text-[8px] px-1 py-0.5 rounded border uppercase tracking-wider flex-shrink-0 ${strengthBadge[signal.strength]}`}>
                       {signal.strength}
                     </span>
-                    <span className={`font-mono text-[10px] font-bold ${signal.priceChangePct >= 0 ? "text-terminal-green" : "text-destructive"}`}>
+                    <span className={`font-mono text-[9px] font-bold flex-shrink-0 ${signal.priceChangePct >= 0 ? "text-terminal-green" : "text-destructive"}`}>
                       {signal.priceChangePct >= 0 ? "+" : ""}{signal.priceChangePct.toFixed(1)}%
                     </span>
                   </div>

@@ -64,19 +64,19 @@ const ArbitrageFinder = () => {
 
       <div className="space-y-2">
         {opportunities.map((opp, i) => (
-          <div key={i} className="data-row flex items-center justify-between px-3 py-2 rounded-lg bg-muted/30">
+          <div key={i} className="data-row flex flex-col sm:flex-row sm:items-center justify-between px-3 py-2 rounded-lg bg-muted/30 gap-1 sm:gap-3">
             <div className="flex-1 min-w-0">
               <p className="font-mono text-[11px] font-semibold text-foreground truncate">{opp.cardName}</p>
-              <p className="font-mono text-[9px] text-muted-foreground">{opp.set} · Ends {opp.timeLeft}</p>
+              <p className="font-mono text-[9px] text-muted-foreground truncate">{opp.set} · Ends {opp.timeLeft}</p>
             </div>
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-2 shrink-0 flex-wrap">
               <div className="text-right">
-                <p className="font-mono text-[10px] text-muted-foreground">PGVA: ${opp.pgvaPrice.toFixed(2)}</p>
-                <p className="font-mono text-[10px] text-primary">eBay: ${opp.ebayPrice.toFixed(2)}</p>
+                <p className="font-mono text-[9px] text-muted-foreground">PGVA: ${opp.pgvaPrice.toFixed(0)}</p>
+                <p className="font-mono text-[9px] text-primary">eBay: ${opp.ebayPrice.toFixed(0)}</p>
               </div>
-              <div className="flex items-center gap-1 bg-primary/10 border border-primary/20 rounded px-2 py-1">
-                <TrendingUp className="w-3 h-3 text-primary" />
-                <span className="font-mono text-[10px] font-bold text-primary">
+              <div className="flex items-center gap-1 bg-primary/10 border border-primary/20 rounded px-1.5 py-0.5">
+                <TrendingUp className="w-2.5 h-2.5 text-primary" />
+                <span className="font-mono text-[9px] font-bold text-primary">
                   +{opp.spreadPct.toFixed(1)}%
                 </span>
               </div>
@@ -86,7 +86,7 @@ const ArbitrageFinder = () => {
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
-                <ExternalLink className="w-3.5 h-3.5" />
+                <ExternalLink className="w-3 h-3" />
               </a>
             </div>
           </div>
