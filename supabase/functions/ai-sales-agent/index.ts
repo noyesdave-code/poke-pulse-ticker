@@ -20,6 +20,18 @@ serve(async (req) => {
     const { action } = await req.json();
 
     if (action === "generate_leads") {
+      // Compounding force: each deployment doubles the batch size
+      const { data: metricsHistory } = await supabase
+        .from("sales_pipeline_metrics")
+        .select("leads_generated")
+        .order("metric_date", { ascending: false })
+        .limit(30);
+
+      // Calculate deployment count to determine compound multiplier
+      const totalDeployments = metricsHistory?.length || 0;
+      const compoundMultiplier = Math.min(Math.pow(2, Math.floor(totalDeployments / 2)), 32); // caps at 32x
+      const batchSize = Math.min(5 * compoundMultiplier, 50); // max 50 leads per batch
+
       // AI generates targeted lead profiles for Pokemon TCG market
       const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
@@ -32,11 +44,11 @@ serve(async (req) => {
           messages: [
             {
               role: "system",
-              content: `You are a B2B sales intelligence agent for Poké-Pulse-Engine™, the world's first real-time Pokémon TCG market terminal. Generate realistic prospective customer leads. Target: TCG shop owners, Pokemon collectors with 50k+ collections, eBay power sellers in Pokemon category, TCG content creators, card grading service customers, and sealed product investors. Return JSON array of 5 leads with fields: name, email, company, source, score (1-100), notes.`
+              content: `You are a B2B sales intelligence agent for Poké-Pulse-Engine™, the world's first real-time Pokémon TCG market terminal. Generate realistic prospective customer leads. Target: TCG shop owners, Pokemon collectors with 50k+ collections, eBay power sellers in Pokemon category, TCG content creators, card grading service customers, and sealed product investors. Return JSON array of ${batchSize} leads with fields: name, email, company, source, score (1-100), notes.`
             },
             {
               role: "user",
-              content: "Generate 5 high-quality prospective customer leads for today's outreach campaign. Focus on people who would pay $29-299/mo for real-time Pokemon card market data, arbitrage signals, and portfolio tracking."
+              content: `Generate ${batchSize} high-quality prospective customer leads for today's outreach campaign. Focus on people who would pay $29-299/mo for real-time Pokemon card market data, arbitrage signals, and portfolio tracking. Deployment #${totalDeployments + 1}, compound force multiplier: ${compoundMultiplier}x.`
             }
           ],
           tools: [{
@@ -91,7 +103,7 @@ serve(async (req) => {
           source: lead.source,
           score: lead.score,
           notes: lead.notes,
-          ai_personalization: { generated: true, model: "gemini-3-flash" }
+          ai_personalization: { generated: true, model: "gemini-3-flash", deployment: totalDeployments + 1, multiplier: compoundMultiplier }
         });
       }
 
@@ -106,7 +118,7 @@ serve(async (req) => {
         await supabase.from("sales_pipeline_metrics").insert({ metric_date: today, leads_generated: leads.length });
       }
 
-      return new Response(JSON.stringify({ success: true, leads_generated: leads.length }), {
+      return new Response(JSON.stringify({ success: true, leads_generated: leads.length, compound_multiplier: compoundMultiplier, deployment_number: totalDeployments + 1 }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" }
       });
     }
