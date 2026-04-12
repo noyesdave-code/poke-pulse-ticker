@@ -89,7 +89,7 @@ const PulseWalletWidget = () => {
           </div>
           <div>
             <h3 className="font-mono text-xs font-bold text-foreground flex items-center gap-1.5">
-              Pulse Engine Wallet™
+              Poké Stock Market™
               <Badge variant="outline" className={`text-[7px] px-1 py-0 ${canUse ? "border-green-500 text-green-500" : "border-muted-foreground text-muted-foreground"}`}>
                 {canUse ? "ACTIVE" : "PREVIEW"}
               </Badge>
