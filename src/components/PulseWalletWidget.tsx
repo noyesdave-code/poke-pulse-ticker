@@ -72,7 +72,7 @@ const PulseWalletWidget = () => {
       {!canUse && (
         <div className="absolute inset-0 z-10 bg-background/60 backdrop-blur-[2px] rounded-lg flex flex-col items-center justify-center gap-2">
           <Lock className="w-6 h-6 text-primary" />
-          <p className="font-mono text-xs text-foreground font-bold">Upgrade to Unlock Wallet Engine</p>
+          <p className="font-mono text-xs text-foreground font-bold">Upgrade to Unlock Poké Stock Market</p>
           <Link
             to="/pricing"
             className="font-mono text-[10px] bg-primary text-primary-foreground px-4 py-1.5 rounded hover:opacity-90"
