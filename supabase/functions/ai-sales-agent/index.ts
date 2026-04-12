@@ -188,6 +188,22 @@ serve(async (req) => {
           const toolCall = aiData.choices?.[0]?.message?.tool_calls?.[0];
           const email = JSON.parse(toolCall.function.arguments);
 
+          // Actually send the email via transactional email system
+          const sendResult = await supabase.functions.invoke("send-transactional-email", {
+            body: {
+              templateName: "sales-outreach",
+              recipientEmail: lead.email,
+              idempotencyKey: `sales-outreach-${lead.id}-${new Date().toISOString().split("T")[0]}`,
+              templateData: {
+                recipientName: lead.name,
+                subject: email.subject,
+                emailBody: email.body,
+              },
+            },
+          });
+
+          const emailStatus = sendResult.error ? "failed" : "sent";
+
           // Log the outreach
           await supabase.from("sales_outreach_log").insert({
             lead_id: lead.id,
@@ -195,7 +211,7 @@ serve(async (req) => {
             subject: email.subject,
             body: email.body,
             ai_model_used: "gemini-3-flash",
-            status: "generated"
+            status: emailStatus
           });
 
           // Update lead status
