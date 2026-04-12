@@ -146,14 +146,14 @@ const PulseWallet = () => {
 
   const handleToggleEngine = useCallback(() => {
     if (!user) {
-      toast({ title: "Sign in required", description: "Create an account to activate the Pulse Engine Wallet.", variant: "destructive" });
+      toast({ title: "Sign in required", description: "Create an account to activate the Poké Stock Market.", variant: "destructive" });
       return;
     }
     setEngineActive(prev => {
       const next = !prev;
       toast({
-        title: next ? "🟢 Engine Activated" : "🔴 Engine Paused",
-        description: next ? "Pulse Engine is now scanning markets and generating signals." : "Engine paused. No new trades will be executed.",
+        title: next ? "🟢 Poké Stock Market Active" : "🔴 Market Paused",
+        description: next ? "Poké Stock Market is now scanning and generating signals." : "Market paused. No new trades will be executed.",
       });
       return next;
     });
@@ -172,13 +172,13 @@ const PulseWallet = () => {
               <div className="flex items-center gap-2 mb-1">
                 <Wallet className="w-5 h-5 text-primary" />
                 <h1 className="font-mono text-lg font-black tracking-tight text-foreground">
-                  Personal Pulse Engine Wallet™
+                  Poké Stock Market™
                 </h1>
                 {betaMode && <Badge variant="outline" className="text-[8px] border-amber-500 text-amber-500">BETA</Badge>}
               </div>
               <p className="font-mono text-[10px] text-muted-foreground max-w-lg leading-relaxed">
-                The world's first self-replenishing interest wallet engine. Analyzes live Poké TCG markets in real-time,
-                identifies buy/sell/hold opportunities, and reinvests dividends back into your wallet — automatically.
+                The dawn of the Pokémon stock market. Track live card prices like stocks, collect dividends from market momentum,
+                and let the AI engine generate buy/sell/hold signals — all hands-free, 24/7.
               </p>
             </div>
             <div className="flex items-center gap-3">

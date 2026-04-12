@@ -72,7 +72,7 @@ const PulseWalletWidget = () => {
       {!canUse && (
         <div className="absolute inset-0 z-10 bg-background/60 backdrop-blur-[2px] rounded-lg flex flex-col items-center justify-center gap-2">
           <Lock className="w-6 h-6 text-primary" />
-          <p className="font-mono text-xs text-foreground font-bold">Upgrade to Unlock Wallet Engine</p>
+          <p className="font-mono text-xs text-foreground font-bold">Upgrade to Unlock Poké Stock Market</p>
           <Link
             to="/pricing"
             className="font-mono text-[10px] bg-primary text-primary-foreground px-4 py-1.5 rounded hover:opacity-90"
@@ -89,7 +89,7 @@ const PulseWalletWidget = () => {
           </div>
           <div>
             <h3 className="font-mono text-xs font-bold text-foreground flex items-center gap-1.5">
-              Pulse Engine Wallet™
+              Poké Stock Market™
               <Badge variant="outline" className={`text-[7px] px-1 py-0 ${canUse ? "border-green-500 text-green-500" : "border-muted-foreground text-muted-foreground"}`}>
                 {canUse ? "ACTIVE" : "PREVIEW"}
               </Badge>
@@ -159,7 +159,7 @@ const PulseWalletWidget = () => {
 
       <p className="font-mono text-[7px] text-muted-foreground text-center mt-2">
         <Activity className="w-2.5 h-2.5 inline mr-0.5" />
-        Engine compounds strength each 60s cycle · Accuracy, pool, & returns grow infinitely · Cycle #{cycle + 1}
+        Engine compounds strength each 60s cycle · Poké Stock Market™ · Cycle #{cycle + 1}
       </p>
     </div>
   );

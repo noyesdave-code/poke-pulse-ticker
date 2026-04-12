@@ -292,11 +292,12 @@ export function toCardData(card: PokemonTCGCard): CardData | null {
   if (!price) return null;
 
   // Derive a realistic "change" from the spread between mid and market price.
-  // A positive spread (market > mid) signals upward momentum; negative = downward.
-  // Also incorporate low/high range for volatility context.
+  // Dampen heavily so most cards show small realistic movements (±0-5%)
+  // matching what TCGPlayer actually shows day-to-day.
   const midDelta = price.mid > 0 ? ((price.market - price.mid) / price.mid) * 100 : 0;
-  // Clamp to ±25% to avoid outliers
-  const change = Math.round(Math.max(-25, Math.min(25, midDelta)) * 100) / 100;
+  // Apply 0.3x dampening then clamp to ±8% — realistic daily TCG movement
+  const dampened = midDelta * 0.3;
+  const change = Math.round(Math.max(-8, Math.min(8, dampened)) * 100) / 100;
 
   // Volume estimate from price spread width (wider spread = more volatile = more volume)
   const spreadPct = price.high > 0 ? ((price.high - price.low) / price.high) * 100 : 0;
