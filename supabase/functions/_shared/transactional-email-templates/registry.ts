@@ -14,6 +14,7 @@ import { template as weeklyPortfolioSummary } from './weekly-portfolio-summary.t
 import { template as dailyAuditReport } from './daily-audit-report.tsx'
 import { template as investorPacketDelivery } from './investor-packet-delivery.tsx'
 import { template as investorOutreach } from './investor-outreach.tsx'
+import { template as salesOutreach } from './sales-outreach.tsx'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'portfolio-price-alert': portfolioPriceAlert,
@@ -21,4 +22,5 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'daily-audit-report': dailyAuditReport,
   'investor-packet-delivery': investorPacketDelivery,
   'investor-outreach': investorOutreach,
+  'sales-outreach': salesOutreach,
 }
