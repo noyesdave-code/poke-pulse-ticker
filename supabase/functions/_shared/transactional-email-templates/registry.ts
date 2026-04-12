@@ -22,4 +22,5 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'daily-audit-report': dailyAuditReport,
   'investor-packet-delivery': investorPacketDelivery,
   'investor-outreach': investorOutreach,
+  'sales-outreach': salesOutreach,
 }
