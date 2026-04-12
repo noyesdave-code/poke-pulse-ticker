@@ -159,7 +159,7 @@ const PulseWalletWidget = () => {
 
       <p className="font-mono text-[7px] text-muted-foreground text-center mt-2">
         <Activity className="w-2.5 h-2.5 inline mr-0.5" />
-        Engine compounds strength each 60s cycle · Accuracy, pool, & returns grow infinitely · Cycle #{cycle + 1}
+        Engine compounds strength each 60s cycle · Poké Stock Market™ · Cycle #{cycle + 1}
       </p>
     </div>
   );
