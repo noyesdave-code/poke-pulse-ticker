@@ -398,6 +398,99 @@ const DailyAuditReportEmail = ({
           </Section>
         )}
 
+        {/* AI Sales Force & Autonomous Engine Report */}
+        {salesForceMetrics && (
+          <Section style={{ backgroundColor: '#eff6ff', border: '2px solid #3b82f6', borderRadius: '8px', padding: '16px', marginBottom: '24px' }}>
+            <Text style={{ fontSize: '10px', color: '#3b82f6', letterSpacing: '0.1em', fontWeight: 'bold', margin: '0 0 8px' }}>
+              🤖 AI SALES FORCE & AUTONOMOUS ENGINE
+            </Text>
+
+            <table style={{ width: '100%', borderCollapse: 'collapse' as const, marginBottom: '12px' }}>
+              <tr>
+                <td style={{ padding: '4px 8px', fontSize: '11px', color: '#475569' }}>Total Leads Generated</td>
+                <td style={{ padding: '4px 8px', fontSize: '11px', fontWeight: 'bold', textAlign: 'right' as const }}>{formatNumber(salesForceMetrics.totalLeadsGenerated || 0)}</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '4px 8px', fontSize: '11px', color: '#475569' }}>Leads Contacted</td>
+                <td style={{ padding: '4px 8px', fontSize: '11px', fontWeight: 'bold', textAlign: 'right' as const }}>{formatNumber(salesForceMetrics.leadsContacted || 0)}</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '4px 8px', fontSize: '11px', color: '#475569' }}>Leads Converted</td>
+                <td style={{ padding: '4px 8px', fontSize: '11px', fontWeight: 'bold', textAlign: 'right' as const }}>{formatNumber(salesForceMetrics.leadsConverted || 0)}</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '4px 8px', fontSize: '11px', color: '#475569' }}>Outreach Sent (Total)</td>
+                <td style={{ padding: '4px 8px', fontSize: '11px', fontWeight: 'bold', textAlign: 'right' as const }}>{formatNumber(salesForceMetrics.totalOutreachSent || 0)}</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '4px 8px', fontSize: '11px', color: '#475569' }}>Outreach Sent Today</td>
+                <td style={{ padding: '4px 8px', fontSize: '11px', fontWeight: 'bold', textAlign: 'right' as const }}>{formatNumber(salesForceMetrics.outreachSentToday || 0)}</td>
+              </tr>
+              <tr style={{ borderTop: '1px solid #bfdbfe' }}>
+                <td style={{ padding: '4px 8px', fontSize: '11px', color: '#475569' }}>Weekly Traffic Created</td>
+                <td style={{ padding: '4px 8px', fontSize: '11px', fontWeight: 'bold', textAlign: 'right' as const }}>{formatNumber(salesForceMetrics.weeklyTrafficCreated || 0)}</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '4px 8px', fontSize: '11px', color: '#475569' }}>Weekly Conversions</td>
+                <td style={{ padding: '4px 8px', fontSize: '11px', fontWeight: 'bold', textAlign: 'right' as const }}>{formatNumber(salesForceMetrics.weeklyConversions || 0)}</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '4px 8px', fontSize: '11px', color: '#475569' }}>Conversion Rate</td>
+                <td style={{ padding: '4px 8px', fontSize: '11px', fontWeight: 'bold', textAlign: 'right' as const }}>{salesForceMetrics.conversionRate || 0}%</td>
+              </tr>
+            </table>
+
+            {salesForceMetrics.compoundingAIAgents && (
+              <>
+                <Text style={{ fontSize: '10px', color: '#1d4ed8', letterSpacing: '0.08em', fontWeight: 'bold', margin: '8px 0 4px', borderTop: '1px solid #bfdbfe', paddingTop: '8px' }}>
+                  ⚡ COMPOUNDING AI AGENTS
+                </Text>
+                <table style={{ width: '100%', borderCollapse: 'collapse' as const, marginBottom: '8px' }}>
+                  <tr>
+                    <td style={{ padding: '3px 8px', fontSize: '11px', color: '#475569' }}>Active Agents</td>
+                    <td style={{ padding: '3px 8px', fontSize: '14px', fontWeight: 'bold', color: '#1d4ed8', textAlign: 'right' as const }}>{salesForceMetrics.compoundingAIAgents.activeAgents}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: '3px 8px', fontSize: '11px', color: '#475569' }}>Compounding Cycles</td>
+                    <td style={{ padding: '3px 8px', fontSize: '11px', fontWeight: 'bold', textAlign: 'right' as const }}>{salesForceMetrics.compoundingAIAgents.compoundingCycles}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: '3px 8px', fontSize: '11px', color: '#475569' }}>Next Doubling</td>
+                    <td style={{ padding: '3px 8px', fontSize: '11px', fontWeight: 'bold', textAlign: 'right' as const }}>{salesForceMetrics.compoundingAIAgents.nextDoubling}</td>
+                  </tr>
+                </table>
+                {salesForceMetrics.compoundingAIAgents.departments && (
+                  <table style={{ width: '100%', borderCollapse: 'collapse' as const, fontSize: '10px' }}>
+                    <tr style={{ backgroundColor: '#dbeafe' }}>
+                      <td style={{ padding: '3px 6px', fontWeight: 'bold', color: '#1e40af' }}>Department</td>
+                      <td style={{ padding: '3px 6px', fontWeight: 'bold', color: '#1e40af', textAlign: 'right' as const }}>Agents</td>
+                    </tr>
+                    {Object.entries(salesForceMetrics.compoundingAIAgents.departments).map(([dept, count]) => (
+                      <tr key={dept}>
+                        <td style={{ padding: '2px 6px', color: '#475569', textTransform: 'capitalize' as const }}>{dept.replace(/([A-Z])/g, ' $1').trim()}</td>
+                        <td style={{ padding: '2px 6px', fontWeight: 'bold', textAlign: 'right' as const }}>{count}</td>
+                      </tr>
+                    ))}
+                  </table>
+                )}
+              </>
+            )}
+
+            {salesForceMetrics.autonomousEngineStatus && (
+              <>
+                <Text style={{ fontSize: '10px', color: '#1d4ed8', letterSpacing: '0.08em', fontWeight: 'bold', margin: '8px 0 4px', borderTop: '1px solid #bfdbfe', paddingTop: '8px' }}>
+                  🏭 AUTONOMOUS REVENUE ENGINES
+                </Text>
+                {Object.entries(salesForceMetrics.autonomousEngineStatus).map(([name, data]) => (
+                  <Text key={name} style={{ fontSize: '11px', margin: '2px 0' }}>
+                    <span style={{ fontWeight: 'bold' }}>{name}</span>: {data.status} · {data.agents} agents · {formatCurrency(data.revenue)}/day
+                  </Text>
+                ))}
+              </>
+            )}
+          </Section>
+        )}
+
         <Button style={ctaButton} href="https://poke-pulse-ticker.lovable.app/command-center">
           View Full Audit Report
         </Button>
