@@ -496,6 +496,38 @@ const Index = () => {
           <ReferralCTA />
         </LazySection>
 
+        {/* Pulse Philanthropic Project */}
+        <section className="border border-border/[0.08] rounded-lg p-4 bg-gradient-to-br from-primary/5 via-background to-accent/5">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-2xl">🏛️</span>
+            <h2 className="font-mono text-sm font-bold tracking-tight text-foreground">
+              Pulse Philanthropic Project™
+            </h2>
+            <span className="text-[8px] font-mono text-muted-foreground/60 border border-border/20 rounded px-1">TIER 5</span>
+          </div>
+          <p className="text-xs text-muted-foreground leading-relaxed mb-2">
+            <span className="text-primary font-semibold">The National Museum of Trading Cards & Collectibles</span> — 
+            Our long-term philanthropic vision powered by Poke-Pulse-Engine™ revenue. Every subscription, 
+            every trade, every signal contributes to building the world's first museum dedicated to preserving 
+            the cultural history of trading card games and collectibles for future generations.
+          </p>
+          <div className="grid grid-cols-3 gap-2 mb-2">
+            {[
+              { label: "Mission", value: "Preserve TCG History" },
+              { label: "Funded By", value: "Engine Revenue" },
+              { label: "Status", value: "Building Capital" },
+            ].map(item => (
+              <div key={item.label} className="text-center border border-border/10 rounded p-1.5">
+                <p className="text-[8px] text-muted-foreground/60 font-mono">{item.label}</p>
+                <p className="text-[10px] font-semibold text-foreground">{item.value}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-[8px] text-muted-foreground/40 font-mono text-center">
+            © PGVA Ventures, LLC · Noyes Family Trust · 501(c)(3) Pending
+          </p>
+        </section>
+
         <FinancialDisclaimer />
 
         <footer className="border-t border-border/30 pt-2 pb-6">
