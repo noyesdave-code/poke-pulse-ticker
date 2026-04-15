@@ -76,6 +76,24 @@ interface DailyAuditReportProps {
     ytdActual?: number
     ytdTarget?: number
   }
+  salesForceMetrics?: {
+    totalLeadsGenerated?: number
+    leadsContacted?: number
+    leadsConverted?: number
+    totalOutreachSent?: number
+    outreachSentToday?: number
+    weeklyTrafficCreated?: number
+    weeklyConversions?: number
+    conversionRate?: number
+    compoundingAIAgents?: {
+      activeAgents?: number
+      daysSinceLaunch?: number
+      compoundingCycles?: number
+      nextDoubling?: string
+      departments?: Record<string, number>
+    }
+    autonomousEngineStatus?: Record<string, { status: string; agents: number; revenue: number }>
+  }
 }
 
 const statusColor = (status: string) => {
