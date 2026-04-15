@@ -121,6 +121,7 @@ const DailyAuditReportEmail = ({
   balanceSheet,
   capitalDream,
   dailyRevenueSheet,
+  salesForceMetrics,
 }: DailyAuditReportProps) => (
   <Html lang="en" dir="ltr">
     <Head />
