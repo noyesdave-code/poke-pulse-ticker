@@ -15,6 +15,8 @@ import { template as dailyAuditReport } from './daily-audit-report.tsx'
 import { template as investorPacketDelivery } from './investor-packet-delivery.tsx'
 import { template as investorOutreach } from './investor-outreach.tsx'
 import { template as salesOutreach } from './sales-outreach.tsx'
+import { template as dunningRecovery } from './dunning-recovery.tsx'
+import { template as trialNudge } from './trial-nudge.tsx'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'portfolio-price-alert': portfolioPriceAlert,
@@ -23,4 +25,6 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'investor-packet-delivery': investorPacketDelivery,
   'investor-outreach': investorOutreach,
   'sales-outreach': salesOutreach,
+  'dunning-recovery': dunningRecovery,
+  'trial-nudge': trialNudge,
 }
