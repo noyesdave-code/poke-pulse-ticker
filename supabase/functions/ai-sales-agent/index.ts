@@ -326,16 +326,9 @@ serve(async (req) => {
         if (!toolCall) { emailsFailed++; continue; }
         const email = JSON.parse(toolCall.function.arguments);
 
-        // Direct fetch with service-role auth — bypasses verify_jwt restriction on send-transactional-email
-        const sendUrl = `${supabaseUrl}/functions/v1/send-transactional-email`;
-        const sendResp = await fetch(sendUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${serviceKey}`,
-            apikey: serviceKey,
-          },
-          body: JSON.stringify({
+        // Use supabase.functions.invoke — auto-attaches valid internal JWT for service-role context
+        const sendResult = await supabase.functions.invoke("send-transactional-email", {
+          body: {
             templateName: "sales-outreach",
             recipientEmail: lead.email,
             idempotencyKey: `sales-outreach-${lead.id}-${new Date().toISOString().split("T")[0]}`,
@@ -345,13 +338,12 @@ serve(async (req) => {
               emailBody: email.body,
               ctaUrl: `https://poke-pulse-ticker.com/?ref=lead_${lead.id}&utm_source=outreach&utm_campaign=cold_email`,
             },
-          }),
+          },
         });
 
-        const emailStatus = sendResp.ok ? "sent" : "failed";
-        if (!sendResp.ok) {
-          const errText = await sendResp.text().catch(() => "");
-          console.error(`Email send failed for ${lead.email}: ${sendResp.status} ${errText.slice(0, 200)}`);
+        const emailStatus = sendResult.error ? "failed" : "sent";
+        if (sendResult.error) {
+          console.error(`Email send failed for ${lead.email}:`, sendResult.error.message || sendResult.error);
         }
         if (emailStatus === "sent") emailsSent++; else emailsFailed++;
 
