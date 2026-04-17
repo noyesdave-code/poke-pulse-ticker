@@ -8,13 +8,52 @@ const corsHeaders = {
 
 const FIRECRAWL_V2 = "https://api.firecrawl.dev/v2";
 
-// Search queries that surface REAL Pokemon TCG shops with publicly published contact emails on their own websites
-const DISCOVERY_QUERIES = [
-  "pokemon card shop \"contact us\" email",
-  "pokemon TCG local game store \"info@\" OR \"sales@\" OR \"hello@\"",
-  "pokemon singles store buylist contact email",
-  "trading card shop pokemon \"email us\" contact",
+// Massively expanded query set — geo + role + niche permutations across US & Canada
+// Targets thousands of independent card shops, LGS, hobby stores, and online TCG retailers
+const US_STATES = [
+  "California","Texas","Florida","New York","Pennsylvania","Illinois","Ohio","Georgia",
+  "North Carolina","Michigan","New Jersey","Virginia","Washington","Arizona","Massachusetts",
+  "Tennessee","Indiana","Missouri","Maryland","Wisconsin","Colorado","Minnesota","Oregon",
+  "Nevada","Utah","Connecticut","Kentucky","Alabama","South Carolina","Louisiana",
 ];
+const CA_PROVINCES = ["Ontario","Quebec","British Columbia","Alberta","Manitoba","Nova Scotia"];
+const ROLE_EMAILS = ["info@","sales@","hello@","contact@","support@","orders@","store@","buylist@"];
+const SHOP_TYPES = [
+  "pokemon card shop","pokemon TCG store","trading card game store","local game store pokemon",
+  "card shop singles pokemon","hobby shop pokemon cards","comic and card shop pokemon",
+  "pokemon buylist shop","graded card shop pokemon","sealed pokemon product retailer",
+];
+
+function buildDiscoveryQueries(): string[] {
+  const queries: string[] = [];
+  // Geo × shop-type permutations (US states)
+  for (const state of US_STATES) {
+    queries.push(`pokemon card shop ${state} "contact" email`);
+    queries.push(`TCG store ${state} pokemon "info@" OR "sales@"`);
+  }
+  // Geo × shop-type (Canadian provinces)
+  for (const prov of CA_PROVINCES) {
+    queries.push(`pokemon card shop ${prov} Canada "contact" email`);
+    queries.push(`TCG store ${prov} pokemon "info@" OR "hello@"`);
+  }
+  // Role-email targeted queries
+  for (const role of ROLE_EMAILS) {
+    queries.push(`pokemon card shop "${role}" site:.com -ebay -tcgplayer`);
+  }
+  // Niche shop-type queries
+  for (const type of SHOP_TYPES) {
+    queries.push(`"${type}" "contact us" email USA`);
+    queries.push(`"${type}" "contact" email Canada`);
+  }
+  // Directory / aggregator queries
+  queries.push("list of pokemon card shops United States contact");
+  queries.push("directory of trading card stores Canada email");
+  queries.push("best pokemon card stores near me email contact");
+  queries.push("independent comic and card shops USA pokemon contact");
+  return queries;
+}
+
+const DISCOVERY_QUERIES = buildDiscoveryQueries();
 
 // Email regex tuned for business contact extraction
 const EMAIL_RE = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
