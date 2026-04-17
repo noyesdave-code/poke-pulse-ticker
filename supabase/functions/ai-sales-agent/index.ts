@@ -8,13 +8,52 @@ const corsHeaders = {
 
 const FIRECRAWL_V2 = "https://api.firecrawl.dev/v2";
 
-// Search queries that surface REAL Pokemon TCG shops with publicly published contact emails on their own websites
-const DISCOVERY_QUERIES = [
-  "pokemon card shop \"contact us\" email",
-  "pokemon TCG local game store \"info@\" OR \"sales@\" OR \"hello@\"",
-  "pokemon singles store buylist contact email",
-  "trading card shop pokemon \"email us\" contact",
+// Massively expanded query set — geo + role + niche permutations across US & Canada
+// Targets thousands of independent card shops, LGS, hobby stores, and online TCG retailers
+const US_STATES = [
+  "California","Texas","Florida","New York","Pennsylvania","Illinois","Ohio","Georgia",
+  "North Carolina","Michigan","New Jersey","Virginia","Washington","Arizona","Massachusetts",
+  "Tennessee","Indiana","Missouri","Maryland","Wisconsin","Colorado","Minnesota","Oregon",
+  "Nevada","Utah","Connecticut","Kentucky","Alabama","South Carolina","Louisiana",
 ];
+const CA_PROVINCES = ["Ontario","Quebec","British Columbia","Alberta","Manitoba","Nova Scotia"];
+const ROLE_EMAILS = ["info@","sales@","hello@","contact@","support@","orders@","store@","buylist@"];
+const SHOP_TYPES = [
+  "pokemon card shop","pokemon TCG store","trading card game store","local game store pokemon",
+  "card shop singles pokemon","hobby shop pokemon cards","comic and card shop pokemon",
+  "pokemon buylist shop","graded card shop pokemon","sealed pokemon product retailer",
+];
+
+function buildDiscoveryQueries(): string[] {
+  const queries: string[] = [];
+  // Geo × shop-type permutations (US states)
+  for (const state of US_STATES) {
+    queries.push(`pokemon card shop ${state} "contact" email`);
+    queries.push(`TCG store ${state} pokemon "info@" OR "sales@"`);
+  }
+  // Geo × shop-type (Canadian provinces)
+  for (const prov of CA_PROVINCES) {
+    queries.push(`pokemon card shop ${prov} Canada "contact" email`);
+    queries.push(`TCG store ${prov} pokemon "info@" OR "hello@"`);
+  }
+  // Role-email targeted queries
+  for (const role of ROLE_EMAILS) {
+    queries.push(`pokemon card shop "${role}" site:.com -ebay -tcgplayer`);
+  }
+  // Niche shop-type queries
+  for (const type of SHOP_TYPES) {
+    queries.push(`"${type}" "contact us" email USA`);
+    queries.push(`"${type}" "contact" email Canada`);
+  }
+  // Directory / aggregator queries
+  queries.push("list of pokemon card shops United States contact");
+  queries.push("directory of trading card stores Canada email");
+  queries.push("best pokemon card stores near me email contact");
+  queries.push("independent comic and card shops USA pokemon contact");
+  return queries;
+}
+
+const DISCOVERY_QUERIES = buildDiscoveryQueries();
 
 // Email regex tuned for business contact extraction
 const EMAIL_RE = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
@@ -27,7 +66,7 @@ async function firecrawlSearch(query: string, apiKey: string) {
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       query,
-      limit: 8,
+      limit: 20, // up from 8 → 2.5x more pages per query
       scrapeOptions: { formats: ["markdown"] },
     }),
   });
@@ -38,9 +77,34 @@ async function firecrawlSearch(query: string, apiKey: string) {
   return res.json();
 }
 
+// Pick a rotating slice of queries each run so we cover the full pool over multiple runs
+// without exhausting Firecrawl quota in a single invocation.
+function pickQueriesForRun(all: string[], batchSize: number): string[] {
+  // Hour-based rotation so consecutive runs cover different slices
+  const hour = new Date().getUTCHours();
+  const startIdx = (hour * batchSize) % all.length;
+  const slice: string[] = [];
+  for (let i = 0; i < batchSize; i++) {
+    slice.push(all[(startIdx + i) % all.length]);
+  }
+  return slice;
+}
+
+// Page must look like a card/TCG shop — otherwise we skip ALL emails on that page.
+// Prevents PDFs, church directories, news articles, etc. from polluting the lead pool.
+const TCG_RELEVANCE_RE = /\b(pokemon|pok[eé]mon|tcg|trading card|card shop|card store|magic the gathering|mtg|yu-?gi-?oh|booster|singles|buylist|graded|psa|cgc|bgs)\b/i;
+const NEGATIVE_CONTEXT_RE = /\b(church|ministry|funeral|obituary|school district|university|county clerk|city hall|elder law|attorney|legal services|hospital|clinic|real estate|insurance agency)\b/i;
+
 function extractRealLeadsFromMarkdown(markdown: string, sourceUrl: string, title?: string) {
   const found = new Map<string, { email: string; company: string; source: string }>();
   if (!markdown) return [];
+  const titleAndBody = `${title || ""}\n${markdown}`;
+  // Skip the page entirely if it doesn't look like a TCG shop OR has obvious non-shop context
+  if (!TCG_RELEVANCE_RE.test(titleAndBody)) return [];
+  if (NEGATIVE_CONTEXT_RE.test(titleAndBody)) return [];
+  // Skip PDFs and aggregator junk
+  if (/\.pdf(\?|$)/i.test(sourceUrl) || /^\[PDF\]/i.test(title || "")) return [];
+
   const matches = markdown.match(EMAIL_RE) || [];
   let host = "unknown";
   try { host = new URL(sourceUrl).hostname; } catch { /* ignore */ }
@@ -53,15 +117,75 @@ function extractRealLeadsFromMarkdown(markdown: string, sourceUrl: string, title
     const looksOwnDomain = emailDomain === baseDomain
       || baseDomain.endsWith("." + emailDomain)
       || emailDomain.endsWith("." + baseDomain);
+    // Only accept emails on the shop's own domain — eliminates random mentions
+    if (!looksOwnDomain) continue;
     found.set(email, {
       email,
       company: (title?.trim() || baseDomain).slice(0, 120),
-      source: looksOwnDomain
-        ? `Public website: ${baseDomain}`
-        : `Public mention: ${baseDomain}`,
+      source: `Verified TCG shop site: ${baseDomain}`,
     });
   }
   return Array.from(found.values());
+}
+
+// Dedupe and bulk-insert leads, skipping any email already in the DB.
+// Also bumps today's leads_generated metric.
+async function flushLeadsToDb(
+  supabase: ReturnType<typeof createClient>,
+  leads: Array<{ email: string; company: string; source: string }>,
+): Promise<{ inserted: number; skipped: number }> {
+  if (leads.length === 0) return { inserted: 0, skipped: 0 };
+
+  const uniqueByEmail = new Map<string, typeof leads[number]>();
+  for (const l of leads) if (!uniqueByEmail.has(l.email)) uniqueByEmail.set(l.email, l);
+  const candidateEmails = Array.from(uniqueByEmail.keys());
+
+  const { data: existing } = await supabase
+    .from("sales_leads")
+    .select("email")
+    .in("email", candidateEmails);
+  const existingSet = new Set((existing || []).map((r: { email: string }) => r.email.toLowerCase()));
+
+  let inserted = 0;
+  let skipped = 0;
+  const rowsToInsert: Array<Record<string, unknown>> = [];
+  for (const lead of uniqueByEmail.values()) {
+    if (existingSet.has(lead.email)) { skipped++; continue; }
+    const localPart = lead.email.split("@")[0].replace(/[._-]/g, " ");
+    const name = localPart.charAt(0).toUpperCase() + localPart.slice(1);
+    rowsToInsert.push({
+      name: name.slice(0, 100),
+      email: lead.email,
+      company: lead.company,
+      source: lead.source,
+      score: 75,
+      notes: "Discovered via public TCG shop directory scrape (real, deliverable email).",
+      ai_personalization: { real_source: true, scraped_at: new Date().toISOString() },
+    });
+  }
+
+  if (rowsToInsert.length > 0) {
+    const { error, data } = await supabase.from("sales_leads").insert(rowsToInsert).select("id");
+    if (!error && data) inserted = data.length;
+    else if (error) console.error("[flushLeadsToDb] insert error:", error.message);
+  }
+
+  if (inserted > 0) {
+    const today = new Date().toISOString().split("T")[0];
+    const { data: existingMetric } = await supabase
+      .from("sales_pipeline_metrics")
+      .select("*")
+      .eq("metric_date", today)
+      .maybeSingle();
+    if (existingMetric) {
+      await supabase.from("sales_pipeline_metrics").update({
+        leads_generated: (existingMetric.leads_generated || 0) + inserted,
+      }).eq("id", existingMetric.id);
+    } else {
+      await supabase.from("sales_pipeline_metrics").insert({ metric_date: today, leads_generated: inserted });
+    }
+  }
+  return { inserted, skipped };
 }
 
 serve(async (req) => {
@@ -84,100 +208,54 @@ serve(async (req) => {
         throw new Error("FIRECRAWL_API_KEY not configured — cannot search public web for real shop emails.");
       }
 
+      // Per-run batch: scan up to 25 queries × 20 results per run.
+      // Rotates by hour so consecutive runs cover different geo/role slices of the full pool.
+      const QUERIES_PER_RUN = 25;
       const queries: string[] = Array.isArray(customQueries) && customQueries.length > 0
-        ? customQueries.slice(0, 4)
-        : DISCOVERY_QUERIES;
+        ? customQueries.slice(0, QUERIES_PER_RUN)
+        : pickQueriesForRun(DISCOVERY_QUERIES, QUERIES_PER_RUN);
 
-      const allLeads: Array<{ email: string; company: string; source: string }> = [];
-      const scrapeReport: Array<{ query: string; pages_scanned: number; emails_found: number; error?: string }> = [];
-
-      for (const query of queries) {
-        try {
-          const searchResult = await firecrawlSearch(query, FIRECRAWL_API_KEY);
-          const results = searchResult?.data?.web
-            || searchResult?.web
-            || searchResult?.data
-            || [];
-          const items: Array<{ url?: string; markdown?: string; title?: string; description?: string }> = Array.isArray(results) ? results : [];
-          let emailsThisQuery = 0;
-          for (const item of items) {
-            if (!item?.url) continue;
-            const md = (item.markdown || "") + "\n" + (item.description || "");
-            const leads = extractRealLeadsFromMarkdown(md, item.url, item.title);
-            allLeads.push(...leads);
-            emailsThisQuery += leads.length;
+      // Long-running background task — survives client disconnects via EdgeRuntime.waitUntil
+      const backgroundWork = (async () => {
+        const allLeads: Array<{ email: string; company: string; source: string }> = [];
+        let queriesProcessed = 0;
+        for (const query of queries) {
+          try {
+            const searchResult = await firecrawlSearch(query, FIRECRAWL_API_KEY);
+            const results = searchResult?.data?.web
+              || searchResult?.web
+              || searchResult?.data
+              || [];
+            const items: Array<{ url?: string; markdown?: string; title?: string; description?: string }> = Array.isArray(results) ? results : [];
+            for (const item of items) {
+              if (!item?.url) continue;
+              const md = (item.markdown || "") + "\n" + (item.description || "");
+              const leads = extractRealLeadsFromMarkdown(md, item.url, item.title);
+              allLeads.push(...leads);
+            }
+            queriesProcessed++;
+            // Flush partial results every 5 queries so progress is durable even if the runtime is killed
+            if (queriesProcessed % 5 === 0) {
+              await flushLeadsToDb(supabase, allLeads.splice(0));
+            }
+          } catch (err) {
+            console.error(`[generate_leads] query="${query}" error:`, err);
           }
-          scrapeReport.push({ query, pages_scanned: items.length, emails_found: emailsThisQuery });
-        } catch (err) {
-          scrapeReport.push({
-            query,
-            pages_scanned: 0,
-            emails_found: 0,
-            error: err instanceof Error ? err.message : String(err),
-          });
         }
-      }
+        if (allLeads.length > 0) await flushLeadsToDb(supabase, allLeads);
+        console.log(`[generate_leads] complete: processed ${queriesProcessed}/${queries.length} queries`);
+      })();
 
-
-      // Dedupe across all sources
-      const uniqueByEmail = new Map<string, typeof allLeads[number]>();
-      for (const l of allLeads) if (!uniqueByEmail.has(l.email)) uniqueByEmail.set(l.email, l);
-
-      // Filter out emails that already exist in DB
-      const candidateEmails = Array.from(uniqueByEmail.keys());
-      let inserted = 0;
-      let skippedExisting = 0;
-
-      if (candidateEmails.length > 0) {
-        const { data: existing } = await supabase
-          .from("sales_leads")
-          .select("email")
-          .in("email", candidateEmails);
-        const existingSet = new Set((existing || []).map((r) => r.email.toLowerCase()));
-
-        for (const lead of uniqueByEmail.values()) {
-          if (existingSet.has(lead.email)) { skippedExisting++; continue; }
-          // Derive a name from the local part of the email (best-effort)
-          const localPart = lead.email.split("@")[0].replace(/[._-]/g, " ");
-          const name = localPart.charAt(0).toUpperCase() + localPart.slice(1);
-
-          const { error } = await supabase.from("sales_leads").insert({
-            name: name.slice(0, 100),
-            email: lead.email,
-            company: lead.company,
-            source: lead.source,
-            score: 75, // real verified-source leads start higher
-            notes: "Discovered via public TCG shop directory scrape (real, deliverable email).",
-            ai_personalization: { real_source: true, scraped_at: new Date().toISOString() },
-          });
-          if (!error) inserted++;
-        }
-      }
-
-      // Update daily metrics
-      const today = new Date().toISOString().split("T")[0];
-      const { data: existingMetric } = await supabase
-        .from("sales_pipeline_metrics")
-        .select("*")
-        .eq("metric_date", today)
-        .maybeSingle();
-      if (existingMetric) {
-        await supabase.from("sales_pipeline_metrics").update({
-          leads_generated: (existingMetric.leads_generated || 0) + inserted,
-        }).eq("id", existingMetric.id);
-      } else {
-        await supabase.from("sales_pipeline_metrics").insert({
-          metric_date: today,
-          leads_generated: inserted,
-        });
+      // @ts-ignore — EdgeRuntime is provided by Supabase runtime
+      if (typeof EdgeRuntime !== "undefined" && typeof EdgeRuntime.waitUntil === "function") {
+        // @ts-ignore
+        EdgeRuntime.waitUntil(backgroundWork);
       }
 
       return new Response(JSON.stringify({
         success: true,
-        leads_inserted: inserted,
-        skipped_already_in_db: skippedExisting,
-        unique_emails_found: uniqueByEmail.size,
-        searches_run: scrapeReport,
+        message: `Lead discovery started in background — scanning ${queries.length} queries × up to 20 results each. Check sales_leads table in 1-3 minutes.`,
+        queries_queued: queries.length,
         note: "Leads discovered via live web search of publicly published shop contact pages — real, deliverable emails.",
       }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
