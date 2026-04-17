@@ -136,9 +136,12 @@ serve(async (req) => {
         throw new Error("FIRECRAWL_API_KEY not configured — cannot search public web for real shop emails.");
       }
 
+      // Per-run batch: scan 25 queries × 20 results = up to 500 pages per run
+      // Rotates by hour so consecutive runs cover different geo/role slices of the full pool
+      const QUERIES_PER_RUN = 25;
       const queries: string[] = Array.isArray(customQueries) && customQueries.length > 0
-        ? customQueries.slice(0, 4)
-        : DISCOVERY_QUERIES;
+        ? customQueries.slice(0, QUERIES_PER_RUN)
+        : pickQueriesForRun(DISCOVERY_QUERIES, QUERIES_PER_RUN);
 
       const allLeads: Array<{ email: string; company: string; source: string }> = [];
       const scrapeReport: Array<{ query: string; pages_scanned: number; emails_found: number; error?: string }> = [];
