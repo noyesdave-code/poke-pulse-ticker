@@ -8,31 +8,32 @@ const corsHeaders = {
 
 const FIRECRAWL_V2 = "https://api.firecrawl.dev/v2";
 
-// Public, scrapeable directories of REAL Pokemon TCG shops (business listings with publicly posted contact info)
-const PUBLIC_DIRECTORIES = [
-  "https://www.tcgplayer.com/local-game-stores",
-  "https://locator.wizards.com/store/wpn/?country=United%20States&game=pokemon",
-  "https://www.pokemon.com/us/play-pokemon/league/",
+// Search queries that surface REAL Pokemon TCG shops with publicly published contact emails on their own websites
+const DISCOVERY_QUERIES = [
+  "pokemon card shop \"contact us\" email",
+  "pokemon TCG local game store \"info@\" OR \"sales@\" OR \"hello@\"",
+  "pokemon singles store buylist contact email",
+  "trading card shop pokemon \"email us\" contact",
 ];
 
 // Email regex tuned for business contact extraction
 const EMAIL_RE = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 // Filter out junk/role addresses we don't want to spam
-const EMAIL_BLOCKLIST = /(noreply|no-reply|donotreply|wizards\.com|pokemon\.com|tcgplayer\.com|example\.com|sentry\.io|test@|@test\.|@localhost)/i;
+const EMAIL_BLOCKLIST = /(noreply|no-reply|donotreply|wizards\.com|pokemon\.com|tcgplayer\.com|example\.com|sentry\.io|test@|@test\.|@localhost|@sentry|@cloudflare|@google|@facebook|@twitter|@instagram|@youtube|@reddit|wixpress|squarespace|godaddy|@2x|\.png|\.jpg|\.svg|@wordpress|@shopify|user@domain|name@email|your@email|yourname@|@gmail\.png|@yahoo\.png)/i;
 
-async function firecrawlScrape(url: string, apiKey: string) {
-  const res = await fetch(`${FIRECRAWL_V2}/scrape`, {
+async function firecrawlSearch(query: string, apiKey: string) {
+  const res = await fetch(`${FIRECRAWL_V2}/search`, {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      url,
-      formats: ["markdown", "links"],
-      onlyMainContent: false,
+      query,
+      limit: 8,
+      scrapeOptions: { formats: ["markdown"] },
     }),
   });
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new Error(`Firecrawl ${res.status}: ${text.slice(0, 200)}`);
+    throw new Error(`Firecrawl search ${res.status}: ${text.slice(0, 200)}`);
   }
   return res.json();
 }
