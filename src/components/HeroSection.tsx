@@ -7,27 +7,27 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const actions = [
   {
     icon: Search,
-    label: "Price Check",
-    desc: "Pinpoint any card's live market value instantly",
+    label: "Price a Card",
+    desc: "Live market value in seconds",
     action: "search",
   },
   {
     icon: Briefcase,
-    label: "Portfolio",
-    desc: "Track holdings, P&L, and cost basis in real time",
+    label: "Track Portfolio",
+    desc: "Real-time P&L on holdings",
     path: "/portfolio",
   },
   {
     icon: Layers,
     label: "Browse Sets",
-    desc: "Explore every set and era",
+    desc: "Compare every era & set",
     path: "/sets",
   },
   {
     icon: TrendingUp,
-    label: "Dashboard",
-    desc: "Signals, arbitrage, and ROI tools",
-    path: "/dashboard",
+    label: "Start Pro Trial",
+    desc: "14 days free · no card",
+    path: "/pricing",
   },
 ];
 
@@ -148,8 +148,8 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
                 transition={{ delay: 0.24, duration: 0.45 }}
                 className="font-display text-xl sm:text-3xl font-extrabold tracking-tight text-foreground"
               >
-                Track Price. Read Momentum.{" "}
-                <span className="text-primary">Move Faster.</span>
+                Know what your cards are worth.{" "}
+                <span className="text-primary">Right now.</span>
               </motion.h1>
 
               <motion.p
@@ -167,9 +167,10 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
                 transition={{ delay: 0.38, duration: 0.45 }}
                 className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed"
               >
-                The <span className="text-foreground font-medium">Poke-Pulse-Engine™</span> tracks
-                live singles, notable sales, grading ROI, market indexes, movers, and AI-driven market
-                signals so you can see what matters first.
+                The <span className="text-foreground font-medium">Poke-Pulse-Engine™</span> aggregates
+                TCGPlayer, eBay, and PriceCharting into one consensus price — accurate within{" "}
+                <span className="text-foreground font-semibold">99% of TCGPlayer market</span>. Track
+                holdings, spot arbitrage, and time the market with AI signals.
               </motion.p>
 
               <motion.div
@@ -185,16 +186,16 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
                 >
                   <div className="absolute inset-0 shimmer-sweep opacity-40" />
                   <Search className="relative w-4 h-4" />
-                  <span className="relative">PRICE CHECK A CARD</span>
+                  <span className="relative">PRICE A CARD — FREE</span>
                   <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
 
                 <button
                   onClick={() => navigate("/pricing")}
-                  className="inline-flex items-center gap-2 px-4 py-3 sm:py-2.5 rounded-lg font-mono text-sm font-medium border border-border text-foreground hover:border-primary/40 hover:bg-muted/50 transition-all duration-300 min-h-[48px]"
+                  className="inline-flex items-center gap-2 px-4 py-3 sm:py-2.5 rounded-lg font-mono text-sm font-medium border border-primary/30 text-foreground hover:border-primary/60 hover:bg-primary/5 transition-all duration-300 min-h-[48px]"
                 >
-                  <Zap className="w-4 h-4 text-muted-foreground" />
-                  View Plans
+                  <Zap className="w-4 h-4 text-primary" />
+                  Start 14-Day Pro Trial
                 </button>
               </motion.div>
 
@@ -204,7 +205,7 @@ const HeroSection = ({ onSearchFocus, topMoverName, topMoverChange }: HeroSectio
                 transition={{ delay: 0.54 }}
                 className="font-mono text-[10px] text-primary/70 tracking-wide"
               >
-                ✓ Live indexes &nbsp;·&nbsp; ✓ notable sales &nbsp;·&nbsp; ✓ grading ROI &nbsp;·&nbsp; ✓ AI market insights
+                ✓ 99% TCGPlayer accuracy &nbsp;·&nbsp; ✓ No credit card &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ 3,000+ live cards
               </motion.p>
             </div>
           </div>

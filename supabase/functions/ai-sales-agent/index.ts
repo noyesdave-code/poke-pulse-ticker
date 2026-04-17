@@ -326,6 +326,7 @@ serve(async (req) => {
         if (!toolCall) { emailsFailed++; continue; }
         const email = JSON.parse(toolCall.function.arguments);
 
+        // Use supabase.functions.invoke — auto-attaches valid internal JWT for service-role context
         const sendResult = await supabase.functions.invoke("send-transactional-email", {
           body: {
             templateName: "sales-outreach",
@@ -335,11 +336,15 @@ serve(async (req) => {
               recipientName: lead.name,
               subject: email.subject,
               emailBody: email.body,
+              ctaUrl: `https://poke-pulse-ticker.com/?ref=lead_${lead.id}&utm_source=outreach&utm_campaign=cold_email`,
             },
           },
         });
 
         const emailStatus = sendResult.error ? "failed" : "sent";
+        if (sendResult.error) {
+          console.error(`Email send failed for ${lead.email}:`, sendResult.error.message || sendResult.error);
+        }
         if (emailStatus === "sent") emailsSent++; else emailsFailed++;
 
         await supabase.from("sales_outreach_log").insert({
