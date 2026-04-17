@@ -66,7 +66,7 @@ async function firecrawlSearch(query: string, apiKey: string) {
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       query,
-      limit: 8,
+      limit: 20, // up from 8 → 2.5x more pages per query
       scrapeOptions: { formats: ["markdown"] },
     }),
   });
@@ -75,6 +75,19 @@ async function firecrawlSearch(query: string, apiKey: string) {
     throw new Error(`Firecrawl search ${res.status}: ${text.slice(0, 200)}`);
   }
   return res.json();
+}
+
+// Pick a rotating slice of queries each run so we cover the full pool over multiple runs
+// without exhausting Firecrawl quota in a single invocation.
+function pickQueriesForRun(all: string[], batchSize: number): string[] {
+  // Hour-based rotation so consecutive runs cover different slices
+  const hour = new Date().getUTCHours();
+  const startIdx = (hour * batchSize) % all.length;
+  const slice: string[] = [];
+  for (let i = 0; i < batchSize; i++) {
+    slice.push(all[(startIdx + i) % all.length]);
+  }
+  return slice;
 }
 
 function extractRealLeadsFromMarkdown(markdown: string, sourceUrl: string, title?: string) {
