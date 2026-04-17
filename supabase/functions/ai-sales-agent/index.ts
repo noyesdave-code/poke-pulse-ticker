@@ -116,6 +116,66 @@ function extractRealLeadsFromMarkdown(markdown: string, sourceUrl: string, title
   return Array.from(found.values());
 }
 
+// Dedupe and bulk-insert leads, skipping any email already in the DB.
+// Also bumps today's leads_generated metric.
+async function flushLeadsToDb(
+  supabase: ReturnType<typeof createClient>,
+  leads: Array<{ email: string; company: string; source: string }>,
+): Promise<{ inserted: number; skipped: number }> {
+  if (leads.length === 0) return { inserted: 0, skipped: 0 };
+
+  const uniqueByEmail = new Map<string, typeof leads[number]>();
+  for (const l of leads) if (!uniqueByEmail.has(l.email)) uniqueByEmail.set(l.email, l);
+  const candidateEmails = Array.from(uniqueByEmail.keys());
+
+  const { data: existing } = await supabase
+    .from("sales_leads")
+    .select("email")
+    .in("email", candidateEmails);
+  const existingSet = new Set((existing || []).map((r: { email: string }) => r.email.toLowerCase()));
+
+  let inserted = 0;
+  let skipped = 0;
+  const rowsToInsert: Array<Record<string, unknown>> = [];
+  for (const lead of uniqueByEmail.values()) {
+    if (existingSet.has(lead.email)) { skipped++; continue; }
+    const localPart = lead.email.split("@")[0].replace(/[._-]/g, " ");
+    const name = localPart.charAt(0).toUpperCase() + localPart.slice(1);
+    rowsToInsert.push({
+      name: name.slice(0, 100),
+      email: lead.email,
+      company: lead.company,
+      source: lead.source,
+      score: 75,
+      notes: "Discovered via public TCG shop directory scrape (real, deliverable email).",
+      ai_personalization: { real_source: true, scraped_at: new Date().toISOString() },
+    });
+  }
+
+  if (rowsToInsert.length > 0) {
+    const { error, data } = await supabase.from("sales_leads").insert(rowsToInsert).select("id");
+    if (!error && data) inserted = data.length;
+    else if (error) console.error("[flushLeadsToDb] insert error:", error.message);
+  }
+
+  if (inserted > 0) {
+    const today = new Date().toISOString().split("T")[0];
+    const { data: existingMetric } = await supabase
+      .from("sales_pipeline_metrics")
+      .select("*")
+      .eq("metric_date", today)
+      .maybeSingle();
+    if (existingMetric) {
+      await supabase.from("sales_pipeline_metrics").update({
+        leads_generated: (existingMetric.leads_generated || 0) + inserted,
+      }).eq("id", existingMetric.id);
+    } else {
+      await supabase.from("sales_pipeline_metrics").insert({ metric_date: today, leads_generated: inserted });
+    }
+  }
+  return { inserted, skipped };
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
