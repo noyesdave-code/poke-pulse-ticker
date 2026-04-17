@@ -7,27 +7,27 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const actions = [
   {
     icon: Search,
-    label: "Price Check",
-    desc: "Pinpoint any card's live market value instantly",
+    label: "Price a Card",
+    desc: "Live market value in seconds",
     action: "search",
   },
   {
     icon: Briefcase,
-    label: "Portfolio",
-    desc: "Track holdings, P&L, and cost basis in real time",
+    label: "Track Portfolio",
+    desc: "Real-time P&L on holdings",
     path: "/portfolio",
   },
   {
     icon: Layers,
     label: "Browse Sets",
-    desc: "Explore every set and era",
+    desc: "Compare every era & set",
     path: "/sets",
   },
   {
     icon: TrendingUp,
-    label: "Dashboard",
-    desc: "Signals, arbitrage, and ROI tools",
-    path: "/dashboard",
+    label: "Start Pro Trial",
+    desc: "14 days free · no card",
+    path: "/pricing",
   },
 ];
 
