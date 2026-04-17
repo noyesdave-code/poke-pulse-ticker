@@ -136,103 +136,54 @@ serve(async (req) => {
         throw new Error("FIRECRAWL_API_KEY not configured — cannot search public web for real shop emails.");
       }
 
-      // Per-run batch: scan 25 queries × 20 results = up to 500 pages per run
-      // Rotates by hour so consecutive runs cover different geo/role slices of the full pool
+      // Per-run batch: scan up to 25 queries × 20 results per run.
+      // Rotates by hour so consecutive runs cover different geo/role slices of the full pool.
       const QUERIES_PER_RUN = 25;
       const queries: string[] = Array.isArray(customQueries) && customQueries.length > 0
         ? customQueries.slice(0, QUERIES_PER_RUN)
         : pickQueriesForRun(DISCOVERY_QUERIES, QUERIES_PER_RUN);
 
-      const allLeads: Array<{ email: string; company: string; source: string }> = [];
-      const scrapeReport: Array<{ query: string; pages_scanned: number; emails_found: number; error?: string }> = [];
-
-      for (const query of queries) {
-        try {
-          const searchResult = await firecrawlSearch(query, FIRECRAWL_API_KEY);
-          const results = searchResult?.data?.web
-            || searchResult?.web
-            || searchResult?.data
-            || [];
-          const items: Array<{ url?: string; markdown?: string; title?: string; description?: string }> = Array.isArray(results) ? results : [];
-          let emailsThisQuery = 0;
-          for (const item of items) {
-            if (!item?.url) continue;
-            const md = (item.markdown || "") + "\n" + (item.description || "");
-            const leads = extractRealLeadsFromMarkdown(md, item.url, item.title);
-            allLeads.push(...leads);
-            emailsThisQuery += leads.length;
+      // Long-running background task — survives client disconnects via EdgeRuntime.waitUntil
+      const backgroundWork = (async () => {
+        const allLeads: Array<{ email: string; company: string; source: string }> = [];
+        let queriesProcessed = 0;
+        for (const query of queries) {
+          try {
+            const searchResult = await firecrawlSearch(query, FIRECRAWL_API_KEY);
+            const results = searchResult?.data?.web
+              || searchResult?.web
+              || searchResult?.data
+              || [];
+            const items: Array<{ url?: string; markdown?: string; title?: string; description?: string }> = Array.isArray(results) ? results : [];
+            for (const item of items) {
+              if (!item?.url) continue;
+              const md = (item.markdown || "") + "\n" + (item.description || "");
+              const leads = extractRealLeadsFromMarkdown(md, item.url, item.title);
+              allLeads.push(...leads);
+            }
+            queriesProcessed++;
+            // Flush partial results every 5 queries so progress is durable even if the runtime is killed
+            if (queriesProcessed % 5 === 0) {
+              await flushLeadsToDb(supabase, allLeads.splice(0));
+            }
+          } catch (err) {
+            console.error(`[generate_leads] query="${query}" error:`, err);
           }
-          scrapeReport.push({ query, pages_scanned: items.length, emails_found: emailsThisQuery });
-        } catch (err) {
-          scrapeReport.push({
-            query,
-            pages_scanned: 0,
-            emails_found: 0,
-            error: err instanceof Error ? err.message : String(err),
-          });
         }
-      }
+        if (allLeads.length > 0) await flushLeadsToDb(supabase, allLeads);
+        console.log(`[generate_leads] complete: processed ${queriesProcessed}/${queries.length} queries`);
+      })();
 
-
-      // Dedupe across all sources
-      const uniqueByEmail = new Map<string, typeof allLeads[number]>();
-      for (const l of allLeads) if (!uniqueByEmail.has(l.email)) uniqueByEmail.set(l.email, l);
-
-      // Filter out emails that already exist in DB
-      const candidateEmails = Array.from(uniqueByEmail.keys());
-      let inserted = 0;
-      let skippedExisting = 0;
-
-      if (candidateEmails.length > 0) {
-        const { data: existing } = await supabase
-          .from("sales_leads")
-          .select("email")
-          .in("email", candidateEmails);
-        const existingSet = new Set((existing || []).map((r) => r.email.toLowerCase()));
-
-        for (const lead of uniqueByEmail.values()) {
-          if (existingSet.has(lead.email)) { skippedExisting++; continue; }
-          // Derive a name from the local part of the email (best-effort)
-          const localPart = lead.email.split("@")[0].replace(/[._-]/g, " ");
-          const name = localPart.charAt(0).toUpperCase() + localPart.slice(1);
-
-          const { error } = await supabase.from("sales_leads").insert({
-            name: name.slice(0, 100),
-            email: lead.email,
-            company: lead.company,
-            source: lead.source,
-            score: 75, // real verified-source leads start higher
-            notes: "Discovered via public TCG shop directory scrape (real, deliverable email).",
-            ai_personalization: { real_source: true, scraped_at: new Date().toISOString() },
-          });
-          if (!error) inserted++;
-        }
-      }
-
-      // Update daily metrics
-      const today = new Date().toISOString().split("T")[0];
-      const { data: existingMetric } = await supabase
-        .from("sales_pipeline_metrics")
-        .select("*")
-        .eq("metric_date", today)
-        .maybeSingle();
-      if (existingMetric) {
-        await supabase.from("sales_pipeline_metrics").update({
-          leads_generated: (existingMetric.leads_generated || 0) + inserted,
-        }).eq("id", existingMetric.id);
-      } else {
-        await supabase.from("sales_pipeline_metrics").insert({
-          metric_date: today,
-          leads_generated: inserted,
-        });
+      // @ts-ignore — EdgeRuntime is provided by Supabase runtime
+      if (typeof EdgeRuntime !== "undefined" && typeof EdgeRuntime.waitUntil === "function") {
+        // @ts-ignore
+        EdgeRuntime.waitUntil(backgroundWork);
       }
 
       return new Response(JSON.stringify({
         success: true,
-        leads_inserted: inserted,
-        skipped_already_in_db: skippedExisting,
-        unique_emails_found: uniqueByEmail.size,
-        searches_run: scrapeReport,
+        message: `Lead discovery started in background — scanning ${queries.length} queries × up to 20 results each. Check sales_leads table in 1-3 minutes.`,
+        queries_queued: queries.length,
         note: "Leads discovered via live web search of publicly published shop contact pages — real, deliverable emails.",
       }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
