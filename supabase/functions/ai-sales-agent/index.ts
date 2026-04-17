@@ -327,13 +327,13 @@ serve(async (req) => {
         const email = JSON.parse(toolCall.function.arguments);
 
         // Direct fetch with service-role auth — bypasses verify_jwt restriction on send-transactional-email
-        const sendUrl = `${SUPABASE_URL}/functions/v1/send-transactional-email`;
+        const sendUrl = `${supabaseUrl}/functions/v1/send-transactional-email`;
         const sendResp = await fetch(sendUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-            apikey: SUPABASE_SERVICE_ROLE_KEY,
+            Authorization: `Bearer ${serviceKey}`,
+            apikey: serviceKey,
           },
           body: JSON.stringify({
             templateName: "sales-outreach",
