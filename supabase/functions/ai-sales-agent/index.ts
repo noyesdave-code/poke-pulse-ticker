@@ -76,36 +76,48 @@ serve(async (req) => {
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, serviceKey);
 
-    const { action, customUrls } = await req.json();
+    const { action, customQueries } = await req.json();
 
-    // ========== REAL LEAD DISCOVERY (replaces AI hallucinated leads) ==========
+    // ========== REAL LEAD DISCOVERY via web search (replaces AI-hallucinated leads) ==========
     if (action === "generate_leads") {
       if (!FIRECRAWL_API_KEY) {
-        throw new Error("FIRECRAWL_API_KEY not configured — cannot scrape real public directories.");
+        throw new Error("FIRECRAWL_API_KEY not configured — cannot search public web for real shop emails.");
       }
 
-      const targetUrls: string[] = Array.isArray(customUrls) && customUrls.length > 0
-        ? customUrls.slice(0, 5)
-        : PUBLIC_DIRECTORIES;
+      const queries: string[] = Array.isArray(customQueries) && customQueries.length > 0
+        ? customQueries.slice(0, 4)
+        : DISCOVERY_QUERIES;
 
       const allLeads: Array<{ email: string; company: string; source: string }> = [];
-      const scrapeReport: Array<{ url: string; emails_found: number; error?: string }> = [];
+      const scrapeReport: Array<{ query: string; pages_scanned: number; emails_found: number; error?: string }> = [];
 
-      for (const url of targetUrls) {
+      for (const query of queries) {
         try {
-          const result = await firecrawlScrape(url, FIRECRAWL_API_KEY);
-          const markdown = result?.data?.markdown || result?.markdown || "";
-          const leads = extractRealLeadsFromMarkdown(markdown, url);
-          allLeads.push(...leads);
-          scrapeReport.push({ url, emails_found: leads.length });
+          const searchResult = await firecrawlSearch(query, FIRECRAWL_API_KEY);
+          const results = searchResult?.data?.web
+            || searchResult?.web
+            || searchResult?.data
+            || [];
+          const items: Array<{ url?: string; markdown?: string; title?: string; description?: string }> = Array.isArray(results) ? results : [];
+          let emailsThisQuery = 0;
+          for (const item of items) {
+            if (!item?.url) continue;
+            const md = (item.markdown || "") + "\n" + (item.description || "");
+            const leads = extractRealLeadsFromMarkdown(md, item.url, item.title);
+            allLeads.push(...leads);
+            emailsThisQuery += leads.length;
+          }
+          scrapeReport.push({ query, pages_scanned: items.length, emails_found: emailsThisQuery });
         } catch (err) {
           scrapeReport.push({
-            url,
+            query,
+            pages_scanned: 0,
             emails_found: 0,
             error: err instanceof Error ? err.message : String(err),
           });
         }
       }
+
 
       // Dedupe across all sources
       const uniqueByEmail = new Map<string, typeof allLeads[number]>();
