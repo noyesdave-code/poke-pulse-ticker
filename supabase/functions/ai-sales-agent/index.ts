@@ -177,8 +177,8 @@ serve(async (req) => {
         leads_inserted: inserted,
         skipped_already_in_db: skippedExisting,
         unique_emails_found: uniqueByEmail.size,
-        sources_scraped: scrapeReport,
-        note: "All leads sourced from publicly published business directories — real, deliverable emails.",
+        searches_run: scrapeReport,
+        note: "Leads discovered via live web search of publicly published shop contact pages — real, deliverable emails.",
       }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
