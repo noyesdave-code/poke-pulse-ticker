@@ -90,9 +90,21 @@ function pickQueriesForRun(all: string[], batchSize: number): string[] {
   return slice;
 }
 
+// Page must look like a card/TCG shop — otherwise we skip ALL emails on that page.
+// Prevents PDFs, church directories, news articles, etc. from polluting the lead pool.
+const TCG_RELEVANCE_RE = /\b(pokemon|pok[eé]mon|tcg|trading card|card shop|card store|magic the gathering|mtg|yu-?gi-?oh|booster|singles|buylist|graded|psa|cgc|bgs)\b/i;
+const NEGATIVE_CONTEXT_RE = /\b(church|ministry|funeral|obituary|school district|university|county clerk|city hall|elder law|attorney|legal services|hospital|clinic|real estate|insurance agency)\b/i;
+
 function extractRealLeadsFromMarkdown(markdown: string, sourceUrl: string, title?: string) {
   const found = new Map<string, { email: string; company: string; source: string }>();
   if (!markdown) return [];
+  const titleAndBody = `${title || ""}\n${markdown}`;
+  // Skip the page entirely if it doesn't look like a TCG shop OR has obvious non-shop context
+  if (!TCG_RELEVANCE_RE.test(titleAndBody)) return [];
+  if (NEGATIVE_CONTEXT_RE.test(titleAndBody)) return [];
+  // Skip PDFs and aggregator junk
+  if (/\.pdf(\?|$)/i.test(sourceUrl) || /^\[PDF\]/i.test(title || "")) return [];
+
   const matches = markdown.match(EMAIL_RE) || [];
   let host = "unknown";
   try { host = new URL(sourceUrl).hostname; } catch { /* ignore */ }
@@ -105,12 +117,12 @@ function extractRealLeadsFromMarkdown(markdown: string, sourceUrl: string, title
     const looksOwnDomain = emailDomain === baseDomain
       || baseDomain.endsWith("." + emailDomain)
       || emailDomain.endsWith("." + baseDomain);
+    // Only accept emails on the shop's own domain — eliminates random mentions
+    if (!looksOwnDomain) continue;
     found.set(email, {
       email,
       company: (title?.trim() || baseDomain).slice(0, 120),
-      source: looksOwnDomain
-        ? `Public website: ${baseDomain}`
-        : `Public mention: ${baseDomain}`,
+      source: `Verified TCG shop site: ${baseDomain}`,
     });
   }
   return Array.from(found.values());
