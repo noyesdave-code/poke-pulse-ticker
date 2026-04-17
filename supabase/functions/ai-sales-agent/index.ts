@@ -38,25 +38,27 @@ async function firecrawlSearch(query: string, apiKey: string) {
   return res.json();
 }
 
-function extractRealLeadsFromMarkdown(markdown: string, sourceUrl: string) {
+function extractRealLeadsFromMarkdown(markdown: string, sourceUrl: string, title?: string) {
   const found = new Map<string, { email: string; company: string; source: string }>();
   if (!markdown) return [];
   const matches = markdown.match(EMAIL_RE) || [];
+  let host = "unknown";
+  try { host = new URL(sourceUrl).hostname; } catch { /* ignore */ }
+  const baseDomain = host.replace(/^www\./, "");
   for (const raw of matches) {
     const email = raw.toLowerCase().trim();
     if (EMAIL_BLOCKLIST.test(email)) continue;
     if (found.has(email)) continue;
-    // Try to extract a nearby company name (simple heuristic: nearest preceding heading or bold text)
-    const idx = markdown.toLowerCase().indexOf(email);
-    const before = markdown.slice(Math.max(0, idx - 400), idx);
-    const headingMatch = before.match(/(?:^|\n)#+\s*([^\n]{3,80})|\*\*([^*\n]{3,80})\*\*/g);
-    const lastHeading = headingMatch?.[headingMatch.length - 1]
-      ?.replace(/^#+\s*|\*\*/g, "")
-      ?.trim() || "TCG Local Game Store";
+    const emailDomain = email.split("@")[1] || "";
+    const looksOwnDomain = emailDomain === baseDomain
+      || baseDomain.endsWith("." + emailDomain)
+      || emailDomain.endsWith("." + baseDomain);
     found.set(email, {
       email,
-      company: lastHeading.slice(0, 120),
-      source: `Public directory: ${new URL(sourceUrl).hostname}`,
+      company: (title?.trim() || baseDomain).slice(0, 120),
+      source: looksOwnDomain
+        ? `Public website: ${baseDomain}`
+        : `Public mention: ${baseDomain}`,
     });
   }
   return Array.from(found.values());
