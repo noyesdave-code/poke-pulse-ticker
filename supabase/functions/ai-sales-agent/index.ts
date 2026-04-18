@@ -341,10 +341,55 @@ serve(async (req) => {
           },
         });
 
-        const emailStatus = sendResult.error ? "failed" : "sent";
+        let emailStatus = sendResult.error ? "failed" : "sent";
+        let providerUsed: "lovable" | "brevo" = "lovable";
+        let failoverReason: string | null = null;
+
+        // ===== SELF-HEALING FAILOVER → Brevo HTTP API =====
+        // Triggers on rate-limit, auth, domain-verification, or any provider error.
         if (sendResult.error) {
-          console.error(`Email send failed for ${lead.email}:`, sendResult.error.message || sendResult.error);
+          const errMsg = (sendResult.error.message || JSON.stringify(sendResult.error) || "").toLowerCase();
+          failoverReason = errMsg.slice(0, 200);
+          console.warn(`[failover] Lovable Email failed for ${lead.email}: ${errMsg.slice(0, 120)} — trying Brevo`);
+
+          const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY");
+          if (BREVO_API_KEY) {
+            try {
+              const brevoRes = await fetch("https://api.brevo.com/v3/smtp/email", {
+                method: "POST",
+                headers: {
+                  "api-key": BREVO_API_KEY,
+                  "Content-Type": "application/json",
+                  "Accept": "application/json",
+                },
+                body: JSON.stringify({
+                  sender: { name: "Poké-Pulse-Engine", email: "outreach@poke-pulse-ticker.com" },
+                  to: [{ email: lead.email, name: lead.name }],
+                  subject: email.subject,
+                  htmlContent: `<div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#222;max-width:600px;">
+                    ${email.body.split("\n").map((p: string) => `<p>${p}</p>`).join("")}
+                    <p style="margin-top:24px;"><a href="https://poke-pulse-ticker.com/?ref=lead_${lead.id}&utm_source=outreach&utm_campaign=cold_email_brevo" style="background:#1a73e8;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;display:inline-block;">See Poké-Pulse-Engine in action →</a></p>
+                    <p style="font-size:11px;color:#888;margin-top:32px;">Sent to a public TCG shop contact address. Reply STOP to opt out.</p>
+                  </div>`,
+                  textContent: `${email.body}\n\nSee it in action: https://poke-pulse-ticker.com/?ref=lead_${lead.id}\n\nReply STOP to opt out.`,
+                }),
+              });
+              if (brevoRes.ok) {
+                emailStatus = "sent";
+                providerUsed = "brevo";
+                console.log(`[failover] ✅ Brevo delivered to ${lead.email}`);
+              } else {
+                const brevoErr = await brevoRes.text().catch(() => "");
+                console.error(`[failover] ❌ Brevo also failed (${brevoRes.status}): ${brevoErr.slice(0, 200)}`);
+              }
+            } catch (brevoErr) {
+              console.error(`[failover] ❌ Brevo exception:`, brevoErr);
+            }
+          } else {
+            console.error(`[failover] BREVO_API_KEY not configured — cannot fail over.`);
+          }
         }
+
         if (emailStatus === "sent") emailsSent++; else emailsFailed++;
 
         await supabase.from("sales_outreach_log").insert({
@@ -354,6 +399,9 @@ serve(async (req) => {
           body: email.body,
           ai_model_used: "gemini-2.5-flash",
           status: emailStatus,
+          response: providerUsed === "brevo"
+            ? `delivered_via=brevo_failover; original_error=${failoverReason}`
+            : `delivered_via=lovable`,
         });
 
         await supabase.from("sales_leads").update({
