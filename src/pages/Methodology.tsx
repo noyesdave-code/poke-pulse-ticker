@@ -53,9 +53,9 @@ const sections = [
 ];
 
 const SOURCE_WEIGHTS = {
-  default: { tcgplayer: 55, ebay: 30, cardmarket: 15 },
-  tcgHeavy: { tcgplayer: 75, ebay: 15, cardmarket: 10 },
-  ebayHeavy: { tcgplayer: 30, ebay: 55, cardmarket: 15 },
+  default: { tcgplayer: 40, ebay: 25, cardmarket: 10, cardladder: 25 },
+  tcgHeavy: { tcgplayer: 60, ebay: 12, cardmarket: 8, cardladder: 20 },
+  ebayHeavy: { tcgplayer: 25, ebay: 45, cardmarket: 10, cardladder: 20 },
 };
 
 const Methodology = () => {
