@@ -120,10 +120,11 @@ const Methodology = () => {
                   </button>
                 ))}
               </div>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {[
                   { label: "TCGPlayer", weight: weights.tcgplayer, color: "bg-terminal-green" },
                   { label: "eBay", weight: weights.ebay, color: "bg-terminal-amber" },
+                  { label: "Card Ladder", weight: weights.cardladder, color: "bg-primary" },
                   { label: "Cardmarket", weight: weights.cardmarket, color: "bg-terminal-blue" },
                 ].map((source) => (
                   <div key={source.label} className="terminal-card p-3 text-center">
@@ -136,7 +137,7 @@ const Methodology = () => {
                 ))}
               </div>
               <p className="font-mono text-[8px] text-muted-foreground">
-                Source weighting determines how much influence each marketplace has on our composite price. TCGPlayer provides the primary feed; eBay captures auction/BIN divergence; Cardmarket covers EU pricing.
+                Source weighting determines how much influence each marketplace has on our composite price. TCGPlayer provides the primary listing feed; eBay captures auction/BIN divergence; Card Ladder supplies graded auction comps (Goldin/PWCC/Heritage); Cardmarket covers EU pricing.
               </p>
             </div>
           )}
