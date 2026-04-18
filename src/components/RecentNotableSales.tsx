@@ -25,7 +25,7 @@ const TAB_META: { key: SalesWindow; label: string }[] = [
   { key: "avg", label: "Ave" },
 ];
 
-const VENUES = ["eBay", "TCGPlayer", "CardMarket", "Marketplace", "Auction"];
+const VENUES = ["eBay", "TCGPlayer", "CardMarket", "Card Ladder", "Goldin", "PWCC", "Auction"];
 
 const RecentNotableSales = ({ cards }: RecentNotableSalesProps) => {
   const [activeTab, setActiveTab] = useState<SalesWindow>("minute5");

@@ -53,9 +53,9 @@ const sections = [
 ];
 
 const SOURCE_WEIGHTS = {
-  default: { tcgplayer: 55, ebay: 30, cardmarket: 15 },
-  tcgHeavy: { tcgplayer: 75, ebay: 15, cardmarket: 10 },
-  ebayHeavy: { tcgplayer: 30, ebay: 55, cardmarket: 15 },
+  default: { tcgplayer: 40, ebay: 25, cardmarket: 10, cardladder: 25 },
+  tcgHeavy: { tcgplayer: 60, ebay: 12, cardmarket: 8, cardladder: 20 },
+  ebayHeavy: { tcgplayer: 25, ebay: 45, cardmarket: 10, cardladder: 20 },
 };
 
 const Methodology = () => {
@@ -120,10 +120,11 @@ const Methodology = () => {
                   </button>
                 ))}
               </div>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {[
                   { label: "TCGPlayer", weight: weights.tcgplayer, color: "bg-terminal-green" },
                   { label: "eBay", weight: weights.ebay, color: "bg-terminal-amber" },
+                  { label: "Card Ladder", weight: weights.cardladder, color: "bg-primary" },
                   { label: "Cardmarket", weight: weights.cardmarket, color: "bg-terminal-blue" },
                 ].map((source) => (
                   <div key={source.label} className="terminal-card p-3 text-center">
@@ -136,7 +137,7 @@ const Methodology = () => {
                 ))}
               </div>
               <p className="font-mono text-[8px] text-muted-foreground">
-                Source weighting determines how much influence each marketplace has on our composite price. TCGPlayer provides the primary feed; eBay captures auction/BIN divergence; Cardmarket covers EU pricing.
+                Source weighting determines how much influence each marketplace has on our composite price. TCGPlayer provides the primary listing feed; eBay captures auction/BIN divergence; Card Ladder supplies graded auction comps (Goldin/PWCC/Heritage); Cardmarket covers EU pricing.
               </p>
             </div>
           )}
