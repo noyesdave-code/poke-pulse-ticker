@@ -429,12 +429,13 @@ serve(async (req) => {
       );
     }
 
-    const [ebaySources, pcSources] = await Promise.all([
+    const [ebaySources, pcSources, clSources] = await Promise.all([
       fetchEbayPrice(cardName, setName || "", cardId, tcgBasePrice),
       fetchPriceChartingPrice(cardName, setName || "", cardId, tcgBasePrice),
+      fetchCardLadderPrice(cardName, setName || "", cardId, tcgBasePrice),
     ]);
 
-    const allSources = [...tcgSources, ...ebaySources, ...pcSources];
+    const allSources = [...tcgSources, ...ebaySources, ...pcSources, ...clSources];
     const consensus = calculateConsensus(allSources);
 
     // Track which APIs are live
@@ -442,6 +443,7 @@ serve(async (req) => {
       tcgplayer: tcgSources.some(s => s.isLive),
       ebay: ebaySources.some(s => s.isLive),
       pricecharting: pcSources.some(s => s.isLive),
+      cardladder: clSources.some(s => s.isLive),
     };
 
     return new Response(
