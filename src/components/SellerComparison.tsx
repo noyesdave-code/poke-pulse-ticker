@@ -175,7 +175,7 @@ const SellerComparison = ({ card }: Props) => {
       </div>
       <div className="border-t border-border px-4 py-2">
         <p className="font-mono text-[9px] text-muted-foreground">
-          TCGPlayer prices are live from market data. eBay & CardMarket prices are estimated based on market averages. Click links to view actual listings.
+          TCGPlayer prices are live from market data. Card Ladder auction comps (Goldin/PWCC/Heritage) are blended into consensus pricing. eBay & CardMarket prices are estimated based on market averages. Click links to view actual listings.
         </p>
       </div>
     </div>
