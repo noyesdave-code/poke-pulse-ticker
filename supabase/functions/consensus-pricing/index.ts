@@ -271,8 +271,77 @@ async function fetchPriceChartingPrice(cardName: string, setName: string, cardId
 }
 
 /**
- * Calculate consensus from multiple sources
+ * Fetch Card Ladder auction-comp price (real if API key set, estimated otherwise).
+ * Card Ladder aggregates Goldin / PWCC / Heritage / eBay sold comps and tends to
+ * trend ~12-18% above raw TCGPlayer market for desirable singles.
  */
+async function fetchCardLadderPrice(cardName: string, setName: string, cardId: string, tcgPrice: number): Promise<PriceSource[]> {
+  const clKey = Deno.env.get("CARDLADDER_API_KEY");
+  const seed = simHash(cardId, 137);
+  const searchQuery = encodeURIComponent(`${cardName} ${setName}`);
+  const url = `https://www.cardladder.com/cards?q=${searchQuery}`;
+
+  if (clKey) {
+    try {
+      const res = await fetch(
+        `https://api.cardladder.com/v1/cards/search?q=${searchQuery}&category=pokemon`,
+        { headers: { Authorization: `Bearer ${clKey}`, "Content-Type": "application/json" } }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        const item = (data?.results || data?.cards || [])[0];
+        const livePrice = Number(item?.last_sale ?? item?.market_price ?? 0);
+        if (livePrice > 0) {
+          return [{
+            source: "Card Ladder",
+            variant: "Auction Comp",
+            price: Math.round(livePrice * 100) / 100,
+            low: Math.round(livePrice * 0.9 * 100) / 100,
+            high: Math.round(livePrice * 1.18 * 100) / 100,
+            shipping: 0,
+            condition: "Raw / NM",
+            url,
+            isLive: true,
+            updatedAt: new Date().toISOString(),
+          }];
+        }
+      }
+    } catch (e) {
+      console.error("Card Ladder API error:", e);
+    }
+  }
+
+  // Estimated Card Ladder price — biased ~+15% over TCGPlayer market
+  const rawComp = Math.round(generateEstimate(tcgPrice, seed + 7, 15) * 100) / 100;
+  const psa10Comp = Math.round(tcgPrice * (3.2 + (seed % 25) / 10) * 100) / 100;
+
+  return [
+    {
+      source: "Card Ladder",
+      variant: "Raw Comp",
+      price: rawComp,
+      low: Math.round(rawComp * 0.9 * 100) / 100,
+      high: Math.round(rawComp * 1.18 * 100) / 100,
+      shipping: 0,
+      condition: "Raw / NM",
+      url,
+      isLive: false,
+      updatedAt: null,
+    },
+    {
+      source: "Card Ladder",
+      variant: "PSA 10 Comp",
+      price: psa10Comp,
+      low: Math.round(psa10Comp * 0.85 * 100) / 100,
+      high: Math.round(psa10Comp * 1.25 * 100) / 100,
+      shipping: 0,
+      condition: "PSA 10",
+      url,
+      isLive: false,
+      updatedAt: null,
+    },
+  ];
+}
 function calculateConsensus(sources: PriceSource[]): ConsensusResult {
   const liveSources = sources.filter(s => s.isLive);
   const allPrices = sources.map(s => s.price).filter(p => p > 0);
