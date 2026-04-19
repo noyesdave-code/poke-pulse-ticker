@@ -73,6 +73,8 @@ import AIMarketInsights from "@/components/AIMarketInsights";
 import EbayLiveDeals from "@/components/EbayLiveDeals";
 import LiveFreshnessIndicator from "@/components/LiveFreshnessIndicator";
 import PulseWalletWidget from "@/components/PulseWalletWidget";
+import CertifiedDataPartner from "@/components/CertifiedDataPartner";
+import MacroCorrelation from "@/components/MacroCorrelation";
 
 
 const Index = () => {
@@ -192,7 +194,15 @@ const Index = () => {
         {/* === PULSE ENGINE WALLET — PRO USERS ONLY === */}
         <PulseWalletWidget />
 
-        {/* === MARKET PULSE + NOTABLE SALES — TOP === */}
+        {/* === CERTIFIED DATA PARTNER BANNER === */}
+        <CertifiedDataPartner />
+
+        {/* === EBAY LIVE DEALS — MOVED UP for buy intent === */}
+        <LazySection minHeight="200px">
+          <EbayLiveDeals />
+        </LazySection>
+
+        {/* === MARKET PULSE + NOTABLE SALES === */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-2.5">
           <LiveMarketPulse cards={displayCards} />
           <RecentNotableSales cards={displayCards} />
@@ -280,12 +290,13 @@ const Index = () => {
           </div>
         </LazySection>
 
-        <LazySection minHeight="200px">
-          <EbayLiveDeals />
-        </LazySection>
 
         <LazySection minHeight="200px">
           <AIMarketInsights cards={displayCards} />
+        </LazySection>
+
+        <LazySection minHeight="180px">
+          <MacroCorrelation />
         </LazySection>
 
         <LazySection minHeight="150px">

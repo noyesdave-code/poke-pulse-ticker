@@ -53,9 +53,9 @@ const sections = [
 ];
 
 const SOURCE_WEIGHTS = {
-  default: { tcgplayer: 40, ebay: 25, cardmarket: 10, cardladder: 25 },
-  tcgHeavy: { tcgplayer: 60, ebay: 12, cardmarket: 8, cardladder: 20 },
-  ebayHeavy: { tcgplayer: 25, ebay: 45, cardmarket: 10, cardladder: 20 },
+  default: { tcgplayer: 35, ebay: 25, cardladder: 20, pricecharting: 12, cardmarket: 8 },
+  tcgHeavy: { tcgplayer: 55, ebay: 15, cardladder: 15, pricecharting: 10, cardmarket: 5 },
+  ebayHeavy: { tcgplayer: 20, ebay: 45, cardladder: 18, pricecharting: 10, cardmarket: 7 },
 };
 
 const Methodology = () => {
@@ -120,11 +120,12 @@ const Methodology = () => {
                   </button>
                 ))}
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
                 {[
                   { label: "TCGPlayer", weight: weights.tcgplayer, color: "bg-terminal-green" },
-                  { label: "eBay", weight: weights.ebay, color: "bg-terminal-amber" },
+                  { label: "eBay Sold", weight: weights.ebay, color: "bg-terminal-amber" },
                   { label: "Card Ladder", weight: weights.cardladder, color: "bg-primary" },
+                  { label: "PriceCharting", weight: weights.pricecharting, color: "bg-terminal-red" },
                   { label: "Cardmarket", weight: weights.cardmarket, color: "bg-terminal-blue" },
                 ].map((source) => (
                   <div key={source.label} className="terminal-card p-3 text-center">
@@ -137,7 +138,7 @@ const Methodology = () => {
                 ))}
               </div>
               <p className="font-mono text-[8px] text-muted-foreground">
-                Source weighting determines how much influence each marketplace has on our composite price. TCGPlayer provides the primary listing feed; eBay captures auction/BIN divergence; Card Ladder supplies graded auction comps (Goldin/PWCC/Heritage); Cardmarket covers EU pricing.
+                5-source consensus: TCGPlayer (primary listings), eBay (sold comps), Card Ladder (Goldin/PWCC auction comps), PriceCharting (historical loose/CIB), Cardmarket (EU pricing). Direct TCGPlayer / eBay storefront API integration is on the roadmap.
               </p>
             </div>
           )}
