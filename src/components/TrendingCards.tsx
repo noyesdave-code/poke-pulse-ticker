@@ -168,7 +168,7 @@ const TrendingCards = ({ cards, isLoading }: TrendingCardsProps) => {
               <div className="mt-2 pt-1.5 border-t border-border/30" onClick={(e) => e.stopPropagation()}>
                 <AffiliateLinks cardName={card.name} setName={card.set} compact />
               </div>
-            </motion.button>
+            </motion.div>
           );
         })}
       </div>
