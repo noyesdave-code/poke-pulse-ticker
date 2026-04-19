@@ -6,6 +6,7 @@ import type { CardData } from "@/data/marketData";
 import { getCardSignal } from "@/hooks/useSignalIndicator";
 import { getCardToken } from "@/lib/tokenSymbols";
 import SignalBadge from "@/components/SignalBadge";
+import AffiliateLinks from "@/components/AffiliateLinks";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface TrendingCardsProps {
@@ -159,6 +160,11 @@ const TrendingCards = ({ cards, isLoading }: TrendingCardsProps) => {
                     ~${(card.market * 2).toLocaleString("en-US", { maximumFractionDigits: 0 })}
                   </span>
                 </div>
+              </div>
+
+              {/* Affiliate buy buttons — every card */}
+              <div className="mt-2 pt-1.5 border-t border-border/30" onClick={(e) => e.stopPropagation()}>
+                <AffiliateLinks cardName={card.name} setName={card.set} compact />
               </div>
             </motion.button>
           );

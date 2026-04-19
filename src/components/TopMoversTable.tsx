@@ -4,6 +4,7 @@ import type { CardData } from "@/data/marketData";
 import { getCardToken } from "@/lib/tokenSymbols";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Clock, Timer, CalendarDays, TrendingUp } from "lucide-react";
+import AffiliateLinks from "@/components/AffiliateLinks";
 
 interface TopMoversTableProps {
   cards: CardData[];
@@ -199,7 +200,10 @@ const TopMoversTable = ({ cards, title, isLoading }: TopMoversTableProps) => {
                     <span className="font-mono text-xs text-foreground font-medium block truncate max-w-[120px]">
                       {card.name}
                     </span>
-                    <span className="font-mono text-[9px] text-muted-foreground">{card.set}</span>
+                    <span className="font-mono text-[9px] text-muted-foreground block">{card.set}</span>
+                    <div className="mt-1">
+                      <AffiliateLinks cardName={card.name} setName={card.set} compact />
+                    </div>
                   </td>
 
                   <td className="px-1.5 py-1.5 text-right hidden sm:table-cell">
