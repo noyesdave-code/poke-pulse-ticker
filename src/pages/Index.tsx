@@ -290,9 +290,6 @@ const Index = () => {
           </div>
         </LazySection>
 
-        <LazySection minHeight="200px">
-          <EbayLiveDeals />
-        </LazySection>
 
         <LazySection minHeight="200px">
           <AIMarketInsights cards={displayCards} />
