@@ -38,7 +38,7 @@ export function useLiveCards() {
       const timeout = setTimeout(() => controller.abort(), 15000); // 15s circuit breaker
 
       try {
-        const apiCards = await fetchHighValueCards(1000);
+        const apiCards = await fetchHighValueCards(1500);
         clearTimeout(timeout);
         const mapped = apiCards
           .map(toCardData)
@@ -59,8 +59,8 @@ export function useLiveCards() {
         throw error;
       }
     },
-    staleTime: 5 * 60 * 1000, // 5 min stale time
-    refetchInterval: 60 * 1000, // refresh every 60 seconds
+    staleTime: 30 * 60 * 1000, // 30 min stale time
+    refetchInterval: 30 * 60 * 1000, // refresh every 30 min
     retry: 1, // Only retry once before falling back to cache
     // Initialize from cache while fetching
     placeholderData: () => getCachedCards() ?? undefined,
