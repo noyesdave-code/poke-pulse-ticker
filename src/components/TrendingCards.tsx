@@ -85,16 +85,18 @@ const TrendingCards = ({ cards, isLoading }: TrendingCardsProps) => {
           const isUp = card.change >= 0;
           const slug = `${card.name}-${card.set}`.toLowerCase().replace(/[^a-z0-9]+/g, "-");
           return (
-            <motion.button
+            <motion.div
               key={i}
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.4 }}
               whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              role="button"
+              tabIndex={0}
               onClick={() => navigate(`/card/${slug}`)}
-              className="flex flex-col p-3 border-b border-r border-border hover:bg-muted/50 transition-colors text-left group last:border-r-0 relative overflow-hidden"
+              onKeyDown={(e) => { if (e.key === "Enter") navigate(`/card/${slug}`); }}
+              className="flex flex-col p-3 border-b border-r border-border hover:bg-muted/50 transition-colors text-left group last:border-r-0 relative overflow-hidden cursor-pointer"
             >
               {/* Shimmer overlay on hover */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-1000" />
