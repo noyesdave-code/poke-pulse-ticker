@@ -271,6 +271,157 @@ async function fetchPriceChartingPrice(cardName: string, setName: string, cardId
 }
 
 /**
+ * Fetch Probstein Auctions RSS feed — completely free, no API key required.
+ * Probstein is one of the largest sports/TCG auction houses; their RSS feed
+ * publishes live ending-soon and recently-sold lots.
+ */
+async function fetchProbsteinPrice(cardName: string, setName: string, cardId: string, tcgPrice: number): Promise<PriceSource[]> {
+  const seed = simHash(cardId, 211);
+  const searchQuery = encodeURIComponent(`${cardName} ${setName}`);
+  const url = `https://probsteinauctions.com/search?q=${searchQuery}`;
+
+  try {
+    // Probstein publishes a public RSS feed of recent sold lots
+    const rssUrl = `https://probsteinauctions.com/rss/sold?category=pokemon`;
+    const res = await fetch(rssUrl, {
+      headers: { "User-Agent": "PokePulseTicker/1.0 (+https://poke-pulse-ticker.com)" },
+      signal: AbortSignal.timeout(5000),
+    });
+
+    if (res.ok) {
+      const xml = await res.text();
+      // Simple XML parse: look for <item> with title containing card name
+      const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+      const titleRegex = /<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/title>/;
+      const priceRegex = /\$([0-9,]+(?:\.[0-9]{2})?)/;
+
+      const matches: number[] = [];
+      const cardLower = cardName.toLowerCase();
+      let m: RegExpExecArray | null;
+      while ((m = itemRegex.exec(xml)) !== null) {
+        const block = m[1];
+        const titleMatch = titleRegex.exec(block);
+        if (!titleMatch) continue;
+        const title = titleMatch[1].toLowerCase();
+        if (!title.includes(cardLower)) continue;
+        const priceMatch = priceRegex.exec(block);
+        if (priceMatch) {
+          const price = parseFloat(priceMatch[1].replace(/,/g, ""));
+          if (price > 0) matches.push(price);
+        }
+      }
+
+      if (matches.length > 0) {
+        const sorted = [...matches].sort((a, b) => a - b);
+        const median = sorted[Math.floor(sorted.length / 2)];
+        return [{
+          source: "Probstein",
+          variant: "Sold (Auction)",
+          price: Math.round(median * 100) / 100,
+          low: Math.round(sorted[0] * 100) / 100,
+          high: Math.round(sorted[sorted.length - 1] * 100) / 100,
+          shipping: 0,
+          condition: "Auction Comp",
+          url,
+          isLive: true,
+          updatedAt: new Date().toISOString(),
+        }];
+      }
+    }
+  } catch (e) {
+    console.error("Probstein RSS error:", e);
+  }
+
+  // Estimated Probstein — biased ~-5% (auction comps tend slightly under retail)
+  const est = Math.round(generateEstimate(tcgPrice, seed + 11, -5) * 100) / 100;
+  return [{
+    source: "Probstein",
+    variant: "Auction Est.",
+    price: est,
+    low: Math.round(est * 0.85 * 100) / 100,
+    high: Math.round(est * 1.15 * 100) / 100,
+    shipping: 0,
+    condition: "Auction Comp",
+    url,
+    isLive: false,
+    updatedAt: null,
+  }];
+}
+
+/**
+ * Fetch 130point.com sold-comps — free public sold-listings aggregator.
+ * Scrapes their public search page (no API key, polite rate-limit).
+ */
+async function fetch130PointPrice(cardName: string, setName: string, cardId: string, tcgPrice: number): Promise<PriceSource[]> {
+  const seed = simHash(cardId, 313);
+  const searchQuery = encodeURIComponent(`${cardName} ${setName}`);
+  const url = `https://130point.com/sales/?q=${searchQuery}`;
+
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; PokePulseTicker/1.0; +https://poke-pulse-ticker.com)",
+        "Accept": "text/html",
+      },
+      signal: AbortSignal.timeout(6000),
+    });
+
+    if (res.ok) {
+      const html = await res.text();
+      // 130point renders sold prices in spans like: <span class="price">$123.45</span>
+      const priceRegex = /\$([0-9]+(?:,[0-9]{3})*(?:\.[0-9]{2})?)/g;
+      const prices: number[] = [];
+      let m: RegExpExecArray | null;
+      let count = 0;
+      while ((m = priceRegex.exec(html)) !== null && count < 30) {
+        const p = parseFloat(m[1].replace(/,/g, ""));
+        if (p >= 1 && p <= 50000) {
+          prices.push(p);
+          count++;
+        }
+      }
+
+      if (prices.length >= 3) {
+        const sorted = [...prices].sort((a, b) => a - b);
+        const median = sorted[Math.floor(sorted.length / 2)];
+        const q1 = sorted[Math.floor(sorted.length * 0.25)];
+        const q3 = sorted[Math.floor(sorted.length * 0.75)];
+
+        return [{
+          source: "130point",
+          variant: "Sold Comps",
+          price: Math.round(median * 100) / 100,
+          low: Math.round(q1 * 100) / 100,
+          high: Math.round(q3 * 100) / 100,
+          shipping: 0,
+          condition: "Various",
+          url,
+          isLive: true,
+          updatedAt: new Date().toISOString(),
+        }];
+      }
+    }
+  } catch (e) {
+    console.error("130point scrape error:", e);
+  }
+
+  // Estimated 130point — biased ~+2% (130point tracks closing sale prices, slightly above TCGPlayer market)
+  const est = Math.round(generateEstimate(tcgPrice, seed + 13, 2) * 100) / 100;
+  return [{
+    source: "130point",
+    variant: "Sold Est.",
+    price: est,
+    low: Math.round(est * 0.85 * 100) / 100,
+    high: Math.round(est * 1.15 * 100) / 100,
+    shipping: 0,
+    condition: "Various",
+    url,
+    isLive: false,
+    updatedAt: null,
+  }];
+}
+
+/**
  * Fetch Card Ladder auction-comp price (real if API key set, estimated otherwise).
  * Card Ladder aggregates Goldin / PWCC / Heritage / eBay sold comps and tends to
  * trend ~12-18% above raw TCGPlayer market for desirable singles.
@@ -429,25 +580,31 @@ serve(async (req) => {
       );
     }
 
-    const [ebaySources, pcSources, clSources] = await Promise.all([
+    const [ebaySources, pcSources, clSources, probSources, p130Sources] = await Promise.all([
       fetchEbayPrice(cardName, setName || "", cardId, tcgBasePrice),
       fetchPriceChartingPrice(cardName, setName || "", cardId, tcgBasePrice),
       fetchCardLadderPrice(cardName, setName || "", cardId, tcgBasePrice),
+      fetchProbsteinPrice(cardName, setName || "", cardId, tcgBasePrice),
+      fetch130PointPrice(cardName, setName || "", cardId, tcgBasePrice),
     ]);
 
-    const allSources = [...tcgSources, ...ebaySources, ...pcSources, ...clSources];
+    const allSources = [...tcgSources, ...ebaySources, ...pcSources, ...clSources, ...probSources, ...p130Sources];
     const consensus = calculateConsensus(allSources);
 
-    // Track which APIs are live
+    // Track which APIs are live + compute signal strength (0-100)
     const apiStatus = {
       tcgplayer: tcgSources.some(s => s.isLive),
       ebay: ebaySources.some(s => s.isLive),
       pricecharting: pcSources.some(s => s.isLive),
       cardladder: clSources.some(s => s.isLive),
+      probstein: probSources.some(s => s.isLive),
+      onethirtypoint: p130Sources.some(s => s.isLive),
     };
+    const liveCount = Object.values(apiStatus).filter(Boolean).length;
+    const signalStrength = Math.round((liveCount / 6) * 100);
 
     return new Response(
-      JSON.stringify({ ...consensus, apiStatus }),
+      JSON.stringify({ ...consensus, apiStatus, signalStrength, liveSources: liveCount, totalSources: 6 }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
