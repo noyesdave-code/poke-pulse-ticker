@@ -251,28 +251,18 @@ export async function fetchHighValueCards(total = 500): Promise<PokemonTCGCard[]
 }
 
 /**
- * Get the best available price from a card's tcgplayer data
- */
-/**
  * Get the best available price from a card's tcgplayer data.
- * Selects the HIGHEST market-priced variant to ensure alt arts,
- * secret rares, and premium variants show their true value.
+ *
+ * HONESTY POLICY: Returns raw TCGPlayer market price unmodified.
+ * No "consensus blend" multipliers are applied. When real adapters
+ * for eBay sold-listings, PriceCharting, CardLadder, or Probstein
+ * are wired (via EBAY_APP_ID, PRICECHARTING_API_KEY, etc.), a
+ * dedicated consensus engine will replace this single-source path.
+ *
+ * Selects the HIGHEST market-priced variant so alt arts, secret rares,
+ * and premium variants show their true TCGPlayer value (not the
+ * cheapest reprint of the same card name).
  */
-/**
- * Card Ladder consensus blend.
- * Card Ladder aggregates auction comps (eBay, Goldin, PWCC) which historically
- * trend ~12-18% above raw TCGPlayer market for sought-after singles.
- * We blend a Card Ladder-style premium into the displayed market value alongside
- * TCGPlayer + Cardmarket (already in tcgplayer.prices upstream) for a true
- * multi-source consensus that reflects real sale velocity, not just listing prices.
- */
-// Multi-source consensus blend constants — applied to TCGPlayer market base.
-// Sources weighted: TCGPlayer 35% + eBay sold 25% + Card Ladder 20% + PriceCharting 12% + Cardmarket 8%.
-// Net effect calibrated to mirror real-world consensus across these venues for sought-after singles.
-const CARD_LADDER_PREMIUM = 1.15;     // +15% auction-comp uplift (Goldin/PWCC/eBay sold)
-const PRICECHARTING_FACTOR = 1.04;    // +4% PriceCharting historical blend
-const CONSENSUS_LIVE_BOOST = 1.08;    // +8% live valuation uplift
-
 export function getBestPrice(card: PokemonTCGCard): {
   market: number;
   low: number;
@@ -307,13 +297,12 @@ export function getBestPrice(card: PokemonTCGCard): {
 
   if (!best) return null;
 
-  // Multi-source consensus: TCGPlayer × Card Ladder × PriceCharting × live uplift
-  const blendMultiplier = CARD_LADDER_PREMIUM * PRICECHARTING_FACTOR * CONSENSUS_LIVE_BOOST;
+  // Return raw TCGPlayer prices — no synthetic uplift.
   return {
-    market: Math.round(best.market * blendMultiplier * 100) / 100,
-    low: Math.round(best.low * CONSENSUS_LIVE_BOOST * 100) / 100,
-    mid: Math.round(best.mid * blendMultiplier * 100) / 100,
-    high: Math.round(best.high * blendMultiplier * 100) / 100,
+    market: Math.round(best.market * 100) / 100,
+    low: Math.round(best.low * 100) / 100,
+    mid: Math.round(best.mid * 100) / 100,
+    high: Math.round(best.high * 100) / 100,
     variant: best.variant,
   };
 }
