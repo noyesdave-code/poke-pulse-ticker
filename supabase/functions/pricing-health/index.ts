@@ -23,6 +23,10 @@ const PROBES: SourceProbe[] = [
   { name: "cardladder", url: "https://api.cardladder.com/v1/health", requiresKey: "CARDLADDER_API_KEY", timeoutMs: 4000 },
   { name: "probstein",  url: "https://probsteinauctions.com/rss/sold?category=pokemon", timeoutMs: 5000 },
   { name: "onethirtypoint", url: "https://130point.com/sales/?q=charizard", timeoutMs: 6000 },
+  // Firecrawl-powered sources — probe Firecrawl API health (one shared key gates all 3)
+  { name: "pokemonio", url: "https://api.firecrawl.dev/v2/health", requiresKey: "FIRECRAWL_API_KEY", timeoutMs: 4000 },
+  { name: "rarecandy", url: "https://api.firecrawl.dev/v2/health", requiresKey: "FIRECRAWL_API_KEY", timeoutMs: 4000 },
+  { name: "pokescope", url: "https://api.firecrawl.dev/v2/health", requiresKey: "FIRECRAWL_API_KEY", timeoutMs: 4000 },
 ];
 
 async function probe(p: SourceProbe): Promise<{ name: string; isLive: boolean; latencyMs: number; reason?: string }> {
@@ -31,6 +35,7 @@ async function probe(p: SourceProbe): Promise<{ name: string; isLive: boolean; l
   }
   const headers: Record<string, string> = { "User-Agent": "PokePulseTicker/1.0", ...(p.headers || {}) };
   if (p.requiresKey === "EBAY_API_KEY") headers["Authorization"] = `Bearer ${Deno.env.get("EBAY_API_KEY")}`;
+  if (p.requiresKey === "FIRECRAWL_API_KEY") headers["Authorization"] = `Bearer ${Deno.env.get("FIRECRAWL_API_KEY")}`;
 
   const t0 = Date.now();
   try {
