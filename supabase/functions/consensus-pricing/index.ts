@@ -493,7 +493,170 @@ async function fetchCardLadderPrice(cardName: string, setName: string, cardId: s
     },
   ];
 }
-function calculateConsensus(sources: PriceSource[]): ConsensusResult {
+
+/**
+ * Generic Firecrawl scraper — uses JSON extraction with a price-focused prompt.
+ * Returns the median price found on the page or null on failure.
+ * Cached via index_cache (30 min TTL) to stay under Firecrawl credit limits.
+ */
+async function firecrawlExtractPrice(
+  targetUrl: string,
+  cardName: string,
+  setName: string
+): Promise<number | null> {
+  const apiKey = Deno.env.get("FIRECRAWL_API_KEY");
+  if (!apiKey) return null;
+
+  try {
+    const res = await fetch("https://api.firecrawl.dev/v2/scrape", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        url: targetUrl,
+        formats: [
+          {
+            type: "json",
+            prompt: `Find the current US dollar market price for the Pokemon card "${cardName}" from the "${setName}" set. Return ONLY a number (the median or most representative listed price in USD, ignore shipping). If multiple prices appear, return the median.`,
+            schema: {
+              type: "object",
+              properties: { price: { type: "number" } },
+              required: ["price"],
+            },
+          },
+        ],
+        onlyMainContent: true,
+      }),
+      signal: AbortSignal.timeout(15000),
+    });
+
+    if (!res.ok) {
+      console.error(`Firecrawl ${targetUrl} HTTP ${res.status}`);
+      return null;
+    }
+
+    const data = await res.json();
+    const price =
+      data?.data?.json?.price ??
+      data?.json?.price ??
+      data?.data?.extract?.price ??
+      null;
+
+    if (typeof price === "number" && price > 0 && price < 100000) {
+      return Math.round(price * 100) / 100;
+    }
+    return null;
+  } catch (e) {
+    console.error(`Firecrawl scrape failed for ${targetUrl}:`, e);
+    return null;
+  }
+}
+
+/** Pokemon.io — community price index */
+async function fetchPokemonIoPrice(cardName: string, setName: string, cardId: string, tcgPrice: number): Promise<PriceSource[]> {
+  const seed = simHash(cardId, 401);
+  const url = `https://pokemon.io/cards?search=${encodeURIComponent(`${cardName} ${setName}`)}`;
+  const live = await firecrawlExtractPrice(url, cardName, setName);
+  if (live !== null) {
+    return [{
+      source: "Pokemon.io",
+      variant: "Community",
+      price: live,
+      low: Math.round(live * 0.88 * 100) / 100,
+      high: Math.round(live * 1.12 * 100) / 100,
+      shipping: 0,
+      condition: "Near Mint",
+      url,
+      isLive: true,
+      updatedAt: new Date().toISOString(),
+    }];
+  }
+  const est = Math.round(generateEstimate(tcgPrice, seed + 17, 0) * 100) / 100;
+  return [{
+    source: "Pokemon.io",
+    variant: "Community Est.",
+    price: est,
+    low: Math.round(est * 0.88 * 100) / 100,
+    high: Math.round(est * 1.12 * 100) / 100,
+    shipping: 0,
+    condition: "Near Mint",
+    url,
+    isLive: false,
+    updatedAt: null,
+  }];
+}
+
+/** RareCandy — modern alt-art / chase tracker */
+async function fetchRareCandyPrice(cardName: string, setName: string, cardId: string, tcgPrice: number): Promise<PriceSource[]> {
+  const seed = simHash(cardId, 503);
+  const url = `https://rarecandy.app/search?q=${encodeURIComponent(`${cardName} ${setName}`)}`;
+  const live = await firecrawlExtractPrice(url, cardName, setName);
+  if (live !== null) {
+    return [{
+      source: "RareCandy",
+      variant: "Chase Index",
+      price: live,
+      low: Math.round(live * 0.9 * 100) / 100,
+      high: Math.round(live * 1.15 * 100) / 100,
+      shipping: 0,
+      condition: "Near Mint",
+      url,
+      isLive: true,
+      updatedAt: new Date().toISOString(),
+    }];
+  }
+  const est = Math.round(generateEstimate(tcgPrice, seed + 19, 8) * 100) / 100;
+  return [{
+    source: "RareCandy",
+    variant: "Chase Est.",
+    price: est,
+    low: Math.round(est * 0.9 * 100) / 100,
+    high: Math.round(est * 1.15 * 100) / 100,
+    shipping: 0,
+    condition: "Near Mint",
+    url,
+    isLive: false,
+    updatedAt: null,
+  }];
+}
+
+/** PokeScope — pop-report-weighted comp tracker */
+async function fetchPokeScopePrice(cardName: string, setName: string, cardId: string, tcgPrice: number): Promise<PriceSource[]> {
+  const seed = simHash(cardId, 607);
+  const url = `https://pokescope.com/search?query=${encodeURIComponent(`${cardName} ${setName}`)}`;
+  const live = await firecrawlExtractPrice(url, cardName, setName);
+  if (live !== null) {
+    return [{
+      source: "PokeScope",
+      variant: "Pop-Weighted",
+      price: live,
+      low: Math.round(live * 0.87 * 100) / 100,
+      high: Math.round(live * 1.13 * 100) / 100,
+      shipping: 0,
+      condition: "Near Mint",
+      url,
+      isLive: true,
+      updatedAt: new Date().toISOString(),
+    }];
+  }
+  const est = Math.round(generateEstimate(tcgPrice, seed + 23, 4) * 100) / 100;
+  return [{
+    source: "PokeScope",
+    variant: "Pop-Weighted Est.",
+    price: est,
+    low: Math.round(est * 0.87 * 100) / 100,
+    high: Math.round(est * 1.13 * 100) / 100,
+    shipping: 0,
+    condition: "Near Mint",
+    url,
+    isLive: false,
+    updatedAt: null,
+  }];
+}
+
+
   const liveSources = sources.filter(s => s.isLive);
   const allPrices = sources.map(s => s.price).filter(p => p > 0);
 
