@@ -44,25 +44,42 @@ const getCardsForCategory = (
   prevPrice: number;
   inventory: number;
 })[] => {
-  return [...cards]
-    .map((card) => {
-      const mult = getTimeMultiplier(card, category);
-      const adjustedChange = card.change * mult;
-      const prevPrice = card.market / (1 + adjustedChange / 100);
-      const inventory = Math.max(
-        1,
-        Math.floor(Math.abs(card.change * 7.3 + card.market * 0.04) % 200) + 3
-      );
-      return {
-        ...card,
-        adjustedChange,
-        adjustedPrice: card.market,
-        prevPrice,
-        inventory,
-      };
-    })
-    .sort((a, b) => Math.abs(b.adjustedChange) - Math.abs(a.adjustedChange))
-    .slice(0, 5);
+  // Time-seeded shuffle: hourly seed for race/hour, daily seed for day/week.
+  // This surfaces different big movers each refresh instead of the same top 5.
+  const now = Date.now();
+  const seed =
+    category === "race"
+      ? Math.floor(now / (15 * 60 * 1000))      // every 15 min
+      : category === "hour"
+      ? Math.floor(now / (60 * 60 * 1000))      // every hour
+      : category === "day"
+      ? Math.floor(now / (24 * 60 * 60 * 1000)) // daily
+      : Math.floor(now / (7 * 24 * 60 * 60 * 1000)); // weekly
+
+  const enriched = cards.map((card, i) => {
+    const mult = getTimeMultiplier(card, category);
+    const adjustedChange = card.change * mult;
+    const prevPrice = card.market / (1 + adjustedChange / 100);
+    const inventory = Math.max(
+      1,
+      Math.floor(Math.abs(card.change * 7.3 + card.market * 0.04) % 200) + 3
+    );
+    // Per-seed jitter so the absolute-change ranking shifts across refreshes
+    const jitter = Math.abs(Math.sin((i + 1) * (seed + 1) * 0.731)) * 0.6 + 0.7;
+    return {
+      ...card,
+      adjustedChange,
+      adjustedPrice: card.market,
+      prevPrice,
+      inventory,
+      _rankScore: Math.abs(adjustedChange) * jitter,
+    };
+  });
+
+  return enriched
+    .sort((a, b) => b._rankScore - a._rankScore)
+    .slice(0, 5)
+    .map(({ _rankScore, ...rest }) => rest);
 };
 
 const MiniSparkline = ({ change }: { change: number }) => {
