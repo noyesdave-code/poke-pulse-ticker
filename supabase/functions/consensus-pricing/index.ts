@@ -655,8 +655,7 @@ async function fetchPokeScopePrice(cardName: string, setName: string, cardId: st
     updatedAt: null,
   }];
 }
-
-
+function calculateConsensus(sources: PriceSource[]): ConsensusResult {
   const liveSources = sources.filter(s => s.isLive);
   const allPrices = sources.map(s => s.price).filter(p => p > 0);
 
@@ -743,18 +742,24 @@ serve(async (req) => {
       );
     }
 
-    const [ebaySources, pcSources, clSources, probSources, p130Sources] = await Promise.all([
+    const [ebaySources, pcSources, clSources, probSources, p130Sources, pioSources, rcSources, psSources] = await Promise.all([
       fetchEbayPrice(cardName, setName || "", cardId, tcgBasePrice),
       fetchPriceChartingPrice(cardName, setName || "", cardId, tcgBasePrice),
       fetchCardLadderPrice(cardName, setName || "", cardId, tcgBasePrice),
       fetchProbsteinPrice(cardName, setName || "", cardId, tcgBasePrice),
       fetch130PointPrice(cardName, setName || "", cardId, tcgBasePrice),
+      fetchPokemonIoPrice(cardName, setName || "", cardId, tcgBasePrice),
+      fetchRareCandyPrice(cardName, setName || "", cardId, tcgBasePrice),
+      fetchPokeScopePrice(cardName, setName || "", cardId, tcgBasePrice),
     ]);
 
-    const allSources = [...tcgSources, ...ebaySources, ...pcSources, ...clSources, ...probSources, ...p130Sources];
+    const allSources = [
+      ...tcgSources, ...ebaySources, ...pcSources, ...clSources,
+      ...probSources, ...p130Sources, ...pioSources, ...rcSources, ...psSources,
+    ];
     const consensus = calculateConsensus(allSources);
 
-    // Track which APIs are live + compute signal strength (0-100)
+    // Track which APIs are live + compute signal strength (0-100) across 9 sources
     const apiStatus = {
       tcgplayer: tcgSources.some(s => s.isLive),
       ebay: ebaySources.some(s => s.isLive),
@@ -762,12 +767,16 @@ serve(async (req) => {
       cardladder: clSources.some(s => s.isLive),
       probstein: probSources.some(s => s.isLive),
       onethirtypoint: p130Sources.some(s => s.isLive),
+      pokemonio: pioSources.some(s => s.isLive),
+      rarecandy: rcSources.some(s => s.isLive),
+      pokescope: psSources.some(s => s.isLive),
     };
+    const totalSources = Object.keys(apiStatus).length;
     const liveCount = Object.values(apiStatus).filter(Boolean).length;
-    const signalStrength = Math.round((liveCount / 6) * 100);
+    const signalStrength = Math.round((liveCount / totalSources) * 100);
 
     return new Response(
-      JSON.stringify({ ...consensus, apiStatus, signalStrength, liveSources: liveCount, totalSources: 6 }),
+      JSON.stringify({ ...consensus, apiStatus, signalStrength, liveSources: liveCount, totalSources }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
