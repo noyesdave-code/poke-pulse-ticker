@@ -8,6 +8,9 @@ const SOURCE_LABELS: Record<string, string> = {
   cardladder: "Card Ladder",
   probstein: "Probstein",
   onethirtypoint: "130point",
+  pokemonio: "Pokemon.io",
+  rarecandy: "RareCandy",
+  pokescope: "PokeScope",
 };
 
 /**
@@ -19,7 +22,7 @@ const CertifiedDataPartner = () => {
   const { health } = usePricingHealth();
   const signal = health?.signalStrength ?? 0;
   const liveCount = health?.liveCount ?? 0;
-  const total = health?.totalSources ?? 6;
+  const total = health?.totalSources ?? 9;
 
   const signalColor =
     signal >= 67 ? "text-terminal-green border-terminal-green/30 bg-terminal-green/10" :
@@ -36,7 +39,7 @@ const CertifiedDataPartner = () => {
               Certified Data Partner Network
             </p>
             <p className="font-mono text-[9px] text-muted-foreground">
-              6-source consensus: TCGPlayer · eBay · Card Ladder · PriceCharting · Probstein · 130point
+              9-source consensus: TCGPlayer · eBay · Card Ladder · PriceCharting · Probstein · 130point · Pokemon.io · RareCandy · PokeScope
             </p>
           </div>
         </div>
