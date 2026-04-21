@@ -28,15 +28,21 @@ const TrendingCards = ({ cards, isLoading }: TrendingCardsProps) => {
   }, []);
 
   const trending = useMemo(() => {
+    // Pull from the FULL library (not top 100) and time-seeded shuffle so cards vary refresh-to-refresh.
     const withImages = cards.filter((c) => c._image);
     const pool = withImages.length > 0 ? withImages : cards;
     if (pool.length <= TRENDING_DISPLAY) return pool;
 
-    // Use rotation key to pick a different slice from the top cards
-    const sorted = [...pool].sort((a, b) => b.market - a.market);
-    const topPool = sorted.slice(0, Math.min(sorted.length, 100)); // top 100 candidates
-    const offset = (rotationKey * TRENDING_DISPLAY) % Math.max(1, topPool.length - TRENDING_DISPLAY);
-    return topPool.slice(offset, offset + TRENDING_DISPLAY);
+    // Time seed rotates every 5 minutes + manual rotationKey for in-session refresh
+    const timeSeed = Math.floor(Date.now() / ROTATE_INTERVAL) + rotationKey;
+
+    // Deterministic pseudo-random shuffle via sin-based key
+    const shuffled = [...pool]
+      .map((c, i) => ({ c, k: Math.sin((i + 1) * (timeSeed + 1) * 12.9898) * 43758.5453 }))
+      .sort((a, b) => a.k - b.k)
+      .map((x) => x.c);
+
+    return shuffled.slice(0, TRENDING_DISPLAY);
   }, [cards, rotationKey]);
 
   if (isLoading) {

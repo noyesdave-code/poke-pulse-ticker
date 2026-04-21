@@ -5,9 +5,9 @@ import type { CardData } from "@/data/marketData";
 const DailySpotlight = ({ cards }: { cards: CardData[] }) => {
   const spotlight = useMemo(() => {
     if (!cards.length) return null;
-    // Deterministic daily pick based on date
-    const today = new Date();
-    const dayIndex = (today.getFullYear() * 366 + today.getMonth() * 31 + today.getDate()) % cards.length;
+    // Hourly rotation — changes every hour instead of once per day
+    const hourBucket = Math.floor(Date.now() / (60 * 60 * 1000));
+    const dayIndex = hourBucket % cards.length;
     const card = cards[dayIndex];
     
     const absChange = Math.abs(card.change);

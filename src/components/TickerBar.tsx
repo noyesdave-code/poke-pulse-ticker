@@ -12,12 +12,21 @@ const TickerBar = ({ cards = [], isLive = false, lastUpdated }: TickerBarProps) 
   const [countdown, setCountdown] = useState("");
 
   const tickerCards = useMemo(() => {
-    const sorted = [...cards]
+    // Pool: top 200 by abs(change), then time-seeded shuffle, take 16.
+    // Seed rotates every 10 minutes so the ticker varies refresh-to-refresh.
+    const pool = [...cards]
       .sort((a, b) => Math.abs(b.change) - Math.abs(a.change))
+      .slice(0, 200);
+
+    const seed = Math.floor(Date.now() / (10 * 60 * 1000));
+    const shuffled = [...pool]
+      .map((c, i) => ({ c, k: Math.sin((i + 1) * (seed + 1) * 9301) * 233280 }))
+      .sort((a, b) => a.k - b.k)
+      .map((x) => x.c)
       .slice(0, 16);
 
-    return [...sorted, ...sorted];
-  }, [cards]);
+    return [...shuffled, ...shuffled];
+  }, [cards, lastUpdated]);
 
   useEffect(() => {
     if (!lastUpdated) return;
