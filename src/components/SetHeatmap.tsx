@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { BarChart3, ChevronDown, ChevronUp, TrendingUp, TrendingDown, Layers, DollarSign, Hash, X } from "lucide-react";
+import { BarChart3, ChevronDown, ChevronUp, TrendingUp, TrendingDown, Layers, DollarSign, X, ArrowUpRight, Filter } from "lucide-react";
 import type { CardData } from "@/data/marketData";
 
 interface SetPerf {
@@ -22,12 +23,21 @@ interface SetHeatmapProps {
   cards: CardData[];
 }
 
+type FilterMode = "all" | "gainers" | "losers" | "hot";
 const LANDING_LIMIT = 20;
 const EXPANDED_LIMIT = 60;
+
+const FILTER_LABEL: Record<FilterMode, string> = {
+  all: "All",
+  gainers: "Gainers ▲",
+  losers: "Losers ▼",
+  hot: "Volatile ⚡",
+};
 
 const SetHeatmap = ({ cards }: SetHeatmapProps) => {
   const [expanded, setExpanded] = useState(false);
   const [selectedSet, setSelectedSet] = useState<SetPerf | null>(null);
+  const [filter, setFilter] = useState<FilterMode>("all");
 
   const allSets = useMemo(() => {
     const map = new Map<string, { total: number; change: number; count: number; prices: number[]; changes: number[]; topCard: string | null; topCardPrice: number }>();
@@ -71,8 +81,17 @@ const SetHeatmap = ({ cards }: SetHeatmapProps) => {
       .sort((a, b) => b.totalValue - a.totalValue);
   }, [cards]);
 
+  const filteredSets = useMemo(() => {
+    switch (filter) {
+      case "gainers": return allSets.filter(s => s.avgChange > 0).sort((a, b) => b.avgChange - a.avgChange);
+      case "losers":  return allSets.filter(s => s.avgChange < 0).sort((a, b) => a.avgChange - b.avgChange);
+      case "hot":     return [...allSets].sort((a, b) => b.volatility - a.volatility);
+      default:        return allSets;
+    }
+  }, [allSets, filter]);
+
   const limit = expanded ? EXPANDED_LIMIT : LANDING_LIMIT;
-  const setPerformance = allSets.slice(0, limit);
+  const setPerformance = filteredSets.slice(0, limit);
   const maxVal = Math.max(...setPerformance.map((s) => s.totalValue), 1);
 
   const getColor = (change: number) => {
@@ -95,17 +114,20 @@ const SetHeatmap = ({ cards }: SetHeatmapProps) => {
   const formatValue = (v: number) =>
     v >= 1000 ? `$${(v / 1000).toFixed(1)}K` : `$${v.toFixed(0)}`;
 
+  const setSlug = (s: string) => encodeURIComponent(s);
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4 }}
+      aria-labelledby="set-heatmap-title"
     >
       <div className="terminal-card overflow-hidden">
         {/* Header */}
-        <div className="border-b border-border px-4 py-3 flex items-center justify-between">
-          <h3 className="text-sm font-bold tracking-wide text-secondary uppercase flex items-center gap-2">
+        <div className="border-b border-border px-4 py-3 flex items-center justify-between flex-wrap gap-2">
+          <h3 id="set-heatmap-title" className="text-sm font-bold tracking-wide text-secondary uppercase flex items-center gap-2">
             <BarChart3 className="w-3.5 h-3.5" /> Set Performance Heatmap
           </h3>
           <div className="flex items-center gap-2">
@@ -113,20 +135,46 @@ const SetHeatmap = ({ cards }: SetHeatmapProps) => {
               S&P 500 STYLE
             </span>
             <span className="font-mono text-[8px] text-primary">
-              {allSets.length} SETS
+              {filteredSets.length} / {allSets.length} SETS
             </span>
           </div>
         </div>
 
+        {/* Filter chips */}
+        <div className="border-b border-border/60 px-3 py-2 flex items-center gap-1.5 overflow-x-auto" role="toolbar" aria-label="Heatmap filters">
+          <Filter className="w-3 h-3 text-muted-foreground shrink-0" aria-hidden />
+          {(Object.keys(FILTER_LABEL) as FilterMode[]).map((mode) => (
+            <button
+              key={mode}
+              onClick={() => { setFilter(mode); setSelectedSet(null); }}
+              aria-pressed={filter === mode}
+              className={`font-mono text-[9px] px-2 py-1 rounded border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                filter === mode
+                  ? "bg-primary/20 border-primary/50 text-primary"
+                  : "bg-muted/40 border-border text-muted-foreground hover:text-foreground hover:border-primary/30"
+              }`}
+            >
+              {FILTER_LABEL[mode]}
+            </button>
+          ))}
+        </div>
+
         {/* Heatmap grid */}
-        <div className="p-3 grid grid-cols-4 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-1">
+        <div
+          className="p-3 grid grid-cols-4 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-1"
+          role="grid"
+          aria-label={`${setPerformance.length} sets shown, sized by total market value`}
+        >
           {setPerformance.map((s) => {
             const sizeRatio = Math.max(0.5, s.totalValue / maxVal);
+            const isSelected = selectedSet?.set === s.set;
             return (
               <button
                 key={s.set}
-                onClick={() => setSelectedSet(selectedSet?.set === s.set ? null : s)}
-                className={`rounded-md border ${getBorderColor(s.avgChange)} p-1.5 flex flex-col items-center justify-center text-center transition-all hover:scale-105 hover:shadow-lg hover:z-10 relative ${getColor(s.avgChange)} ${selectedSet?.set === s.set ? "ring-1 ring-primary scale-105" : ""}`}
+                onClick={() => setSelectedSet(isSelected ? null : s)}
+                aria-pressed={isSelected}
+                aria-label={`${s.set}, ${s.avgChange >= 0 ? "up" : "down"} ${Math.abs(s.avgChange).toFixed(1)} percent, ${formatValue(s.totalValue)} total value, ${s.count} cards`}
+                className={`rounded-md border ${getBorderColor(s.avgChange)} p-1.5 flex flex-col items-center justify-center text-center transition-all hover:scale-105 hover:shadow-lg hover:z-10 relative focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:z-20 ${getColor(s.avgChange)} ${isSelected ? "ring-1 ring-primary scale-105" : ""}`}
                 style={{ minHeight: `${44 + sizeRatio * 28}px` }}
               >
                 <span className="font-mono text-[6px] sm:text-[7px] font-bold leading-tight truncate w-full opacity-90">
@@ -165,7 +213,7 @@ const SetHeatmap = ({ cards }: SetHeatmapProps) => {
                       {selectedSet.count} cards tracked · Tap another set to compare
                     </p>
                   </div>
-                  <button onClick={() => setSelectedSet(null)} className="text-muted-foreground hover:text-foreground">
+                  <button onClick={() => setSelectedSet(null)} className="text-muted-foreground hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded" aria-label="Close set details">
                     <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -253,6 +301,15 @@ const SetHeatmap = ({ cards }: SetHeatmapProps) => {
                     )}
                   </div>
                 </div>
+
+                {/* Click-through CTA */}
+                <Link
+                  to={`/set-browser?set=${setSlug(selectedSet.set)}`}
+                  className="mt-3 inline-flex items-center gap-1.5 font-mono text-[10px] text-primary hover:text-primary/80 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-1"
+                >
+                  Explore all {selectedSet.count} cards in {selectedSet.set}
+                  <ArrowUpRight className="w-3 h-3" />
+                </Link>
               </div>
             </motion.div>
           )}
@@ -261,18 +318,18 @@ const SetHeatmap = ({ cards }: SetHeatmapProps) => {
         {/* Footer */}
         <div className="border-t border-border px-4 py-1.5 flex items-center justify-between">
           <span className="font-mono text-[8px] text-muted-foreground">
-            Size = value · Color = avg Δ% · {setPerformance.length}/{allSets.length} sets shown
+            Size = value · Color = avg Δ% · {setPerformance.length}/{filteredSets.length} sets shown
           </span>
           <div className="flex items-center gap-2">
-            {allSets.length > LANDING_LIMIT && (
+            {filteredSets.length > LANDING_LIMIT && (
               <button
                 onClick={() => { setExpanded(!expanded); setSelectedSet(null); }}
-                className="font-mono text-[9px] text-primary hover:text-primary/80 flex items-center gap-0.5 transition-colors"
+                className="font-mono text-[9px] text-primary hover:text-primary/80 flex items-center gap-0.5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded px-1"
               >
                 {expanded ? (
                   <>Show Less <ChevronUp className="w-3 h-3" /></>
                 ) : (
-                  <>Show All {allSets.length} <ChevronDown className="w-3 h-3" /></>
+                  <>Show All {filteredSets.length} <ChevronDown className="w-3 h-3" /></>
                 )}
               </button>
             )}
