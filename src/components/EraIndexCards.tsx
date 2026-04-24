@@ -1,6 +1,61 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Layers, TrendingUp, TrendingDown, Calendar } from "lucide-react";
+import { Layers, TrendingUp, TrendingDown, Calendar, Info } from "lucide-react";
 import type { CardData } from "@/data/marketData";
+import InfoDialog from "@/components/InfoDialog";
+
+const ERA_DESCRIPTIONS: Record<string, { description: string; details: string[] }> = {
+  "VINTAGE (WOTC)": {
+    description: "1999–2003 — the original Wizards of the Coast era. The bluest of blue-chip Pokémon TCG.",
+    details: [
+      "Includes Base Set, Jungle, Fossil, Team Rocket, Gym, Neo, and e-Reader sets.",
+      "Lowest population, highest grading premiums (PSA 10s often 100x+ raw).",
+      "Acts as the 'gold' of the Pokémon market — defensive in downturns.",
+      "Watch first edition shadowless Charizard as the bellwether.",
+    ],
+  },
+  "EX ERA": {
+    description: "2003–2007 — Nintendo's first era. Holographic EX cards drove modern collector chase.",
+    details: [
+      "Ruby & Sapphire through Power Keepers. Includes Crystal Guardians, Delta Species.",
+      "Strong cyclical demand from millennials returning to the hobby.",
+      "Gold Star cards trade like vintage despite being newer.",
+    ],
+  },
+  "DP / PLATINUM": {
+    description: "2007–2010 — Diamond & Pearl through Call of Legends. The 'lost' middle era.",
+    details: [
+      "Underrated and under-graded vs. EX and Modern.",
+      "Pop reports still small — long-tail PSA 10 supply pressure is low.",
+      "Watch shiny LV.X and HGSS Lugia/Ho-Oh as leading indicators.",
+    ],
+  },
+  "BW / XY": {
+    description: "2011–2017 — Black & White through Generations. EX and Full Art era.",
+    details: [
+      "Massive print runs but iconic chase cards (Charizard EX FA, M Rayquaza EX FA).",
+      "Gold Secret Rares introduced here drive premium grade demand.",
+      "Generations 25th anniversary set is a sleeper.",
+    ],
+  },
+  "SUN & MOON": {
+    description: "2017–2020 — GX era. Hidden Fates Shiny Charizard remains a top-5 modern grail.",
+    details: [
+      "Rainbow Rares and Secret Rares dominate chase pulls.",
+      "Hidden Fates and Shining Legends sealed = institutional-grade asset.",
+      "Cosmic Eclipse closed the era with one of the most playable card pools.",
+    ],
+  },
+  "MODERN": {
+    description: "2020–Present — Sword & Shield through Scarlet & Violet. Highest volume, fastest moves.",
+    details: [
+      "Includes Evolving Skies, 151, Crown Zenith, Prismatic Evolutions.",
+      "Largest print runs, but Alt Arts and SARs reach vintage prices fast.",
+      "Most volatile era — best for tactical traders, riskiest for hodlers.",
+      "Sealed booster boxes here often outperform raw singles long-term.",
+    ],
+  },
+};
 
 interface EraIndexCardsProps {
   cards: CardData[];
