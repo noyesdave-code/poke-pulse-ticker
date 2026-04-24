@@ -53,6 +53,7 @@ import WhaleReport from "@/components/WhaleReport";
 import ArbitrageFinder from "@/components/ArbitrageFinder";
 import InstitutionalGate from "@/components/InstitutionalGate";
 import SetHeatmap from "@/components/SetHeatmap";
+import SealedBoxHeatmap from "@/components/SealedBoxHeatmap";
 import JPtoENTracker from "@/components/JPtoENTracker";
 import DataHealthDashboard from "@/components/DataHealthDashboard";
 import ImportFromTCGPlayer from "@/components/ImportFromTCGPlayer";
@@ -313,6 +314,10 @@ const Index = () => {
 
         <LazySection minHeight="200px">
           <SetHeatmap cards={displayCards} />
+        </LazySection>
+
+        <LazySection minHeight="220px">
+          <SealedBoxHeatmap products={displaySealed} />
         </LazySection>
 
         <LazySection minHeight="200px">
