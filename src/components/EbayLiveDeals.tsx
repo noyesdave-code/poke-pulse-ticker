@@ -217,23 +217,25 @@ const DealColumn = ({
   icon,
   deals,
   accentClass,
+  badgeClass,
 }: {
   title: string;
   icon: React.ReactNode;
   deals: AuctionDeal[];
   accentClass: string;
+  badgeClass: string;
 }) => (
-  <div className="terminal-card p-3">
-    <div className="flex items-center gap-1.5 mb-2 pb-1.5 border-b border-border/40">
+  <div className="terminal-card p-3 flex flex-col h-full min-w-0">
+    <div className={`flex items-center gap-1.5 mb-2 pb-1.5 border-b ${badgeClass}`}>
       {icon}
       <h3 className={`font-mono text-[11px] font-bold uppercase tracking-wider ${accentClass}`}>
         {title}
       </h3>
-      <span className="ml-auto font-mono text-[8px] text-muted-foreground uppercase">
+      <span className="ml-auto font-mono text-[8px] text-muted-foreground uppercase tracking-wider">
         Top 5
       </span>
     </div>
-    <div className="space-y-0">
+    <div className="flex-1 flex flex-col">
       {deals.map((deal, i) => (
         <DealRow key={deal.id} deal={deal} rank={i + 1} />
       ))}
@@ -275,24 +277,27 @@ const EbayLiveDeals = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 items-stretch">
         <DealColumn
           title="Raw Cards"
           icon={<Flame className="w-3.5 h-3.5 text-primary" />}
           deals={rawDeals}
           accentClass="text-primary"
+          badgeClass="border-primary/30"
         />
         <DealColumn
           title="Graded Slabs"
           icon={<Award className="w-3.5 h-3.5 text-terminal-amber" />}
           deals={gradedDeals}
           accentClass="text-terminal-amber"
+          badgeClass="border-terminal-amber/30"
         />
         <DealColumn
           title="Sealed Products"
           icon={<Package className="w-3.5 h-3.5 text-terminal-blue" />}
           deals={sealedDeals}
           accentClass="text-terminal-blue"
+          badgeClass="border-terminal-blue/30"
         />
       </div>
 
