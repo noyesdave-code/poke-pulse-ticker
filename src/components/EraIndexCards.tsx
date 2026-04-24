@@ -141,6 +141,7 @@ function categorizeCards(cards: CardData[]): { era: Era; cards: CardData[] }[] {
 
 const EraIndexCards = ({ cards }: EraIndexCardsProps) => {
   const eras = categorizeCards(cards);
+  const [activeEra, setActiveEra] = useState<{ era: Era; cards: CardData[] } | null>(null);
 
   return (
     <motion.div
@@ -155,7 +156,7 @@ const EraIndexCards = ({ cards }: EraIndexCardsProps) => {
           <Calendar className="w-3.5 h-3.5" /> Era-Based Market Indexes
         </h2>
         <span className="font-mono text-[9px] text-muted-foreground uppercase tracking-wider">
-          All Eras • Live Data
+          Tap an era for details • Live Data
         </span>
       </div>
 
@@ -167,14 +168,17 @@ const EraIndexCards = ({ cards }: EraIndexCardsProps) => {
           const totalCap = eraCards.reduce((s, c) => s + c.market, 0);
 
           return (
-            <motion.div
+            <motion.button
+              type="button"
+              onClick={() => setActiveEra({ era, cards: eraCards })}
               key={era.label}
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.08, duration: 0.4 }}
-              className="px-3 py-3 hover:bg-muted/20 transition-colors border-r border-border last:border-r-0"
+              className="px-3 py-3 text-left hover:bg-muted/30 transition-colors border-r border-border last:border-r-0 cursor-pointer relative group"
             >
+              <Info className="w-2.5 h-2.5 text-muted-foreground/40 absolute top-1.5 right-1.5 group-hover:text-primary transition-colors" />
               <div className="flex items-center gap-1.5 mb-1.5">
                 <Layers className={`w-3 h-3 ${era.color}`} />
                 <span className={`font-mono text-[9px] font-bold uppercase tracking-wider ${era.color} leading-tight`}>
@@ -182,12 +186,10 @@ const EraIndexCards = ({ cards }: EraIndexCardsProps) => {
                 </span>
               </div>
               <span className="font-mono text-[8px] text-muted-foreground block mb-1">{era.tag}</span>
-
               <p className="text-lg font-extrabold text-foreground leading-none">
                 ${avgPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
               <p className="font-mono text-[8px] text-muted-foreground mb-1.5">Avg card value</p>
-
               <div className="flex items-center justify-between">
                 <span className={`font-mono text-[9px] font-semibold flex items-center gap-0.5 ${isUp ? "text-terminal-green" : "text-terminal-red"}`}>
                   {isUp ? <TrendingUp className="w-2.5 h-2.5" /> : <TrendingDown className="w-2.5 h-2.5" />}
@@ -197,10 +199,55 @@ const EraIndexCards = ({ cards }: EraIndexCardsProps) => {
               <span className="font-mono text-[8px] text-muted-foreground">
                 {eraCards.length} cards • ${totalCap.toLocaleString("en-US", { maximumFractionDigits: 0 })}
               </span>
-            </motion.div>
+            </motion.button>
           );
         })}
       </div>
+
+      <InfoDialog
+        open={!!activeEra}
+        onOpenChange={(open) => !open && setActiveEra(null)}
+        title={activeEra ? `${activeEra.era.label} • ${activeEra.era.tag}` : ""}
+        description={activeEra ? ERA_DESCRIPTIONS[activeEra.era.label]?.description : undefined}
+      >
+        {activeEra && (
+          <>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="terminal-card p-2">
+                <p className="font-mono text-[9px] text-muted-foreground uppercase">Cards Tracked</p>
+                <p className="font-mono text-sm font-bold text-foreground">{activeEra.cards.length}</p>
+              </div>
+              <div className="terminal-card p-2">
+                <p className="font-mono text-[9px] text-muted-foreground uppercase">Total Market Cap</p>
+                <p className="font-mono text-sm font-bold text-primary">
+                  ${activeEra.cards.reduce((s, c) => s + c.market, 0).toLocaleString("en-US", { maximumFractionDigits: 0 })}
+                </p>
+              </div>
+            </div>
+            <div>
+              <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider mb-1.5">
+                What you should know
+              </p>
+              <ul className="space-y-1.5">
+                {ERA_DESCRIPTIONS[activeEra.era.label]?.details.map((d) => (
+                  <li key={d} className="font-mono text-[11px] text-foreground flex gap-2">
+                    <span className="text-primary">›</span>
+                    <span>{d}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider mb-1">
+                Sets in this era
+              </p>
+              <p className="font-mono text-[10px] text-muted-foreground leading-relaxed">
+                {activeEra.era.sets.join(" · ")}
+              </p>
+            </div>
+          </>
+        )}
+      </InfoDialog>
     </motion.div>
   );
 };
