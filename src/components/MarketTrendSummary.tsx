@@ -1,14 +1,58 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { BarChart3, TrendingUp, TrendingDown, Activity, Zap } from "lucide-react";
+import { BarChart3, TrendingUp, TrendingDown, Activity, Zap, Info } from "lucide-react";
 import type { CardData } from "@/data/marketData";
 import { getCardSignal } from "@/hooks/useSignalIndicator";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
+import InfoDialog from "@/components/InfoDialog";
 
 interface MarketTrendSummaryProps {
   cards: CardData[];
 }
 
+const STAT_INFO: Record<string, { title: string; description: string; details: string[] }> = {
+  "Market Direction": {
+    title: "Market Direction",
+    description: "Aggregate sentiment from BUY vs. SELL signals across the live card pool.",
+    details: [
+      "BULLISH = more BUY than SELL signals among tracked cards.",
+      "BEARISH = SELL signals dominate (often during release-week resupply).",
+      "NEUTRAL = signals are evenly distributed; sit tight or watch volume.",
+      "Calculated continuously from the AI Signal Distribution below.",
+    ],
+  },
+  "Avg Change": {
+    title: "Average 24h Change",
+    description: "Mean percentage change across every card on the board.",
+    details: [
+      "Computed across all live tracked cards (raw + graded).",
+      "Outliers are not removed — a single chase-card spike can shift this.",
+      "Compare to the median move in the Top Movers table for context.",
+    ],
+  },
+  "Gainers / Losers": {
+    title: "Gainers / Losers",
+    description: "How many cards moved up vs. down in the last 24 hours.",
+    details: [
+      "Breadth indicator — wide gainer lead = healthy uptrend.",
+      "When losers outpace gainers but the index is flat, watch for distribution.",
+      "Pro users see breadth filtered by era and rarity tier.",
+    ],
+  },
+  "Volatility": {
+    title: "Volatility (High / Low)",
+    description: "Distribution of cards by realized volatility bucket.",
+    details: [
+      "High volatility = cards with >5% rolling 24h price swings.",
+      "Low volatility = blue-chip vintage and stable graded slabs.",
+      "Elevated high-vol counts often precede big breakouts or breakdowns.",
+    ],
+  },
+};
+
 const MarketTrendSummary = ({ cards }: MarketTrendSummaryProps) => {
+  const [activeStat, setActiveStat] = useState<string | null>(null);
+  const [headerInfoOpen, setHeaderInfoOpen] = useState(false);
   const signals = cards.map(c => getCardSignal(c));
   const buys = signals.filter(s => s.signal === "BUY").length;
   const sells = signals.filter(s => s.signal === "SELL").length;
