@@ -170,7 +170,7 @@ const DealRow = ({ deal, rank }: { deal: AuctionDeal; rank: number }) => {
       initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: rank * 0.04, duration: 0.2 }}
-      className="grid grid-cols-[14px_1fr_auto] gap-2 items-center py-1.5 border-b border-border/10 last:border-0 hover:bg-primary/5 transition-colors cursor-pointer group"
+      className="grid grid-cols-[14px_minmax(0,1fr)_88px] gap-2 items-center py-1.5 border-b border-border/10 last:border-0 hover:bg-primary/5 transition-colors cursor-pointer group"
     >
       {/* Rank */}
       <span className="font-mono text-[10px] font-bold text-primary text-center">
@@ -182,17 +182,17 @@ const DealRow = ({ deal, rank }: { deal: AuctionDeal; rank: number }) => {
         <p className="font-mono text-[11px] font-semibold text-foreground truncate leading-tight group-hover:text-primary transition-colors">
           {deal.grader ? `${deal.title} ${deal.grader} ${deal.grade}` : deal.title}
         </p>
-        <div className="flex items-center gap-1.5 mt-0.5 text-[9px] text-muted-foreground font-mono">
-          <span className="truncate max-w-[90px]">{deal.seller}</span>
-          <span className="text-border/50">·</span>
-          <span className="whitespace-nowrap">{deal.bids} bids</span>
-          <span className="text-border/50">·</span>
+        <div className="flex items-center gap-1 mt-0.5 text-[9px] text-muted-foreground font-mono min-w-0">
+          <span className="truncate">{deal.seller}</span>
+          <span className="text-border/50 shrink-0">·</span>
+          <span className="whitespace-nowrap shrink-0">{deal.bids}b</span>
+          <span className="text-border/50 shrink-0">·</span>
           <Countdown endsAt={deal.endsAt} />
         </div>
       </div>
 
-      {/* Price block — fixed width, right-aligned, no overlap with title */}
-      <div className="text-right flex items-center gap-1.5 flex-shrink-0">
+      {/* Price block — fixed 88px width, right-aligned, no overlap with title */}
+      <div className="text-right flex items-center gap-1 justify-end">
         <div>
           <p className="font-mono text-[12px] font-bold text-primary leading-none tabular-nums">
             ${deal.currentBid}
@@ -206,7 +206,7 @@ const DealRow = ({ deal, rank }: { deal: AuctionDeal; rank: number }) => {
             </span>
           </div>
         </div>
-        <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors" />
+        <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
       </div>
     </motion.a>
   );
