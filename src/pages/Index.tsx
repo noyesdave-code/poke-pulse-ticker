@@ -464,13 +464,13 @@ const Index = () => {
           </InstitutionalGate>
         </LazySection>
 
-        <LazySection minHeight="80px">
+        <LazySection minHeight="0px">
           <ProGate feature="JP → EN Precursor Tracker" blur>
             <JPtoENTracker />
           </ProGate>
         </LazySection>
 
-        <LazySection minHeight="120px">
+        <LazySection minHeight="0px">
           <ProGate feature="Full card board (500+ cards)" blur>
             <MarketTabs
               liveCards={displayCards}
