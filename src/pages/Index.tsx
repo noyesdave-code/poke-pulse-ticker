@@ -63,7 +63,7 @@ import ReferralCTA from "@/components/ReferralCTA";
 import FinancialDisclaimer from "@/components/FinancialDisclaimer";
 import InstallPrompt from "@/components/InstallPrompt";
 import SimTraderPromo from "@/components/SimTraderPromo";
-import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
+// OnboardingWalkthrough removed — popups disabled except InstallPrompt
 import PulseScore from "@/components/PulseScore";
 import CorrelationMatrix from "@/components/CorrelationMatrix";
 import PopReportDelta from "@/components/PopReportDelta";
