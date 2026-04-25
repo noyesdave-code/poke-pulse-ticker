@@ -599,7 +599,7 @@ const Index = () => {
       </main>
 
       <InstallPrompt />
-      <OnboardingWalkthrough />
+      {/* OnboardingWalkthrough removed — only InstallPrompt popup allowed */}
       <ShareButton />
     </div>
   );
